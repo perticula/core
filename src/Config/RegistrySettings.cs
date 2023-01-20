@@ -17,9 +17,8 @@ internal class RegistrySettings : IRegistrySettings
   /// </summary>
   /// <param name="path">The path of the setting (under HKEY_LOCAL_MACHINE)</param>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set (or can be accessed)</param>
   /// <returns>System.String.</returns>
-  public string GetSetting(string path, string name, string def = null)
+  public string GetSetting(string path, string name)
   {
     if (string.IsNullOrEmpty(path)) throw new ArgumentNullException(nameof(path));
     if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
@@ -27,13 +26,15 @@ internal class RegistrySettings : IRegistrySettings
     {
       using (var key = Registry.LocalMachine.OpenSubKey(path, false))
       {
-        if (key == null) return def;
-        return key.GetValue(name) as string;
+        if (key == null) throw new KeyNotFoundException($"Unable to find registry key {path}");
+        var val = key.GetValue(name) as string;
+        if (val != null) return val;
+        throw new KeyNotFoundException($"Unable to find registry value {name} in {path}");
       }
     }
     catch
     {
-      return def;
+      throw new ApplicationException($"Unable to serialize option {name}");
     }
   }
 
@@ -43,9 +44,8 @@ internal class RegistrySettings : IRegistrySettings
   /// <typeparam name="T">The type of the value to expect</typeparam>
   /// <param name="path">The path of the setting (under HKEY_LOCAL_MACHINE)</param>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>T.</returns>
-  public T GetSetting<T>(string path, string name, T def = default)
+  public T GetSetting<T>(string path, string name)
   {
     var value = GetSetting(path, name);
     try
@@ -54,7 +54,7 @@ internal class RegistrySettings : IRegistrySettings
     }
     catch
     {
-      return def;
+      throw new ApplicationException($"Unable to serialize option {name}");
     }
   }
 

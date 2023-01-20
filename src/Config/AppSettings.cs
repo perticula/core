@@ -29,10 +29,9 @@ internal class AppSettings : IAppSettings
   /// setting names.
   /// </summary>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>System.String.</returns>
   /// <exception cref="ArgumentNullException">name</exception>
-  public string GetSetting(string name, string def = null)
+  public string GetSetting(string name)
   {
     if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 
@@ -40,9 +39,9 @@ internal class AppSettings : IAppSettings
     var machineSettingKey = $"{Environment.MachineName}:{name}";
     if (ConfigurationManager.AppSettings[machineSettingKey] != null)
       name = machineSettingKey;
-    if (ConfigurationManager.AppSettings[name] == null)
-      return def;
-    return ConfigurationManager.AppSettings[name];
+    var value = ConfigurationManager.AppSettings[name];
+    if (value == null) throw new KeyNotFoundException($"Setting '{name}' not found");
+    return value;
   }
 
   /// <summary>
@@ -50,9 +49,8 @@ internal class AppSettings : IAppSettings
   /// The returned value will be decrypted.  Encryption should happen out of process and is not directly supported
   /// </summary>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>System.String.</returns>
-  public string GetEncryptedSetting(string name, string def = null) => GetSetting(name, def).DecryptValue();
+  public string GetEncryptedSetting(string name) => GetSetting(name).DecryptValue();
 
   /// <summary>
   /// Returns the setting by name and type. Supports machine specific
@@ -61,14 +59,13 @@ internal class AppSettings : IAppSettings
   /// </summary>
   /// <typeparam name="T">The type of the value to expect</typeparam>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>T.</returns>
   /// <exception cref="ArgumentNullException">name</exception>
-  public T GetSetting<T>(string name, T def = default)
+  public T GetSetting<T>(string name)
   {
     if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
     var value = GetSetting(name);
-    if (value == null) return def;
+    if (value == null) throw new KeyNotFoundException($"Setting '{name}' not found");
     return Serialize.FromString<T>(value);
   }
 
@@ -87,9 +84,9 @@ internal class AppSettings : IAppSettings
     var machineSettingKey = $"{Environment.MachineName}:{name}";
     if (ConfigurationManager.ConnectionStrings[machineSettingKey] != null)
       name = machineSettingKey;
-    if (ConfigurationManager.ConnectionStrings[name] == null)
-      return null;
-    return ConfigurationManager.ConnectionStrings[name].ConnectionString;
+    var value = ConfigurationManager.ConnectionStrings[name];
+    if (value == null) throw new KeyNotFoundException($"Connection string '{name}' not found");
+    return value.ConnectionString;
   }
 
   /// <summary>
@@ -113,7 +110,6 @@ internal class AppSettings : IAppSettings
   /// <typeparam name="T"></typeparam>
   /// <param name="intervalMs">The interval ms.</param>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>ICachedAppSettings&lt;T&gt;.</returns>
-  public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name, T def = default) => new CachedAppSettings<T>(this, intervalMs, name, def);
+  public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name) => new CachedAppSettings<T>(this, intervalMs, name);
 }

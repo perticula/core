@@ -17,18 +17,16 @@ public interface IAppSettings
   /// Returns the setting by name. Supports machine specific setting names.
   /// </summary>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>System.String.</returns>
-  string GetSetting(string name, string def = null);
+  string GetSetting(string name);
 
   /// <summary>
   /// Returns the setting by name. Supports machine specific setting names.
   /// The returned value will be decrypted.  Encryption should happen out of process and is not directly supported
   /// </summary>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>System.String.</returns>
-  string GetEncryptedSetting(string name, string def = null);
+  string GetEncryptedSetting(string name);
 
   /// <summary>
   /// Returns the setting by name and type. Supports machine specific
@@ -37,9 +35,8 @@ public interface IAppSettings
   /// </summary>
   /// <typeparam name="T">The type of the value to expect</typeparam>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>T.</returns>
-  T GetSetting<T>(string name, T def = default);
+  T GetSetting<T>(string name);
 
   /// <summary>
   /// Gets the cached setting.
@@ -47,9 +44,8 @@ public interface IAppSettings
   /// <typeparam name="T"></typeparam>
   /// <param name="intervalMs">The interval ms.</param>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>ICachedAppSettings&lt;T&gt;.</returns>
-  ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name, T def = default);
+  ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name);
 
   /// <summary>
   /// Returns a connection string from the settings by name. Returns null

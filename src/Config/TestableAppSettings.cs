@@ -23,18 +23,16 @@ public class TestableAppSettings : IAppSettings
   /// Returns the setting by name. Supports machine specific setting names.
   /// </summary>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>System.String.</returns>
-  public string GetSetting(string name, string def = null) => _internal.GetSetting(name, def);
+  public string GetSetting(string name) => _internal.GetSetting(name);
 
   /// <summary>
   /// Returns the setting by name. Supports machine specific setting names.
   /// The returned value will be decrypted.  Encryption should happen out of process and is not directly supported
   /// </summary>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>System.String.</returns>
-  public string GetEncryptedSetting(string name, string def = null) => _internal.GetEncryptedSetting(name, def);
+  public string GetEncryptedSetting(string name) => _internal.GetEncryptedSetting(name);
 
   /// <summary>
   /// Returns the setting by name and type. Supports machine specific
@@ -43,9 +41,8 @@ public class TestableAppSettings : IAppSettings
   /// </summary>
   /// <typeparam name="T">The type of the value to expect</typeparam>
   /// <param name="name">The name of the setting</param>
-  /// <param name="def">A default value if the setting is not set</param>
   /// <returns>T.</returns>
-  public T GetSetting<T>(string name, T def = default) => _internal.GetSetting(name, def);
+  public T GetSetting<T>(string name) => _internal.GetSetting<T>(name);
 
   /// <summary>
   /// Gets the cached setting.
@@ -53,9 +50,8 @@ public class TestableAppSettings : IAppSettings
   /// <typeparam name="T"></typeparam>
   /// <param name="intervalMs">The interval ms.</param>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>ICachedAppSettings&lt;T&gt;.</returns>
-  public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name, T def = default) => _internal.GetCachedSetting(intervalMs, name, def);
+  public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name) => _internal.GetCachedSetting<T>(intervalMs, name);
 
   /// <summary>
   /// Returns a connection string from the settings by name. Returns null

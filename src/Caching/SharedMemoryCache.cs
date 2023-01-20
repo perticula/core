@@ -72,7 +72,13 @@ internal class SharedMemoryCache : ISharedCache
     if (key == null) throw new ArgumentNullException(nameof(key));
     if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
     key = NotCaseSensitive(key);
-    lock (_cacheLock) return MemoryCache.Default.Get(key) is TValue ? (TValue)MemoryCache.Default.Get(key) : default;
+    lock (_cacheLock)
+    {
+      var value = MemoryCache.Default.Get(key);
+      if (value == null) throw new KeyNotFoundException($"Key {key} not found in cache");
+      if (value is TValue) return (TValue)value;
+      throw new InvalidCastException($"Key {key} is not of type {typeof(TValue)}");
+    }
   }
 
   /// <summary>
@@ -88,7 +94,9 @@ internal class SharedMemoryCache : ISharedCache
     lock (_cacheLock)
     {
       if (MemoryCache.Default.Contains(key))
+      {
         MemoryCache.Default.Remove(key);
+      }
     }
 
     return this;
@@ -157,9 +165,19 @@ internal class SharedMemoryCache : ISharedCache
     lock (_cacheLock)
     {
       if (!MemoryCache.Default.Contains(key))
-        MemoryCache.Default.Add(key, value(key), GetExpirePolicy(expires));
-      return MemoryCache.Default.Get(key) is TValue foundValue ? foundValue : default;
+      {
+        var set = value(key);
+        if (set == null)
+        {
+          throw new ArgumentNullException(nameof(set));
+        }
+        MemoryCache.Default.Add(key, set, GetExpirePolicy(expires));
+      }
+      var val = MemoryCache.Default.Get(key);
+      if (val == null) throw new KeyNotFoundException($"Key {key} not found in cache");
+      if (val is TValue) return (TValue)val;
     }
+    return FindOrSet(key, expires, value);
   }
 
   /// <summary>
@@ -182,6 +200,7 @@ internal class SharedMemoryCache : ISharedCache
   public ISharedCache Set<TValue>(string key, TValue value, int expires)
   {
     if (key == null) throw new ArgumentNullException(nameof(key));
+    if (value == null) throw new ArgumentNullException(nameof(value));
     if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
     key = NotCaseSensitive(key);
     lock (_cacheLock)

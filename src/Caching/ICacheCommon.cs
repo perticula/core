@@ -32,7 +32,7 @@ public interface ICacheCommon<out TChild>
   /// </summary>
   /// <param name="key">A string identifying the entry.</param>
   /// <returns>System.Object.</returns>
-  object Get(string key);
+  object? Get(string key);
 
   /// <summary>
   /// Gets the item associated with this key if present.
@@ -41,7 +41,7 @@ public interface ICacheCommon<out TChild>
   /// <typeparam name="TValue">The type of the value.</typeparam>
   /// <param name="key">A string identifying the entry.</param>
   /// <returns>TValue.</returns>
-  TValue Get<TValue>(string key);
+  TValue? Get<TValue>(string key);
 
   /// <summary>
   /// Create or overwrite an entry in the cache.

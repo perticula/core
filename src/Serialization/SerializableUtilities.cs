@@ -9,7 +9,7 @@ public static class SerializableUtilities
   /// <param name="value">The value.</param>
   /// <param name="delimiter">The delimiter.</param>
   /// <returns>IEnumerable&lt;T&gt;.</returns>
-  public static IEnumerable<T> DeserializeFrom<T>(this string value, string delimiter = ",") => string.IsNullOrEmpty(value)
+  public static IEnumerable<T?> DeserializeFrom<T>(this string value, string delimiter = ",") => string.IsNullOrEmpty(value)
              ? Enumerable.Empty<T>()
              : value.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries).Select(Serialize.FromString<T>);
 

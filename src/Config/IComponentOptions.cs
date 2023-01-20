@@ -16,18 +16,16 @@ public interface IComponentOptions
   /// Returns the value of an option by name
   /// </summary>
   /// <param name="name">The name of the option</param>
-  /// <param name="def">A default value if the option is not available</param>
   /// <returns>System.String.</returns>
-  string GetOption(string name, string def = null);
+  string GetOption(string name);
 
   /// <summary>
   /// Returns the value of an option by name and type.
   /// </summary>
   /// <typeparam name="T">The type of the value to expect</typeparam>
   /// <param name="name">The name of the option</param>
-  /// <param name="def">A default value if the option is not available</param>
   /// <returns>T.</returns>
-  T GetOption<T>(string name, T def = default);
+  T GetOption<T>(string name);
 
   /// <summary>
   /// Sets the option value by name.

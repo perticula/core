@@ -47,7 +47,12 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
   public virtual TValue FindOrDefault<TValue>(string key, TValue def)
   {
     if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
-    return _cache.ContainsKey(key) ? Get<TValue>(key) : def;
+    if (_cache.ContainsKey(key))
+    {
+      var val = Get<TValue>(key);
+      if (val != null) return val;
+    }
+    return def;
   }
 
   /// <summary>
@@ -64,14 +69,19 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
   {
     if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
     if (value == null) throw new ArgumentNullException(nameof(value));
-    if (_cache.ContainsKey(key))
-      return Get<TValue>(key);
+    {
+      if (_cache.ContainsKey(key))
+      {
+        var v = Get<TValue>(key);
+        if (v != null) return v;
+      }
+    }
 
     var val = value(key);
     if (val != null)
       _cache.Add(key, val);
 
-    return Get<TValue>(key);
+    return FindOrSet(key, value); // try again
   }
 
   /// <summary>
@@ -89,7 +99,7 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
   /// </summary>
   /// <param name="key">A string identifying the entry.</param>
   /// <returns>System.Object.</returns>
-  public virtual object Get(string key)
+  public virtual object? Get(string key)
   {
     if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
     return !_cache.ContainsKey(key) ? null : _cache[key];
@@ -102,7 +112,7 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
   /// <typeparam name="TValue">The type of the value.</typeparam>
   /// <param name="key">A string identifying the entry.</param>
   /// <returns>TValue.</returns>
-  public virtual TValue Get<TValue>(string key)
+  public virtual TValue? Get<TValue>(string key)
   {
     if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
     if (!_cache.ContainsKey(key)) return default;

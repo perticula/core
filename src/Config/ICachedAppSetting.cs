@@ -22,7 +22,7 @@ public interface ICachedAppSettings<out T>
   /// The defalut value to be used if no setting value is available
   /// </summary>
   /// <value>The default value.</value>
-  T DefaultValue { get; }
+  T? DefaultValue { get; }
 
   /// <summary>
   /// The stored setting value as it was last loaded (or the default if none was available)

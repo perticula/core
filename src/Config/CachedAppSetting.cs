@@ -23,7 +23,7 @@ internal class CachedAppSettings<T> : ICachedAppSettings<T>
   /// <summary>
   /// The last known value
   /// </summary>
-  private T _lastKnownValue;
+  private T? _lastKnownValue;
 
   /// <summary>
   /// The last update
@@ -41,20 +41,17 @@ internal class CachedAppSettings<T> : ICachedAppSettings<T>
   /// <param name="settings">The settings.</param>
   /// <param name="intervalMs">The interval ms.</param>
   /// <param name="name">The name.</param>
-  /// <param name="def">The definition.</param>
   /// <exception cref="ArgumentNullException">
   /// settings
   /// or
   /// name
   /// </exception>
-  public CachedAppSettings(IAppSettings settings, int intervalMs, string name, T def = default)
+  public CachedAppSettings(IAppSettings settings, int intervalMs, string name)
   {
     if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
     _settings = settings ?? throw new ArgumentNullException(nameof(settings));
     SettingName = name;
     UpdateIntervalMs = intervalMs;
-    DefaultValue = def;
-    _lastKnownValue = def;
   }
 
   /// <summary>
@@ -83,7 +80,7 @@ internal class CachedAppSettings<T> : ICachedAppSettings<T>
   /// The defalut value to be used if no setting value is available
   /// </summary>
   /// <value>The default value.</value>
-  public T DefaultValue { get; }
+  public T? DefaultValue => default(T);
 
   /// <summary>
   /// The stored setting value as it was last loaded (or the default if none was available)
@@ -98,17 +95,22 @@ internal class CachedAppSettings<T> : ICachedAppSettings<T>
     {
       // Inside the timeout window?
       if (SettingAgeMs < UpdateIntervalMs)
-        return _lastKnownValue;
+        if (_lastKnownValue != null)
+          return _lastKnownValue;
 
       try
       {
         // Update the value
         _lastUpdate = DateTime.Now;
         _lastHasValue = _settings.HasSetting(SettingName);
-        _lastKnownValue = _lastHasValue
-                              ? _settings.GetSetting(SettingName, DefaultValue)
-                              : DefaultValue
-            ;
+        if (_lastHasValue)
+        {
+          _lastKnownValue = _settings.GetSetting<T>(SettingName);
+        }
+        else
+        {
+          _lastKnownValue = DefaultValue;
+        }
       }
       catch (Exception)
       {
@@ -116,7 +118,10 @@ internal class CachedAppSettings<T> : ICachedAppSettings<T>
         _lastKnownValue = DefaultValue;
       }
 
-      return _lastKnownValue;
+      if (_lastKnownValue != null)
+        return _lastKnownValue;
+
+      throw new ConfigurationErrorsException($"Configuration is missing a setting called '{SettingName}'");
     }
   }
 

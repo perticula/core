@@ -2,10 +2,10 @@ namespace core;
 
 /// <summary>
 /// Class ConcurrentCache.
-/// Implements the <see cref="Internal.CacheCommonBase{Internal.ConcurrentCache}" />
+/// Implements the <see cref="CacheCommonBase{ConcurrentCache}" />
 /// Implements the <see cref="IConcurrentCache" />
 /// </summary>
-/// <seealso cref="Internal.CacheCommonBase{Internal.ConcurrentCache}" />
+/// <seealso cref="CacheCommonBase{ConcurrentCache}" />
 /// <seealso cref="IConcurrentCache" />
 internal class ConcurrentCache : CacheCommonBase<ConcurrentCache>, IConcurrentCache
 {
@@ -37,7 +37,7 @@ internal class ConcurrentCache : CacheCommonBase<ConcurrentCache>, IConcurrentCa
   public new IConcurrentCache Flush() => base.Flush();
 
   /// <summary>
-  /// Bies the name.
+  /// Returns a cached instance by the given key.
   /// </summary>
   /// <param name="key">The key.</param>
   /// <returns>IConcurrentCache.</returns>

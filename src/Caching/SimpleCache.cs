@@ -2,10 +2,10 @@ namespace core;
 
 /// <summary>
 /// Class SimpleCache.
-/// Implements the <see cref="Internal.CacheCommonBase{Internal.SimpleCache}" />
+/// Implements the <see cref="CacheCommonBase{SimpleCache}" />
 /// Implements the <see cref="ISimpleCache" />
 /// </summary>
-/// <seealso cref="Internal.CacheCommonBase{Internal.SimpleCache}" />
+/// <seealso cref="CacheCommonBase{SimpleCache}" />
 /// <seealso cref="ISimpleCache" />
 internal class SimpleCache : CacheCommonBase<SimpleCache>, ISimpleCache
 {

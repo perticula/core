@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Globalization;
+using core;
 
 /// <summary>
 /// Class EnumJson.
@@ -27,8 +28,8 @@ public class EnumJson<TEnum> : EnumJson
       {
         Name = e.ToString(CultureInfo.InvariantCulture),
         DataType = typeof(TEnum).Name,
-        DisplayText = (e as Enum).DisplayText(),
-        GroupName = (e as Enum).GroupName(),
+        DisplayText = (e as Enum)?.DisplayText(),
+        GroupName = (e as Enum)?.GroupName(),
         IntValue = (int)(object)e
       };
 }
@@ -45,7 +46,7 @@ public class EnumJson
   /// Gets or sets the name.
   /// </summary>
   /// <value>The name.</value>
-  public string Name { get; set; }
+  public string? Name { get; set; }
 
   /// <summary>
   /// Gets or sets the int value.
@@ -57,17 +58,17 @@ public class EnumJson
   /// Gets or sets the display text.
   /// </summary>
   /// <value>The display text.</value>
-  public string DisplayText { get; set; }
+  public string? DisplayText { get; set; }
 
   /// <summary>
   /// Gets or sets the type of the data.
   /// </summary>
   /// <value>The type of the data.</value>
-  public string DataType { get; set; }
+  public string? DataType { get; set; }
 
   /// <summary>
   /// Gets or sets the name of the group.
   /// </summary>
   /// <value>The name of the group.</value>
-  public string GroupName { get; set; }
+  public string? GroupName { get; set; }
 }

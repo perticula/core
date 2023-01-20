@@ -15,20 +15,20 @@ public abstract class ComponentOptionsBase : IComponentOptions
   /// <summary>
   /// Subscribe to this event to receive options as they change
   /// </summary>
-  public event OptionChangedEventHandler OnOptionChanged;
+  public event OptionChangedEventHandler? OnOptionChanged;
 
-  public string GetOption(string name, string def = null) => CurrentSettings.ContainsKey(name) ? CurrentSettings[name] : def;
+  public string GetOption(string name) => CurrentSettings.ContainsKey(name) ? CurrentSettings[name] : throw new KeyNotFoundException(nameof(name));
 
-  public T GetOption<T>(string name, T def = default)
+  public T GetOption<T>(string name)
   {
-    if (!CurrentSettings.ContainsKey(name)) return def;
+    if (!CurrentSettings.ContainsKey(name)) throw new KeyNotFoundException(nameof(name));
     try
     {
       return Serialize.FromString<T>(CurrentSettings[name]);
     }
     catch
     {
-      return def;
+      throw new ApplicationException($"Unable to serialize option {name} to type {typeof(T).Name}");
     }
   }
 
@@ -46,6 +46,8 @@ public abstract class ComponentOptionsBase : IComponentOptions
   public void CopyOption(string name, IComponentOptions other)
   {
     if (string.IsNullOrEmpty(name)) return;
-    SetOption(name, other?.GetOption(name));
+    var val = other?.GetOption(name);
+    if (val == null) return;
+    SetOption(name, val);
   }
 }

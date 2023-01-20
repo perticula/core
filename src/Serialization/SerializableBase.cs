@@ -16,7 +16,7 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
   /// </summary>
   /// <value>The name of the file.</value>
   [JsonIgnore]
-  public string FileName { get; set; }
+  public string? FileName { get; set; }
 
   /// <summary>
   ///     Loads this object from a Json string
@@ -28,9 +28,20 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
     if (string.IsNullOrEmpty(objValue)) throw new ArgumentNullException(nameof(objValue));
     using var sz = new StringReader(objValue);
     var json = new JsonSerializer();
-    var result = (TParent)json.Deserialize(sz, typeof(TParent));
-    result.FileName = "";
-    return result;
+    try
+    {
+      var result = (TParent)json.Deserialize(sz, typeof(TParent));
+      if (result != null)
+      {
+        result.FileName = "";
+        return result;
+      }
+      throw new Exception("Unable to deserialize string");
+    }
+    catch (Exception ex)
+    {
+      throw new Exception("Unable to deserialize string", ex);
+    }
   }
 
   /// <summary>
@@ -42,9 +53,20 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
   {
     using var file = new StreamReader(stream);
     var json = new JsonSerializer();
-    var result = (TParent)json.Deserialize(file, typeof(TParent));
-    result.FileName = "";
-    return result;
+    try
+    {
+      var result = (TParent)json.Deserialize(file, typeof(TParent));
+      if (result != null)
+      {
+        result.FileName = "";
+        return result;
+      }
+      throw new Exception("Unable to deserialize stream");
+    }
+    catch (Exception ex)
+    {
+      throw new Exception("Unable to deserialize stream", ex);
+    }
   }
 
   /// <summary>
@@ -56,7 +78,17 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
   {
     if (string.IsNullOrEmpty(objValue)) throw new ArgumentNullException(nameof(objValue));
 
-    return JsonConvert.DeserializeObject<List<TParent>>(objValue);
+    try
+    {
+      var result = JsonConvert.DeserializeObject<List<TParent>>(objValue);
+      if (result != null)
+        return result;
+      throw new Exception("Unable to deserialize file");
+    }
+    catch (Exception ex)
+    {
+      throw new Exception("Unable to deserialize file", ex);
+    }
   }
 
   /// <summary>
@@ -67,10 +99,26 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
   public static TParent LoadJson(string fileName)
   {
     using var file = File.OpenText(fileName);
-    var json = new JsonSerializer();
-    var result = (TParent)json.Deserialize(file, typeof(TParent));
-    result.FileName = fileName;
-    return result;
+    if (file == null)
+    {
+      throw new FileNotFoundException("File not found", fileName);
+    }
+
+    try
+    {
+      var json = new JsonSerializer();
+      var result = (TParent)json.Deserialize(file, typeof(TParent));
+      if (result != null)
+      {
+        result.FileName = fileName;
+        return result;
+      }
+      throw new Exception("Unable to deserialize file");
+    }
+    catch
+    {
+      throw new Exception("Unable to deserialize file");
+    }
   }
 
   /// <summary>

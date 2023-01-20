@@ -15,34 +15,32 @@ public static class Serialize
   /// </summary>
   /// <typeparam name="T"></typeparam>
   /// <param name="value">The value.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>T.</returns>
-  public static T ConvertTo<T>(object value, T def = default) => (T)ConvertToType(value, typeof(T), def);
+  public static T ConvertTo<T>(object value) => (T)ConvertToType(value, typeof(T));
 
   /// <summary>
   /// Provides a more friendly type conversion mechanism that errs on the side of "it just works"
   /// </summary>
   /// <param name="value">The value.</param>
   /// <param name="toType">To type.</param>
-  /// <param name="def">The definition.</param>
   /// <returns>System.Object.</returns>
-  public static object ConvertToType(object value, Type toType, object def = null)
+  public static object? ConvertToType(object value, Type toType)
   {
-    if (toType == typeof(string)) return value?.ToString();
+    if (value == null) throw new ArgumentNullException(nameof(value));
+
+    if (toType == typeof(string)) return value.ToString();
 
     if (value == null) return Activator.CreateInstance(toType); // Same as default(T)
 
     var fromType = value.GetType();
     if (fromType == toType) return value;
 
-    if (Nullable.GetUnderlyingType(toType) != null)
-    {
-      // Nullable type conversion
-      var realType = Nullable.GetUnderlyingType(toType);
-      return ConvertToType(value, realType);
-    }
-
     if (toType.IsEnum) return Enum.Parse(toType, value.ToString());
+
+    // Nullable type conversion
+    var realType = Nullable.GetUnderlyingType(toType);
+    if (realType != null)
+      return ConvertToType(value, realType);
 
     if (fromType == typeof(string))
     {
@@ -64,14 +62,7 @@ public static class Serialize
       if (convertor.CanConvertFrom(typeof(string))) return convertor.ConvertFrom(value);
     }
 
-    try
-    {
-      return Convert.ChangeType(value, toType);
-    }
-    catch
-    {
-      return def;
-    }
+    return Convert.ChangeType(value, toType);
   }
 
   /// <summary>
@@ -86,7 +77,7 @@ public static class Serialize
   /// <exception cref="InvalidOperationException"></exception>
   /// <exception cref="FormatException">Unable to convert '{value}' to type {typeof(T)}</exception>
   /// <exception cref="System.FormatException"></exception>
-  public static T FromString<T>(string value)
+  public static T? FromString<T>(string value)
   {
     if (typeof(T).IsEnum) return (T)Enum.Parse(typeof(T), value);
 
@@ -172,7 +163,7 @@ public static class Serialize
   /// <exception cref="System.NotSupportedException"></exception>
   public static string ToString<T>(T objValue)
   {
-    if (objValue == null) return null;
+    if (objValue == null) throw new ArgumentNullException(nameof(objValue));
 
     if (typeof(T) == typeof(string) || typeof(T).IsValueType) return objValue.ToString();
 
