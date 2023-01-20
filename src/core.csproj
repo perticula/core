@@ -4,6 +4,18 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RuntimeIdentifiers>linux-x64;win-x64</RuntimeIdentifiers>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Caching" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Condition="!$(RuntimeIdentifier.StartsWith('win'))" Remove='Config/IRegistrySettings.cs' />
+    <Compile Condition="!$(RuntimeIdentifier.StartsWith('win'))" Remove='Config/RegistrySettings.cs' />
+  </ItemGroup>
 
 </Project>
