@@ -66,7 +66,9 @@ internal class AppSettings : IAppSettings
     if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
     var value = GetSetting(name);
     if (value == null) throw new KeyNotFoundException($"Setting '{name}' not found");
-    return Serialize.FromString<T>(value);
+    var setting = Serialize.FromString<T>(value);
+    if (setting != null) return setting;
+    throw new InvalidCastException($"Setting '{name}' cannot be converted to type {typeof(T).Name}");
   }
 
   /// <summary>
