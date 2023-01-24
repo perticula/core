@@ -1,5 +1,6 @@
 #!/bin/bash
 
-dotnet clean src/
-dotnet restore src/
-dotnet build src/
+dotnet clean
+dotnet restore
+dotnet build --no-restore
+dotnet test --no-build
