@@ -1,11 +1,26 @@
+root = true
 # editorconfig.org
 
-root = true
 
 [*]
 charset = utf-8
 end_of_line = lf
-indent_size = 2
-indent_style = space
+indent_style = tab
+indent_size = tab
+tab_width = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
+
+# ReSharper properties
+resharper_align_multiline_binary_patterns = true
+resharper_align_multiline_for_stmt = true
+resharper_align_multiline_list_pattern = true
+resharper_align_multiline_property_pattern = true
+resharper_align_multiline_switch_expression = true
+resharper_align_tuple_components = true
+resharper_csharp_allow_far_alignment = true
+resharper_csharp_indent_style = tab
+resharper_csharp_place_comments_at_first_column = true
+resharper_indent_preprocessor_region = no_indent
+resharper_int_align = true
+resharper_outdent_statement_labels = true

@@ -1,123 +1,126 @@
-using System.Text;
+// perticula - core - SimpleEncryption.cs
+// 
+// Copyright © 2015-2023  Ris Adams - All Rights Reserved
+// 
+// You may use, distribute and modify this code under the terms of the MIT license
+// You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
+
+using System.Configuration;
+using System.Reflection;
 using System.Security.Cryptography;
-namespace core;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
+
+namespace core.Security;
 
 /// <summary>
-/// Class SimpleEncrypt.
+///   Class SimpleEncrypt.
 /// </summary>
-public class SimpleEncrypt
+public static class SimpleEncrypt
 {
   /// <summary>
-  /// The key
+  ///   The aes key
   /// </summary>
-  private static readonly byte[] Key = { 123, 217, 19, 11, 15, 26, 85, 16, 114, 184, 27, 162, 4, 112, 222, 209, 0, 24, 175, 167, 173, 53, 182, 29, 24, 26, 17, 218, 247, 236, 53, 209 };
+  private static readonly string AesKey;
 
   /// <summary>
-  /// The vector
+  ///   Initializes static members of the <see cref="SimpleEncrypt" /> class.
   /// </summary>
-  private static readonly byte[] Vector = { 24, 64, 191, 123, 46, 3, 17, 119, 67, 121, 123, 112, 79, 32, 114, 156 };
-
-  /// <summary>
-  /// The decryptor
-  /// </summary>
-  private readonly ICryptoTransform _decryptor;
-
-  /// <summary>
-  /// The encoder
-  /// </summary>
-  private readonly UTF8Encoding _encoder;
-
-  /// <summary>
-  /// The encryptor
-  /// </summary>
-  private readonly ICryptoTransform _encryptor;
-
-  /// <summary>
-  /// Initializes a new instance of the <see cref="SimpleEncrypt"/> class.
-  /// </summary>
-  public SimpleEncrypt()
+  /// <exception cref="System.Configuration.ConfigurationErrorsException">Missing User Secret for aesKey</exception>
+  static SimpleEncrypt()
   {
-    var rm = Aes.Create("AesManaged");
-    if (rm == null) { throw new Exception("Could not create AesManaged instance"); }
-    _encryptor = rm.CreateEncryptor(Key, Vector);
-    _decryptor = rm.CreateDecryptor(Key, Vector);
-    _encoder = new UTF8Encoding();
+    var config = new ConfigurationManager()
+                 .AddUserSecrets(Assembly.GetExecutingAssembly())
+                 .Build();
+    AesKey = config["aesKey"] ?? throw new ConfigurationErrorsException("Missing User Secret for aesKey");
   }
 
   /// <summary>
-  /// Decrypts the specified encrypted.
-  /// </summary>
-  /// <param name="encrypted">The encrypted.</param>
-  /// <returns>System.String.</returns>
-  public string Decrypt(string encrypted) => string.IsNullOrEmpty(encrypted) ? string.Empty : _encoder.GetString(Decrypt(Convert.FromBase64String(encrypted)));
-
-  /// <summary>
-  /// Decrypts the specified buffer.
-  /// </summary>
-  /// <param name="buffer">The buffer.</param>
-  /// <returns>System.Byte[].</returns>
-  /// <exception cref="ArgumentNullException">buffer</exception>
-  public byte[] Decrypt(byte[] buffer)
-  {
-    if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-    return Transform(buffer, _decryptor);
-  }
-
-  /// <summary>
-  /// Encrypts the specified unencrypted.
-  /// </summary>
-  /// <param name="unencrypted">The unencrypted.</param>
-  /// <returns>System.String.</returns>
-  public string Encrypt(string unencrypted) => string.IsNullOrEmpty(unencrypted) ? string.Empty : Convert.ToBase64String(Encrypt(_encoder.GetBytes(unencrypted)));
-
-  /// <summary>
-  /// Encrypts the specified buffer.
-  /// </summary>
-  /// <param name="buffer">The buffer.</param>
-  /// <returns>System.Byte[].</returns>
-  /// <exception cref="ArgumentNullException">buffer</exception>
-  public byte[] Encrypt(byte[] buffer)
-  {
-    if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-    return Transform(buffer, _encryptor);
-  }
-
-  /// <summary>
-  /// Transforms the specified buffer.
-  /// </summary>
-  /// <param name="buffer">The buffer.</param>
-  /// <param name="transform">The transform.</param>
-  /// <returns>System.Byte[].</returns>
-  /// <exception cref="ArgumentNullException">
-  /// buffer
-  /// or
-  /// transform
-  /// </exception>
-  protected byte[] Transform(byte[] buffer, ICryptoTransform transform)
-  {
-    if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-    if (transform == null) throw new ArgumentNullException(nameof(transform));
-
-    var stream = new MemoryStream();
-    using (var cs = new CryptoStream(stream, transform, CryptoStreamMode.Write))
-      cs.Write(buffer, 0, buffer.Length);
-    return stream.ToArray();
-  }
-}
-
-public static class __SimpleEncryptExt
-{
-  /// <summary>
-  ///     Decrypts a value.
+  ///   Adds an extension method to decrypt the given value.
   /// </summary>
   /// <param name="value">The value.</param>
   /// <returns>System.String.</returns>
-  public static string DecryptValue(this string value) => new SimpleEncrypt().Decrypt(value);
+  public static string DecryptValue(this string value) => Decrypt(value);
 
   /// <summary>
-  ///     Encrypts a value.
+  ///   Adds an extension method to encrypts the given value
   /// </summary>
   /// <param name="value">The value.</param>
   /// <returns>System.String.</returns>
-  public static string EncryptValue(this string value) => new SimpleEncrypt().Encrypt(value);
+  public static string EncryptValue(this string value) => Encrypt(value);
+
+  /// <summary>
+  ///   Decrypts the specified encrypted.
+  /// </summary>
+  /// <param name="value">The encrypted value.</param>
+  /// <returns>System.String.</returns>
+  /// <exception cref="System.ArgumentNullException">value</exception>
+  /// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
+  public static string Decrypt(string value)
+  {
+    if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+    var payload = Encoding.UTF8.GetBytes(value);
+
+    using var aes = Aes.Create();
+    if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+
+    aes.Key     = Encoding.UTF8.GetBytes(AesKey);
+    aes.Mode    = CipherMode.CBC;
+    aes.Padding = PaddingMode.PKCS7;
+
+    //get first 16 bytes of payload and use it as the IV for decryption
+    var iv = new byte[16];
+    Array.Copy(payload, 0, iv, 0, iv.Length);
+
+    using var ms = new MemoryStream();
+    using (var cs = new CryptoStream(ms, aes.CreateDecryptor(aes.Key, iv), CryptoStreamMode.Write))
+    using (var binaryWriter = new BinaryWriter(cs))
+    {
+      binaryWriter.Write(
+        payload,
+        iv.Length,
+        payload.Length - iv.Length
+      );
+    }
+
+    return Encoding.Default.GetString(ms.ToArray());
+  }
+
+
+  /// <summary>
+  ///   Encrypts the specified unencrypted value.
+  /// </summary>
+  /// <param name="value">The value.</param>
+  /// <returns>System.String.</returns>
+  /// <exception cref="System.ArgumentNullException">value</exception>
+  /// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
+  public static string Encrypt(string value)
+  {
+    if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+    var payload = Encoding.UTF8.GetBytes(value);
+
+    using var aes = Aes.Create();
+    if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+
+    aes.Key     = Encoding.UTF8.GetBytes(AesKey);
+    aes.Mode    = CipherMode.CBC;
+    aes.Padding = PaddingMode.PKCS7;
+
+
+    aes.GenerateIV();
+    var       iv           = aes.IV;
+    using var encryptor    = aes.CreateEncryptor(aes.Key, iv);
+    using var cipherStream = new MemoryStream();
+    using (var tCryptoStream = new CryptoStream(cipherStream, encryptor, CryptoStreamMode.Write))
+    using (var tbinaryWriter = new BinaryWriter(tCryptoStream))
+    {
+      //prepend IV to payload
+      cipherStream.Write(iv);
+      tbinaryWriter.Write(payload);
+      tCryptoStream.FlushFinalBlock();
+    }
+
+    return Convert.ToBase64String(cipherStream.ToArray());
+  }
 }
