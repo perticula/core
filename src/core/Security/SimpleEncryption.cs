@@ -19,108 +19,125 @@ namespace core.Security;
 /// </summary>
 public static class SimpleEncrypt
 {
-  /// <summary>
-  ///   The aes key
-  /// </summary>
-  private static readonly string AesKey;
+	/// <summary>
+	///   The aes key
+	/// </summary>
+	private static readonly string AesKey;
 
-  /// <summary>
-  ///   Initializes static members of the <see cref="SimpleEncrypt" /> class.
-  /// </summary>
-  /// <exception cref="System.Configuration.ConfigurationErrorsException">Missing User Secret for aesKey</exception>
-  static SimpleEncrypt()
-  {
-    var config = new ConfigurationManager()
-                 .AddUserSecrets(Assembly.GetExecutingAssembly())
-                 .Build();
-    AesKey = config["aesKey"] ?? throw new ConfigurationErrorsException("Missing User Secret for aesKey");
-  }
+	/// <summary>
+	///   Initializes static members of the <see cref="SimpleEncrypt" /> class.
+	/// </summary>
+	/// <exception cref="System.Configuration.ConfigurationErrorsException">Missing User Secret for aesKey</exception>
+	static SimpleEncrypt()
+	{
+		var config = new ConfigurationManager()
+		             .AddUserSecrets(Assembly.GetExecutingAssembly())
+		             .Build();
 
-  /// <summary>
-  ///   Adds an extension method to decrypt the given value.
-  /// </summary>
-  /// <param name="value">The value.</param>
-  /// <returns>System.String.</returns>
-  public static string DecryptValue(this string value) => Decrypt(value);
+		var fromEnv = Environment.GetEnvironmentVariable("aesKey");
+		if (!string.IsNullOrEmpty(fromEnv))
+		{
+			AesKey = fromEnv;
+			return;
+		}
 
-  /// <summary>
-  ///   Adds an extension method to encrypts the given value
-  /// </summary>
-  /// <param name="value">The value.</param>
-  /// <returns>System.String.</returns>
-  public static string EncryptValue(this string value) => Encrypt(value);
+		var fromUserSecret = config["aesKey"];
+		if (!string.IsNullOrEmpty(fromUserSecret))
+		{
+			AesKey = fromUserSecret;
+			return;
+		}
 
-  /// <summary>
-  ///   Decrypts the specified encrypted.
-  /// </summary>
-  /// <param name="value">The encrypted value.</param>
-  /// <returns>System.String.</returns>
-  /// <exception cref="System.ArgumentNullException">value</exception>
-  /// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
-  public static string Decrypt(string value)
-  {
-    if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-    var payload = Convert.FromBase64String(value);
+		; //noop
 
-    using var aes = Aes.Create();
-    if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+		throw new ConfigurationErrorsException("Missing User Secret for aesKey");
+	}
 
-    aes.Key     = Encoding.UTF8.GetBytes(AesKey);
-    aes.Mode    = CipherMode.CBC;
-    aes.Padding = PaddingMode.PKCS7;
+	/// <summary>
+	///   Adds an extension method to decrypt the given value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>System.String.</returns>
+	public static string DecryptValue(this string value) => Decrypt(value);
 
-    //get first 16 bytes of payload and use it as the IV for decryption
-    var iv = new byte[16];
-    Array.Copy(payload, 0, iv, 0, iv.Length);
+	/// <summary>
+	///   Adds an extension method to encrypts the given value
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>System.String.</returns>
+	public static string EncryptValue(this string value) => Encrypt(value);
 
-    using var ms = new MemoryStream();
-    using (var cs = new CryptoStream(ms, aes.CreateDecryptor(aes.Key, iv), CryptoStreamMode.Write))
-    using (var binaryWriter = new BinaryWriter(cs))
-    {
-      binaryWriter.Write(
-        payload,
-        iv.Length,
-        payload.Length - iv.Length
-      );
-    }
+	/// <summary>
+	///   Decrypts the specified encrypted.
+	/// </summary>
+	/// <param name="value">The encrypted value.</param>
+	/// <returns>System.String.</returns>
+	/// <exception cref="System.ArgumentNullException">value</exception>
+	/// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
+	public static string Decrypt(string value)
+	{
+		if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+		var payload = Convert.FromBase64String(value);
 
-    return Encoding.Default.GetString(ms.ToArray());
-  }
+		using var aes = Aes.Create();
+		if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
+		aes.Key     = Encoding.UTF8.GetBytes(AesKey);
+		aes.Mode    = CipherMode.CBC;
+		aes.Padding = PaddingMode.PKCS7;
 
-  /// <summary>
-  ///   Encrypts the specified unencrypted value.
-  /// </summary>
-  /// <param name="value">The value.</param>
-  /// <returns>System.String.</returns>
-  /// <exception cref="System.ArgumentNullException">value</exception>
-  /// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
-  public static string Encrypt(string value)
-  {
-    if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-    var payload = Encoding.UTF8.GetBytes(value);
+		//get first 16 bytes of payload and use it as the IV for decryption
+		var iv = new byte[16];
+		Array.Copy(payload, 0, iv, 0, iv.Length);
 
-    using var aes = Aes.Create();
-    if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+		using var ms = new MemoryStream();
+		using (var cs = new CryptoStream(ms, aes.CreateDecryptor(aes.Key, iv), CryptoStreamMode.Write))
+		using (var binaryWriter = new BinaryWriter(cs))
+		{
+			binaryWriter.Write(
+				payload,
+				iv.Length,
+				payload.Length - iv.Length
+			);
+		}
 
-    aes.Key     = Encoding.UTF8.GetBytes(AesKey);
-    aes.Mode    = CipherMode.CBC;
-    aes.Padding = PaddingMode.PKCS7;
+		return Encoding.Default.GetString(ms.ToArray());
+	}
 
 
-    aes.GenerateIV();
-    var       iv           = aes.IV;
-    using var encryptor    = aes.CreateEncryptor(aes.Key, iv);
-    using var cipherStream = new MemoryStream();
-    using (var tCryptoStream = new CryptoStream(cipherStream, encryptor, CryptoStreamMode.Write))
-    using (var tbinaryWriter = new BinaryWriter(tCryptoStream))
-    {
-      //prepend IV to payload
-      cipherStream.Write(iv);
-      tbinaryWriter.Write(payload);
-      tCryptoStream.FlushFinalBlock();
-    }
+	/// <summary>
+	///   Encrypts the specified unencrypted value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>System.String.</returns>
+	/// <exception cref="System.ArgumentNullException">value</exception>
+	/// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
+	public static string Encrypt(string value)
+	{
+		if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
+		var payload = Encoding.UTF8.GetBytes(value);
 
-    return Convert.ToBase64String(cipherStream.ToArray());
-  }
+		using var aes = Aes.Create();
+		if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+
+		aes.Key     = Encoding.UTF8.GetBytes(AesKey);
+		aes.Mode    = CipherMode.CBC;
+		aes.Padding = PaddingMode.PKCS7;
+
+
+		aes.GenerateIV();
+		var       iv           = aes.IV;
+		using var encryptor    = aes.CreateEncryptor(aes.Key, iv);
+		using var cipherStream = new MemoryStream();
+		using (var tCryptoStream = new CryptoStream(cipherStream, encryptor, CryptoStreamMode.Write))
+		using (var tbinaryWriter = new BinaryWriter(tCryptoStream))
+		{
+			//prepend IV to payload
+			cipherStream.Write(iv);
+			tbinaryWriter.Write(payload);
+			tCryptoStream.FlushFinalBlock();
+		}
+
+		return Convert.ToBase64String(cipherStream.ToArray());
+	}
 }
