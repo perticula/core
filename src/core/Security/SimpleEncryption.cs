@@ -60,7 +60,7 @@ public static class SimpleEncrypt
   public static string Decrypt(string value)
   {
     if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
-    var payload = Encoding.UTF8.GetBytes(value);
+    var payload = Convert.FromBase64String(value);
 
     using var aes = Aes.Create();
     if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
