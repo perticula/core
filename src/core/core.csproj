@@ -11,13 +11,21 @@
     <Company />
     <Product>Perticula</Product>
     <Authors>Ris Adams,Perticula Contibutors</Authors>
-    <Copyright>2023</Copyright>
+    <Copyright>2015</Copyright>
     <PackageProjectUrl>https://github.com/perticula</PackageProjectUrl>
     <RepositoryUrl>https://github.com/perticula</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Title>Perticula</Title>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <UserSecretsId>67be8ba2-f60e-4f53-abf8-c0b9ee9a267a</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
 	<ItemGroup>
