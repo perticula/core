@@ -84,33 +84,27 @@ public class SimpleCacheTests
 	[Fact]
 	public void SimpleCache_ByName_NeverNull()
 	{
-		
 		var cache  = new SimpleCache();
 		var name   = Guid.NewGuid().ToString();
 		var item   = Guid.NewGuid().ToString();
 		var expect = Guid.NewGuid().ToString();
 
-		 
 		var found = cache.ByName(name);
 
-		
 		Assert.NotNull(found);
 	}
 
 	[Fact]
 	public void SimpleCache_ByName_Succeeds()
 	{
-		
 		var cache  = new SimpleCache();
 		var name   = Guid.NewGuid().ToString();
 		var item   = Guid.NewGuid().ToString();
 		var expect = Guid.NewGuid().ToString();
 
-		 
 		cache.ByName(name).Set(item, expect);
 		var found = cache.ByName(name).FindOrDefault<string>(item, null);
 
-		
 		Assert.NotNull(found);
 		Assert.Equal(expect, found);
 	}
