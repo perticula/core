@@ -1,5 +1,6 @@
 # Perticula
 
+[![CodeFactor](https://www.codefactor.io/repository/github/perticula/core/badge)](https://www.codefactor.io/repository/github/perticula/core)
 
 ## Contribute
 
