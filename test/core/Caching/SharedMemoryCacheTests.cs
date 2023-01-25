@@ -14,48 +14,40 @@ public class SharedMemoryCacheTests
 	[Fact]
 	public void SharedMemoryCache_ByName_is_never_null()
 	{
-		// Arrange
 		var cache  = new SharedMemoryCache();
 		var name   = Guid.NewGuid().ToString();
 		var item   = Guid.NewGuid().ToString();
 		var expect = Guid.NewGuid().ToString();
 
-		// Act
 		var found = cache.ByName(name);
 
-		// Assert
 		Assert.NotNull(found);
 	}
 
 	[Fact]
 	public void SharedMemoryCache_ByName_replaces_non_cache_values()
 	{
-		// Arrange
 		var cache = new SharedMemoryCache();
 		var name  = Guid.NewGuid().ToString();
 
-		// Act
 		cache.FindOrSet(name, i => "NOT-CACHE");
 		var found = cache.ByName(name);
 
-		// Assert
 		Assert.NotNull(found);
 	}
 
 	[Fact]
 	public void SharedMemoryCache_ByName_succeeds()
 	{
-		// Arrange
 		var cache  = new SharedMemoryCache();
 		var name   = Guid.NewGuid().ToString();
 		var item   = Guid.NewGuid().ToString();
 		var expect = Guid.NewGuid().ToString();
 
-		// Act
 		cache.ByName(name).Set(item, expect);
 		var found = cache.ByName(name).FindOrDefault<string>(item, null);
 
-		// Assert
+
 		Assert.NotNull(found);
 		Assert.Equal(expect, found);
 	}
@@ -244,14 +236,9 @@ public class SharedMemoryCacheTests
 	{
 		Assert.Throws<NotSupportedException>(() =>
 		{
-			// Arrange
 			var cache = new SharedMemoryCache();
 			cache.Set("item11", true);
-
-			// Act
 			cache.Flush();
-
-			// Assert
 		});
 	}
 

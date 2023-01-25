@@ -11,7 +11,7 @@
     <Company />
     <Product>Perticula</Product>
     <Authors>Ris Adams,Perticula Contibutors</Authors>
-    <Copyright>2015</Copyright>
+    <Copyright>2023</Copyright>
     <PackageProjectUrl>https://github.com/perticula</PackageProjectUrl>
     <RepositoryUrl>https://github.com/perticula</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
