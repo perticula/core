@@ -63,7 +63,6 @@ public partial class StringExtensions
 		return word?.Length > 0 ? word[..1].ToLower(CultureInfo.CurrentCulture) + word[1..] : word;
 	}
 
-
 	/// <summary>
 	///   Performs a trim of a string from the end of the source string
 	/// </summary>

@@ -146,8 +146,6 @@ public class SerializeTests
 			// Because of a problem with detecting structures as type
 			// that must be serialized using JSon, structures are
 			// not supported.
-
-
 			var expect = new TestStruct
 			{
 				A = "hello",
@@ -191,12 +189,12 @@ public class SerializeTests
 	[Fact]
 	public void ConvertToType_Any_To_String_Succeeds()
 	{
-		var r1  = Serialize.ConvertTo<string>(123);
-		var r2  = Serialize.ConvertTo<string>(123.456);
-		var r3  = Serialize.ConvertTo<string>(true);
-		var r4  = Serialize.ConvertTo<string>(DateTime.Today);
-		var r5  = Serialize.ConvertTo<string>((byte) 123);
-		var r6  = Serialize.ConvertTo<string>('x');
+		var r1 = Serialize.ConvertTo<string>(123);
+		var r2 = Serialize.ConvertTo<string>(123.456);
+		var r3 = Serialize.ConvertTo<string>(true);
+		var r4 = Serialize.ConvertTo<string>(DateTime.Today);
+		var r5 = Serialize.ConvertTo<string>((byte) 123);
+		var r6 = Serialize.ConvertTo<string>('x');
 		Assert.Throws<ArgumentNullException>(() =>
 		{
 			var r8 = Serialize.ConvertTo<string>(null);
@@ -210,19 +208,19 @@ public class SerializeTests
 		Assert.Equal(DateTime.Today.ToString(), r4);
 		Assert.Equal("123",                     r5);
 		Assert.Equal("x",                       r6);
-		Assert.Equal("123", r9);
-		Assert.Equal("123", r10);
+		Assert.Equal("123",                     r9);
+		Assert.Equal("123",                     r10);
 	}
 
 	[Fact]
 	public void ConvertToType_String_To_Any_Succeeds()
 	{
-		var r1  = Serialize.ConvertTo<int>("123");
-		var r2  = Serialize.ConvertTo<double>("123.456");
-		var r3  = Serialize.ConvertTo<bool>("True");
-		var r4  = Serialize.ConvertTo<DateTime>(DateTime.Today.ToString());
-		var r5  = Serialize.ConvertTo<byte>("123");
-		var r6  = Serialize.ConvertTo<char>("x");
+		var r1 = Serialize.ConvertTo<int>("123");
+		var r2 = Serialize.ConvertTo<double>("123.456");
+		var r3 = Serialize.ConvertTo<bool>("True");
+		var r4 = Serialize.ConvertTo<DateTime>(DateTime.Today.ToString());
+		var r5 = Serialize.ConvertTo<byte>("123");
+		var r6 = Serialize.ConvertTo<char>("x");
 		Assert.Throws<ArgumentNullException>(() =>
 		{
 			var r8 = Serialize.ConvertTo<string>(null);
@@ -236,8 +234,8 @@ public class SerializeTests
 		Assert.Equal(DateTime.Today, r4);
 		Assert.Equal(123,            r5);
 		Assert.Equal('x',            r6);
-		Assert.Equal(123, r9);
-		Assert.Equal(123, r10);
+		Assert.Equal(123,            r9);
+		Assert.Equal(123,            r10);
 	}
 
 	[Fact]

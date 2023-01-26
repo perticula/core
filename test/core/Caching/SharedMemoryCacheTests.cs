@@ -47,7 +47,6 @@ public class SharedMemoryCacheTests
 		cache.ByName(name).Set(item, expect);
 		var found = cache.ByName(name).FindOrDefault<string>(item, null);
 
-
 		Assert.NotNull(found);
 		Assert.Equal(expect, found);
 	}

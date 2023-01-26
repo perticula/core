@@ -48,8 +48,6 @@ public static class SimpleEncrypt
 			return;
 		}
 
-		; //noop
-
 		throw new ConfigurationErrorsException("Missing User Secret for aesKey");
 	}
 
@@ -104,7 +102,6 @@ public static class SimpleEncrypt
 		return Encoding.Default.GetString(ms.ToArray());
 	}
 
-
 	/// <summary>
 	///   Encrypts the specified unencrypted value.
 	/// </summary>
@@ -123,7 +120,6 @@ public static class SimpleEncrypt
 		aes.Key     = Encoding.UTF8.GetBytes(AesKey);
 		aes.Mode    = CipherMode.CBC;
 		aes.Padding = PaddingMode.PKCS7;
-
 
 		aes.GenerateIV();
 		var       iv           = aes.IV;

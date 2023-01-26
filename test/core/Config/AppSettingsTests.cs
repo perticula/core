@@ -59,7 +59,6 @@ public class AppSettingTests
 		});
 	}
 
-
 	[Fact]
 	public void IAppSettings_ConnectionString_MachineSpecific_SettingNames_TakePriority()
 	{
@@ -123,10 +122,7 @@ public class AppSettingTests
 				{Environment.MachineName + ":FOO", "BAR"}
 			}
 		);
-
-
 		var r = store.ConnectionString("FOO");
-
 
 		Assert.NotNull(r);
 		Assert.Equal("BAR", r);
@@ -246,15 +242,12 @@ public class AppSettingTests
 		Assert.Equal(expect, r);
 	}
 
-
 	[Fact]
 	public void IAppSettings_GetSetting_T_Expects_Name()
 	{
 		Assert.Throws<ArgumentNullException>(() =>
 		{
 			var store = createMock_IAppSettings_TestAppSettings();
-
-
 			store.GetSetting(null);
 		});
 	}

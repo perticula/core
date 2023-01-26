@@ -51,7 +51,6 @@ internal class StrongPasswordGenerator : IStrongPasswordGenerator
 		return random.GetChoiceStream(allowed).Take(length).AsString();
 	}
 
-
 	/// <summary>
 	///   Generates a complex password of the specified length.
 	/// </summary>
