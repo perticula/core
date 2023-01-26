@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using core.Security;
-
 namespace core.test.Security;
 
 public class EncryptionTests
@@ -38,24 +36,11 @@ public class EncryptionTests
 		Assert.Equal(value, d);
 	}
 
-	public static IEnumerable<object[]> RandomStringGenerator(int numTests)
-	{
-		for (var i = 0; i < numTests; i++) yield return new object[] {GetRandomString()};
-	}
-
-	private static string GetRandomString()
-	{
-		var rand = new Random();
-
-		var stringlen = rand.Next(1, 256);
-		var str       = "";
-		for (var i = 0; i < stringlen; i++)
-		{
-			var randValue = rand.Next(0, 26);
-			var letter    = Convert.ToChar(randValue + 65);
-			str += letter;
-		}
-
-		return str;
-	}
+	/// <summary>
+	///   Generates a set of strings, of random length and content.
+	///   Must exist within the tested class, but implementation is forwarded to a shared helper
+	/// </summary>
+	/// <param name="numTests">The number tests.</param>
+	/// <returns>IEnumerable&lt;System.Object[]&gt;.</returns>
+	public static IEnumerable<object[]> RandomStringGenerator(int numTests) => TestHelpers.RandomStringGenerator(numTests);
 }
