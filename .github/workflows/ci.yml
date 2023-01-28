@@ -1,13 +1,13 @@
 # This workflow will build a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
 
-name: .NET
+name: .NET CI Workflow
 
 on:
+  workflow_dispatch:
   push:
     branches: ["master"]
   pull_request:
-    branches: ["master"]
 
 jobs:
   build:
@@ -15,10 +15,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 7.0.x
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
