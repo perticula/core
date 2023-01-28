@@ -5,3 +5,20 @@ exclude:
   - name: All
     paths:
       - test
+include:
+  - name: CompareNonConstrainedGenericWithNull
+  - name: AsyncVoidMethod
+  - name: CppLocalVariableWithNonTrivialDtorIsNeverUsed
+  - name: DuplicateResource
+  - name: UseConfigureAwaitFalseForAsyncDisposable
+  - name: UseThrowIfNullMethod
+  - name: VBStringEndsWithIsCultureSpecific
+  - name: StringEndsWithIsCultureSpecific
+  - name: StringStartsWithIsCultureSpecific
+  - name: VBStringStartsWithIsCultureSpecific
+  - name: RegExpSimplifiable
+  - name: RegExpRedundantClassElement
+  - name: InfiniteRecursionJS
+  - name: DivideByZeroJS
+  - name: InfiniteLoopJS
+  - name: MsbuildTargetFrameworkTagInspection
