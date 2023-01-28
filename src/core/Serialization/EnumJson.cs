@@ -14,13 +14,9 @@ namespace core.Serialization
   /// <summary>
   ///   Class EnumJson.
   ///   Implements the <see cref="core.Serialization.EnumJson" />
-  ///   Implements the <see cref="System.IEquatable{core.Serialization.EnumJson}" />
-  ///   Implements the <see cref="System.IEquatable{core.Serialization.EnumJson{TEnum}}" />
   /// </summary>
   /// <typeparam name="TEnum">The type of the t enum.</typeparam>
   /// <seealso cref="core.Serialization.EnumJson" />
-  /// <seealso cref="System.IEquatable{core.Serialization.EnumJson}" />
-  /// <seealso cref="System.IEquatable{core.Serialization.EnumJson{TEnum}}" />
   [DebuggerDisplay("{DataType,nq}.{Name,nq}")]
   public record EnumJson<TEnum> : EnumJson
     where TEnum : struct, IConvertible
