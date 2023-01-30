@@ -74,7 +74,7 @@ public static partial class StringExtensions
 	/// <returns>System.String.</returns>
 	public static string ClipText(this string? text, int len, string? ellipsis = " …")
 	{
-		if (string.IsNullOrEmpty(ellipsis)) throw new ArgumentNullException(nameof(ellipsis));
+		ArgumentException.ThrowIfNullOrEmpty(ellipsis, nameof(ellipsis));
 		if (len < 1) len = 1;
 
 		if (text == null || text.Length <= len) return "";
@@ -106,7 +106,7 @@ public static partial class StringExtensions
 	/// <param name="value">The value to find</param>
 	/// <param name="comparison">The comparison type</param>
 	/// <returns></returns>
-	public static bool Contains(this string source, string value, StringComparison comparison) => source?.IndexOf(value, comparison) >= 0;
+	public static bool Contains(this string source, string value, StringComparison comparison) => source.IndexOf(value, comparison) >= 0;
 
 	/// <summary>
 	///   Indicates whether this string contains any one of these substrings
@@ -121,7 +121,7 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <returns>System.String.</returns>
-	public static string ConvertCrToBr(this string? text) => text?.Replace("\r", "")?.Replace("\n", "<br>") ?? "";
+	public static string ConvertCrToBr(this string? text) => text?.Replace("\r", "").Replace("\n", "<br>") ?? "";
 
 	/// <summary>
 	///   Counts the number of times a character appears within a string.
@@ -192,7 +192,7 @@ public static partial class StringExtensions
 	/// </exception>
 	public static string FilterCharacters(this string value, params string[] filters)
 	{
-		if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value));
+		ArgumentException.ThrowIfNullOrEmpty(value, nameof(value));
 		if (filters == null || !filters.Any()) throw new ArgumentNullException(nameof(filters));
 		return filters.Aggregate(value, (current, filter) => !string.IsNullOrEmpty(filter) ? current.Replace(filter, string.Empty) : current);
 	}

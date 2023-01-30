@@ -195,7 +195,7 @@ public partial class StringExtensions
 	/// <returns>System.String.</returns>
 	public static string Highlight(this string? text, string prefix, IEnumerable<string> find, string? suffix = null, bool merge = false)
 	{
-		if (string.IsNullOrEmpty(prefix)) throw new ArgumentNullException(nameof(prefix));
+		ArgumentException.ThrowIfNullOrEmpty(prefix, nameof(prefix));
 		var findArray = find as string[] ?? find.ToArray();
 		text ??= "";
 		// ReSharper disable once LoopCanBeConvertedToQuery
