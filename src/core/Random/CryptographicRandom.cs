@@ -7,7 +7,7 @@
 
 namespace core.Random;
 
-public abstract class CryptographicRandom
+public abstract class CryptographicRandom : ICryptographicRandom
 {
 	/// <summary>
 	///   Returns a random number between 0 and <c>uint.MaxValue</c> inclusive
@@ -19,8 +19,7 @@ public abstract class CryptographicRandom
 	/// </summary>
 	public virtual uint GetNum(uint maxInclusive)
 	{
-		if (maxInclusive == 0)
-			return 0;
+		if (maxInclusive == 0) return 0;
 
 		var baseSize     = (long) uint.MaxValue + 1;
 		var maxExclusive = (long) maxInclusive  + 1;
@@ -40,9 +39,7 @@ public abstract class CryptographicRandom
 	/// </summary>
 	public virtual int GetNum(int maxInclusive)
 	{
-		if (maxInclusive < 0)
-			throw new ArgumentOutOfRangeException(nameof(maxInclusive), "maxInclusive may not be negative.");
-
+		if (maxInclusive < 0) throw new ArgumentOutOfRangeException(nameof(maxInclusive), "maxInclusive may not be negative.");
 		return (int) GetNum((uint) maxInclusive);
 	}
 
@@ -66,9 +63,7 @@ public abstract class CryptographicRandom
 	/// </summary>
 	public virtual T Choose<T>(ISet<T> set)
 	{
-		if (set.Count == 0)
-			throw new ArgumentException("set is empty.");
-
+		if (set.Count == 0) throw new ArgumentException("set is empty.");
 		return set.ElementAt(GetNum(set.Count - 1));
 	}
 
