@@ -295,7 +295,7 @@ public static partial class StringExtensions
 	/// <param name="delimiter">The delimiter.</param>
 	/// <param name="values">The list of values.</param>
 	/// <returns>System.String.</returns>
-	public static string JoinWith(this string value, string delimiter, params string[] values) => string.Join(delimiter, new[] {value ?? ""}.Concat(values ?? Enumerable.Empty<string>()));
+	public static string JoinWith(this string value, string delimiter, params string[]? values) => string.Join(delimiter, new[] {value ?? ""}.Concat(values ?? Enumerable.Empty<string>()));
 
 	/// <summary>
 	///   using the specified delimiter returns a joined string list containing all values.
@@ -304,7 +304,7 @@ public static partial class StringExtensions
 	/// <param name="delimiter">The delimiter.</param>
 	/// <param name="values">The list of values.</param>
 	/// <returns>System.String.</returns>
-	public static string? JoinWith(this string? value, string delimiter, IEnumerable<string>? values) => string.Join(delimiter, new[] {value ?? ""}.Concat(values ?? Enumerable.Empty<string>()));
+	public static string JoinWith(this string? value, string delimiter, IEnumerable<string>? values) => string.Join(delimiter, new[] {value ?? ""}.Concat(values ?? Enumerable.Empty<string>()));
 
 	/// <summary>
 	///   Makes a term singular or plural based on explicitly specified terms.
@@ -351,9 +351,9 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.String.</returns>
-	public static string? QuickHash(this string? value)
+	public static string QuickHash(this string value)
 	{
-		if (string.IsNullOrEmpty(value)) return "";
+		ArgumentException.ThrowIfNullOrEmpty(value, nameof(value));
 
 		var hashedValue = 3074457345618258791ul;
 
@@ -525,7 +525,7 @@ public static partial class StringExtensions
 	/// <returns>System.String.</returns>
 	public static string ToValidPathName(this string value)
 	{
-		if (value == null) throw new ArgumentNullException(nameof(value));
+		ArgumentException.ThrowIfNullOrEmpty(value, nameof(value));
 		return value.ReplaceAll(FileUtilities.InvalidFileNameChars, '-');
 	}
 

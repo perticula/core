@@ -20,10 +20,9 @@ namespace core.Attributes
 		/// <param name="value">The value.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.ArgumentNullException">value</exception>
-		public static string DisplayText(this Enum value)
+		public static string DisplayText(this Enum? value)
 		{
-			if (value == null) throw new ArgumentNullException(nameof(value));
-
+			if (value == null) return "";
 			return value
 			       .GetType()
 			       .GetField(value.ToString())
@@ -44,10 +43,9 @@ namespace core.Attributes
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.ArgumentNullException">value</exception>
 		/// <exception cref="FormatException">value cannot be null</exception>
-		public static string DisplayText(this Enum value, params object[] arguments)
+		public static string DisplayText(this Enum? value, params object[] arguments)
 		{
-			if (value == null) throw new ArgumentNullException(nameof(value));
-
+			if (value == null) return "";
 			var attribute = value
 			                .GetType()
 			                .GetField(value.ToString())
@@ -76,7 +74,7 @@ namespace core.Attributes
 			foreach (Enum e in Enum.GetValues(typeof(T)))
 			{
 				//check to see if entire string matches
-				var dt = e.DisplayText() ?? "";
+				var dt = e.DisplayText();
 				if (string.Equals(dt, value, StringComparison.OrdinalIgnoreCase)) return (T) Enum.Parse(typeof(T), e.ToString(), true);
 
 				//check to see if multiple values match (e.g. 'Hotels/Lodging' matches either 'hotels' or 'lodging')

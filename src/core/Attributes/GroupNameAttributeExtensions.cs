@@ -37,9 +37,9 @@ namespace core.Attributes
 		/// <param name="value">The value.</param>
 		/// <returns>System.String.</returns>
 		/// <exception cref="System.ArgumentNullException">value</exception>
-		public static string GroupName(this Enum value)
+		public static string GroupName(this Enum? value)
 		{
-			if (value == null) throw new ArgumentNullException(nameof(value));
+			if (value == null) return "";
 			return value
 			       .GetType()
 			       .GetField(value.ToString())

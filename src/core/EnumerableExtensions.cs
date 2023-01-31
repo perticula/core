@@ -34,7 +34,7 @@ public static class EnumerableExtensions
 	/// <param name="value">The value.</param>
 	/// <param name="count">The count.</param>
 	/// <returns>List&lt;IGrouping&lt;System.Int32, TType&gt;&gt;.</returns>
-	public static IEnumerable<IGrouping<int, TType>>? GroupByCount<TType>(this IEnumerable<TType> value, int count)
+	public static IEnumerable<IGrouping<int, TType>> GroupByCount<TType>(this IEnumerable<TType> value, int count)
 	{
 		if (value == null) throw new ArgumentNullException(nameof(value));
 
