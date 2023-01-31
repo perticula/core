@@ -34,9 +34,9 @@ public static class EnumerableExtensions
 	/// <param name="value">The value.</param>
 	/// <param name="count">The count.</param>
 	/// <returns>List&lt;IGrouping&lt;System.Int32, TType&gt;&gt;.</returns>
-	public static IEnumerable<IGrouping<int, TType>>? GroupByCount<TType>(this IEnumerable<TType>? value, int count)
+	public static IEnumerable<IGrouping<int, TType>>? GroupByCount<TType>(this IEnumerable<TType> value, int count)
 	{
-		if (value == null) return null;
+		if (value == null) throw new ArgumentNullException(nameof(value));
 
 		var source = value as TType[] ?? value.ToArray();
 		return source.GroupBy(src => source.ToList().IndexOf(src) / count);
@@ -76,15 +76,12 @@ public static class EnumerableExtensions
 	public static bool IsNullOrEmpty<T>(this IEnumerable<T>? value) => value == null || !value.Any();
 
 	/// <summary>
-	///   Converts an object into an IEnumerable
+	///   Takes any singular object and wraps it into a new array containing only that object.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="item">The item.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
-	public static IEnumerable<T> ToEnumerable<T>(this T item)
-	{
-		yield return item;
-	}
+	public static IEnumerable<T> ToEnumerable<T>(this T item) => new[] {item};
 
 	/// <summary>
 	///   Generates a sequence of typed tuples by combining the items in each list positionally
