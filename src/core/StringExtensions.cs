@@ -377,7 +377,6 @@ public static partial class StringExtensions
 	public static string ReplaceAfter(this string? value, int chars, string replacement)
 	{
 		if (string.IsNullOrEmpty(value)) return "";
-
 		return value.Length > chars ? replacement : value;
 	}
 
@@ -388,7 +387,7 @@ public static partial class StringExtensions
 	/// <param name="charsToReplace">The chars to replace.</param>
 	/// <param name="replacement">The replacement.</param>
 	/// <returns>System.String.</returns>
-	public static string ReplaceAll(this string value, char[] charsToReplace, char replacement) => charsToReplace.Aggregate(value, (current, c) => current.Replace(c, replacement));
+	public static string ReplaceAll(this string value, IEnumerable<char> charsToReplace, char replacement) => charsToReplace.Aggregate(value, (current, c) => current.Replace(c, replacement));
 
 	/// <summary>
 	///   Replaces the last occurrence of a matching value within a string.
@@ -402,7 +401,6 @@ public static partial class StringExtensions
 		if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(find) || string.IsNullOrEmpty(replace)) return string.Empty;
 
 		var place = source.LastIndexOf(find, StringComparison.Ordinal);
-
 		if (place == -1) return source;
 
 		var result = source.Remove(place, find.Length).Insert(place, replace);
@@ -499,7 +497,7 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>IEnumerable&lt;System.String&gt;.</returns>
-	public static IEnumerable<string> SplitOnNewLine(this string value) => value?.Split('\n').Select(sz => sz.Trim('\r')) ?? Enumerable.Empty<string>();
+	public static IEnumerable<string> SplitOnNewLine(this string value) => value.Split('\n').Select(sz => sz.Trim('\r'));
 
 	/// <summary>
 	///   Converts the string to a memory stream.
@@ -536,7 +534,7 @@ public static partial class StringExtensions
 	/// <param name="list">The list.</param>
 	/// <param name="trim">Optionally trim the values before checking them</param>
 	/// <returns>IEnumerable&lt;System.String&gt;.</returns>
-	public static IEnumerable<string> WhereHasValue(this IEnumerable<string> list, bool trim = false) => list?.Where(sz => !string.IsNullOrEmpty(trim ? sz?.Trim() : sz)) ?? Enumerable.Empty<string>();
+	public static IEnumerable<string> WhereHasValue(this IEnumerable<string> list, bool trim = false) => list.Where(sz => !string.IsNullOrEmpty(trim ? sz.Trim() : sz));
 
 	/// <summary>
 	///   Converts an enumerable char array to a string
