@@ -77,7 +77,8 @@ public static partial class StringExtensions
 		ArgumentException.ThrowIfNullOrEmpty(ellipsis, nameof(ellipsis));
 		if (len < 1) len = 1;
 
-		if (text == null || text.Length <= len) return "";
+		// the clip length covers the whole source string, no need to clip.
+		if (text == null || text.Length <= len) return text ?? "";
 
 		var breaks = text.Split(new[] {"<br>"}, StringSplitOptions.None);
 		var output = new StringBuilder(len);
@@ -295,7 +296,7 @@ public static partial class StringExtensions
 	/// <param name="delimiter">The delimiter.</param>
 	/// <param name="values">The list of values.</param>
 	/// <returns>System.String.</returns>
-	public static string JoinWith(this string value, string delimiter, params string[]? values) => string.Join(delimiter, new[] {value ?? ""}.Concat(values ?? Enumerable.Empty<string>()));
+	public static string JoinWith(this string value, string delimiter, params string[]? values) => string.Join(delimiter, new[] {value}.Concat(values ?? Enumerable.Empty<string>()));
 
 	/// <summary>
 	///   using the specified delimiter returns a joined string list containing all values.
@@ -542,4 +543,27 @@ public static partial class StringExtensions
 	/// <param name="cs">The cs.</param>
 	/// <returns>System.String.</returns>
 	public static string AsString(this IEnumerable<char> cs) => new(cs.ToArray());
+
+	/// <summary>
+	///   Appends a value to a string builder if the condition is satisfied.
+	/// </summary>
+	/// <param name="stringBuilder">The sb.</param>
+	/// <param name="condition">The condition.</param>
+	/// <param name="val">The value.</param>
+	public static void AppendIf(this StringBuilder stringBuilder, bool condition, string? val) => stringBuilder.AppendIf(() => condition, val);
+
+	/// <summary>
+	///   Appends a value to a string builder if the condition is satisfied.
+	/// </summary>
+	/// <param name="stringBuilder">The sb.</param>
+	/// <param name="condition">The condition.</param>
+	/// <param name="val">The value.</param>
+	public static void AppendIf(this StringBuilder stringBuilder, Func<bool> condition, string? val)
+	{
+		ArgumentException.ThrowIfNullOrEmpty(val, nameof(val));
+		if (stringBuilder == null) throw new ArgumentNullException(nameof(stringBuilder));
+		if (condition     == null) throw new ArgumentNullException(nameof(condition));
+
+		if (condition()) stringBuilder.Append(val);
+	}
 }

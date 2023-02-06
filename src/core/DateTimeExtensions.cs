@@ -18,6 +18,50 @@ public static class DateTimeExtensions
 	public static DateOnly Yesterday => DateOnly.FromDateTime(DateTime.Today.AddDays(-1d));
 
 	/// <summary>
+	///   Returns the list of time zones known to the OS
+	///   NOTE: These are subject to change based on where the code runs
+	/// </summary>
+	/// <value>The known time zones.</value>
+	public static IEnumerable<string> KnownTimeZones => TimeZoneInfo.GetSystemTimeZones().Select(tz => tz.Id);
+
+	/// <summary>
+	///   Returns the local time zome of the OS
+	/// </summary>
+	/// <value>The local time zone.</value>
+	public static string LocalTimeZone => TimeZoneInfo.Local.Id;
+
+	/// <summary>
+	///   Converts a date into a human readable "Time elapsed since" format.
+	///   (e.g.) This event happened 2 days ago, etc.
+	/// </summary>
+	/// <param name="when">The date value.</param>
+	/// <param name="justNow">The message to display value an event happened within the past 2 minutes</param>
+	/// <param name="preFix">an optional prefix value.</param>
+	/// <param name="postFix">an optional post fix value.</param>
+	/// <returns>System.String.</returns>
+	public static string ToRelativeElapsed(DateTime when, string justNow = "", string preFix = "", string postFix = "") => ToRelativeElapsed(DateTime.Now.Subtract(when), justNow, preFix, postFix);
+
+	/// <summary>
+	///   Converts a timespan into a human readable "Time elapsed since" format.
+	///   (e.g.) This event happened 2 days ago, etc.
+	/// </summary>
+	/// <param name="span">The span.</param>
+	/// <param name="justNow">The message to display value an event happened within the past 2 minutes</param>
+	/// <param name="preFix">an optional prefix value.</param>
+	/// <param name="postFix">an optional post fix value.</param>
+	/// <returns>System.String.</returns>
+	public static string ToRelativeElapsed(TimeSpan span, string justNow = "", string preFix = "", string postFix = "")
+	{
+		if (span.TotalDays >= 2) return $"{preFix}{(int) span.TotalDays} days{postFix}";
+		return span.TotalMinutes switch
+		       {
+			       > 90 => $"{preFix}{(int) span.TotalHours} hours{postFix}",
+			       > 2  => $"{preFix}{(int) span.TotalMinutes} minutes{postFix}",
+			       _    => justNow
+		       };
+	}
+
+	/// <summary>
 	///   Returns this date, but set the time to midnight 23:59:59
 	/// </summary>
 	/// <param name="date">The date.</param>
@@ -165,4 +209,49 @@ public static class DateTimeExtensions
 	/// <param name="modifier">The modifier.</param>
 	/// <returns>System.Int64.</returns>
 	private static long GetTicks(DateTime value, int? modifier = 0) => value.AddSeconds(modifier ?? 0).Ticks;
+
+	/// <summary>
+	///   Returns the time zone information based on the provided id,
+	///   or returns null if the id is not known
+	/// </summary>
+	/// <param name="tz">The tz.</param>
+	/// <returns>TimeZoneInfo.</returns>
+	public static TimeZoneInfo? FindTimeZone(string? tz)
+	{
+		if (string.IsNullOrEmpty(tz)) return null;
+		try
+		{
+			return TimeZoneInfo.FindSystemTimeZoneById(tz);
+		}
+		catch (TimeZoneNotFoundException)
+		{
+			return null;
+		}
+	}
+
+	/// <summary>
+	///   Indicates whether this is a valid time zone id
+	/// </summary>
+	/// <param name="tz">The tz.</param>
+	/// <returns><c>true</c> if [is value time zone] [the specified tz]; otherwise, <c>false</c>.</returns>
+	public static bool IsValueTimeZone(string? tz) => FindTimeZone(tz ?? "") != null;
+
+	/// <summary>
+	///   Converts from the time in the provided time zone to local time. The caller
+	///   should check the timezone provided to ensure it is valid otherwise an
+	///   TimeZoneNotFoundException exception may be thrown.
+	/// </summary>
+	/// <param name="value">The time in that time zone</param>
+	/// <param name="timeZone">The name of the time zone</param>
+	/// <returns>DateTime.</returns>
+	public static DateTime ToLocalTime(DateTime value, string timeZone) => TimeZoneInfo.ConvertTimeFromUtc(TimeZoneInfo.ConvertTimeToUtc(value, TimeZoneInfo.FindSystemTimeZoneById(timeZone)), TimeZoneInfo.Local);
+
+	/// <summary>
+	///   Converts from the time in the provided time zone to local time. The caller
+	///   should check the timezone provided to ensure it is valid otherwise an
+	///   TimeZoneNotFoundException exception may be thrown.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>System.DateTime.</returns>
+	public static DateTime ToLocalTime(DateTime value) => TimeZoneInfo.ConvertTimeFromUtc(TimeZoneInfo.ConvertTimeToUtc(value, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id)), TimeZoneInfo.Local);
 }

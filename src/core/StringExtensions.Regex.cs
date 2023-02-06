@@ -26,7 +26,7 @@ namespace core
 		[GeneratedRegex("(?:\\r\\n|\\r(?!\\n)|(?<!\\r)\\n){2,}", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
 		public static partial Regex DetectMultipleLines();
 
-		[GeneratedRegex("[-\\value]")]
+		[GeneratedRegex("[-\\s]")]
 		public static partial Regex CaptureHyphens();
 
 		[GeneratedRegex("([\\p{Ll}\\d])([\\p{Lu}])")]

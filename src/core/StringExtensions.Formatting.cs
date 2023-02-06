@@ -203,14 +203,14 @@ public partial class StringExtensions
 		{
 			if (string.IsNullOrEmpty(word)) continue;
 
-			var pattern = $@"\b{Regex.Escape(word)}\w*?\b"; // words starting with
+			var pattern = $@"\b{Regex.Escape(word)}\w*?\b"; // words starting with target word
 			text = Regex.Replace(text, pattern, match => $"{prefix}{match.Value}{suffix}", RegexOptions.IgnoreCase);
 		}
 
 		// ReSharper disable once InvertIf
 		if (merge && !string.IsNullOrEmpty(suffix))
 		{
-			var pattern = $@"\w{Regex.Escape(suffix)}\value*?{Regex.Escape(prefix)}\w";
+			var pattern = $@"\w{Regex.Escape(suffix)}\s*?{Regex.Escape(prefix)}\w";
 			text = Regex.Replace(text, pattern, match => match.Value.Replace(suffix, "").Replace(prefix, ""), RegexOptions.IgnoreCase);
 		}
 

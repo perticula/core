@@ -180,4 +180,43 @@ public static class NumericExtensions
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this sbyte value, sbyte floor, sbyte ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+
+	/// <summary>
+	///   Converts a number to a size with the appropriate units
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>System.String.</returns>
+	public static string ToSize(long bytes) =>
+		bytes switch
+		{
+			< 1024               => ToSizeBytes(bytes),
+			< 1024 * 1024        => ToSizeKib(bytes),
+			< 1024 * 1024 * 1024 => ToSizeMib(bytes),
+			_                    => ToSizeGib(bytes)
+		};
+
+	/// <summary>
+	///   Converts a number to a size in bytes (ie 512 = "512 Bytes")
+	/// </summary>
+	public static string ToSizeBytes(long bytes, string units = "Bytes") => $"{bytes:#,###,###,###,##0} {units}";
+
+	/// <summary>
+	///   Converts a number to a size in gigabytes (ie 1610612736 = "1.5 GB")
+	/// </summary>
+	public static string ToSizeGib(long bytes, string units = "GiB") => ToSizeMib(bytes / 1024, units);
+
+	/// <summary>
+	///   Converts a number to a size in terrabytes (ie 1610612736 = "1.5 GB")
+	/// </summary>
+	public static string ToSizeTib(long bytes, string units = "TiB") => ToSizeGib(bytes / 1024, units);
+
+	/// <summary>
+	///   Converts a number to a size in kilobytes (ie 1536 = "1.5 KB")
+	/// </summary>
+	public static string ToSizeKib(long bytes, string units = "KiB") => $"{bytes / 1024.0:#,###,###,###,##0.#} {units}";
+
+	/// <summary>
+	///   Converts a number to a size in megabytes (ie 1572864 = "1.5 MB")
+	/// </summary>
+	public static string ToSizeMib(long bytes, string units = "MiB") => ToSizeKib(bytes / 1024, units);
 }

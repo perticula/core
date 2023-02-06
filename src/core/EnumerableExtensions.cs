@@ -19,7 +19,7 @@ public static class EnumerableExtensions
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
 	public static IEnumerable<T> Divide<T>(this IEnumerable<T> list, int num, int parts)
 	{
-		if (num   > 0) throw new ArgumentOutOfRangeException(nameof(num),   "num must be greater than 0");
+		if (num   < 0) throw new ArgumentOutOfRangeException(nameof(num),   "num must be greater than 0");
 		if (parts < 1) throw new ArgumentOutOfRangeException(nameof(parts), "parts must be greater than 1");
 		var enumerable = list as IList<T> ?? list.ToList();
 		var count      = enumerable.Count;
