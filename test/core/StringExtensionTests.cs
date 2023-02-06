@@ -579,7 +579,7 @@ public class StringExtensionTests
 	[Fact]
 	public void StringUtilities_Verify_File_Item_Parse_Returns_File_Name_For_Normal_Server_Item_Path()
 	{
-		const string path = "C:\\Folder\\Item.ext";
+		const string path = "/var/path/folder/Item.ext";
 		var          item = path.GetFileName();
 		Assert.Equal("Item.ext", item);
 	}
