@@ -79,7 +79,7 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns <paramref name="items" /> in a random order
 	/// </summary>
-	public virtual IEnumerable<T> Shuffle<T>(IReadOnlyList<T> items)
+	public virtual IEnumerable<T> Shuffle<T>(IEnumerable<T> items)
 	{
 		// The Fisher-Yates shuffle algorithm
 		// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm

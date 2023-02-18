@@ -47,5 +47,5 @@ public interface ICryptographicRandom
 	/// <summary>
 	///   Returns <paramref name="items" /> in a random order
 	/// </summary>
-	IEnumerable<T> Shuffle<T>(IReadOnlyList<T> items);
+	IEnumerable<T> Shuffle<T>(IEnumerable<T> items);
 }
