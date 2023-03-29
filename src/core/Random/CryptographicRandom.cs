@@ -87,7 +87,7 @@ public abstract class CryptographicRandom : ICryptographicRandom
 		for (var i = result.Length - 1; i >= 1; i--)
 			ArraySwap(result, i, GetNum(i));
 		return result;
-	}
 
-	private static void ArraySwap<T>(IList<T> items, int i, int j) => (items[i], items[j]) = (items[j], items[i]);
+		static void ArraySwap(IList<T> items, int i, int j) => (items[i], items[j]) = (items[j], items[i]);
+	}
 }
