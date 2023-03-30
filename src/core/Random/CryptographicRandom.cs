@@ -21,8 +21,8 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	{
 		if (maxInclusive == 0) return 0;
 
-		var baseSize     = (long) uint.MaxValue + 1;
-		var maxExclusive = (long) maxInclusive  + 1;
+		const long baseSize     = (long) uint.MaxValue + 1;
+		var        maxExclusive = (long) maxInclusive + 1;
 
 		var cutoff = baseSize - baseSize % maxExclusive;
 
