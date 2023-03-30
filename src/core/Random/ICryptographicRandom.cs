@@ -12,22 +12,22 @@ public interface ICryptographicRandom
 	/// <summary>
 	///   Returns a random number between 0 and <c>uint.MaxValue</c> inclusive
 	/// </summary>
-	uint GetNum();
+	uint GenerateNum();
 
 	/// <summary>
 	///   Returns a random number between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
-	uint GetNum(uint maxInclusive);
+	uint GenerateNum(uint maxInclusive);
 
 	/// <summary>
 	///   Returns a random number between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
-	int GetNum(int maxInclusive);
+	int GenerateNum(int maxInclusive);
 
 	/// <summary>
 	///   Returns an infinite stream of random numbers between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
-	IEnumerable<int> GetNumStream(int maxInclusive);
+	IEnumerable<int> GenerateNumStream(int maxInclusive);
 
 	/// <summary>
 	///   Returns one item from <paramref name="items" /> chosen randomly

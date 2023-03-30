@@ -40,7 +40,7 @@ public sealed class CryptographicRandomizer : CryptographicRandom, IDisposable
 	///   Returns a random number between 0 and <c>uint.MaxValue</c> inclusive
 	/// </summary>
 	/// <returns>System.UInt32.</returns>
-	public override uint GetNum()
+	public override uint GenerateNum()
 	{
 		if (_i >= _buf.Length)
 		{

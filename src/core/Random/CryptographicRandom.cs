@@ -12,12 +12,12 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns a random number between 0 and <c>uint.MaxValue</c> inclusive
 	/// </summary>
-	public abstract uint GetNum();
+	public abstract uint GenerateNum();
 
 	/// <summary>
 	///   Returns a random number between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
-	public virtual uint GetNum(uint maxInclusive)
+	public virtual uint GenerateNum(uint maxInclusive)
 	{
 		if (maxInclusive == 0) return 0;
 
@@ -28,7 +28,7 @@ public abstract class CryptographicRandom : ICryptographicRandom
 
 		uint choice;
 		do
-			choice = GetNum();
+			choice = GenerateNum();
 		while (choice >= cutoff);
 
 		return (uint) (choice % maxExclusive);
@@ -37,19 +37,19 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns a random number between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
-	public virtual int GetNum(int maxInclusive)
+	public virtual int GenerateNum(int maxInclusive)
 	{
 		if (maxInclusive < 0) throw new ArgumentOutOfRangeException(nameof(maxInclusive), "maxInclusive may not be negative.");
-		return (int) GetNum((uint) maxInclusive);
+		return (int) GenerateNum((uint) maxInclusive);
 	}
 
 	/// <summary>
 	///   Returns an infinite stream of random numbers between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
-	public virtual IEnumerable<int> GetNumStream(int maxInclusive)
+	public virtual IEnumerable<int> GenerateNumStream(int maxInclusive)
 	{
 		while (true)
-			yield return GetNum(maxInclusive);
+			yield return GenerateNum(maxInclusive);
 		// ReSharper disable once IteratorNeverReturns
 	}
 
@@ -64,7 +64,7 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	public virtual T Choose<T>(ISet<T> set)
 	{
 		if (set.Count == 0) throw new ArgumentException("set is empty.");
-		return set.ElementAt(GetNum(set.Count - 1));
+		return set.ElementAt(GenerateNum(set.Count - 1));
 	}
 
 	/// <summary>
@@ -73,7 +73,7 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	public virtual IEnumerable<T> GetChoiceStream<T>(ISet<T> set)
 	{
 		if (set.Count == 0) throw new ArgumentException("set is empty.");
-		return GetNumStream(set.Count - 1).Select(set.ElementAt);
+		return GenerateNumStream(set.Count - 1).Select(set.ElementAt);
 	}
 
 	/// <summary>
@@ -85,7 +85,7 @@ public abstract class CryptographicRandom : ICryptographicRandom
 		// https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle#The_modern_algorithm
 		var result = items.ToArray();
 		for (var i = result.Length - 1; i >= 1; i--)
-			ArraySwap(result, i, GetNum(i));
+			ArraySwap(result, i, GenerateNum(i));
 		return result;
 
 		static void ArraySwap(IList<T> items, int i, int j) => (items[i], items[j]) = (items[j], items[i]);
