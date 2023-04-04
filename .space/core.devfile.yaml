@@ -8,6 +8,6 @@ attributes:
       version: '2022.3.3'
       updateChannel: Release
     projectRoot: perticula.sln
-    requiredParameters:
+    requiredSecrets:
       - name: AES_KEY
         description: 'Defines the AES crypto key for this environment'
