@@ -1,6 +1,10 @@
 schemaVersion: 2.2.0
 metadata:
   name: 'Perticula Core Environment'
+components:
+ - name: dev-container
+   container: 
+     image: risadams/coredev:latest
 attributes:
   space:
     editor:
