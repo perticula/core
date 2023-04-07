@@ -34,7 +34,7 @@ public class AppSettingTests
 		// Clear the current app settings
 		ConfigurationManager.RefreshSection("connectionStrings");
 
-		var config = ConfigurationManager.ConnectionStrings;//.OpenExeConfiguration(ConfigurationUserLevel.None);
+		var config = ConfigurationManager.ConnectionStrings; //.OpenExeConfiguration(ConfigurationUserLevel.None);
 
 		// Disable to readonly flag (for our tests)
 		var hackReadonly = typeof(ConfigurationElementCollection).GetField("_readOnly", BindingFlags.Instance | BindingFlags.NonPublic);

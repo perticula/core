@@ -5,49 +5,48 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-namespace core.Attributes
+namespace core.Attributes;
+
+/// <summary>
+///   Class GroupNameAttributeExtensions.
+/// </summary>
+public static class GroupNameAttributeExtensions
 {
 	/// <summary>
-	///   Class GroupNameAttributeExtensions.
+	///   Finds the (first) enum value matching the display text.
 	/// </summary>
-	public static class GroupNameAttributeExtensions
+	/// <typeparam name="T"></typeparam>
+	/// <param name="value">The value.</param>
+	/// <returns>IEnumerable&lt;T&gt;.</returns>
+	/// <exception cref="System.InvalidCastException"></exception>
+	public static IEnumerable<T> FromGroupName<T>(this string value)
+		where T : struct, IConvertible
 	{
-		/// <summary>
-		///   Finds the (first) enum value matching the display text.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="value">The value.</param>
-		/// <returns>IEnumerable&lt;T&gt;.</returns>
-		/// <exception cref="System.InvalidCastException"></exception>
-		public static IEnumerable<T> FromGroupName<T>(this string value)
-			where T : struct, IConvertible
+		foreach (Enum e in Enum.GetValues(typeof(T)))
 		{
-			foreach (Enum e in Enum.GetValues(typeof(T)))
-			{
-				if (e.GroupName() != value) continue;
-				if (Enum.TryParse(e.ToString(), true, out T t))
-					yield return t;
-			}
+			if (e.GroupName() != value) continue;
+			if (Enum.TryParse(e.ToString(), true, out T t))
+				yield return t;
 		}
+	}
 
-		/// <summary>
-		///   Returns the display text associated with this enum (must be decorated
-		///   with [DisplayText( ... )] )
-		/// </summary>
-		/// <param name="value">The value.</param>
-		/// <returns>System.String.</returns>
-		/// <exception cref="System.ArgumentNullException">value</exception>
-		public static string GroupName(this Enum? value)
-		{
-			if (value == null) return "";
-			return value
-			       .GetType()
-			       .GetField(value.ToString())
-			       ?.GetCustomAttributes(typeof(GroupNameAttribute), false)
-			       .Cast<GroupNameAttribute>()
-			       .Take(1)
-			       .Select(attr => attr.GroupName)
-			       .FirstOrDefault() ?? "";
-		}
+	/// <summary>
+	///   Returns the display text associated with this enum (must be decorated
+	///   with [DisplayText( ... )] )
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>System.String.</returns>
+	/// <exception cref="System.ArgumentNullException">value</exception>
+	public static string GroupName(this Enum? value)
+	{
+		if (value == null) return "";
+		return value
+		       .GetType()
+		       .GetField(value.ToString())
+		       ?.GetCustomAttributes(typeof(GroupNameAttribute), false)
+		       .Cast<GroupNameAttribute>()
+		       .Take(1)
+		       .Select(attr => attr.GroupName)
+		       .FirstOrDefault() ?? "";
 	}
 }

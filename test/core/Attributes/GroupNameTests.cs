@@ -58,9 +58,9 @@ public class GroupNameAttributeTests
 
 	private enum SampleEnum
 	{
-		[GroupName("test")] One,
-		[GroupName("test")] Two,
-		[GroupName("test")] Three,
+		[GroupName("test")]   One,
+		[GroupName("test")]   Two,
+		[GroupName("test")]   Three,
 		[GroupName("Fourth")] Four,
 		Fifth
 	}

@@ -7,41 +7,40 @@
 
 using System.Text.RegularExpressions;
 
-namespace core
+namespace core;
+
+public partial class StringExtensions
 {
-	public partial class StringExtensions
-	{
-		[GeneratedRegex("((^[a-z]+)|([0-9]+)|([A-Z]{1}[a-z]+)|([A-Z]+(?=([A-Z][a-z])|($)|([0-9]))))")]
-		public static partial Regex DetectCamelCase();
+	[GeneratedRegex("((^[a-z]+)|([0-9]+)|([A-Z]{1}[a-z]+)|([A-Z]+(?=([A-Z][a-z])|($)|([0-9]))))")]
+	public static partial Regex DetectCamelCase();
 
-		[GeneratedRegex("[ ]{2,}", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
-		public static partial Regex CaptureMultipleSpaces();
+	[GeneratedRegex("[ ]{2,}", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+	public static partial Regex CaptureMultipleSpaces();
 
-		[GeneratedRegex("[^a-zA-z0-9_ -]", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline, "en-US")]
-		public static partial Regex ValidUrlChars();
+	[GeneratedRegex("[^a-zA-z0-9_ -]", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline, "en-US")]
+	public static partial Regex ValidUrlChars();
 
-		[GeneratedRegex("(?<last>(\\w+)$)", RegexOptions.IgnoreCase | RegexOptions.Singleline, "en-US")]
-		public static partial Regex CaptureLastWord();
+	[GeneratedRegex("(?<last>(\\w+)$)", RegexOptions.IgnoreCase | RegexOptions.Singleline, "en-US")]
+	public static partial Regex CaptureLastWord();
 
-		[GeneratedRegex("(?:\\r\\n|\\r(?!\\n)|(?<!\\r)\\n){2,}", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
-		public static partial Regex DetectMultipleLines();
+	[GeneratedRegex("(?:\\r\\n|\\r(?!\\n)|(?<!\\r)\\n){2,}", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
+	public static partial Regex DetectMultipleLines();
 
-		[GeneratedRegex("[-\\s]")]
-		public static partial Regex CaptureHyphens();
+	[GeneratedRegex("[-\\s]")]
+	public static partial Regex CaptureHyphens();
 
-		[GeneratedRegex("([\\p{Ll}\\d])([\\p{Lu}])")]
-		public static partial Regex CaptureUnicodeLetter();
+	[GeneratedRegex("([\\p{Ll}\\d])([\\p{Lu}])")]
+	public static partial Regex CaptureUnicodeLetter();
 
-		[GeneratedRegex("([\\p{Lu}]+)([\\p{Lu}][\\p{Ll}])")]
-		public static partial Regex CaptureUnicodeWord();
+	[GeneratedRegex("([\\p{Lu}]+)([\\p{Lu}][\\p{Ll}])")]
+	public static partial Regex CaptureUnicodeWord();
 
-		[GeneratedRegex("(?:^|_| +)(.)")]
-		public static partial Regex CaptureUnderscores();
+	[GeneratedRegex("(?:^|_| +)(.)")]
+	public static partial Regex CaptureUnderscores();
 
-		[GeneratedRegex("^[a|e|i|o|u]")]
-		public static partial Regex MatchGrammarArticle();
+	[GeneratedRegex("^[a|e|i|o|u]")]
+	public static partial Regex MatchGrammarArticle();
 
-		[GeneratedRegex(".")]
-		public static partial Regex MatchAllChars();
-	}
+	[GeneratedRegex(".")]
+	public static partial Regex MatchAllChars();
 }

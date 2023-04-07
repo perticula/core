@@ -7,13 +7,12 @@
 
 using core.Attributes;
 
-namespace core.Filtering
-{
-	public enum OrderByDirection
-	{
-		Invalid = 0x00, // all enums should define the default case as an invalid value.
+namespace core.Filtering;
 
-		[DisplayText("Ascending")]  Ascending  =  0x01,
-		[DisplayText("Descending")] Descending = -0x01
-	}
+public enum OrderByDirection
+{
+	Invalid = 0x00, // all enums should define the default case as an invalid value.
+
+	[DisplayText("Ascending")]  Ascending  = 0x01,
+	[DisplayText("Descending")] Descending = -0x01
 }

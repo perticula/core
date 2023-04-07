@@ -12,9 +12,9 @@ namespace core.Serialization;
 /// </summary>
 public interface ISupportsToJson
 {
-  /// <summary>
-  ///   Returns this object as json
-  /// </summary>
-  /// <returns>System.String.</returns>
-  string ToJson();
+	/// <summary>
+	///   Returns this object as json
+	/// </summary>
+	/// <returns>System.String.</returns>
+	string ToJson();
 }

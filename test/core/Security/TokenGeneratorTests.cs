@@ -7,9 +7,9 @@
 
 using System.Configuration;
 using System.Diagnostics;
-using Moq;
 using core.Config;
 using core.Security;
+using Moq;
 
 namespace core.test.Security;
 

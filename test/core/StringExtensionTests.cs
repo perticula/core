@@ -455,8 +455,8 @@ public class StringExtensionTests
 	[Fact]
 	public void StringUtilities_Verify_As_Password_replaces_null()
 	{
-			const string test = null!;
-			var          _    = test.AsPassword();
+		const string test = null!;
+		var          _    = test.AsPassword();
 	}
 
 	[Fact]

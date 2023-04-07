@@ -14,7 +14,7 @@ public class BooleanExtensionsTests
 	[InlineData(true,  true,  true,  true)]
 	[InlineData(true,  true,  false, false)]
 	[InlineData(true,  false, true,  false)]
-	[InlineData(true,  false, false,  true)]
+	[InlineData(true,  false, false, true)]
 	[InlineData(false)]
 	public void BoolUtils_Test_Any_All_False(bool expectation, params bool[] args)
 	{
