@@ -20,7 +20,7 @@ public abstract class NotificationEvent : INotification
 	///   Gets the time (UTC) this event was created.
 	/// </summary>
 	/// <value>The created at UTC.</value>
-	private DateTime CreatedAtUtc { get; } = DateTime.UtcNow;
+	public DateTime CreatedAtUtc { get; } = DateTime.UtcNow;
 
 	/// <summary>
 	///   Gets the correlation identifier.
