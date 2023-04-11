@@ -45,4 +45,8 @@
     <Compile Condition="!$(RuntimeIdentifier.StartsWith('win'))" Remove="Config/RegistrySettings.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Notification\Publishers\" />
+  </ItemGroup>
+
 </Project>
