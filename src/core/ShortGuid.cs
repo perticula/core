@@ -87,7 +87,7 @@ public readonly struct ShortGuid
 	public static string Encode(Guid value)
 	{
 		var encoded = Convert.ToBase64String(value.ToByteArray());
-		encoded = encoded.Replace("/", "_").Replace("+", "-");
+		encoded = encoded.Replace("/", "_").Replace("+", "-"); // ensure certain chars are replaced so that the guid can appear in a url without being encoded.
 		return encoded[..22];
 	}
 
@@ -103,7 +103,7 @@ public readonly struct ShortGuid
 		if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(value);
 		try
 		{
-			value = value.Replace("_", "/").Replace("-", "+");
+			value = value.Replace("_", "/").Replace("-", "+"); // ensure certain chars are replaced so that the guid can appear in a url without being encoded.
 			var buffer = Convert.FromBase64String(value + "==");
 			return new Guid(buffer);
 		}
