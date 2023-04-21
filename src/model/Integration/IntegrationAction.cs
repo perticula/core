@@ -11,7 +11,7 @@ namespace model.Integration;
 
 public enum IntegrationAction
 {
-	Invalid = 0x0, // all enums should define the default case as an invalid value. 
+	Invalid = 0x0, // all enums should define the default case as an invalid value.
 
 	// Actions to perform C(r)UD operation from an external source
 	[DisplayText("Create item: {1}")] Create = 0x01,
