@@ -29,12 +29,12 @@ public class SecureRandom : System.Random
 	/// <summary>
 	///   The master random
 	/// </summary>
-	//TODO!+ private static readonly SecureRandom MasterRandom = new(new CryptoApiRandomGenerator());
+	private static readonly SecureRandom MasterRandom = new(new CryptoApiRandomGenerator());
 
 	/// <summary>
 	///   The arbitrary random
 	/// </summary>
-	//TODO!+ internal static readonly SecureRandom ArbitraryRandom = new(new VmpcRandomGenerator(), 16);
+	internal static readonly SecureRandom ArbitraryRandom = new(new VmpcRandomGenerator(), 16);
 
 	/// <summary>
 	///   The generator
@@ -44,8 +44,7 @@ public class SecureRandom : System.Random
 	/// <summary>
 	///   Initializes a new instance of the <see cref="SecureRandom" /> class.
 	/// </summary>
-	public SecureRandom()
-		: this(CreatePrng("SHA256", true)) { }
+	public SecureRandom() : this(CreatePrng("SHA256", true)) { }
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="SecureRandom" /> class.
@@ -75,7 +74,7 @@ public class SecureRandom : System.Random
 	///   Generates the seed.
 	/// </summary>
 	/// <param name="seed">The seed.</param>
-	//TODO!+ public virtual void GenerateSeed(Span<byte> seed) => MasterRandom.NextBytes(seed);
+	public virtual void GenerateSeed(Span<byte> seed) => MasterRandom.NextBytes(seed);
 
 	/// <summary>
 	///   Sets the seed.
@@ -158,12 +157,7 @@ public class SecureRandom : System.Random
 	public override int Next(int minValue, int maxValue)
 	{
 		if (maxValue <= minValue)
-		{
-			if (maxValue == minValue)
-				return minValue;
-
-			throw new ArgumentException("maxValue cannot be less than minValue");
-		}
+			return maxValue == minValue ? minValue : throw new ArgumentException("maxValue cannot be less than minValue", nameof(maxValue));
 
 		var diff = maxValue - minValue;
 		if (diff > 0)
@@ -270,7 +264,7 @@ public class SecureRandom : System.Random
 
 		var seed = seedLength <= 128 ? stackalloc byte[seedLength] : new byte[seedLength];
 
-		//TODO MasterRandom.NextBytes(seed);
+		MasterRandom.NextBytes(seed);
 		generator.AddSeedMaterial(seed);
 	}
 
@@ -282,11 +276,10 @@ public class SecureRandom : System.Random
 	/// <returns>DigestRandomGenerator.</returns>
 	private static DigestRandomGenerator CreatePrng(string digestName, bool autoSeed)
 	{
-		IDigest? digest = null;
-		//TODO!+ IDigest digest = DigestUtilities.GetDigest(digestName);
+		var digest = DigestUtilities.GetDigest(digestName);
 
 		var prng = new DigestRandomGenerator(digest);
-		if (autoSeed) AutoSeed(prng, 2 * digest?.GetDigestSize()??1);
+		if (autoSeed) AutoSeed(prng, 2 * digest.GetDigestSize());
 		return prng;
 	}
 }

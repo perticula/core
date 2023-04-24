@@ -5,6 +5,9 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
+using System.Text;
+using core.Matching;
+
 namespace core;
 
 public static class EnumerableExtensions
@@ -23,8 +26,55 @@ public static class EnumerableExtensions
 		if (parts < 1) throw new ArgumentOutOfRangeException(nameof(parts), "parts must be greater than 1");
 		var enumerable = list as IList<T> ?? list.ToList();
 		var count      = enumerable.Count;
-		var cut        = (int) Math.Ceiling((decimal) count / parts);
+		var cut        = (int) System.Math.Ceiling((decimal) count / parts);
 		return enumerable.Skip((num - 1) * cut).Take(cut);
+	}
+
+	/// <summary>
+	///   Creates an object store from this instance.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="contents">The contents.</param>
+	/// <returns>IObjectStore&lt;T&gt;.</returns>
+	public static IObjectStore<T> CreateObjectStore<T>(this IEnumerable<T> contents) => new ObjectStore<T>(contents);
+
+	/// <summary>
+	///   Collects the matched items from the source stores into this collection instance.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="matches">The matches.</param>
+	/// <param name="selector">The selector.</param>
+	/// <param name="stores">The stores.</param>
+	/// <exception cref="System.ArgumentNullException">matches</exception>
+	public static void CollectMatches<T>(this ICollection<T> matches, ISelector<T> selector, IEnumerable<IObjectStore<T>>? stores)
+	{
+		if (matches == null) throw new ArgumentNullException(nameof(matches));
+		if (stores  == null) return;
+
+		foreach (var store in stores)
+		foreach (var match in store.EnumerateMatches(selector))
+			matches.Add(match);
+	}
+
+	/// <summary>
+	///   Gets the first value or null.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="e">The e.</param>
+	/// <returns>System.Nullable&lt;T&gt;.</returns>
+	public static T? GetFirstOrNull<T>(this IEnumerable<T>? e) where T : class => e?.FirstOrDefault();
+
+	/// <summary>
+	///   Requires the next item in the enumerator exist.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="e">The e.</param>
+	/// <returns>T.</returns>
+	/// <exception cref="System.InvalidOperationException"></exception>
+	public static T RequireNext<T>(IEnumerator<T> e)
+	{
+		if (!e.MoveNext()) throw new InvalidOperationException();
+		return e.Current;
 	}
 
 	/// <summary>
@@ -65,6 +115,30 @@ public static class EnumerableExtensions
 				yield return item;
 			}
 		}
+	}
+
+	/// <summary>
+	///   Disply the current collection as a string
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="c">The c.</param>
+	/// <returns>System.String.</returns>
+	public static string AsString<T>(this IEnumerable<T> c)
+	{
+		using var e = c.GetEnumerator();
+		if (!e.MoveNext())
+			return "[]";
+
+		var sb = new StringBuilder("[");
+		sb.Append(e.Current);
+		while (e.MoveNext())
+		{
+			sb.Append(", ");
+			sb.Append(e.Current);
+		}
+
+		sb.Append(']');
+		return sb.ToString();
 	}
 
 	/// <summary>

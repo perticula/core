@@ -47,6 +47,8 @@
 
   <ItemGroup>
     <Folder Include="Licensing\" />
+    <Folder Include="Math\Raw\" />
+    <Folder Include="Encoding\" />
     <Folder Include="Notification\Publishers\" />
   </ItemGroup>
 

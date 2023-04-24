@@ -64,8 +64,7 @@ public static class DictionaryExtensions
 	/// <param name="key">The key to find</param>
 	/// <param name="def">The default to return if the key is not set</param>
 	/// <returns>TValue.</returns>
-	public static TValue? FindOrDefault<TKey, TValue>(this IDictionary<TKey, TValue?>? dictionary, TKey key, TValue? def = default)
-		=> dictionary?.ContainsKey(key) ?? false ? dictionary[key] : def;
+	public static TValue? FindOrDefault<TKey, TValue>(this IDictionary<TKey, TValue?>? dictionary, TKey key, TValue? def = default) => dictionary?.ContainsKey(key) ?? false ? dictionary[key] : def;
 
 
 	/// <summary>
@@ -94,6 +93,25 @@ public static class DictionaryExtensions
 	}
 
 	/// <summary>
+	///   Gets the value or key.
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="d">The d.</param>
+	/// <param name="k">The k.</param>
+	/// <returns>T.</returns>
+	public static T GetValueOrKey<T>(this IDictionary<T, T> d, T k) => d.TryGetValue(k, out var v) ? v : k;
+
+	/// <summary>
+	///   Gets the value or null.
+	/// </summary>
+	/// <typeparam name="TK">The type of the tk.</typeparam>
+	/// <typeparam name="TV">The type of the tv.</typeparam>
+	/// <param name="d">The d.</param>
+	/// <param name="k">The k.</param>
+	/// <returns>System.Nullable&lt;TV&gt;.</returns>
+	public static TV? GetValueOrNull<TK, TV>(this IDictionary<TK, TV> d, TK k) where TV : class => d.TryGetValue(k, out var v) ? v : null;
+
+	/// <summary>
 	///   Spreads the specified dictionary into a key/value tuple.
 	/// </summary>
 	/// <typeparam name="T1">The type of the t1.</typeparam>
@@ -104,5 +122,13 @@ public static class DictionaryExtensions
 	{
 		if (value == null) throw new ArgumentNullException(nameof(value));
 		foreach (var (k, v) in value) yield return (k, v);
+	}
+
+	public static bool Remove<TK, TV>(this IDictionary<TK, TV?> d, TK k, out TV? v)
+	{
+		if (!d.TryGetValue(k, out v)) return false;
+
+		d.Remove(k);
+		return true;
 	}
 }

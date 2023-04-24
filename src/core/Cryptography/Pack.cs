@@ -13,89 +13,89 @@ namespace core.Cryptography;
 
 public static class Pack
 {
-	internal static void UInt16_To_BE(ushort n, byte[] bs) => BinaryPrimitives.WriteUInt16BigEndian(bs, n);
+	internal static void UInt16_To_BigEndian(ushort n, byte[] bs) => BinaryPrimitives.WriteUInt16BigEndian(bs, n);
 
-	internal static void UInt16_To_BE(ushort n, byte[] bs, int off) => BinaryPrimitives.WriteUInt16BigEndian(bs.AsSpan(off), n);
+	internal static void UInt16_To_BigEndian(ushort n, byte[] bs, int off) => BinaryPrimitives.WriteUInt16BigEndian(bs.AsSpan(off), n);
 
-	internal static void UInt16_To_BE(ushort[] ns, byte[] bs, int off)
+	internal static void UInt16_To_BigEndian(ushort[] ns, byte[] bs, int off)
 	{
 		foreach (var t in ns)
 		{
-			UInt16_To_BE(t, bs, off);
+			UInt16_To_BigEndian(t, bs, off);
 			off += 2;
 		}
 	}
 
-	internal static void UInt16_To_BE(ushort[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
+	internal static void UInt16_To_BigEndian(ushort[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			UInt16_To_BE(ns[nsOff + i], bs, bsOff);
+			UInt16_To_BigEndian(ns[nsOff + i], bs, bsOff);
 			bsOff += 2;
 		}
 	}
 
-	internal static byte[] UInt16_To_BE(ushort n)
+	internal static byte[] UInt16_To_BigEndian(ushort n)
 	{
 		var bs = new byte[2];
-		UInt16_To_BE(n, bs, 0);
+		UInt16_To_BigEndian(n, bs, 0);
 		return bs;
 	}
 
-	internal static byte[] UInt16_To_BE(ushort[] ns) => UInt16_To_BE(ns, 0, ns.Length);
+	internal static byte[] UInt16_To_BigEndian(ushort[] ns) => UInt16_To_BigEndian(ns, 0, ns.Length);
 
-	internal static byte[] UInt16_To_BE(ushort[] ns, int nsOff, int nsLen)
+	internal static byte[] UInt16_To_BigEndian(ushort[] ns, int nsOff, int nsLen)
 	{
 		var bs = new byte[2 * nsLen];
-		UInt16_To_BE(ns, nsOff, nsLen, bs, 0);
+		UInt16_To_BigEndian(ns, nsOff, nsLen, bs, 0);
 		return bs;
 	}
 
-	internal static ushort BE_To_UInt16(byte[] bs, int off) => BinaryPrimitives.ReadUInt16BigEndian(bs.AsSpan(off));
+	internal static ushort BigEndian_To_UInt16(byte[] bs, int off) => BinaryPrimitives.ReadUInt16BigEndian(bs.AsSpan(off));
 
-	internal static void BE_To_UInt16(byte[] bs, int bsOff, ushort[] ns, int nsOff) => ns[nsOff] = BE_To_UInt16(bs, bsOff);
+	internal static void BigEndian_To_UInt16(byte[] bs, int bsOff, ushort[] ns, int nsOff) => ns[nsOff] = BigEndian_To_UInt16(bs, bsOff);
 
-	internal static ushort[] BE_To_UInt16(byte[] bs) => BE_To_UInt16(bs, 0, bs.Length);
+	internal static ushort[] BigEndian_To_UInt16(byte[] bs) => BigEndian_To_UInt16(bs, 0, bs.Length);
 
-	internal static ushort[] BE_To_UInt16(byte[] bs, int off, int len)
+	internal static ushort[] BigEndian_To_UInt16(byte[] bs, int off, int len)
 	{
 		if ((len & 1) != 0)
 			throw new ArgumentException("must be a multiple of 2", nameof(len));
 
 		var ns = new ushort[len / 2];
-		for (var i = 0; i < len; i += 2) BE_To_UInt16(bs, off + i, ns, i >> 1);
+		for (var i = 0; i < len; i += 2) BigEndian_To_UInt16(bs, off + i, ns, i >> 1);
 		return ns;
 	}
 
-	internal static void UInt24_To_BE(uint n, byte[] bs)
+	internal static void UInt24_To_BigEndian(uint n, byte[] bs)
 	{
 		bs[0] = (byte) (n >> 16);
 		bs[1] = (byte) (n >> 8);
 		bs[2] = (byte) n;
 	}
 
-	internal static void UInt24_To_BE(uint n, byte[] bs, int off)
+	internal static void UInt24_To_BigEndian(uint n, byte[] bs, int off)
 	{
 		bs[off + 0] = (byte) (n >> 16);
 		bs[off + 1] = (byte) (n >> 8);
 		bs[off + 2] = (byte) n;
 	}
 
-	internal static uint BE_To_UInt24(byte[] bs) =>
+	internal static uint BigEndian_To_UInt24(byte[] bs) =>
 		((uint) bs[0]   << 16)
 		| ((uint) bs[1] << 8)
 		| bs[2];
 
-	internal static uint BE_To_UInt24(byte[] bs, int off) =>
+	internal static uint BigEndian_To_UInt24(byte[] bs, int off) =>
 		((uint) bs[off]       << 16)
 		| ((uint) bs[off + 1] << 8)
 		| bs[off + 2];
 
-	internal static void UInt32_To_BE(uint n, byte[] bs) => BinaryPrimitives.WriteUInt32BigEndian(bs, n);
+	internal static void UInt32_To_BigEndian(uint n, byte[] bs) => BinaryPrimitives.WriteUInt32BigEndian(bs, n);
 
-	internal static void UInt32_To_BE(uint n, byte[] bs, int off) => BinaryPrimitives.WriteUInt32BigEndian(bs.AsSpan(off), n);
+	internal static void UInt32_To_BigEndian(uint n, byte[] bs, int off) => BinaryPrimitives.WriteUInt32BigEndian(bs.AsSpan(off), n);
 
-	internal static void UInt32_To_BE_High(uint n, byte[] bs, int off, int len)
+	internal static void UInt32_To_BigEndian_High(uint n, byte[] bs, int off, int len)
 	{
 		Debug.Assert(len is >= 1 and <= 4);
 
@@ -108,47 +108,47 @@ public static class Pack
 		}
 	}
 
-	internal static void UInt32_To_BE_Low(uint n, byte[] bs, int off, int len) => UInt32_To_BE_High(n << ((4 - len) << 3), bs, off, len);
+	internal static void UInt32_To_BigEndian_Low(uint n, byte[] bs, int off, int len) => UInt32_To_BigEndian_High(n << ((4 - len) << 3), bs, off, len);
 
-	internal static void UInt32_To_BE(uint[] ns, byte[] bs, int off)
+	internal static void UInt32_To_BigEndian(uint[] ns, byte[] bs, int off)
 	{
 		foreach (var t in ns)
 		{
-			UInt32_To_BE(t, bs, off);
+			UInt32_To_BigEndian(t, bs, off);
 			off += 4;
 		}
 	}
 
-	internal static void UInt32_To_BE(uint[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
+	internal static void UInt32_To_BigEndian(uint[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			UInt32_To_BE(ns[nsOff + i], bs, bsOff);
+			UInt32_To_BigEndian(ns[nsOff + i], bs, bsOff);
 			bsOff += 4;
 		}
 	}
 
-	internal static byte[] UInt32_To_BE(uint n)
+	internal static byte[] UInt32_To_BigEndian(uint n)
 	{
 		var bs = new byte[4];
-		UInt32_To_BE(n, bs, 0);
+		UInt32_To_BigEndian(n, bs, 0);
 		return bs;
 	}
 
-	internal static byte[] UInt32_To_BE(uint[] ns)
+	internal static byte[] UInt32_To_BigEndian(uint[] ns)
 	{
 		var bs = new byte[4 * ns.Length];
-		UInt32_To_BE(ns, bs, 0);
+		UInt32_To_BigEndian(ns, bs, 0);
 		return bs;
 	}
 
-	internal static uint BE_To_UInt32(byte[] bs) => BinaryPrimitives.ReadUInt32BigEndian(bs);
+	internal static uint BigEndian_To_UInt32(byte[] bs) => BinaryPrimitives.ReadUInt32BigEndian(bs);
 
-	internal static uint BE_To_UInt32(byte[] bs, int off) => BinaryPrimitives.ReadUInt32BigEndian(bs.AsSpan(off));
+	internal static uint BigEndian_To_UInt32(byte[] bs, int off) => BinaryPrimitives.ReadUInt32BigEndian(bs.AsSpan(off));
 
-	internal static uint BE_To_UInt32_High(byte[] bs, int off, int len) => BE_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
+	internal static uint BigEndian_To_UInt32_High(byte[] bs, int off, int len) => BigEndian_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
 
-	internal static uint BE_To_UInt32_Low(byte[] bs, int off, int len)
+	internal static uint BigEndian_To_UInt32_Low(byte[] bs, int off, int len)
 	{
 		Debug.Assert(len is >= 1 and <= 4);
 
@@ -162,36 +162,36 @@ public static class Pack
 		return result;
 	}
 
-	internal static void BE_To_UInt32(byte[] bs, int off, uint[] ns)
+	internal static void BigEndian_To_UInt32(byte[] bs, int off, uint[] ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] =  BE_To_UInt32(bs, off);
+			ns[i] =  BigEndian_To_UInt32(bs, off);
 			off   += 4;
 		}
 	}
 
-	internal static void BE_To_UInt32(byte[] bs, int bsOff, uint[] ns, int nsOff, int nsLen)
+	internal static void BigEndian_To_UInt32(byte[] bs, int bsOff, uint[] ns, int nsOff, int nsLen)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			ns[nsOff + i] =  BE_To_UInt32(bs, bsOff);
+			ns[nsOff + i] =  BigEndian_To_UInt32(bs, bsOff);
 			bsOff         += 4;
 		}
 	}
 
-	internal static byte[] UInt64_To_BE(ulong n)
+	internal static byte[] UInt64_To_BigEndian(ulong n)
 	{
 		var bs = new byte[8];
-		UInt64_To_BE(n, bs, 0);
+		UInt64_To_BigEndian(n, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt64_To_BE(ulong n, byte[] bs) => BinaryPrimitives.WriteUInt64BigEndian(bs, n);
+	internal static void UInt64_To_BigEndian(ulong n, byte[] bs) => BinaryPrimitives.WriteUInt64BigEndian(bs, n);
 
-	internal static void UInt64_To_BE(ulong n, byte[] bs, int off) => BinaryPrimitives.WriteUInt64BigEndian(bs.AsSpan(off), n);
+	internal static void UInt64_To_BigEndian(ulong n, byte[] bs, int off) => BinaryPrimitives.WriteUInt64BigEndian(bs.AsSpan(off), n);
 
-	internal static void UInt64_To_BE_High(ulong n, byte[] bs, int off, int len)
+	internal static void UInt64_To_BigEndian_High(ulong n, byte[] bs, int off, int len)
 	{
 		Debug.Assert(len is >= 1 and <= 8);
 
@@ -204,40 +204,40 @@ public static class Pack
 		}
 	}
 
-	internal static void UInt64_To_BE_Low(ulong n, byte[] bs, int off, int len) => UInt64_To_BE_High(n << ((8 - len) << 3), bs, off, len);
+	internal static void UInt64_To_BigEndian_Low(ulong n, byte[] bs, int off, int len) => UInt64_To_BigEndian_High(n << ((8 - len) << 3), bs, off, len);
 
-	internal static byte[] UInt64_To_BE(ulong[] ns)
+	internal static byte[] UInt64_To_BigEndian(ulong[] ns)
 	{
 		var bs = new byte[8 * ns.Length];
-		UInt64_To_BE(ns, bs, 0);
+		UInt64_To_BigEndian(ns, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt64_To_BE(ulong[] ns, byte[] bs, int off)
+	internal static void UInt64_To_BigEndian(ulong[] ns, byte[] bs, int off)
 	{
 		foreach (var t in ns)
 		{
-			UInt64_To_BE(t, bs, off);
+			UInt64_To_BigEndian(t, bs, off);
 			off += 8;
 		}
 	}
 
-	internal static void UInt64_To_BE(ulong[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
+	internal static void UInt64_To_BigEndian(ulong[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			UInt64_To_BE(ns[nsOff + i], bs, bsOff);
+			UInt64_To_BigEndian(ns[nsOff + i], bs, bsOff);
 			bsOff += 8;
 		}
 	}
 
-	internal static ulong BE_To_UInt64(byte[] bs) => BinaryPrimitives.ReadUInt64BigEndian(bs);
+	internal static ulong BigEndian_To_UInt64(byte[] bs) => BinaryPrimitives.ReadUInt64BigEndian(bs);
 
-	internal static ulong BE_To_UInt64(byte[] bs, int off) => BinaryPrimitives.ReadUInt64BigEndian(bs.AsSpan(off));
+	internal static ulong BigEndian_To_UInt64(byte[] bs, int off) => BinaryPrimitives.ReadUInt64BigEndian(bs.AsSpan(off));
 
-	internal static ulong BE_To_UInt64_High(byte[] bs, int off, int len) => BE_To_UInt64_Low(bs, off, len) << ((8 - len) << 3);
+	internal static ulong BigEndian_To_UInt64_High(byte[] bs, int off, int len) => BigEndian_To_UInt64_Low(bs, off, len) << ((8 - len) << 3);
 
-	internal static ulong BE_To_UInt64_Low(byte[] bs, int off, int len)
+	internal static ulong BigEndian_To_UInt64_Low(byte[] bs, int off, int len)
 	{
 		Debug.Assert(len is >= 1 and <= 8);
 
@@ -251,137 +251,137 @@ public static class Pack
 		return result;
 	}
 
-	internal static void BE_To_UInt64(byte[] bs, int off, ulong[] ns)
+	internal static void BigEndian_To_UInt64(byte[] bs, int off, ulong[] ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] =  BE_To_UInt64(bs, off);
+			ns[i] =  BigEndian_To_UInt64(bs, off);
 			off   += 8;
 		}
 	}
 
-	internal static void BE_To_UInt64(byte[] bs, int bsOff, ulong[] ns, int nsOff, int nsLen)
+	internal static void BigEndian_To_UInt64(byte[] bs, int bsOff, ulong[] ns, int nsOff, int nsLen)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			ns[nsOff + i] =  BE_To_UInt64(bs, bsOff);
+			ns[nsOff + i] =  BigEndian_To_UInt64(bs, bsOff);
 			bsOff         += 8;
 		}
 	}
 
-	internal static void UInt16_To_LE(ushort n, byte[] bs) => BinaryPrimitives.WriteUInt16LittleEndian(bs, n);
+	internal static void UInt16_To_LittleEndian(ushort n, byte[] bs) => BinaryPrimitives.WriteUInt16LittleEndian(bs, n);
 
-	internal static void UInt16_To_LE(ushort n, byte[] bs, int off) => BinaryPrimitives.WriteUInt16LittleEndian(bs.AsSpan(off), n);
+	internal static void UInt16_To_LittleEndian(ushort n, byte[] bs, int off) => BinaryPrimitives.WriteUInt16LittleEndian(bs.AsSpan(off), n);
 
-	internal static byte[] UInt16_To_LE(ushort n)
+	internal static byte[] UInt16_To_LittleEndian(ushort n)
 	{
 		var bs = new byte[2];
-		UInt16_To_LE(n, bs, 0);
+		UInt16_To_LittleEndian(n, bs, 0);
 		return bs;
 	}
 
-	internal static byte[] UInt16_To_LE(ushort[] ns)
+	internal static byte[] UInt16_To_LittleEndian(ushort[] ns)
 	{
 		var bs = new byte[2 * ns.Length];
-		UInt16_To_LE(ns, bs, 0);
+		UInt16_To_LittleEndian(ns, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt16_To_LE(ushort[] ns, byte[] bs, int off)
+	internal static void UInt16_To_LittleEndian(ushort[] ns, byte[] bs, int off)
 	{
 		foreach (var t in ns)
 		{
-			UInt16_To_LE(t, bs, off);
+			UInt16_To_LittleEndian(t, bs, off);
 			off += 2;
 		}
 	}
 
-	internal static void UInt16_To_LE(ushort[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
+	internal static void UInt16_To_LittleEndian(ushort[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			UInt16_To_LE(ns[nsOff + i], bs, bsOff);
+			UInt16_To_LittleEndian(ns[nsOff + i], bs, bsOff);
 			bsOff += 2;
 		}
 	}
 
-	internal static ushort LE_To_UInt16(byte[] bs) => BinaryPrimitives.ReadUInt16LittleEndian(bs);
+	internal static ushort LittleEndian_To_UInt16(byte[] bs) => BinaryPrimitives.ReadUInt16LittleEndian(bs);
 
-	internal static ushort LE_To_UInt16(byte[] bs, int off) => BinaryPrimitives.ReadUInt16LittleEndian(bs.AsSpan(off));
+	internal static ushort LittleEndian_To_UInt16(byte[] bs, int off) => BinaryPrimitives.ReadUInt16LittleEndian(bs.AsSpan(off));
 
-	internal static void LE_To_UInt16(byte[] bs, int off, ushort[] ns)
+	internal static void LittleEndian_To_UInt16(byte[] bs, int off, ushort[] ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] =  LE_To_UInt16(bs, off);
+			ns[i] =  LittleEndian_To_UInt16(bs, off);
 			off   += 2;
 		}
 	}
 
-	internal static void LE_To_UInt16(byte[] bs, int bOff, ushort[] ns, int nOff, int count)
+	internal static void LittleEndian_To_UInt16(byte[] bs, int bOff, ushort[] ns, int nOff, int count)
 	{
 		for (var i = 0; i < count; ++i)
 		{
-			ns[nOff + i] =  LE_To_UInt16(bs, bOff);
+			ns[nOff + i] =  LittleEndian_To_UInt16(bs, bOff);
 			bOff         += 2;
 		}
 	}
 
-	internal static ushort[] LE_To_UInt16(byte[] bs, int off, int count)
+	internal static ushort[] LittleEndian_To_UInt16(byte[] bs, int off, int count)
 	{
 		var ns = new ushort[count];
-		LE_To_UInt16(bs, off, ns);
+		LittleEndian_To_UInt16(bs, off, ns);
 		return ns;
 	}
 
-	internal static byte[] UInt32_To_LE(uint n)
+	internal static byte[] UInt32_To_LittleEndian(uint n)
 	{
 		var bs = new byte[4];
-		UInt32_To_LE(n, bs, 0);
+		UInt32_To_LittleEndian(n, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt32_To_LE(uint n, byte[] bs) => BinaryPrimitives.WriteUInt32LittleEndian(bs, n);
+	internal static void UInt32_To_LittleEndian(uint n, byte[] bs) => BinaryPrimitives.WriteUInt32LittleEndian(bs, n);
 
-	internal static void UInt32_To_LE(uint n, byte[] bs, int off) => BinaryPrimitives.WriteUInt32LittleEndian(bs.AsSpan(off), n);
+	internal static void UInt32_To_LittleEndian(uint n, byte[] bs, int off) => BinaryPrimitives.WriteUInt32LittleEndian(bs.AsSpan(off), n);
 
-	internal static byte[] UInt32_To_LE(uint[] ns)
+	internal static byte[] UInt32_To_LittleEndian(uint[] ns)
 	{
 		var bs = new byte[4 * ns.Length];
-		UInt32_To_LE(ns, bs, 0);
+		UInt32_To_LittleEndian(ns, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt32_To_LE(uint[] ns, byte[] bs, int off)
+	internal static void UInt32_To_LittleEndian(uint[] ns, byte[] bs, int off)
 	{
 		foreach (var t in ns)
 		{
-			UInt32_To_LE(t, bs, off);
+			UInt32_To_LittleEndian(t, bs, off);
 			off += 4;
 		}
 	}
 
-	internal static void UInt32_To_LE(uint[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
+	internal static void UInt32_To_LittleEndian(uint[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			UInt32_To_LE(ns[nsOff + i], bs, bsOff);
+			UInt32_To_LittleEndian(ns[nsOff + i], bs, bsOff);
 			bsOff += 4;
 		}
 	}
 
-	internal static uint LE_To_UInt24(byte[] bs, int off) =>
+	internal static uint LittleEndian_To_UInt24(byte[] bs, int off) =>
 		bs[off]
 		| ((uint) bs[off + 1] << 8)
 		| ((uint) bs[off + 2] << 16);
 
-	internal static uint LE_To_UInt32(byte[] bs) => BinaryPrimitives.ReadUInt32LittleEndian(bs);
+	internal static uint LittleEndian_To_UInt32(byte[] bs) => BinaryPrimitives.ReadUInt32LittleEndian(bs);
 
-	internal static uint LE_To_UInt32(byte[] bs, int off) => BinaryPrimitives.ReadUInt32LittleEndian(bs.AsSpan(off));
+	internal static uint LittleEndian_To_UInt32(byte[] bs, int off) => BinaryPrimitives.ReadUInt32LittleEndian(bs.AsSpan(off));
 
-	internal static uint LE_To_UInt32_High(byte[] bs, int off, int len) => LE_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
+	internal static uint LittleEndian_To_UInt32_High(byte[] bs, int off, int len) => LittleEndian_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
 
-	internal static uint LE_To_UInt32_Low(byte[] bs, int off, int len)
+	internal static uint LittleEndian_To_UInt32_Low(byte[] bs, int off, int len)
 	{
 		Debug.Assert(len is >= 1 and <= 4);
 
@@ -396,116 +396,116 @@ public static class Pack
 		return result;
 	}
 
-	internal static void LE_To_UInt32(byte[] bs, int off, uint[] ns)
+	internal static void LittleEndian_To_UInt32(byte[] bs, int off, uint[] ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] =  LE_To_UInt32(bs, off);
+			ns[i] =  LittleEndian_To_UInt32(bs, off);
 			off   += 4;
 		}
 	}
 
-	internal static void LE_To_UInt32(byte[] bs, int bOff, uint[] ns, int nOff, int count)
+	internal static void LittleEndian_To_UInt32(byte[] bs, int bOff, uint[] ns, int nOff, int count)
 	{
 		for (var i = 0; i < count; ++i)
 		{
-			ns[nOff + i] =  LE_To_UInt32(bs, bOff);
+			ns[nOff + i] =  LittleEndian_To_UInt32(bs, bOff);
 			bOff         += 4;
 		}
 	}
 
-	internal static uint[] LE_To_UInt32(byte[] bs, int off, int count)
+	internal static uint[] LittleEndian_To_UInt32(byte[] bs, int off, int count)
 	{
 		var ns = new uint[count];
-		LE_To_UInt32(bs, off, ns);
+		LittleEndian_To_UInt32(bs, off, ns);
 		return ns;
 	}
 
-	internal static byte[] UInt64_To_LE(ulong n)
+	internal static byte[] UInt64_To_LittleEndian(ulong n)
 	{
 		var bs = new byte[8];
-		UInt64_To_LE(n, bs, 0);
+		UInt64_To_LittleEndian(n, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt64_To_LE(ulong n, byte[] bs) => BinaryPrimitives.WriteUInt64LittleEndian(bs, n);
+	internal static void UInt64_To_LittleEndian(ulong n, byte[] bs) => BinaryPrimitives.WriteUInt64LittleEndian(bs, n);
 
-	internal static void UInt64_To_LE(ulong n, byte[] bs, int off) => BinaryPrimitives.WriteUInt64LittleEndian(bs.AsSpan(off), n);
+	internal static void UInt64_To_LittleEndian(ulong n, byte[] bs, int off) => BinaryPrimitives.WriteUInt64LittleEndian(bs.AsSpan(off), n);
 
-	internal static byte[] UInt64_To_LE(ulong[] ns)
+	internal static byte[] UInt64_To_LittleEndian(ulong[] ns)
 	{
 		var bs = new byte[8 * ns.Length];
-		UInt64_To_LE(ns, bs, 0);
+		UInt64_To_LittleEndian(ns, bs, 0);
 		return bs;
 	}
 
-	internal static void UInt64_To_LE(ulong[] ns, byte[] bs, int off)
+	internal static void UInt64_To_LittleEndian(ulong[] ns, byte[] bs, int off)
 	{
 		foreach (var t in ns)
 		{
-			UInt64_To_LE(t, bs, off);
+			UInt64_To_LittleEndian(t, bs, off);
 			off += 8;
 		}
 	}
 
-	internal static void UInt64_To_LE(ulong[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
+	internal static void UInt64_To_LittleEndian(ulong[] ns, int nsOff, int nsLen, byte[] bs, int bsOff)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			UInt64_To_LE(ns[nsOff + i], bs, bsOff);
+			UInt64_To_LittleEndian(ns[nsOff + i], bs, bsOff);
 			bsOff += 8;
 		}
 	}
 
-	internal static ulong LE_To_UInt64(byte[] bs) => BinaryPrimitives.ReadUInt64LittleEndian(bs);
+	internal static ulong LittleEndian_To_UInt64(byte[] bs) => BinaryPrimitives.ReadUInt64LittleEndian(bs);
 
-	internal static ulong LE_To_UInt64(byte[] bs, int off) => BinaryPrimitives.ReadUInt64LittleEndian(bs.AsSpan(off));
+	internal static ulong LittleEndian_To_UInt64(byte[] bs, int off) => BinaryPrimitives.ReadUInt64LittleEndian(bs.AsSpan(off));
 
-	internal static void LE_To_UInt64(byte[] bs, int off, ulong[] ns)
+	internal static void LittleEndian_To_UInt64(byte[] bs, int off, ulong[] ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] =  LE_To_UInt64(bs, off);
+			ns[i] =  LittleEndian_To_UInt64(bs, off);
 			off   += 8;
 		}
 	}
 
-	internal static void LE_To_UInt64(byte[] bs, int bsOff, ulong[] ns, int nsOff, int nsLen)
+	internal static void LittleEndian_To_UInt64(byte[] bs, int bsOff, ulong[] ns, int nsOff, int nsLen)
 	{
 		for (var i = 0; i < nsLen; ++i)
 		{
-			ns[nsOff + i] =  LE_To_UInt64(bs, bsOff);
+			ns[nsOff + i] =  LittleEndian_To_UInt64(bs, bsOff);
 			bsOff         += 8;
 		}
 	}
 
-	internal static ulong[] LE_To_UInt64(byte[] bs, int off, int count)
+	internal static ulong[] LittleEndian_To_UInt64(byte[] bs, int off, int count)
 	{
 		var ns = new ulong[count];
-		LE_To_UInt64(bs, off, ns);
+		LittleEndian_To_UInt64(bs, off, ns);
 		return ns;
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint BE_To_UInt32(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt32BigEndian(bs);
+	internal static uint BigEndian_To_UInt32(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt32BigEndian(bs);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint BE_To_UInt32(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt32BigEndian(bs[off..]);
+	internal static uint BigEndian_To_UInt32(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt32BigEndian(bs[off..]);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void BE_To_UInt32(ReadOnlySpan<byte> bs, Span<uint> ns)
+	internal static void BigEndian_To_UInt32(ReadOnlySpan<byte> bs, Span<uint> ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] = BE_To_UInt32(bs);
+			ns[i] = BigEndian_To_UInt32(bs);
 			bs    = bs[4..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint BE_To_UInt32_High(ReadOnlySpan<byte> bs) => BE_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
+	internal static uint BigEndian_To_UInt32_High(ReadOnlySpan<byte> bs) => BigEndian_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
 
-	internal static uint BE_To_UInt32_Low(ReadOnlySpan<byte> bs)
+	internal static uint BigEndian_To_UInt32_Low(ReadOnlySpan<byte> bs)
 	{
 		var len = bs.Length;
 		Debug.Assert(len is >= 1 and <= 4);
@@ -521,25 +521,25 @@ public static class Pack
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong BE_To_UInt64(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt64BigEndian(bs);
+	internal static ulong BigEndian_To_UInt64(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt64BigEndian(bs);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong BE_To_UInt64(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt64BigEndian(bs[off..]);
+	internal static ulong BigEndian_To_UInt64(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt64BigEndian(bs[off..]);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void BE_To_UInt64(ReadOnlySpan<byte> bs, Span<ulong> ns)
+	internal static void BigEndian_To_UInt64(ReadOnlySpan<byte> bs, Span<ulong> ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] = BE_To_UInt64(bs);
+			ns[i] = BigEndian_To_UInt64(bs);
 			bs    = bs[8..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong BE_To_UInt64_High(ReadOnlySpan<byte> bs) => BE_To_UInt64_Low(bs) << ((8 - bs.Length) << 3);
+	internal static ulong BigEndian_To_UInt64_High(ReadOnlySpan<byte> bs) => BigEndian_To_UInt64_Low(bs) << ((8 - bs.Length) << 3);
 
-	internal static ulong BE_To_UInt64_Low(ReadOnlySpan<byte> bs)
+	internal static ulong BigEndian_To_UInt64_Low(ReadOnlySpan<byte> bs)
 	{
 		var len = bs.Length;
 		Debug.Assert(len is >= 1 and <= 8);
@@ -555,38 +555,38 @@ public static class Pack
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ushort LE_To_UInt16(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt16LittleEndian(bs);
+	internal static ushort LittleEndian_To_UInt16(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt16LittleEndian(bs);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void LE_To_UInt16(ReadOnlySpan<byte> bs, Span<ushort> ns)
+	internal static void LittleEndian_To_UInt16(ReadOnlySpan<byte> bs, Span<ushort> ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] = LE_To_UInt16(bs);
+			ns[i] = LittleEndian_To_UInt16(bs);
 			bs    = bs[2..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint LE_To_UInt32(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt32LittleEndian(bs);
+	internal static uint LittleEndian_To_UInt32(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt32LittleEndian(bs);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint LE_To_UInt32(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt32LittleEndian(bs[off..]);
+	internal static uint LittleEndian_To_UInt32(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt32LittleEndian(bs[off..]);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void LE_To_UInt32(ReadOnlySpan<byte> bs, Span<uint> ns)
+	internal static void LittleEndian_To_UInt32(ReadOnlySpan<byte> bs, Span<uint> ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] = LE_To_UInt32(bs);
+			ns[i] = LittleEndian_To_UInt32(bs);
 			bs    = bs[4..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint LE_To_UInt32_High(ReadOnlySpan<byte> bs) => LE_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
+	internal static uint LittleEndian_To_UInt32_High(ReadOnlySpan<byte> bs) => LittleEndian_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
 
-	internal static uint LE_To_UInt32_Low(ReadOnlySpan<byte> bs)
+	internal static uint LittleEndian_To_UInt32_Low(ReadOnlySpan<byte> bs)
 	{
 		var len = bs.Length;
 		Debug.Assert(len is >= 1 and <= 4);
@@ -603,60 +603,60 @@ public static class Pack
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong LE_To_UInt64(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt64LittleEndian(bs);
+	internal static ulong LittleEndian_To_UInt64(ReadOnlySpan<byte> bs) => BinaryPrimitives.ReadUInt64LittleEndian(bs);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong LE_To_UInt64(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt64LittleEndian(bs[off..]);
+	internal static ulong LittleEndian_To_UInt64(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt64LittleEndian(bs[off..]);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void LE_To_UInt64(ReadOnlySpan<byte> bs, Span<ulong> ns)
+	internal static void LittleEndian_To_UInt64(ReadOnlySpan<byte> bs, Span<ulong> ns)
 	{
 		for (var i = 0; i < ns.Length; ++i)
 		{
-			ns[i] = LE_To_UInt64(bs);
+			ns[i] = LittleEndian_To_UInt64(bs);
 			bs    = bs[8..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt16_To_BE(ushort n, Span<byte> bs)
+	internal static void UInt16_To_BigEndian(ushort n, Span<byte> bs)
 	{
 		BinaryPrimitives.WriteUInt16BigEndian(bs, n);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt16_To_BE(ReadOnlySpan<ushort> ns, Span<byte> bs)
+	internal static void UInt16_To_BigEndian(ReadOnlySpan<ushort> ns, Span<byte> bs)
 	{
 		foreach (var t in ns)
 		{
-			UInt16_To_BE(t, bs);
+			UInt16_To_BigEndian(t, bs);
 			bs = bs[2..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt16_To_LE(ushort n, Span<byte> bs)
+	internal static void UInt16_To_LittleEndian(ushort n, Span<byte> bs)
 	{
 		BinaryPrimitives.WriteUInt16LittleEndian(bs, n);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt16_To_LE(ReadOnlySpan<ushort> ns, Span<byte> bs)
+	internal static void UInt16_To_LittleEndian(ReadOnlySpan<ushort> ns, Span<byte> bs)
 	{
 		foreach (var t in ns)
 		{
-			UInt16_To_LE(t, bs);
+			UInt16_To_LittleEndian(t, bs);
 			bs = bs[2..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt32_To_BE(uint n, Span<byte> bs)
+	internal static void UInt32_To_BigEndian(uint n, Span<byte> bs)
 	{
 		BinaryPrimitives.WriteUInt32BigEndian(bs, n);
 	}
 
-	internal static void UInt32_To_BE_High(uint n, Span<byte> bs)
+	internal static void UInt32_To_BigEndian_High(uint n, Span<byte> bs)
 	{
 		var len = bs.Length;
 		Debug.Assert(len is >= 1 and <= 4);
@@ -671,38 +671,38 @@ public static class Pack
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt32_To_BE_Low(uint n, Span<byte> bs)
+	internal static void UInt32_To_BigEndian_Low(uint n, Span<byte> bs)
 	{
-		UInt32_To_BE_High(n << ((4 - bs.Length) << 3), bs);
+		UInt32_To_BigEndian_High(n << ((4 - bs.Length) << 3), bs);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt32_To_BE(ReadOnlySpan<uint> ns, Span<byte> bs)
+	internal static void UInt32_To_BigEndian(ReadOnlySpan<uint> ns, Span<byte> bs)
 	{
 		foreach (var t in ns)
 		{
-			UInt32_To_BE(t, bs);
+			UInt32_To_BigEndian(t, bs);
 			bs = bs[4..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt32_To_LE(uint n, Span<byte> bs) => BinaryPrimitives.WriteUInt32LittleEndian(bs, n);
+	internal static void UInt32_To_LittleEndian(uint n, Span<byte> bs) => BinaryPrimitives.WriteUInt32LittleEndian(bs, n);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt32_To_LE(ReadOnlySpan<uint> ns, Span<byte> bs)
+	internal static void UInt32_To_LittleEndian(ReadOnlySpan<uint> ns, Span<byte> bs)
 	{
 		foreach (var t in ns)
 		{
-			UInt32_To_LE(t, bs);
+			UInt32_To_LittleEndian(t, bs);
 			bs = bs[4..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_BE(ulong n, Span<byte> bs) => BinaryPrimitives.WriteUInt64BigEndian(bs, n);
+	internal static void UInt64_To_BigEndian(ulong n, Span<byte> bs) => BinaryPrimitives.WriteUInt64BigEndian(bs, n);
 
-	internal static void UInt64_To_BE_High(ulong n, Span<byte> bs)
+	internal static void UInt64_To_BigEndian_High(ulong n, Span<byte> bs)
 	{
 		var len = bs.Length;
 		Debug.Assert(len is >= 1 and <= 8);
@@ -717,27 +717,27 @@ public static class Pack
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_BE_Low(ulong n, Span<byte> bs) => UInt64_To_BE_High(n << ((8 - bs.Length) << 3), bs);
+	internal static void UInt64_To_BigEndian_Low(ulong n, Span<byte> bs) => UInt64_To_BigEndian_High(n << ((8 - bs.Length) << 3), bs);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_BE(ReadOnlySpan<ulong> ns, Span<byte> bs)
+	internal static void UInt64_To_BigEndian(ReadOnlySpan<ulong> ns, Span<byte> bs)
 	{
 		foreach (var t in ns)
 		{
-			UInt64_To_BE(t, bs);
+			UInt64_To_BigEndian(t, bs);
 			bs = bs[8..];
 		}
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_LE(ulong n, Span<byte> bs) => BinaryPrimitives.WriteUInt64LittleEndian(bs, n);
+	internal static void UInt64_To_LittleEndian(ulong n, Span<byte> bs) => BinaryPrimitives.WriteUInt64LittleEndian(bs, n);
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_LE(ReadOnlySpan<ulong> ns, Span<byte> bs)
+	internal static void UInt64_To_LittleEndian(ReadOnlySpan<ulong> ns, Span<byte> bs)
 	{
 		foreach (var t in ns)
 		{
-			UInt64_To_LE(t, bs);
+			UInt64_To_LittleEndian(t, bs);
 			bs = bs[8..];
 		}
 	}

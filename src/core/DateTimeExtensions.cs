@@ -12,6 +12,16 @@ namespace core;
 public static class DateTimeExtensions
 {
 	/// <summary>
+	///   The maximum unix ms
+	/// </summary>
+	public static readonly long MaxUnixMs = (DateTime.MaxValue.Ticks - GetUnixEpoch().Ticks) / TimeSpan.TicksPerMillisecond;
+
+	/// <summary>
+	///   The minimum unix ms
+	/// </summary>
+	public static readonly long MinUnixMs = 0L;
+
+	/// <summary>
 	///   Gets the value for yesterday.
 	/// </summary>
 	/// <value>The yesterday.</value>
@@ -203,12 +213,68 @@ public static class DateTimeExtensions
 	}
 
 	/// <summary>
+	///   Converts to unix epoch time in ms.
+	/// </summary>
+	/// <param name="asOf">As of.</param>
+	/// <returns>System.Int64.</returns>
+	/// <exception cref="System.ArgumentOutOfRangeException">asOf - DateTime value may not be before the epoch</exception>
+	public static long ToUnixEpochTimeMs(this DateTime asOf)
+	{
+		var ue  = GetUnixEpoch();
+		var utc = asOf.ToUniversalTime();
+		if (utc.CompareTo(ue) < 0)
+			throw new ArgumentOutOfRangeException(nameof(asOf), "DateTime value may not be before the epoch");
+
+		return (utc.Ticks - ue.Ticks) / TimeSpan.TicksPerMillisecond;
+	}
+
+	public static long CurrentUnixMs() => ToUnixEpochTimeMs(DateTime.UtcNow);
+
+	/// <summary>
+	///   Converts to date time from unix epoch time in ms.
+	/// </summary>
+	/// <param name="unixMs">The unix ms.</param>
+	/// <returns>DateTime.</returns>
+	/// <exception cref="System.ArgumentOutOfRangeException">unixMs</exception>
+	public static DateTime FromUnixMs(long unixMs)
+	{
+		if (unixMs < MinUnixMs || unixMs > MaxUnixMs)
+			throw new ArgumentOutOfRangeException(nameof(unixMs));
+
+		return new DateTime(unixMs * TimeSpan.TicksPerMillisecond + GetUnixEpoch().Ticks, DateTimeKind.Utc);
+	}
+
+	/// <summary>
 	///   Gets the ticks.
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="modifier">The modifier.</param>
 	/// <returns>System.Int64.</returns>
 	private static long GetTicks(DateTime value, int? modifier = 0) => value.AddSeconds(modifier ?? 0).Ticks;
+
+	public static DateTime WithPrecisionCentisecond(DateTime dateTime)
+	{
+		var ticks = dateTime.Ticks - dateTime.Ticks % (TimeSpan.TicksPerMillisecond * 10L);
+		return new DateTime(ticks, dateTime.Kind);
+	}
+
+	public static DateTime WithPrecisionDecisecond(DateTime dateTime)
+	{
+		var ticks = dateTime.Ticks - dateTime.Ticks % (TimeSpan.TicksPerMillisecond * 100L);
+		return new DateTime(ticks, dateTime.Kind);
+	}
+
+	public static DateTime WithPrecisionMillisecond(DateTime dateTime)
+	{
+		var ticks = dateTime.Ticks - dateTime.Ticks % TimeSpan.TicksPerMillisecond;
+		return new DateTime(ticks, dateTime.Kind);
+	}
+
+	public static DateTime WithPrecisionSecond(DateTime dateTime)
+	{
+		var ticks = dateTime.Ticks - dateTime.Ticks % TimeSpan.TicksPerSecond;
+		return new DateTime(ticks, dateTime.Kind);
+	}
 
 	/// <summary>
 	///   Returns the time zone information based on the provided id,

@@ -50,6 +50,8 @@ public static partial class StringExtensions
 		return passwordChar.Repeat(newLen);
 	}
 
+	public static bool EqualsIgnoreCase(this string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+
 	/// <summary>
 	///   Repeats the specified count.
 	/// </summary>
@@ -99,15 +101,6 @@ public static partial class StringExtensions
 		output.Append(ellipsis);
 		return output.ToString();
 	}
-
-	/// <summary>
-	///   Provides a string contains method with comparison options
-	/// </summary>
-	/// <param name="source">The string to test</param>
-	/// <param name="value">The value to find</param>
-	/// <param name="comparison">The comparison type</param>
-	/// <returns></returns>
-	public static bool Contains(this string source, string value, StringComparison comparison) => source.IndexOf(value, comparison) >= 0;
 
 	/// <summary>
 	///   Indicates whether this string contains any one of these substrings
@@ -565,5 +558,54 @@ public static partial class StringExtensions
 		if (condition     == null) throw new ArgumentNullException(nameof(condition));
 
 		if (condition()) stringBuilder.Append(val);
+	}
+
+	public static string FromAsciiByteArray(this byte[] bytes)                       => Encoding.ASCII.GetString(bytes);
+	public static byte[] ToAsciiByteArray(this   char[] cs)                          => Encoding.ASCII.GetBytes(cs);
+	public static byte[] ToAsciiByteArray(this   string s)                           => Encoding.ASCII.GetBytes(s);
+	public static string FromUtf8ByteArray(this  byte[] bytes)                       => Encoding.UTF8.GetString(bytes);
+	public static string FromUtf8ByteArray(this  byte[] bytes, int index, int count) => Encoding.UTF8.GetString(bytes, index, count);
+	public static byte[] ToUtf8ByteArray(this    char[] cs) => Encoding.UTF8.GetBytes(cs);
+	public static byte[] ToUtf8ByteArray(this    string s)  => Encoding.UTF8.GetBytes(s);
+
+	public static byte[] ToUtf8ByteArray(this ReadOnlySpan<char> cs)
+	{
+		var count = Encoding.UTF8.GetByteCount(cs);
+		var bytes = new byte[count];
+		Encoding.UTF8.GetBytes(cs, bytes);
+		return bytes;
+	}
+
+	public static bool IsOneOf(this string s, params string[] candidates) => candidates.Any(candidate => s == candidate);
+
+
+	public static string FromByteArray(this byte[] bs) => string.Create(bs.Length, bs, (chars, bytes)
+		                                                                    =>
+	                                                                    {
+		                                                                    for (var i = 0; i < chars.Length; ++i) chars[i] = Convert.ToChar(bytes[i]);
+	                                                                    });
+
+	public static byte[] ToByteArray(this ReadOnlySpan<char> cs)
+	{
+		var bs = new byte[cs.Length];
+
+		for (var i = 0; i < bs.Length; ++i) bs[i] = Convert.ToByte(cs[i]);
+		return bs;
+	}
+
+	public static byte[] ToByteArray(this char[] cs)
+	{
+		var bs = new byte[cs.Length];
+
+		for (var i = 0; i < bs.Length; ++i) bs[i] = Convert.ToByte(cs[i]);
+		return bs;
+	}
+
+	public static byte[] ToByteArray(this string s)
+	{
+		var bs = new byte[s.Length];
+
+		for (var i = 0; i < bs.Length; ++i) bs[i] = Convert.ToByte(s[i]);
+		return bs;
 	}
 }
