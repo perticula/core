@@ -7,12 +7,32 @@
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Class Asn1SetParser.
+///   Implements the <see cref="core.Protocol.asn1.IAsn1SetParser" />
+/// </summary>
+/// <seealso cref="core.Protocol.asn1.IAsn1SetParser" />
 public class Asn1SetParser : IAsn1SetParser
 {
-	private readonly int     _max;
-	private readonly Asn1Set _outer;
-	private          int     _index;
+	/// <summary>
+	///   The maximum
+	/// </summary>
+	private readonly int _max;
 
+	/// <summary>
+	///   The outer
+	/// </summary>
+	private readonly Asn1Set _outer;
+
+	/// <summary>
+	///   The index
+	/// </summary>
+	private int _index;
+
+	/// <summary>
+	///   Initializes a new instance of the <see cref="Asn1SetParser" /> class.
+	/// </summary>
+	/// <param name="outer">The outer.</param>
 	public Asn1SetParser(
 		Asn1Set outer)
 	{
@@ -20,8 +40,16 @@ public class Asn1SetParser : IAsn1SetParser
 		_max   = outer.Count;
 	}
 
+	/// <summary>
+	///   defined the conversion to and asn.1 object.
+	/// </summary>
+	/// <returns>Asn1Object.</returns>
 	public virtual Asn1Object ToAsn1Object() => _outer;
 
+	/// <summary>
+	///   Reads the object.
+	/// </summary>
+	/// <returns>IAsn1Convertable.</returns>
 	public IAsn1Convertable? ReadObject()
 	{
 		if (_index == _max) return null;

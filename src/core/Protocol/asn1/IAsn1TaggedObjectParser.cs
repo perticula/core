@@ -7,15 +7,51 @@
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Interface IAsn1TaggedObjectParser
+///   Implements the <see cref="core.Protocol.asn1.IAsn1Convertable" />
+/// </summary>
+/// <seealso cref="core.Protocol.asn1.IAsn1Convertable" />
 public interface IAsn1TaggedObjectParser : IAsn1Convertable
 {
+	/// <summary>
+	///   Gets the tag class.
+	/// </summary>
+	/// <value>The tag class.</value>
 	int TagClass { get; }
-	int TagNo    { get; }
 
+	/// <summary>
+	///   Gets the tag no.
+	/// </summary>
+	/// <value>The tag no.</value>
+	int TagNo { get; }
+
+	/// <summary>
+	///   Determines whether [has context tag].
+	/// </summary>
+	/// <returns><c>true</c> if [has context tag]; otherwise, <c>false</c>.</returns>
 	bool HasContextTag();
+
+	/// <summary>
+	///   Determines whether [has context tag] [the specified tag no].
+	/// </summary>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns><c>true</c> if [has context tag] [the specified tag no]; otherwise, <c>false</c>.</returns>
 	bool HasContextTag(int tagNo);
 
-	bool HasTag(int      tagClass, int tagNo);
+	/// <summary>
+	///   Determines whether the specified tag class has tag.
+	/// </summary>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns><c>true</c> if the specified tag class has tag; otherwise, <c>false</c>.</returns>
+	bool HasTag(int tagClass, int tagNo);
+
+	/// <summary>
+	///   Determines whether [has tag class] [the specified tag class].
+	/// </summary>
+	/// <param name="tagClass">The tag class.</param>
+	/// <returns><c>true</c> if [has tag class] [the specified tag class]; otherwise, <c>false</c>.</returns>
 	bool HasTagClass(int tagClass);
 
 	/// <summary>

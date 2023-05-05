@@ -7,6 +7,10 @@
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Interface IEncoding
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public interface IEncoding<in T>
 {
 	/// <summary>

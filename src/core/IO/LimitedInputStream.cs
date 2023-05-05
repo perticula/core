@@ -9,19 +9,19 @@ namespace core.IO;
 
 public class LimitedInputStream : BaseInputStream
 {
-	private readonly Stream _stream;
+	protected readonly Stream Stream;
 
-	internal LimitedInputStream(Stream stream, long limit)
+	internal LimitedInputStream(Stream stream, int limit)
 	{
-		_stream      = stream;
+		Stream       = stream;
 		CurrentLimit = limit;
 	}
 
-	internal long CurrentLimit { get; private set; }
+	internal int CurrentLimit { get; private set; }
 
 	public override int Read(byte[] buffer, int offset, int count)
 	{
-		var numRead = _stream.Read(buffer, offset, count);
+		var numRead = Stream.Read(buffer, offset, count);
 		return numRead switch
 		       {
 			       > 0 when (CurrentLimit -= numRead) < 0 => throw new StreamOverflowException("Data Overflow"),
@@ -29,9 +29,14 @@ public class LimitedInputStream : BaseInputStream
 		       };
 	}
 
+	protected void SetParentEofDetect()
+	{
+		if (Stream is IndefiniteLengthInputStream stream) stream.SetEofOn00(true);
+	}
+
 	public override int Read(Span<byte> buffer)
 	{
-		var numRead = _stream.Read(buffer);
+		var numRead = Stream.Read(buffer);
 		return numRead switch
 		       {
 			       > 0 when (CurrentLimit -= numRead) < 0 => throw new StreamOverflowException("Data Overflow"),
@@ -41,8 +46,8 @@ public class LimitedInputStream : BaseInputStream
 
 	public override int ReadByte()
 	{
-		var b = _stream.ReadByte();
-		if (b < 0) return b;
+		var b = Stream.ReadByte();
+		if (b              < 0) return b;
 		if (--CurrentLimit < 0) throw new StreamOverflowException("Data Overflow");
 		return b;
 	}

@@ -7,6 +7,9 @@
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Class Asn1Tag. This class cannot be inherited.
+/// </summary>
 public sealed class Asn1Tag
 {
 	/// <summary>
@@ -25,8 +28,17 @@ public sealed class Asn1Tag
 	/// </summary>
 	private Asn1Tag() { }
 
+	/// <summary>
+	///   Gets the tag class.
+	/// </summary>
+	/// <value>The tag class.</value>
 	public int TagClass { get; }
-	public int TagNo    { get; }
+
+	/// <summary>
+	///   Gets the tag no.
+	/// </summary>
+	/// <value>The tag no.</value>
+	public int TagNo { get; }
 
 	/// <summary>
 	///   Creates the specified tag class.

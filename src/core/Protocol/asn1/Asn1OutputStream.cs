@@ -9,50 +9,108 @@ using System.Buffers.Binary;
 using System.Diagnostics;
 using System.Numerics;
 using core.IO;
+using core.Protocol.asn1.der;
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Class Asn1OutputStream.
+///   Implements the <see cref="FilterStream" />
+/// </summary>
+/// <seealso cref="FilterStream" />
 public class Asn1OutputStream : FilterStream
 {
+	/// <summary>
+	///   The encoding ber
+	/// </summary>
 	internal const int EncodingBer = 1;
+
+	/// <summary>
+	///   The encoding der
+	/// </summary>
 	internal const int EncodingDer = 2;
 
+	/// <summary>
+	///   The leave open
+	/// </summary>
 	private readonly bool _leaveOpen;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="Asn1OutputStream" /> class.
+	/// </summary>
+	/// <param name="output">The output.</param>
+	/// <param name="leaveOpen">if set to <c>true</c> [leave open].</param>
+	/// <exception cref="System.ArgumentException">Expected stream to be writable - output</exception>
 	protected internal Asn1OutputStream(Stream output, bool leaveOpen) : base(output)
 	{
-		if (!output.CanWrite)
-			throw new ArgumentException("Expected stream to be writable", nameof(output));
+		if (!output.CanWrite) throw new ArgumentException("Expected stream to be writable", nameof(output));
 
 		_leaveOpen = leaveOpen;
 	}
 
+	/// <summary>
+	///   Gets the encoding.
+	/// </summary>
+	/// <value>The encoding.</value>
 	internal virtual int Encoding => EncodingBer;
 
+	/// <summary>
+	///   Creates the specified output.
+	/// </summary>
+	/// <param name="output">The output.</param>
+	/// <returns>Asn1OutputStream.</returns>
 	public static Asn1OutputStream Create(Stream output) => Create(output, Asn1Encodable.Ber);
 
+	/// <summary>
+	///   Creates the specified output.
+	/// </summary>
+	/// <param name="output">The output.</param>
+	/// <param name="encoding">The encoding.</param>
+	/// <returns>Asn1OutputStream.</returns>
 	public static Asn1OutputStream Create(Stream output, string encoding) => Create(output, encoding, false);
 
+	/// <summary>
+	///   Creates the specified output.
+	/// </summary>
+	/// <param name="output">The output.</param>
+	/// <param name="encoding">The encoding.</param>
+	/// <param name="leaveOpen">if set to <c>true</c> [leave open].</param>
+	/// <returns>Asn1OutputStream.</returns>
 	public static Asn1OutputStream Create(Stream output, string encoding, bool leaveOpen)
 	{
-		if (Asn1Encodable.Der.Equals(encoding))
-			return new DerOutputStream(output, leaveOpen);
+		if (Asn1Encodable.Der.Equals(encoding)) return new DerOutputStream(output, leaveOpen);
 
 		return new Asn1OutputStream(output, leaveOpen);
 	}
 
+	/// <summary>
+	///   Gets the type of the encoding.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
+	/// <returns>System.Int32.</returns>
 	internal static int GetEncodingType(string encoding) => Asn1Encodable.Der.Equals(encoding) ? EncodingDer : EncodingBer;
 
+	/// <summary>
+	///   Releases the unmanaged resources used by the <see cref="T:System.IO.Stream" /> and optionally releases the managed
+	///   resources.
+	/// </summary>
+	/// <param name="disposing">
+	///   <see langword="true" /> to release both managed and unmanaged resources;
+	///   <see langword="false" /> to release only unmanaged resources.
+	/// </param>
 	protected override void Dispose(bool disposing)
 	{
 		if (disposing) FlushInternal();
 
-		if (_leaveOpen)
-			base.Detach(disposing);
-		else
-			base.Dispose(disposing);
+		if (_leaveOpen) Detach(disposing);
+		else base.Dispose(disposing);
 	}
 
+	/// <summary>
+	///   Writes the object.
+	/// </summary>
+	/// <param name="asn1Encodable">The asn1 encodable.</param>
+	/// <exception cref="System.ArgumentNullException">asn1Encodable</exception>
 	public virtual void WriteObject(Asn1Encodable asn1Encodable)
 	{
 		if (null == asn1Encodable) throw new ArgumentNullException(nameof(asn1Encodable));
@@ -61,6 +119,11 @@ public class Asn1OutputStream : FilterStream
 		FlushInternal();
 	}
 
+	/// <summary>
+	///   Writes the object.
+	/// </summary>
+	/// <param name="asn1Object">The asn1 object.</param>
+	/// <exception cref="System.ArgumentNullException">asn1Object</exception>
 	public virtual void WriteObject(Asn1Object asn1Object)
 	{
 		if (null == asn1Object) throw new ArgumentNullException(nameof(asn1Object));
@@ -69,17 +132,28 @@ public class Asn1OutputStream : FilterStream
 		FlushInternal();
 	}
 
+	/// <summary>
+	///   Encodes the contents.
+	/// </summary>
+	/// <param name="contentsEncodings">The contents encodings.</param>
 	internal void EncodeContents(IAsn1Encoding[] contentsEncodings)
 	{
 		for (int i = 0, count = contentsEncodings.Length; i < count; ++i)
 			contentsEncodings[i].Encode(this);
 	}
 
+	/// <summary>
+	///   Flushes the internal.
+	/// </summary>
 	protected virtual void FlushInternal()
 	{
 		// Placeholder to support future internal buffering
 	}
 
+	/// <summary>
+	///   Writes the dl.
+	/// </summary>
+	/// <param name="dl">The dl.</param>
 	internal void WriteDL(int dl)
 	{
 		if (dl < 128)
@@ -96,6 +170,11 @@ public class Asn1OutputStream : FilterStream
 		Write(encoding[leadingZeroBytes..]);
 	}
 
+	/// <summary>
+	///   Writes the identifier.
+	/// </summary>
+	/// <param name="flags">The flags.</param>
+	/// <param name="tagNo">The tag no.</param>
 	internal void WriteIdentifier(int flags, int tagNo)
 	{
 		if (tagNo < 31)
@@ -119,6 +198,12 @@ public class Asn1OutputStream : FilterStream
 		Write(stack[pos..]);
 	}
 
+	/// <summary>
+	///   Gets the contents encodings.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
+	/// <param name="elements">The elements.</param>
+	/// <returns>IAsn1Encoding[].</returns>
 	internal static IAsn1Encoding[] GetContentsEncodings(int encoding, Asn1Encodable[] elements)
 	{
 		var count             = elements.Length;
@@ -128,6 +213,11 @@ public class Asn1OutputStream : FilterStream
 		return contentsEncodings;
 	}
 
+	/// <summary>
+	///   Gets the contents encodings der.
+	/// </summary>
+	/// <param name="elements">The elements.</param>
+	/// <returns>DerEncoding[].</returns>
 	internal static DerEncoding[] GetContentsEncodingsDer(Asn1Encodable[] elements)
 	{
 		var count             = elements.Length;
@@ -137,6 +227,11 @@ public class Asn1OutputStream : FilterStream
 		return contentsEncodings;
 	}
 
+	/// <summary>
+	///   Gets the length of contents.
+	/// </summary>
+	/// <param name="contentsEncodings">The contents encodings.</param>
+	/// <returns>System.Int32.</returns>
 	internal static int GetLengthOfContents(IAsn1Encoding[] contentsEncodings)
 	{
 		var contentsLength = 0;
@@ -145,6 +240,11 @@ public class Asn1OutputStream : FilterStream
 		return contentsLength;
 	}
 
+	/// <summary>
+	///   Gets the length of dl.
+	/// </summary>
+	/// <param name="dl">The dl.</param>
+	/// <returns>System.Int32.</returns>
 	internal static int GetLengthOfDL(int dl)
 	{
 		if (dl < 128)
@@ -155,10 +255,27 @@ public class Asn1OutputStream : FilterStream
 		return length;
 	}
 
+	/// <summary>
+	///   Gets the length of encoding dl.
+	/// </summary>
+	/// <param name="tagNo">The tag no.</param>
+	/// <param name="contentsLength">Length of the contents.</param>
+	/// <returns>System.Int32.</returns>
 	internal static int GetLengthOfEncodingDL(int tagNo, int contentsLength) => GetLengthOfIdentifier(tagNo) + GetLengthOfDL(contentsLength) + contentsLength;
 
+	/// <summary>
+	///   Gets the length of encoding il.
+	/// </summary>
+	/// <param name="tagNo">The tag no.</param>
+	/// <param name="contentsEncodings">The contents encodings.</param>
+	/// <returns>System.Int32.</returns>
 	internal static int GetLengthOfEncodingIL(int tagNo, IAsn1Encoding[] contentsEncodings) => GetLengthOfIdentifier(tagNo) + 3 + GetLengthOfContents(contentsEncodings);
 
+	/// <summary>
+	///   Gets the length of identifier.
+	/// </summary>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns>System.Int32.</returns>
 	internal static int GetLengthOfIdentifier(int tagNo)
 	{
 		if (tagNo < 31)

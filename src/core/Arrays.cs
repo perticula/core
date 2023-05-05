@@ -268,7 +268,7 @@ public static class Arrays
 	}
 
 	/// <summary>
-	///   Prepends the specified a.
+	///   Prepends the specified value to the array.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="a">a.</param>

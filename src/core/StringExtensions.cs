@@ -16,6 +16,9 @@ using core.Text;
 
 namespace core;
 
+/// <summary>
+///   Class StringExtensions.
+/// </summary>
 public static partial class StringExtensions
 {
 	/// <summary>
@@ -50,6 +53,12 @@ public static partial class StringExtensions
 		return passwordChar.Repeat(newLen);
 	}
 
+	/// <summary>
+	///   Equalses the ignore case.
+	/// </summary>
+	/// <param name="a">a.</param>
+	/// <param name="b">The b.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool EqualsIgnoreCase(this string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
 
 	/// <summary>
@@ -148,7 +157,7 @@ public static partial class StringExtensions
 	public static string EncodeBasicAuthenticationCredentials(string username, string password)
 	{
 		var formatted = $"{username}:{password}";
-		var encoded   = Convert.ToBase64String(Encoding.UTF8.GetBytes(formatted));
+		var encoded   = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(formatted));
 		return $"Basic {encoded}";
 	}
 
@@ -179,11 +188,7 @@ public static partial class StringExtensions
 	/// <param name="value">The value.</param>
 	/// <param name="filters">The filters.</param>
 	/// <returns>System.String.</returns>
-	/// <exception cref="ArgumentNullException">
-	///   value
-	///   or
-	///   filters
-	/// </exception>
+	/// <exception cref="System.ArgumentNullException">filters</exception>
 	public static string FilterCharacters(this string value, params string[] filters)
 	{
 		ArgumentException.ThrowIfNullOrEmpty(value, nameof(value));
@@ -314,7 +319,7 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.String.</returns>
-	/// <exception cref="ArgumentNullException">value - Value for hashing cannot be null</exception>
+	/// <exception cref="System.ArgumentNullException">value - Value for hashing cannot be null</exception>
 	// ReSharper disable once InconsistentNaming
 	public static string MD5Hash(this string value)
 	{
@@ -328,6 +333,12 @@ public static partial class StringExtensions
 		return hash.ToString();
 	}
 
+	/// <summary>
+	///   Sha256s the hash.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>System.String.</returns>
+	/// <exception cref="System.ArgumentNullException">value - Value for hashing cannot be null</exception>
 	public static string Sha256Hash(this string value)
 	{
 		if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(nameof(value), "Value for hashing cannot be null");
@@ -424,6 +435,7 @@ public static partial class StringExtensions
 	/// <param name="value">The value.</param>
 	/// <param name="parseExpression">The parse expression.</param>
 	/// <returns>IEnumerable&lt;TValue&gt;.</returns>
+	/// <exception cref="System.ArgumentNullException">parseExpression</exception>
 	public static IEnumerable<TValue>? SplitAndParse<TValue>(this string? value, Func<string, TValue> parseExpression)
 	{
 		if (string.IsNullOrEmpty(value)) return null;
@@ -551,6 +563,8 @@ public static partial class StringExtensions
 	/// <param name="stringBuilder">The sb.</param>
 	/// <param name="condition">The condition.</param>
 	/// <param name="val">The value.</param>
+	/// <exception cref="System.ArgumentNullException">stringBuilder</exception>
+	/// <exception cref="System.ArgumentNullException">condition</exception>
 	public static void AppendIf(this StringBuilder stringBuilder, Func<bool> condition, string? val)
 	{
 		ArgumentException.ThrowIfNullOrEmpty(val, nameof(val));
@@ -560,31 +574,96 @@ public static partial class StringExtensions
 		if (condition()) stringBuilder.Append(val);
 	}
 
-	public static string FromAsciiByteArray(this byte[] bytes)                       => Encoding.ASCII.GetString(bytes);
-	public static byte[] ToAsciiByteArray(this   char[] cs)                          => Encoding.ASCII.GetBytes(cs);
-	public static byte[] ToAsciiByteArray(this   string s)                           => Encoding.ASCII.GetBytes(s);
-	public static string FromUtf8ByteArray(this  byte[] bytes)                       => Encoding.UTF8.GetString(bytes);
-	public static string FromUtf8ByteArray(this  byte[] bytes, int index, int count) => Encoding.UTF8.GetString(bytes, index, count);
-	public static byte[] ToUtf8ByteArray(this    char[] cs) => Encoding.UTF8.GetBytes(cs);
-	public static byte[] ToUtf8ByteArray(this    string s)  => Encoding.UTF8.GetBytes(s);
+	/// <summary>
+	///   Froms the ASCII byte array.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>System.String.</returns>
+	public static string FromAsciiByteArray(this byte[] bytes) => System.Text.Encoding.ASCII.GetString(bytes);
 
+	/// <summary>
+	///   Converts to asciibytearray.
+	/// </summary>
+	/// <param name="cs">The cs.</param>
+	/// <returns>System.Byte[].</returns>
+	public static byte[] ToAsciiByteArray(this char[] cs) => System.Text.Encoding.ASCII.GetBytes(cs);
+
+	/// <summary>
+	///   Converts to asciibytearray.
+	/// </summary>
+	/// <param name="s">The s.</param>
+	/// <returns>System.Byte[].</returns>
+	public static byte[] ToAsciiByteArray(this string s) => System.Text.Encoding.ASCII.GetBytes(s);
+
+	/// <summary>
+	///   Froms the UTF8 byte array.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>System.String.</returns>
+	public static string FromUtf8ByteArray(this byte[] bytes) => System.Text.Encoding.UTF8.GetString(bytes);
+
+	/// <summary>
+	///   Froms the UTF8 byte array.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="index">The index.</param>
+	/// <param name="count">The count.</param>
+	/// <returns>System.String.</returns>
+	public static string FromUtf8ByteArray(this byte[] bytes, int index, int count) => System.Text.Encoding.UTF8.GetString(bytes, index, count);
+
+	/// <summary>
+	///   Converts to utf8bytearray.
+	/// </summary>
+	/// <param name="cs">The cs.</param>
+	/// <returns>System.Byte[].</returns>
+	public static byte[] ToUtf8ByteArray(this char[] cs) => System.Text.Encoding.UTF8.GetBytes(cs);
+
+	/// <summary>
+	///   Converts to utf8bytearray.
+	/// </summary>
+	/// <param name="s">The s.</param>
+	/// <returns>System.Byte[].</returns>
+	public static byte[] ToUtf8ByteArray(this string s) => System.Text.Encoding.UTF8.GetBytes(s);
+
+	/// <summary>
+	///   Converts to utf8bytearray.
+	/// </summary>
+	/// <param name="cs">The cs.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ToUtf8ByteArray(this ReadOnlySpan<char> cs)
 	{
-		var count = Encoding.UTF8.GetByteCount(cs);
+		var count = System.Text.Encoding.UTF8.GetByteCount(cs);
 		var bytes = new byte[count];
-		Encoding.UTF8.GetBytes(cs, bytes);
+		System.Text.Encoding.UTF8.GetBytes(cs, bytes);
 		return bytes;
 	}
 
+	/// <summary>
+	///   Determines whether [is one of] [the specified candidates].
+	/// </summary>
+	/// <param name="s">The s.</param>
+	/// <param name="candidates">The candidates.</param>
+	/// <returns><c>true</c> if [is one of] [the specified candidates]; otherwise, <c>false</c>.</returns>
 	public static bool IsOneOf(this string s, params string[] candidates) => candidates.Any(candidate => s == candidate);
 
 
-	public static string FromByteArray(this byte[] bs) => string.Create(bs.Length, bs, (chars, bytes)
-		                                                                    =>
-	                                                                    {
-		                                                                    for (var i = 0; i < chars.Length; ++i) chars[i] = Convert.ToChar(bytes[i]);
-	                                                                    });
+	/// <summary>
+	///   Froms the byte array.
+	/// </summary>
+	/// <param name="bs">The bs.</param>
+	/// <returns>System.String.</returns>
+	public static string FromByteArray(this byte[] bs)
+		=> string.Create(bs.Length, bs, (chars, bytes)
+			                 =>
+		                 {
+			                 for (var i = 0; i < chars.Length; ++i) chars[i] = Convert.ToChar(bytes[i]);
+		                 });
 
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <param name="cs">The cs.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ToByteArray(this ReadOnlySpan<char> cs)
 	{
 		var bs = new byte[cs.Length];
@@ -593,6 +672,11 @@ public static partial class StringExtensions
 		return bs;
 	}
 
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <param name="cs">The cs.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ToByteArray(this char[] cs)
 	{
 		var bs = new byte[cs.Length];
@@ -601,6 +685,11 @@ public static partial class StringExtensions
 		return bs;
 	}
 
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <param name="s">The s.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ToByteArray(this string s)
 	{
 		var bs = new byte[s.Length];

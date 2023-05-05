@@ -1,4 +1,4 @@
-// perticula - core - IAsn1Convertable.cs
+// perticula - core - IAsn1String.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -8,13 +8,13 @@
 namespace core.Protocol.asn1;
 
 /// <summary>
-/// Interface IAsn1Convertable
+/// Interface IAsn1String
 /// </summary>
-public interface IAsn1Convertable
+public interface IAsn1String
 {
 	/// <summary>
-	///   defined the conversion to and asn.1 object.
+	///   Gets the current string value.
 	/// </summary>
-	/// <returns>Asn1Object.</returns>
-	Asn1Object ToAsn1Object();
+	/// <returns>System.String.</returns>
+	public string GetString();
 }

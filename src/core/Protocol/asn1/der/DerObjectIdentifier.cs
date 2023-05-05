@@ -8,34 +8,62 @@
 using System.Text;
 using core.Math;
 
-namespace core.Protocol.asn1;
+namespace core.Protocol.asn1.der;
 
+/// <summary>
+///   Class DerObjectIdentifier.
+///   Implements the <see cref="core.Protocol.asn1.Asn1Object" />
+/// </summary>
+/// <seealso cref="core.Protocol.asn1.Asn1Object" />
 public class DerObjectIdentifier : Asn1Object
 {
+	/// <summary>
+	///   The long limit
+	/// </summary>
 	private const long LongLimit = (long.MaxValue >> 7) - 0x7F;
 
+	/// <summary>
+	///   The cache
+	/// </summary>
 	private static readonly DerObjectIdentifier[] Cache = new DerObjectIdentifier[1024];
 
+	/// <summary>
+	///   The contents
+	/// </summary>
 	private byte[]? _contents;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DerObjectIdentifier" /> class.
+	/// </summary>
+	/// <param name="identifier">The identifier.</param>
+	/// <exception cref="ArgumentNullException">nameof(identifier)</exception>
+	/// <exception cref="FormatException">$"string {identifier} not an OID</exception>
 	public DerObjectIdentifier(string identifier)
 	{
-		if (identifier == null)
-			throw new ArgumentNullException(nameof(identifier));
-		if (!IsValidIdentifier(identifier))
-			throw new FormatException($"string {identifier} not an OID");
+		if (identifier == null) throw new ArgumentNullException(nameof(identifier));
+		if (!IsValidIdentifier(identifier)) throw new FormatException($"string {identifier} not an OID");
 
 		Id = identifier;
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DerObjectIdentifier" /> class.
+	/// </summary>
+	/// <param name="oid">The oid.</param>
+	/// <param name="branchId">The branch identifier.</param>
+	/// <exception cref="ArgumentException">$"string {branchId} not a valid OID branch, nameof(branchId)</exception>
 	private DerObjectIdentifier(DerObjectIdentifier oid, string branchId)
 	{
-		if (!Asn1RelativeOid.IsValidIdentifier(branchId, 0))
-			throw new ArgumentException($"string {branchId} not a valid OID branch", nameof(branchId));
+		if (!Asn1RelativeOid.IsValidIdentifier(branchId, 0)) throw new ArgumentException($"string {branchId} not a valid OID branch", nameof(branchId));
 
 		Id = $"{oid.Id}.{branchId}";
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DerObjectIdentifier" /> class.
+	/// </summary>
+	/// <param name="contents">The contents.</param>
+	/// <param name="clone">if set to <c>true</c> [clone].</param>
 	private DerObjectIdentifier(byte[] contents, bool clone)
 	{
 		Id        = ParseContents(contents);
@@ -48,11 +76,15 @@ public class DerObjectIdentifier : Asn1Object
 	/// <value>The identifier.</value>
 	public string Id { get; }
 
-	/**
-	 * return an OID from the passed in object
-	 * 
-	 * @exception ArgumentException if the object cannot be converted.
-	 */
+	/// <summary>
+	///   return an OID from the passed in object
+	/// </summary>
+	/// <param name="obj">The object.</param>
+	/// <returns>System.Nullable&lt;DerObjectIdentifier&gt;.</returns>
+	/// <exception cref="ArgumentException">$"failed to construct object identifier from byte[]: {e.Message}</exception>
+	/// <exception cref="ArgumentException">$"illegal object in GetInstance: {obj.GetTypeName()}, nameof(obj)</exception>
+	/// <exception cref="System.ArgumentException">failed to construct object identifier from byte[]: {e.Message}</exception>
+	/// <exception cref="System.ArgumentException">illegal object in GetInstance: {obj.GetTypeName()} - obj</exception>
 	public static DerObjectIdentifier? GetInstance(object? obj)
 	{
 		switch (obj)
@@ -80,6 +112,11 @@ public class DerObjectIdentifier : Asn1Object
 		throw new ArgumentException($"illegal object in GetInstance: {obj.GetTypeName()}", nameof(obj));
 	}
 
+	/// <summary>
+	///   Branches the specified branch identifier.
+	/// </summary>
+	/// <param name="branchId">The branch identifier.</param>
+	/// <returns>core.Protocol.asn1.der.DerObjectIdentifier.</returns>
 	public virtual DerObjectIdentifier Branch(string branchId) => new(this, branchId);
 
 	/// <summary>
@@ -94,18 +131,59 @@ public class DerObjectIdentifier : Asn1Object
 		return Id.Length > stemId.Length && Id[stemId.Length] == '.' && Id.StartsWith(stemId);
 	}
 
+	/// <summary>
+	///   Converts to string.
+	/// </summary>
+	/// <returns>string.</returns>
 	public override string ToString() => Id;
 
+	/// <summary>
+	///   Asn1s the equals.
+	/// </summary>
+	/// <param name="asn1Object">The asn1 object.</param>
+	/// <returns>bool.</returns>
 	protected override bool Asn1Equals(Asn1Object asn1Object) => asn1Object is DerObjectIdentifier that && Id == that.Id;
 
-	internal override        IAsn1Encoding GetEncoding(int encoding) => new PrimitiveEncoding(Asn1Tags.Universal, Asn1Tags.ObjectIdentifier, GetContents());
-	internal sealed override DerEncoding   GetEncodingDer()          => new PrimitiveDerEncoding(Asn1Tags.Universal, Asn1Tags.ObjectIdentifier, GetContents());
+	/// <summary>
+	///   Gets the encoding.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Encoding.</returns>
+	internal override IAsn1Encoding GetEncoding(int encoding) => new Asn1Encoding(Asn1Tags.Universal, Asn1Tags.ObjectIdentifier, GetContents());
 
-	internal override        IAsn1Encoding GetEncodingImplicit(int    encoding, int tagClass, int tagNo) => new PrimitiveEncoding(tagClass, tagNo, GetContents());
-	internal sealed override DerEncoding   GetEncodingDerImplicit(int tagClass, int tagNo) => new PrimitiveDerEncoding(tagClass, tagNo, GetContents());
+	/// <summary>
+	///   Gets the encoding der.
+	/// </summary>
+	/// <returns>core.Protocol.asn1.der.DerEncoding.</returns>
+	internal sealed override DerEncoding GetEncodingDer() => new Asn1DerEncoding(Asn1Tags.Universal, Asn1Tags.ObjectIdentifier, GetContents());
 
+	/// <summary>
+	///   Gets the encoding implicit.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Encoding.</returns>
+	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo) => new Asn1Encoding(tagClass, tagNo, GetContents());
+
+	/// <summary>
+	///   Gets the encoding der implicit.
+	/// </summary>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns>core.Protocol.asn1.der.DerEncoding.</returns>
+	internal sealed override DerEncoding GetEncodingDerImplicit(int tagClass, int tagNo) => new Asn1DerEncoding(tagClass, tagNo, GetContents());
+
+	/// <summary>
+	///   Asn1s the get hash code.
+	/// </summary>
+	/// <returns>int.</returns>
 	protected override int Asn1GetHashCode() => Id.GetHashCode();
 
+	/// <summary>
+	///   Gets the contents.
+	/// </summary>
+	/// <returns>byte[].</returns>
 	private byte[] GetContents()
 	{
 		lock (this)
@@ -125,6 +203,10 @@ public class DerObjectIdentifier : Asn1Object
 		return _contents;
 	}
 
+	/// <summary>
+	///   Does the output.
+	/// </summary>
+	/// <param name="bOut">The b out.</param>
 	private void DoOutput(Stream bOut)
 	{
 		var tok = new OidTokenizer(Id);
@@ -161,6 +243,12 @@ public class DerObjectIdentifier : Asn1Object
 		}
 	}
 
+	/// <summary>
+	///   Creates the primitive.
+	/// </summary>
+	/// <param name="contents">The contents.</param>
+	/// <param name="clone">The clone.</param>
+	/// <returns>core.Protocol.asn1.der.DerObjectIdentifier.</returns>
 	internal static DerObjectIdentifier CreatePrimitive(byte[] contents, bool clone)
 	{
 		var index = Arrays.GetHashCode(contents);
@@ -183,6 +271,11 @@ public class DerObjectIdentifier : Asn1Object
 		       };
 	}
 
+	/// <summary>
+	///   Determines whether [is valid identifier] [the specified identifier].
+	/// </summary>
+	/// <param name="identifier">The identifier.</param>
+	/// <returns>bool.</returns>
 	private static bool IsValidIdentifier(string identifier)
 	{
 		if (identifier.Length < 3 || identifier[1] != '.')
@@ -192,6 +285,11 @@ public class DerObjectIdentifier : Asn1Object
 		return first is >= '0' and <= '2' && Asn1RelativeOid.IsValidIdentifier(identifier, 2);
 	}
 
+	/// <summary>
+	///   Parses the contents.
+	/// </summary>
+	/// <param name="contents">The contents.</param>
+	/// <returns>string.</returns>
 	private static string ParseContents(IReadOnlyList<byte> contents)
 	{
 		var         objId    = new StringBuilder();
@@ -268,12 +366,28 @@ public class DerObjectIdentifier : Asn1Object
 		return objId.ToString();
 	}
 
+	/// <summary>
+	///   Class Meta.
+	///   Implements the <see cref="core.Protocol.asn1.Asn1UniversalType" />
+	/// </summary>
+	/// <seealso cref="core.Protocol.asn1.Asn1UniversalType" />
 	internal class Meta : Asn1UniversalType
 	{
+		/// <summary>
+		///   The instance
+		/// </summary>
 		internal static readonly Asn1UniversalType Instance = new Meta();
 
+		/// <summary>
+		///   Prevents a default instance of the <see cref="Meta" /> class from being created.
+		/// </summary>
 		private Meta() : base(typeof(DerObjectIdentifier), Asn1Tags.ObjectIdentifier) { }
 
+		/// <summary>
+		///   Froms the implicit primitive.
+		/// </summary>
+		/// <param name="octetString">The octet string.</param>
+		/// <returns>core.Protocol.asn1.Asn1Object.</returns>
 		internal override Asn1Object FromImplicitPrimitive(DerOctetString octetString) => CreatePrimitive(octetString.GetOctets(), false);
 	}
 }

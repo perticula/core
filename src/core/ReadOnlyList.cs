@@ -82,7 +82,6 @@ public abstract class ReadOnlyList<T> : IList<T>
 	/// <exception cref="System.NotSupportedException"></exception>
 	public void RemoveAt(int index) => throw new NotSupportedException();
 
-
 	/// <summary>
 	///   Determines whether the <see cref="T:System.Collections.Generic.ICollection`1" /> contains a specific value.
 	/// </summary>

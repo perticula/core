@@ -6,11 +6,20 @@
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
 using core.Cryptography;
+using core.Protocol.asn1.der;
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Class Asn1UniversalTypes.
+/// </summary>
 public static class Asn1UniversalTypes
 {
+	/// <summary>
+	///   Gets the specified tag no.
+	/// </summary>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns>Asn1UniversalType.</returns>
 	public static Asn1UniversalType Get(int tagNo)
 		=> tagNo switch
 		   {

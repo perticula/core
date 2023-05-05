@@ -7,6 +7,9 @@
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Class Asn1Tags.
+/// </summary>
 public static class Asn1Tags
 {
 	// 0x00: Reserved for use by the encoding rules

@@ -88,17 +88,7 @@ public abstract class Asn1Encodable : IAsn1Convertable,
 	///   If the object is not a valid DER encoding, null is returned.
 	/// </summary>
 	/// <returns>System.Nullable&lt;System.Byte&gt;[].</returns>
-	public byte[]? GetDerEncoded()
-	{
-		try
-		{
-			return GetEncoded(Der);
-		}
-		catch (IOException)
-		{
-			return null;
-		}
-	}
+	public byte[] GetDerEncoded() => GetEncoded(Der);
 
 	/// <summary>
 	///   Returns a hash code for this instance.
