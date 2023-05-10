@@ -17,28 +17,17 @@ namespace core.Protocol.asn1;
 public class Asn1ObjectDescriptor : Asn1Object
 {
 	/// <summary>
-	///   The base graphic string
-	/// </summary>
-	private readonly DerGraphicString _baseGraphicString;
-
-	/// <summary>
 	///   Initializes a new instance of the <see cref="Asn1ObjectDescriptor" /> class.
 	/// </summary>
 	/// <param name="baseGraphicString">The base graphic string.</param>
 	/// <exception cref="System.ArgumentNullException">baseGraphicString</exception>
-	public Asn1ObjectDescriptor(DerGraphicString baseGraphicString)
-	{
-		if (null == baseGraphicString)
-			throw new ArgumentNullException(nameof(baseGraphicString));
-
-		_baseGraphicString = baseGraphicString;
-	}
+	public Asn1ObjectDescriptor(DerGraphicString baseGraphicString) => BaseGraphicString = baseGraphicString ?? throw new ArgumentNullException(nameof(baseGraphicString));
 
 	/// <summary>
 	///   Gets the base graphic string.
 	/// </summary>
 	/// <value>The base graphic string.</value>
-	public DerGraphicString BaseGraphicString => _baseGraphicString;
+	public DerGraphicString BaseGraphicString { get; }
 
 	/// <summary>
 	///   Gets the instance.
@@ -87,7 +76,7 @@ public class Asn1ObjectDescriptor : Asn1Object
 	/// </summary>
 	/// <param name="encoding">The encoding.</param>
 	/// <returns>IAsn1Encoding.</returns>
-	internal override IAsn1Encoding GetEncoding(int encoding) => _baseGraphicString.GetEncodingImplicit(encoding, Asn1Tags.Universal, Asn1Tags.ObjectDescriptor);
+	internal override IAsn1Encoding GetEncoding(int encoding) => BaseGraphicString.GetEncodingImplicit(encoding, Asn1Tags.Universal, Asn1Tags.ObjectDescriptor);
 
 	/// <summary>
 	///   Gets the encoding implicit.
@@ -96,13 +85,13 @@ public class Asn1ObjectDescriptor : Asn1Object
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>IAsn1Encoding.</returns>
-	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo) => _baseGraphicString.GetEncodingImplicit(encoding, tagClass, tagNo);
+	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo) => BaseGraphicString.GetEncodingImplicit(encoding, tagClass, tagNo);
 
 	/// <summary>
 	///   Gets the encoding der.
 	/// </summary>
 	/// <returns>DerEncoding.</returns>
-	internal sealed override DerEncoding GetEncodingDer() => _baseGraphicString.GetEncodingDerImplicit(Asn1Tags.Universal, Asn1Tags.ObjectDescriptor);
+	internal sealed override DerEncoding GetEncodingDer() => BaseGraphicString.GetEncodingDerImplicit(Asn1Tags.Universal, Asn1Tags.ObjectDescriptor);
 
 	/// <summary>
 	///   Gets the encoding der implicit.
@@ -110,20 +99,20 @@ public class Asn1ObjectDescriptor : Asn1Object
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>DerEncoding.</returns>
-	internal sealed override DerEncoding GetEncodingDerImplicit(int tagClass, int tagNo) => _baseGraphicString.GetEncodingDerImplicit(tagClass, tagNo);
+	internal sealed override DerEncoding GetEncodingDerImplicit(int tagClass, int tagNo) => BaseGraphicString.GetEncodingDerImplicit(tagClass, tagNo);
 
 	/// <summary>
 	///   Asn1s the get hash code.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	protected override int Asn1GetHashCode() => ~_baseGraphicString.CallAsn1GetHashCode();
+	protected override int Asn1GetHashCode() => ~BaseGraphicString.CallAsn1GetHashCode();
 
 	/// <summary>
 	///   Asn1s the equals.
 	/// </summary>
 	/// <param name="asn1Object">The asn1 object.</param>
 	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-	protected override bool Asn1Equals(Asn1Object asn1Object) => asn1Object is Asn1ObjectDescriptor that && _baseGraphicString.Equals(that._baseGraphicString);
+	protected override bool Asn1Equals(Asn1Object asn1Object) => asn1Object is Asn1ObjectDescriptor that && BaseGraphicString.Equals(that.BaseGraphicString);
 
 	/// <summary>
 	///   Creates the primitive.

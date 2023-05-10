@@ -105,7 +105,7 @@ public class DerSequence : Asn1Sequence
 	///   Converts to asn1external.
 	/// </summary>
 	/// <returns>DerExternal.</returns>
-	public override DerExternal ToAsn1External() => new DerExternal(this);
+	public override DerExternal ToAsn1External() => new(this);
 
 	/// <summary>
 	///   Converts to asn1octetstring.

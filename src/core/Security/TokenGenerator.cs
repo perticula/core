@@ -52,12 +52,10 @@ internal class TokenGenerator : ITokenGenerator
 		if (settings == null) throw new ArgumentNullException(nameof(settings));
 		if (string.IsNullOrWhiteSpace(settingKey)) throw new ArgumentNullException(nameof(settingKey));
 
-		if (!settings.HasSetting(settingKey))
-			throw new ConfigurationErrorsException($"Configuration is missing a 'security key' setting called '{settingKey}'");
+		if (!settings.HasSetting(settingKey)) throw new ConfigurationErrorsException($"Configuration is missing a 'security key' setting called '{settingKey}'");
 
 		var keyBoth = settings.GetSetting(settingKey);
-		if (string.IsNullOrEmpty(keyBoth))
-			throw new ConfigurationErrorsException($"'Security key' setting '{settingKey}' is null or empty");
+		if (string.IsNullOrEmpty(keyBoth)) throw new ConfigurationErrorsException($"'Security key' setting '{settingKey}' is null or empty");
 
 		var key = keyBoth.Split('|');
 		if (key.Length < 2)
@@ -84,8 +82,7 @@ internal class TokenGenerator : ITokenGenerator
 		var startOn = starting ?? DateTime.UtcNow;
 		if (startOn.ToUniversalTime() > DateTime.UtcNow.AddMinutes(30)) throw new ArgumentException("starting time may not be in the future", nameof(starting));
 
-		using var aes = Aes.Create();
-		if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+		using var aes = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
 		aes.Key     = _securityKey;
 		aes.IV      = _securityIv;
@@ -135,8 +132,7 @@ internal class TokenGenerator : ITokenGenerator
 		try
 		{
 			var       encrypted = FromUrlFriendlyBase64(token);
-			using var aes       = Aes.Create();
-			if (aes == null) throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+			using var aes       = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
 			aes.Key     = _securityKey;
 			aes.IV      = _securityIv;
@@ -147,8 +143,7 @@ internal class TokenGenerator : ITokenGenerator
 			using var cryptoStream = new CryptoStream(stream, decrypt, CryptoStreamMode.Read);
 			using var streamReader = new StreamReader(cryptoStream);
 			var       json         = streamReader.ReadToEnd();
-			if (string.IsNullOrEmpty(json))
-				return Guid.Empty;
+			if (string.IsNullOrEmpty(json)) return Guid.Empty;
 			var payload = JsonConvert.DeserializeAnonymousType(json, new
 			{
 				expires  = DateTime.MinValue,
@@ -179,18 +174,14 @@ internal class TokenGenerator : ITokenGenerator
 		// Add salt to the digest of the date
 		var when   = today ?? DateTime.UtcNow.Date;
 		var digest = new StringBuilder();
-		digest.Append("-CA-");
-		digest.Append("-BM-");
+		digest.Append("-🔐🪪-");
 		digest.Append(when.Day.ToString("00"));
-		digest.Append("-LG-");
 		digest.Append(when.Month.ToString("00"));
-		digest.Append("-at-");
+		digest.Append("-🤐🤫-");
 		digest.Append(when.Year.ToString("0000"));
-		digest.Append("-SP-");
-		digest.Append("-TH-");
-		using var sha256 = SHA256.Create();
-		var       bytes  = Encoding.UTF8.GetBytes(digest.ToString());
-		return ToBase64Token(sha256.ComputeHash(bytes));
+		digest.Append("-🤝-");
+		var bytes = System.Text.Encoding.UTF8.GetBytes(digest.ToString());
+		return ToBase64Token(SHA256.HashData(bytes));
 	}
 
 	/// <summary>
@@ -199,10 +190,11 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="bytes">The bytes.</param>
 	/// <returns>System.String.</returns>
-	internal string ToBase64Token(byte[] bytes) => Convert.ToBase64String(bytes)
-	                                                      .ToCharArray() // Append only letters and numbers to the string builder
-	                                                      .Aggregate(new StringBuilder(), (sb, ch) => sb.Append(char.IsLetterOrDigit(ch) ? ch.ToString() : ""))
-	                                                      .ToString();
+	internal static string ToBase64Token(byte[] bytes)
+		=> Convert.ToBase64String(bytes)
+		          .ToCharArray() // Append only letters and numbers to the string builder
+		          .Aggregate(new StringBuilder(), (sb, ch) => sb.Append(char.IsLetterOrDigit(ch) ? ch.ToString() : ""))
+		          .ToString();
 
 	/// <summary>
 	///   Converts the data into base 64 and replaces reserved url
@@ -210,35 +202,37 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="bytes">The data to be converted</param>
 	/// <returns>System.String.</returns>
-	internal string ToUrlFriendlyBase64(byte[] bytes) => Convert.ToBase64String(bytes)
-	                                                            .ToCharArray() // Convert (/ to _) and (+ to -) and (= to ,)
-	                                                            .Aggregate(new StringBuilder(), (sb, ch) =>
-	                                                            {
-		                                                            return ch switch
-		                                                                   {
-			                                                                   '/' => sb.Append('_'),
-			                                                                   '+' => sb.Append('-'),
-			                                                                   '=' => sb.Append(','),
-			                                                                   'o' => sb.Append('~'),
-			                                                                   _   => sb.Append(ch)
-		                                                                   };
-	                                                            }).ToString();
+	internal static string ToUrlFriendlyBase64(byte[] bytes)
+		=> Convert.ToBase64String(bytes)
+		          .ToCharArray() // Convert (/ to _) and (+ to -) and (= to ,)
+		          .Aggregate(new StringBuilder(), (sb, ch) =>
+		          {
+			          return ch switch
+			                 {
+				                 '/' => sb.Append('_'),
+				                 '+' => sb.Append('-'),
+				                 '=' => sb.Append(','),
+				                 'o' => sb.Append('~'),
+				                 _   => sb.Append(ch)
+			                 };
+		          }).ToString();
 
 	/// <summary>
 	///   Reverses the process of used to create the url friendly base 64 data
 	/// </summary>
 	/// <param name="data">The data to be decoded</param>
 	/// <returns>System.Byte[].</returns>
-	internal byte[] FromUrlFriendlyBase64(string data) => Convert.FromBase64String(data.ToCharArray()
-	                                                                                   .Aggregate(new StringBuilder(), (sb, ch) =>
-	                                                                                   {
-		                                                                                   return ch switch
-		                                                                                          {
-			                                                                                          '~' => sb.Append('o'),
-			                                                                                          '_' => sb.Append('/'),
-			                                                                                          '-' => sb.Append('+'),
-			                                                                                          ',' => sb.Append('='),
-			                                                                                          _   => sb.Append(ch)
-		                                                                                          };
-	                                                                                   }).ToString());
+	internal static byte[] FromUrlFriendlyBase64(string data)
+		=> Convert.FromBase64String(data.ToCharArray()
+		                                .Aggregate(new StringBuilder(), (sb, ch) =>
+		                                {
+			                                return ch switch
+			                                       {
+				                                       '~' => sb.Append('o'),
+				                                       '_' => sb.Append('/'),
+				                                       '-' => sb.Append('+'),
+				                                       ',' => sb.Append('='),
+				                                       _   => sb.Append(ch)
+			                                       };
+		                                }).ToString());
 }

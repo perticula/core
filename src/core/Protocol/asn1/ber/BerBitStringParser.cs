@@ -91,9 +91,9 @@ public class BerBitStringParser : IAsn1BitStringParser
 	/// <returns>BerBitString.</returns>
 	internal static BerBitString Parse(Asn1StreamParser sp)
 	{
-		ConstructedBitStream bitStream = new ConstructedBitStream(sp, false);
-		var                  data      = Streams.ReadAll(bitStream);
-		int                  padBits   = bitStream.PadBits;
+		var bitStream = new ConstructedBitStream(sp, false);
+		var data      = Streams.ReadAll(bitStream);
+		var padBits   = bitStream.PadBits;
 		return new BerBitString(data, padBits);
 	}
 }

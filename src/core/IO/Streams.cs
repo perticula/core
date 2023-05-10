@@ -9,21 +9,64 @@ using System.Runtime.InteropServices;
 
 namespace core.IO;
 
+/// <summary>
+///   Class Streams.
+/// </summary>
 public static class Streams
 {
+	/// <summary>
+	///   Gets the default size of the buffer.
+	/// </summary>
+	/// <value>The default size of the buffer.</value>
 	public static int DefaultBufferSize { get; } = Platform.Is64BitProcess ? 4096 : 1024;
 
-	public static void CopyTo(Stream source, Stream destination)
-	{
-		CopyTo(source, destination, DefaultBufferSize);
-	}
+	/// <summary>
+	///   Copies to.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="destination">The destination.</param>
+	public static void CopyTo(Stream source, Stream destination) => CopyTo(source, destination, DefaultBufferSize);
 
+	/// <summary>
+	///   Copies to asynchronous.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="destination">The destination.</param>
+	/// <returns>Task.</returns>
 	public static Task CopyToAsync(Stream source, Stream destination) => CopyToAsync(source, destination, DefaultBufferSize);
 
+	/// <summary>
+	///   Copies to asynchronous.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="destination">The destination.</param>
+	/// <param name="bufferSize">Size of the buffer.</param>
+	/// <returns>Task.</returns>
 	public static Task CopyToAsync(Stream source, Stream destination, int bufferSize) => CopyToAsync(source, destination, bufferSize, CancellationToken.None);
 
+	/// <summary>
+	///   Copies to asynchronous.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="destination">The destination.</param>
+	/// <param name="cancellationToken">
+	///   The cancellation token that can be used by other objects or threads to receive notice
+	///   of cancellation.
+	/// </param>
+	/// <returns>Task.</returns>
 	public static Task CopyToAsync(Stream source, Stream destination, CancellationToken cancellationToken) => CopyToAsync(source, destination, DefaultBufferSize, cancellationToken);
 
+	/// <summary>
+	///   Copy to as an asynchronous operation.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="destination">The destination.</param>
+	/// <param name="bufferSize">Size of the buffer.</param>
+	/// <param name="cancellationToken">
+	///   The cancellation token that can be used by other objects or threads to receive notice
+	///   of cancellation.
+	/// </param>
+	/// <returns>A Task representing the asynchronous operation.</returns>
 	public static async Task CopyToAsync(Stream source, Stream destination, int bufferSize, CancellationToken cancellationToken)
 	{
 		int bytesRead;
@@ -32,6 +75,12 @@ public static class Streams
 			await WriteAsync(destination, new ReadOnlyMemory<byte>(buffer, 0, bytesRead), cancellationToken).ConfigureAwait(false);
 	}
 
+	/// <summary>
+	///   Copies to.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="destination">The destination.</param>
+	/// <param name="bufferSize">Size of the buffer.</param>
 	public static void CopyTo(Stream source, Stream destination, int bufferSize)
 	{
 		int bytesRead;
@@ -41,15 +90,23 @@ public static class Streams
 		while ((bytesRead = source.Read(buffer)) != 0) destination.Write(buffer[..bytesRead]);
 	}
 
+	/// <summary>
+	///   Drains the specified in string.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
 	public static void Drain(Stream inStr) => CopyTo(inStr, Stream.Null, DefaultBufferSize);
 
-	/// <summary>Write the full contents of inStr to the destination stream outStr.</summary>
+	/// <summary>
+	///   Write the full contents of inStr to the destination stream outStr.
+	/// </summary>
 	/// <param name="inStr">Source stream.</param>
 	/// <param name="outStr">Destination stream.</param>
 	/// <exception cref="IOException">In case of IO failure.</exception>
 	public static void PipeAll(Stream inStr, Stream outStr) => PipeAll(inStr, outStr, DefaultBufferSize);
 
-	/// <summary>Write the full contents of inStr to the destination stream outStr.</summary>
+	/// <summary>
+	///   Write the full contents of inStr to the destination stream outStr.
+	/// </summary>
 	/// <param name="inStr">Source stream.</param>
 	/// <param name="outStr">Destination stream.</param>
 	/// <param name="bufferSize">The size of temporary buffer to use.</param>
@@ -60,19 +117,21 @@ public static class Streams
 	///   Pipe all bytes from <c>inStr</c> to <c>outStr</c>, throwing <c>StreamFlowException</c> if greater
 	///   than <c>limit</c> bytes in <c>inStr</c>.
 	/// </summary>
-	/// <param name="inStr">
-	///   A <see cref="Stream" />
-	/// </param>
-	/// <param name="limit">
-	///   A <see cref="System.Int64" />
-	/// </param>
-	/// <param name="outStr">
-	///   A <see cref="Stream" />
-	/// </param>
+	/// <param name="inStr">A <see cref="Stream" /></param>
+	/// <param name="limit">A <see cref="System.Int64" /></param>
+	/// <param name="outStr">A <see cref="Stream" /></param>
 	/// <returns>The number of bytes actually transferred, if not greater than <c>limit</c></returns>
 	/// <exception cref="IOException"></exception>
 	public static long PipeAllLimited(Stream inStr, long limit, Stream outStr) => PipeAllLimited(inStr, limit, outStr, DefaultBufferSize);
 
+	/// <summary>
+	///   Pipes all limited.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <param name="limit">The limit.</param>
+	/// <param name="outStr">The out string.</param>
+	/// <param name="bufferSize">Size of the buffer.</param>
+	/// <returns>System.Int64.</returns>
 	public static long PipeAllLimited(Stream inStr, long limit, Stream outStr, int bufferSize)
 	{
 		var limited = new LimitedInputStream(inStr, limit);
@@ -80,6 +139,11 @@ public static class Streams
 		return limit - limited.CurrentLimit;
 	}
 
+	/// <summary>
+	///   Reads all.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ReadAll(Stream inStr)
 	{
 		var buf = new MemoryStream();
@@ -87,8 +151,19 @@ public static class Streams
 		return buf.ToArray();
 	}
 
+	/// <summary>
+	///   Reads all.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ReadAll(MemoryStream inStr) => inStr.ToArray();
 
+	/// <summary>
+	///   Reads all limited.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <param name="limit">The limit.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] ReadAllLimited(Stream inStr, int limit)
 	{
 		var buf = new MemoryStream();
@@ -96,6 +171,16 @@ public static class Streams
 		return buf.ToArray();
 	}
 
+	/// <summary>
+	///   Reads the asynchronous.
+	/// </summary>
+	/// <param name="source">The source.</param>
+	/// <param name="buffer">The buffer.</param>
+	/// <param name="cancellationToken">
+	///   The cancellation token that can be used by other objects or threads to receive notice
+	///   of cancellation.
+	/// </param>
+	/// <returns>ValueTask&lt;System.Int32&gt;.</returns>
 	public static ValueTask<int> ReadAsync(Stream source, Memory<byte> buffer, CancellationToken cancellationToken = default)
 	{
 		if (MemoryMarshal.TryGetArray(buffer, out ArraySegment<byte> array))
@@ -106,6 +191,13 @@ public static class Streams
 		return FinishReadAsync(readTask, sharedBuffer, buffer);
 	}
 
+	/// <summary>
+	///   Finish read as an asynchronous operation.
+	/// </summary>
+	/// <param name="readTask">The read task.</param>
+	/// <param name="localBuffer">The local buffer.</param>
+	/// <param name="localDestination">The local destination.</param>
+	/// <returns>A Task&lt;System.Int32&gt; representing the asynchronous operation.</returns>
 	private static async ValueTask<int> FinishReadAsync(Task<int> readTask, byte[] localBuffer, Memory<byte> localDestination)
 	{
 		try
@@ -120,8 +212,22 @@ public static class Streams
 		}
 	}
 
+	/// <summary>
+	///   Reads the fully.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <param name="buf">The buf.</param>
+	/// <returns>System.Int32.</returns>
 	public static int ReadFully(Stream inStr, byte[] buf) => ReadFully(inStr, buf, 0, buf.Length);
 
+	/// <summary>
+	///   Reads the fully.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <param name="buf">The buf.</param>
+	/// <param name="off">The off.</param>
+	/// <param name="len">The length.</param>
+	/// <returns>System.Int32.</returns>
 	public static int ReadFully(Stream inStr, byte[] buf, int off, int len)
 	{
 		var totalRead = 0;
@@ -136,6 +242,12 @@ public static class Streams
 		return totalRead;
 	}
 
+	/// <summary>
+	///   Reads the fully.
+	/// </summary>
+	/// <param name="inStr">The in string.</param>
+	/// <param name="buffer">The buffer.</param>
+	/// <returns>System.Int32.</returns>
 	public static int ReadFully(Stream inStr, Span<byte> buffer)
 	{
 		var totalRead = 0;
@@ -150,6 +262,16 @@ public static class Streams
 		return totalRead;
 	}
 
+	/// <summary>
+	///   Writes the asynchronous.
+	/// </summary>
+	/// <param name="destination">The destination.</param>
+	/// <param name="buffer">The buffer.</param>
+	/// <param name="cancellationToken">
+	///   The cancellation token that can be used by other objects or threads to receive notice
+	///   of cancellation.
+	/// </param>
+	/// <returns>ValueTask.</returns>
 	public static ValueTask WriteAsync(Stream destination, ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
 	{
 		if (MemoryMarshal.TryGetArray(buffer, out var array))
@@ -160,6 +282,13 @@ public static class Streams
 		return new ValueTask(FinishWriteAsync(writeTask, sharedBuffer));
 	}
 
+	/// <summary>
+	///   Writes the buf to.
+	/// </summary>
+	/// <param name="buf">The buf.</param>
+	/// <param name="output">The output.</param>
+	/// <param name="offset">The offset.</param>
+	/// <returns>System.Int32.</returns>
 	public static int WriteBufTo(MemoryStream buf, byte[] output, int offset)
 	{
 		if (buf.TryGetBuffer(out var buffer))
@@ -173,6 +302,12 @@ public static class Streams
 		return size;
 	}
 
+	/// <summary>
+	///   Finish write as an asynchronous operation.
+	/// </summary>
+	/// <param name="writeTask">The write task.</param>
+	/// <param name="localBuffer">The local buffer.</param>
+	/// <returns>A Task representing the asynchronous operation.</returns>
 	private static async Task FinishWriteAsync(Task writeTask, byte[] localBuffer)
 	{
 		try
@@ -185,6 +320,15 @@ public static class Streams
 		}
 	}
 
+	/// <summary>
+	///   Validates the buffer arguments.
+	/// </summary>
+	/// <param name="buffer">The buffer.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="count">The count.</param>
+	/// <exception cref="System.ArgumentNullException">buffer</exception>
+	/// <exception cref="System.ArgumentOutOfRangeException">offset</exception>
+	/// <exception cref="System.ArgumentOutOfRangeException">count</exception>
 	public static void ValidateBufferArguments(byte[] buffer, int offset, int count)
 	{
 		if (buffer == null) throw new ArgumentNullException(nameof(buffer));
