@@ -6,22 +6,56 @@
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
 using core.IO;
+using core.Protocol.asn1.ber;
 
 namespace core.Protocol.asn1;
 
+/// <summary>
+///   Class Asn1StreamParser.
+/// </summary>
 public class Asn1StreamParser
 {
+	/// <summary>
+	///   The base stream
+	/// </summary>
 	private readonly Stream _baseStream;
-	private readonly int    _limit;
 
+	/// <summary>
+	///   The limit
+	/// </summary>
+	private readonly int _limit;
+
+	/// <summary>
+	///   The temporary buffers
+	/// </summary>
 	private readonly byte[][] _tmpBuffers;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="Asn1StreamParser" /> class.
+	/// </summary>
+	/// <param name="input">The input.</param>
 	public Asn1StreamParser(Stream input) : this(input, Asn1InputStream.FindLimit(input)) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="Asn1StreamParser" /> class.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
 	public Asn1StreamParser(byte[] encoding) : this(new MemoryStream(encoding, false), encoding.Length) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="Asn1StreamParser" /> class.
+	/// </summary>
+	/// <param name="input">The input.</param>
+	/// <param name="limit">The limit.</param>
 	public Asn1StreamParser(Stream input, int limit) : this(input, limit, new byte[16][]) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="Asn1StreamParser" /> class.
+	/// </summary>
+	/// <param name="input">The input.</param>
+	/// <param name="limit">The limit.</param>
+	/// <param name="tmpBuffers">The temporary buffers.</param>
+	/// <exception cref="ArgumentException">Expected stream to be readable, nameof(input)</exception>
 	internal Asn1StreamParser(Stream input, int limit, byte[][] tmpBuffers)
 	{
 		if (!input.CanRead) throw new ArgumentException("Expected stream to be readable", nameof(input));
@@ -31,12 +65,22 @@ public class Asn1StreamParser
 		_tmpBuffers = tmpBuffers;
 	}
 
+	/// <summary>
+	///   Reads the object.
+	/// </summary>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable?.</returns>
 	public virtual IAsn1Convertable? ReadObject()
 	{
 		var tagHdr = _baseStream.ReadByte();
 		return tagHdr < 0 ? null : ImplParseObject(tagHdr);
 	}
 
+	/// <summary>
+	///   Implementations the parse object.
+	/// </summary>
+	/// <param name="tagHdr">The tag HDR.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
+	/// <exception cref="IOException">indefinite-length primitive encoding encountered</exception>
 	internal IAsn1Convertable ImplParseObject(int tagHdr)
 	{
 		// turn off looking for "00" while we resolve the tag
@@ -56,9 +100,7 @@ public class Asn1StreamParser
 			var sp    = new Asn1StreamParser(indIn, _limit, _tmpBuffers);
 
 			var tagClass = tagHdr & Asn1Tags.Private;
-			if (0 != tagClass) return new BerTaggedObjectParser(tagClass, tagNo, sp);
-
-			return sp.ParseImplicitConstructedIL(tagNo);
+			return 0 != tagClass ? new BerTaggedObjectParser(tagClass, tagNo, sp) : sp.ParseImplicitConstructedIL(tagNo);
 		}
 		else
 		{
@@ -70,17 +112,20 @@ public class Asn1StreamParser
 			var sp = new Asn1StreamParser(defIn, defIn.Remaining, _tmpBuffers);
 
 			var tagClass = tagHdr & Asn1Tags.Private;
-			if (0 != tagClass)
-			{
-				var isConstructed = (tagHdr & Asn1Tags.Constructed) != 0;
+			if (0 == tagClass) return sp.ParseImplicitConstructedDL(tagNo);
+			var isConstructed = (tagHdr & Asn1Tags.Constructed) != 0;
 
-				return new DLTaggedObjectParser(tagClass, tagNo, isConstructed, sp);
-			}
-
-			return sp.ParseImplicitConstructedDL(tagNo);
+			return new DLTaggedObjectParser(tagClass, tagNo, isConstructed, sp);
 		}
 	}
 
+	/// <summary>
+	///   Loads the tagged dl.
+	/// </summary>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
+	/// <param name="constructed">The constructed.</param>
+	/// <returns>core.Protocol.asn1.Asn1Object.</returns>
 	internal Asn1Object LoadTaggedDL(int tagClass, int tagNo, bool constructed)
 	{
 		if (!constructed)
@@ -93,12 +138,23 @@ public class Asn1StreamParser
 		return Asn1TaggedObject.CreateConstructedDL(tagClass, tagNo, contentsElements);
 	}
 
+	/// <summary>
+	///   Loads the tagged il.
+	/// </summary>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns>core.Protocol.asn1.Asn1Object.</returns>
 	internal Asn1Object LoadTaggedIL(int tagClass, int tagNo)
 	{
 		var contentsElements = LoadVector();
 		return Asn1TaggedObject.CreateConstructedIL(tagClass, tagNo, contentsElements);
 	}
 
+	/// <summary>
+	///   Parses the implicit constructed dl.
+	/// </summary>
+	/// <param name="univTagNo">The univ tag no.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
 	internal IAsn1Convertable ParseImplicitConstructedDL(int univTagNo)
 		=> univTagNo switch
 		   {
@@ -115,6 +171,11 @@ public class Asn1StreamParser
 			   // TODO[asn1] DLConstructedBitStringParser
 		   };
 
+	/// <summary>
+	///   Parses the implicit constructed il.
+	/// </summary>
+	/// <param name="univTagNo">The univ tag no.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
 	internal IAsn1Convertable ParseImplicitConstructedIL(int univTagNo)
 		=> univTagNo switch
 		   {
@@ -128,8 +189,23 @@ public class Asn1StreamParser
 		   };
 
 
+	/// <summary>
+	///   Parses the implicit primitive.
+	/// </summary>
+	/// <param name="univTagNo">The univ tag no.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
 	internal IAsn1Convertable ParseImplicitPrimitive(int univTagNo) => ParseImplicitPrimitive(univTagNo, (DefiniteLengthInputStream) _baseStream);
 
+	/// <summary>
+	///   Parses the implicit primitive.
+	/// </summary>
+	/// <param name="univTagNo">The univ tag no.</param>
+	/// <param name="defIn">The definition in.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
+	/// <exception cref="Asn1Exception">externals must use constructed encoding (see X.690 8.18)</exception>
+	/// <exception cref="Asn1Exception">sequences must use constructed encoding (see X.690 8.9.1/8.10.1)</exception>
+	/// <exception cref="Asn1Exception">sets must use constructed encoding (see X.690 8.11.1/8.12.1)</exception>
+	/// <exception cref="Asn1Exception">corrupted stream detected, e</exception>
 	internal IAsn1Convertable ParseImplicitPrimitive(int univTagNo, DefiniteLengthInputStream defIn)
 	{
 		// Some primitive encodings can be handled by parsers too...
@@ -152,6 +228,13 @@ public class Asn1StreamParser
 		}
 	}
 
+	/// <summary>
+	///   Parses the object.
+	/// </summary>
+	/// <param name="univTagNo">The univ tag no.</param>
+	/// <returns>core.Protocol.asn1.IAsn1Convertable?.</returns>
+	/// <exception cref="ArgumentException">$"invalid universal tag number: {univTagNo}, nameof(univTagNo)</exception>
+	/// <exception cref="IOException">$"unexpected identifier encountered: {tagHdr}</exception>
 	internal IAsn1Convertable? ParseObject(int univTagNo)
 	{
 		if (univTagNo is < 0 or > 30) throw new ArgumentException($"invalid universal tag number: {univTagNo}", nameof(univTagNo));
@@ -164,6 +247,11 @@ public class Asn1StreamParser
 		return ImplParseObject(tagHdr);
 	}
 
+	/// <summary>
+	///   Parses the tagged object.
+	/// </summary>
+	/// <returns>core.Protocol.asn1.IAsn1TaggedObjectParser?.</returns>
+	/// <exception cref="Asn1Exception">no tagged object found</exception>
 	internal IAsn1TaggedObjectParser? ParseTaggedObject()
 	{
 		var tagHdr = _baseStream.ReadByte();
@@ -175,6 +263,10 @@ public class Asn1StreamParser
 		return (IAsn1TaggedObjectParser) ImplParseObject(tagHdr);
 	}
 
+	/// <summary>
+	///   Loads the vector.
+	/// </summary>
+	/// <returns>core.Protocol.asn1.Asn1EncodableVector.</returns>
 	internal Asn1EncodableVector LoadVector()
 	{
 		var tagHdr = _baseStream.ReadByte();
@@ -191,6 +283,10 @@ public class Asn1StreamParser
 		return v;
 	}
 
+	/// <summary>
+	///   Set00s the check.
+	/// </summary>
+	/// <param name="enabled">The enabled.</param>
 	private void Set00Check(bool enabled)
 	{
 		switch (_baseStream)

@@ -36,7 +36,7 @@ public class Asn1SequenceParser : IAsn1SequenceParser
 	///   Reads the object.
 	/// </summary>
 	/// <returns>IAsn1Convertable.</returns>
-	public IAsn1Convertable? ReadObject()
+	public virtual IAsn1Convertable? ReadObject()
 	{
 		if (_index == _max) return null;
 		var obj = _outer[_index++];
@@ -52,5 +52,5 @@ public class Asn1SequenceParser : IAsn1SequenceParser
 	///   defined the conversion to and asn.1 object.
 	/// </summary>
 	/// <returns>Asn1Object.</returns>
-	public Asn1Object ToAsn1Object() => _outer;
+	public virtual Asn1Object ToAsn1Object() => _outer;
 }

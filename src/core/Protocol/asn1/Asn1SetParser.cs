@@ -33,8 +33,7 @@ public class Asn1SetParser : IAsn1SetParser
 	///   Initializes a new instance of the <see cref="Asn1SetParser" /> class.
 	/// </summary>
 	/// <param name="outer">The outer.</param>
-	public Asn1SetParser(
-		Asn1Set outer)
+	public Asn1SetParser(Asn1Set outer)
 	{
 		_outer = outer;
 		_max   = outer.Count;
@@ -50,7 +49,7 @@ public class Asn1SetParser : IAsn1SetParser
 	///   Reads the object.
 	/// </summary>
 	/// <returns>IAsn1Convertable.</returns>
-	public IAsn1Convertable? ReadObject()
+	public virtual IAsn1Convertable? ReadObject()
 	{
 		if (_index == _max) return null;
 

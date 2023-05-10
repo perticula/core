@@ -385,10 +385,10 @@ public class Asn1InputStream : FilterStream
 	/// <param name="tmpBuffers">The temporary buffers.</param>
 	/// <param name="contents">The contents.</param>
 	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-	private static bool GetBuffer(DefiniteLengthInputStream defIn, byte[][] tmpBuffers, out byte[] contents)
+	private static bool GetBuffer(DefiniteLengthInputStream defIn, IReadOnlyList<byte[]> tmpBuffers, out byte[] contents)
 	{
 		var len = defIn.Remaining;
-		if (len >= tmpBuffers.Length)
+		if (len >= tmpBuffers.Count)
 		{
 			contents = defIn.ToArray();
 			return false;
