@@ -22,7 +22,7 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	/// <summary>
 	///   The original length
 	/// </summary>
-	private readonly int _originalLength;
+	private readonly long _originalLength;
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="DefiniteLengthInputStream" /> class.
@@ -114,8 +114,7 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	/// <exception cref="System.IO.EndOfStreamException">DEF length " + _originalLength + " object truncated by " + Remaining</exception>
 	public override int Read(Span<byte> buffer)
 	{
-		if (Remaining == 0)
-			return 0;
+		if (Remaining == 0) return 0;
 
 		var toRead  = System.Math.Min(buffer.Length, Remaining);
 		var numRead = Stream.Read(buffer[..toRead]);

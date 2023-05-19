@@ -122,7 +122,7 @@ public static class Streams
 	/// <param name="outStr">A <see cref="Stream" /></param>
 	/// <returns>The number of bytes actually transferred, if not greater than <c>limit</c></returns>
 	/// <exception cref="IOException"></exception>
-	public static long PipeAllLimited(Stream inStr, long limit, Stream outStr) => PipeAllLimited(inStr, limit, outStr, DefaultBufferSize);
+	public static long PipeAllLimited(Stream inStr, int limit, Stream outStr) => PipeAllLimited(inStr, limit, outStr, DefaultBufferSize);
 
 	/// <summary>
 	///   Pipes all limited.
@@ -132,7 +132,7 @@ public static class Streams
 	/// <param name="outStr">The out string.</param>
 	/// <param name="bufferSize">Size of the buffer.</param>
 	/// <returns>System.Int64.</returns>
-	public static long PipeAllLimited(Stream inStr, long limit, Stream outStr, int bufferSize)
+	public static long PipeAllLimited(Stream inStr, int limit, Stream outStr, int bufferSize)
 	{
 		var limited = new LimitedInputStream(inStr, limit);
 		CopyTo(limited, outStr, bufferSize);
