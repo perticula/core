@@ -46,7 +46,7 @@ public class Asn1Encoding : IAsn1Encoding
 	///   Encodes the specified buffer.
 	/// </summary>
 	/// <param name="asn1Out">The asn1 out.</param>
-	public void Encode(Asn1OutputStream asn1Out)
+	public virtual void Encode(Asn1OutputStream asn1Out)
 	{
 		asn1Out.WriteIdentifier(_tagClass, _tagNo);
 		asn1Out.WriteDL(_contentsOctets.Length);
@@ -57,5 +57,5 @@ public class Asn1Encoding : IAsn1Encoding
 	///   Gets the length of the value to encode.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingDL(_tagNo, _contentsOctets.Length);
+	public virtual int GetLength() => Asn1OutputStream.GetLengthOfEncodingDL(_tagNo, _contentsOctets.Length);
 }
