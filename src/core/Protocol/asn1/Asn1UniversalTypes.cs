@@ -20,7 +20,7 @@ public static class Asn1UniversalTypes
 	/// </summary>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>Asn1UniversalType.</returns>
-	public static Asn1UniversalType Get(int tagNo)
+	public static Asn1UniversalType? Get(int tagNo)
 		=> tagNo switch
 		   {
 			   Asn1Tags.Boolean             => DerBoolean.Meta.Instance,
@@ -39,7 +39,7 @@ public static class Asn1UniversalTypes
 			   Asn1Tags.NumericString       => DerNumericString.Meta.Instance,    // [UNIVERSAL 18] IMPLICIT OCTET STRING (encode as if)
 			   Asn1Tags.PrintableString     => DerPrintableString.Meta.Instance,  // [UNIVERSAL 19] IMPLICIT OCTET STRING (encode as if)
 			   Asn1Tags.T61String           => DerT61String.Meta.Instance,        // [UNIVERSAL 20] IMPLICIT OCTET STRING (encode as if)
-			   Asn1Tags.VideotexString      => DerVideotexString.Meta.Instance,   // [UNIVERSAL 21] IMPLICIT OCTET STRING (encode as if)
+			   Asn1Tags.VideoTexString      => DerVideoTexString.Meta.Instance,   // [UNIVERSAL 21] IMPLICIT OCTET STRING (encode as if)
 			   Asn1Tags.Ia5String           => DerIa5String.Meta.Instance,        // [UNIVERSAL 22] IMPLICIT OCTET STRING (encode as if)
 			   Asn1Tags.UtcTime             => Asn1UtcTime.Meta.Instance,         // [UNIVERSAL 23] IMPLICIT VisibleString (restricted values)
 			   Asn1Tags.GeneralizedTime     => Asn1GeneralizedTime.Meta.Instance, // [UNIVERSAL 24] IMPLICIT VisibleString (restricted values)

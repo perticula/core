@@ -36,7 +36,7 @@ public static class Asn1Tags
 	public const int NumericString       = 0x12;
 	public const int PrintableString     = 0x13;
 	public const int T61String           = 0x14;
-	public const int VideotexString      = 0x15;
+	public const int VideoTexString      = 0x15;
 	public const int Ia5String           = 0x16;
 	public const int UtcTime             = 0x17;
 	public const int GeneralizedTime     = 0x18;

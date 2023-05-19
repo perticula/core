@@ -9,6 +9,7 @@ using System.Buffers.Binary;
 using core.IO;
 using core.Protocol.asn1.ber;
 using core.Protocol.asn1.der;
+using core.Protocol.asn1.dl;
 
 namespace core.Protocol.asn1;
 
@@ -217,7 +218,7 @@ public class Asn1InputStream : FilterStream
 
 		var tagClass = tagHdr & Asn1Tags.Private;
 		if (0 != tagClass)
-			return sp.LoadTaggedIL(tagClass, tagNo);
+			return sp.LoadTaggedIndefiniteLength(tagClass, tagNo);
 
 		return tagNo switch
 		       {
@@ -363,11 +364,9 @@ public class Asn1InputStream : FilterStream
 		do
 		{
 			var octet = s.ReadByte();
-			if (octet < 0)
-				throw new EndOfStreamException("EOF found reading length");
+			if (octet < 0) throw new EndOfStreamException("EOF found reading length");
 
-			if ((uint) length >> 23 != 0U)
-				throw new IOException("long form definite-length more than 31 bits");
+			if ((uint) length >> 23 != 0U) throw new IOException("long form definite-length more than 31 bits");
 
 			length = (length << 8) + octet;
 		} while (++octetsPos < octetsCount);
@@ -423,7 +422,7 @@ public class Asn1InputStream : FilterStream
 			case Asn1Tags.Enumerated:
 			{
 				var usedBuffer = GetBuffer(defIn, tmpBuffers, out var contents);
-				return DerEnumerated.CreatePrimitive(contents, clone: usedBuffer);
+				return DerEnumerated.CreatePrimitive(contents, usedBuffer);
 			}
 			case Asn1Tags.ObjectIdentifier:
 			{
@@ -452,7 +451,7 @@ public class Asn1InputStream : FilterStream
 			       Asn1Tags.UniversalString     => DerUniversalString.CreatePrimitive(bytes),
 			       Asn1Tags.UtcTime             => Asn1UtcTime.CreatePrimitive(bytes),
 			       Asn1Tags.Utf8String          => DerUtf8String.CreatePrimitive(bytes),
-			       Asn1Tags.VideotexString      => DerVideotexString.CreatePrimitive(bytes),
+			       Asn1Tags.VideoTexString      => DerVideoTexString.CreatePrimitive(bytes),
 			       Asn1Tags.VisibleString       => DerVisibleString.CreatePrimitive(bytes),
 			       Asn1Tags.Real                => throw new IOException($"unsupported tag {tagNo} encountered"),
 			       Asn1Tags.EmbeddedPdv         => throw new IOException($"unsupported tag {tagNo} encountered"),

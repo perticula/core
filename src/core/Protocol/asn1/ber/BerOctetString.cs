@@ -96,7 +96,7 @@ public class BerOctetString : DerOctetString
 	internal override IAsn1Encoding GetEncoding(int encoding)
 		=> Asn1OutputStream.EncodingBer != encoding
 			   ? base.GetEncoding(encoding)
-			   : (IAsn1Encoding) new ConstructedILEncoding(Asn1Tags.Universal, Asn1Tags.OctetString, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
+			   : new ConstructedIndefiniteLengthEncoding(Asn1Tags.Universal, Asn1Tags.OctetString, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
 
 	/// <summary>
 	///   Gets the encoding implicit.
@@ -108,5 +108,5 @@ public class BerOctetString : DerOctetString
 	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo)
 		=> Asn1OutputStream.EncodingBer != encoding
 			   ? base.GetEncodingImplicit(encoding, tagClass, tagNo)
-			   : (IAsn1Encoding) new ConstructedILEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
+			   : new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
 }

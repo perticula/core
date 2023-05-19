@@ -7,6 +7,8 @@
 
 using core.IO;
 using core.Protocol.asn1.ber;
+using core.Protocol.asn1.der;
+using core.Protocol.asn1.dl;
 
 namespace core.Protocol.asn1;
 
@@ -100,7 +102,7 @@ public class Asn1StreamParser
 			var sp    = new Asn1StreamParser(indIn, _limit, _tmpBuffers);
 
 			var tagClass = tagHdr & Asn1Tags.Private;
-			return 0 != tagClass ? new BerTaggedObjectParser(tagClass, tagNo, sp) : sp.ParseImplicitConstructedIL(tagNo);
+			return 0 != tagClass ? new BerTaggedObjectParser(tagClass, tagNo, sp) : sp.ParseImplicitConstructedIndefiniteLength(tagNo);
 		}
 		else
 		{
@@ -112,10 +114,10 @@ public class Asn1StreamParser
 			var sp = new Asn1StreamParser(defIn, defIn.Remaining, _tmpBuffers);
 
 			var tagClass = tagHdr & Asn1Tags.Private;
-			if (0 == tagClass) return sp.ParseImplicitConstructedDL(tagNo);
+			if (0 == tagClass) return sp.ParseImplicitConstructedDefiniteLength(tagNo);
 			var isConstructed = (tagHdr & Asn1Tags.Constructed) != 0;
 
-			return new DLTaggedObjectParser(tagClass, tagNo, isConstructed, sp);
+			return new DefiniteLengthTaggedObjectParser(tagClass, tagNo, isConstructed, sp);
 		}
 	}
 
@@ -126,7 +128,7 @@ public class Asn1StreamParser
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="constructed">The constructed.</param>
 	/// <returns>core.Protocol.asn1.Asn1Object.</returns>
-	internal Asn1Object LoadTaggedDL(int tagClass, int tagNo, bool constructed)
+	internal Asn1Object LoadTaggedDefiniteLength(int tagClass, int tagNo, bool constructed)
 	{
 		if (!constructed)
 		{
@@ -144,7 +146,7 @@ public class Asn1StreamParser
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>core.Protocol.asn1.Asn1Object.</returns>
-	internal Asn1Object LoadTaggedIL(int tagClass, int tagNo)
+	internal Asn1Object LoadTaggedIndefiniteLength(int tagClass, int tagNo)
 	{
 		var contentsElements = LoadVector();
 		return Asn1TaggedObject.CreateConstructedIL(tagClass, tagNo, contentsElements);
@@ -155,7 +157,7 @@ public class Asn1StreamParser
 	/// </summary>
 	/// <param name="univTagNo">The univ tag no.</param>
 	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
-	internal IAsn1Convertable ParseImplicitConstructedDL(int univTagNo)
+	internal IAsn1Convertable ParseImplicitConstructedDefiniteLength(int univTagNo)
 		=> univTagNo switch
 		   {
 			   Asn1Tags.BitString   => new BerBitStringParser(this),
@@ -176,7 +178,7 @@ public class Asn1StreamParser
 	/// </summary>
 	/// <param name="univTagNo">The univ tag no.</param>
 	/// <returns>core.Protocol.asn1.IAsn1Convertable.</returns>
-	internal IAsn1Convertable ParseImplicitConstructedIL(int univTagNo)
+	internal IAsn1Convertable ParseImplicitConstructedIndefiniteLength(int univTagNo)
 		=> univTagNo switch
 		   {
 			   Asn1Tags.BitString   => new BerBitStringParser(this),
@@ -211,7 +213,7 @@ public class Asn1StreamParser
 		// Some primitive encodings can be handled by parsers too...
 		switch (univTagNo)
 		{
-			case Asn1Tags.BitString:   return new DLBitStringParser(defIn);
+			case Asn1Tags.BitString:   return new DefiniteLengthBitStringParser(defIn);
 			case Asn1Tags.External:    throw new Asn1Exception("externals must use constructed encoding (see X.690 8.18)");
 			case Asn1Tags.OctetString: return new DerOctetStringParser(defIn);
 			case Asn1Tags.Set:         throw new Asn1Exception("sequences must use constructed encoding (see X.690 8.9.1/8.10.1)");

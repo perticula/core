@@ -155,7 +155,7 @@ public class DerObjectIdentifier : Asn1Object
 	///   Gets the encoding der.
 	/// </summary>
 	/// <returns>core.Protocol.asn1.der.DerEncoding.</returns>
-	internal sealed override DerEncoding GetEncodingDer() => new Asn1DerEncoding(Asn1Tags.Universal, Asn1Tags.ObjectIdentifier, GetContents());
+	internal sealed override DerEncoding GetEncodingDer() => new(Asn1Tags.Universal, Asn1Tags.ObjectIdentifier, GetContents());
 
 	/// <summary>
 	///   Gets the encoding implicit.
@@ -172,7 +172,7 @@ public class DerObjectIdentifier : Asn1Object
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>core.Protocol.asn1.der.DerEncoding.</returns>
-	internal sealed override DerEncoding GetEncodingDerImplicit(int tagClass, int tagNo) => new Asn1DerEncoding(tagClass, tagNo, GetContents());
+	internal sealed override DerEncoding GetEncodingDerImplicit(int tagClass, int tagNo) => new(tagClass, tagNo, GetContents());
 
 	/// <summary>
 	///   Asn1s the get hash code.

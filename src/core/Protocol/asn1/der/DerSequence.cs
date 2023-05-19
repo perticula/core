@@ -6,6 +6,7 @@
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
 using core.Protocol.asn1.ber;
+using core.Protocol.asn1.dl;
 
 namespace core.Protocol.asn1.der;
 
@@ -70,7 +71,7 @@ public class DerSequence : Asn1Sequence
 	/// </summary>
 	/// <param name="encoding">The encoding.</param>
 	/// <returns>IAsn1Encoding.</returns>
-	internal override IAsn1Encoding GetEncoding(int encoding) => new ConstructedDLEncoding(Asn1Tags.Universal, Asn1Tags.Sequence, Asn1OutputStream.GetContentsEncodings(Asn1OutputStream.EncodingDer, Elements));
+	internal override IAsn1Encoding GetEncoding(int encoding) => new ConstructedDefiniteLengthEncoding(Asn1Tags.Universal, Asn1Tags.Sequence, Asn1OutputStream.GetContentsEncodings(Asn1OutputStream.EncodingDer, Elements));
 
 	/// <summary>
 	///   Gets the encoding implicit.
@@ -79,7 +80,7 @@ public class DerSequence : Asn1Sequence
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>IAsn1Encoding.</returns>
-	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo) => new ConstructedDLEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(Asn1OutputStream.EncodingDer, Elements));
+	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo) => new ConstructedDefiniteLengthEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(Asn1OutputStream.EncodingDer, Elements));
 
 	/// <summary>
 	///   Gets the encoding der.

@@ -1,4 +1,4 @@
-// perticula - core - BerBitStringParser.cs
+// perticula - core - DefiniteLengthBitStringParser.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -6,31 +6,27 @@
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
 using core.IO;
+using core.Protocol.asn1.der;
 
-namespace core.Protocol.asn1.ber;
+namespace core.Protocol.asn1.dl;
 
 /// <summary>
-///   Class BerBitStringParser.
+///   Class DefiniteLengthBitStringParser.
 ///   Implements the <see cref="core.Protocol.asn1.IAsn1BitStringParser" />
 /// </summary>
 /// <seealso cref="core.Protocol.asn1.IAsn1BitStringParser" />
-public class BerBitStringParser : IAsn1BitStringParser
+public class DefiniteLengthBitStringParser : IAsn1BitStringParser
 {
 	/// <summary>
-	///   The parser
+	///   The stream
 	/// </summary>
-	private readonly Asn1StreamParser _parser;
+	private readonly DefiniteLengthInputStream _stream;
 
 	/// <summary>
-	///   The bit stream
+	///   Initializes a new instance of the <see cref="DefiniteLengthBitStringParser" /> class.
 	/// </summary>
-	private ConstructedBitStream? _bitStream;
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="BerBitStringParser" /> class.
-	/// </summary>
-	/// <param name="parser">The parser.</param>
-	internal BerBitStringParser(Asn1StreamParser parser) => _parser = parser;
+	/// <param name="stream">The stream.</param>
+	internal DefiniteLengthBitStringParser(DefiniteLengthInputStream stream) => _stream = stream;
 
 	/// <summary>
 	///   Gets the bit stream.
@@ -38,10 +34,7 @@ public class BerBitStringParser : IAsn1BitStringParser
 	///   may include pad bits. See <see cref="PadBits" />.
 	/// </summary>
 	/// <returns>Stream.</returns>
-	public Stream GetOctetStream()
-	{
-		return _bitStream = new ConstructedBitStream(_parser, true);
-	}
+	public Stream GetBitStream() => GetBitStream(false);
 
 	/// <summary>
 	///   Gets the bit stream.
@@ -49,10 +42,7 @@ public class BerBitStringParser : IAsn1BitStringParser
 	///   may include pad bits. See <see cref="PadBits" />.
 	/// </summary>
 	/// <returns>Stream.</returns>
-	public Stream GetBitStream()
-	{
-		return _bitStream = new ConstructedBitStream(_parser, false);
-	}
+	public Stream GetOctetStream() => GetBitStream(true);
 
 	/// <summary>
 	///   Gets the pad bits.
@@ -65,7 +55,7 @@ public class BerBitStringParser : IAsn1BitStringParser
 	///   NOTE: Must be called AFTER the stream has been fully processed.
 	///   Does not need to be called if <see cref="GetOctetStream" /> was used instead of   <see cref="GetBitStream" />.
 	/// </remarks>
-	public int PadBits => _bitStream?.PadBits ?? throw new NullReferenceException();
+	public int PadBits { get; private set; }
 
 	/// <summary>
 	///   defined the conversion to and asn.1 object.
@@ -76,7 +66,7 @@ public class BerBitStringParser : IAsn1BitStringParser
 	{
 		try
 		{
-			return Parse(_parser);
+			return DerBitString.CreatePrimitive(_stream.ToArray());
 		}
 		catch (IOException e)
 		{
@@ -85,15 +75,26 @@ public class BerBitStringParser : IAsn1BitStringParser
 	}
 
 	/// <summary>
-	///   Parses the specified sp.
+	///   Gets the bit stream.
 	/// </summary>
-	/// <param name="sp">The sp.</param>
-	/// <returns>BerBitString.</returns>
-	internal static BerBitString Parse(Asn1StreamParser sp)
+	/// <param name="octetAligned">if set to <c>true</c> [octet aligned].</param>
+	/// <returns>Stream.</returns>
+	/// <exception cref="System.InvalidOperationException">content octets cannot be empty</exception>
+	/// <exception cref="System.InvalidOperationException">zero length data with non-zero pad bits</exception>
+	/// <exception cref="System.InvalidOperationException">pad bits cannot be greater than 7 or less than 0</exception>
+	private Stream GetBitStream(bool octetAligned)
 	{
-		var bitStream = new ConstructedBitStream(sp, false);
-		var data      = Streams.ReadAll(bitStream);
-		var padBits   = bitStream.PadBits;
-		return new BerBitString(data, padBits);
+		var length = _stream.Remaining;
+		if (length < 1)
+			throw new InvalidOperationException("content octets cannot be empty");
+
+		PadBits = _stream.ReadByte();
+		return PadBits switch
+		       {
+			       > 0 when length  < 2  => throw new InvalidOperationException("zero length data with non-zero pad bits"),
+			       > 0 when PadBits > 7  => throw new InvalidOperationException("pad bits cannot be greater than 7 or less than 0"),
+			       > 0 when octetAligned => throw new IOException($"expected octet-aligned bitstring, but found padBits: {PadBits}"),
+			       _                     => _stream
+		       };
 	}
 }

@@ -10,30 +10,89 @@ using core.Protocol.asn1.der;
 
 namespace core.Protocol.asn1.ber;
 
+/// <summary>
+///   Class BerBitString.
+///   Implements the <see cref="DerBitString" />
+/// </summary>
+/// <seealso cref="DerBitString" />
 public class BerBitString : DerBitString
 {
+	/// <summary>
+	///   The elements
+	/// </summary>
 	private readonly DerBitString[]? _elements;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
+	/// <param name="padBits">The pad bits.</param>
 	public BerBitString(byte data, int padBits) : base(data, padBits) => _elements = null;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
 	public BerBitString(byte[] data) : this(data, 0) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
+	/// <param name="padBits">The pad bits.</param>
 	public BerBitString(byte[] data, int padBits) : base(data, padBits) => _elements = null;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
 	public BerBitString(ReadOnlySpan<byte> data) : this(data, 0) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
+	/// <param name="padBits">The pad bits.</param>
 	public BerBitString(ReadOnlySpan<byte> data, int padBits) : base(data, padBits) => _elements = null;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="namedBits">The named bits.</param>
 	public BerBitString(int namedBits) : base(namedBits) => _elements = null;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="obj">The object.</param>
 	public BerBitString(Asn1Encodable obj) : this(obj.GetDerEncoded(), 0) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="elements">The elements.</param>
 	public BerBitString(DerBitString[] elements) : base(FlattenBitStrings(elements), false) => _elements = elements;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BerBitString" /> class.
+	/// </summary>
+	/// <param name="contents">The contents.</param>
+	/// <param name="check">if set to <c>true</c> [check].</param>
 	internal BerBitString(byte[] contents, bool check) : base(contents, check) => _elements = null;
 
+	/// <summary>
+	///   Froms the sequence.
+	/// </summary>
+	/// <param name="seq">The seq.</param>
+	/// <returns>BerBitString.</returns>
 	public static BerBitString FromSequence(Asn1Sequence seq) => new(seq.MapElements(GetInstance));
 
+	/// <summary>
+	///   Flattens the bit strings.
+	/// </summary>
+	/// <param name="bitStrings">The bit strings.</param>
+	/// <returns>System.Byte[].</returns>
+	/// <exception cref="System.ArgumentException">only the last nested bitstring can have padding - bitStrings</exception>
 	internal static byte[] FlattenBitStrings(DerBitString[] bitStrings)
 	{
 		var count = bitStrings.Length;
@@ -79,17 +138,29 @@ public class BerBitString : DerBitString
 		}
 	}
 
+	/// <summary>
+	///   Gets the encoding.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
+	/// <returns>IAsn1Encoding.</returns>
 	internal override IAsn1Encoding GetEncoding(int encoding)
 		=> Asn1OutputStream.EncodingBer != encoding
 			   ? base.GetEncoding(encoding)
 			   : null == _elements
 				   ? new Asn1Encoding(Asn1Tags.Universal, Asn1Tags.BitString, Contents)
-				   : (IAsn1Encoding) new ConstructedILEncoding(Asn1Tags.Universal, Asn1Tags.BitString, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
+				   : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(Asn1Tags.Universal, Asn1Tags.BitString, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
 
+	/// <summary>
+	///   Gets the encoding implicit.
+	/// </summary>
+	/// <param name="encoding">The encoding.</param>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
+	/// <returns>IAsn1Encoding.</returns>
 	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo)
 		=> Asn1OutputStream.EncodingBer != encoding
 			   ? base.GetEncodingImplicit(encoding, tagClass, tagNo)
 			   : null == _elements
 				   ? new Asn1Encoding(tagClass, tagNo, Contents)
-				   : (IAsn1Encoding) new ConstructedILEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
+				   : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
 }

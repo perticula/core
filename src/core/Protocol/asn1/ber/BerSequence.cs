@@ -6,6 +6,7 @@
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
 using core.Protocol.asn1.der;
+using core.Protocol.asn1.dl;
 
 namespace core.Protocol.asn1.ber;
 
@@ -73,7 +74,7 @@ public class BerSequence : DerSequence
 	internal override IAsn1Encoding GetEncoding(int encoding)
 		=> Asn1OutputStream.EncodingBer != encoding
 			   ? base.GetEncoding(encoding)
-			   : (IAsn1Encoding) new ConstructedILEncoding(Asn1Tags.Universal, Asn1Tags.Sequence, Asn1OutputStream.GetContentsEncodings(encoding, Elements));
+			   : new ConstructedIndefiniteLengthEncoding(Asn1Tags.Universal, Asn1Tags.Sequence, Asn1OutputStream.GetContentsEncodings(encoding, Elements));
 
 	/// <summary>
 	///   Gets the encoding implicit.
@@ -85,7 +86,7 @@ public class BerSequence : DerSequence
 	internal override IAsn1Encoding GetEncodingImplicit(int encoding, int tagClass, int tagNo)
 		=> Asn1OutputStream.EncodingBer != encoding
 			   ? base.GetEncodingImplicit(encoding, tagClass, tagNo)
-			   : (IAsn1Encoding) new ConstructedILEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, Elements));
+			   : new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, Elements));
 
 	/// <summary>
 	///   Converts to asn1bitstring.

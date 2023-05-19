@@ -6,14 +6,15 @@
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
 using System.Collections;
+using core.Protocol.asn1.der;
 
 namespace core.Protocol.asn1;
 
 /// <summary>
 ///   Class Asn1EncodableVector.
-///   Implements the <see cref="System.Collections.Generic.IEnumerable{core.Protocol.asn1.Asn1Encodable}" />
+///   Implements the <see cref="Asn1Encodable" />
 /// </summary>
-/// <seealso cref="System.Collections.Generic.IEnumerable{core.Protocol.asn1.Asn1Encodable}" />
+/// <seealso cref="Asn1Encodable" />
 public class Asn1EncodableVector : IEnumerable<Asn1Encodable>
 {
 	/// <summary>

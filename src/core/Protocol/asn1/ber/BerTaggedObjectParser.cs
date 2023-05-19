@@ -94,7 +94,7 @@ public class BerTaggedObjectParser : IAsn1TaggedObjectParser
 	/// <param name="declaredExplicit">if set to <c>true</c> [declared explicit].</param>
 	/// <param name="baseTagNo">The base tag no.</param>
 	/// <returns>IAsn1Convertable.</returns>
-	public virtual IAsn1Convertable ParseBaseUniversal(bool declaredExplicit, int baseTagNo) => declaredExplicit ? Parser.ParseObject(baseTagNo)! : Parser.ParseImplicitConstructedIL(baseTagNo);
+	public virtual IAsn1Convertable ParseBaseUniversal(bool declaredExplicit, int baseTagNo) => declaredExplicit ? Parser.ParseObject(baseTagNo)! : Parser.ParseImplicitConstructedIndefiniteLength(baseTagNo);
 
 	/// <summary>
 	///   Needed for open types, until we have better type-guided parsing support.
@@ -116,7 +116,7 @@ public class BerTaggedObjectParser : IAsn1TaggedObjectParser
 	{
 		try
 		{
-			return Parser.LoadTaggedIL(TagClass, TagNo);
+			return Parser.LoadTaggedIndefiniteLength(TagClass, TagNo);
 		}
 		catch (IOException e)
 		{

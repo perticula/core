@@ -77,7 +77,7 @@ public class BerTaggedObject : DerTaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingImplicit(encoding, TagClass, TagNo)
-			       : (IAsn1Encoding) new ConstructedILEncoding(TagClass, TagNo, new[] {baseObject.GetEncoding(encoding)});
+			       : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(TagClass, TagNo, new[] {baseObject.GetEncoding(encoding)});
 	}
 
 	/// <summary>
@@ -96,7 +96,7 @@ public class BerTaggedObject : DerTaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingImplicit(encoding, tagClass, tagNo)
-			       : (IAsn1Encoding) new ConstructedILEncoding(tagClass, tagNo, new[] {baseObject.GetEncoding(encoding)});
+			       : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, new[] {baseObject.GetEncoding(encoding)});
 	}
 
 	/// <summary>

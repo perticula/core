@@ -1,4 +1,4 @@
-// perticula - core - DerExternalParser.cs
+// perticula - core - DerSequenceParser.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -10,11 +10,11 @@ using core.Protocol.asn1.dl;
 namespace core.Protocol.asn1.der;
 
 /// <summary>
-///   Class DerExternalParser.
-///   Implements the <see cref="core.Protocol.asn1.Asn1Encodable" />
+///   Class DerSequenceParser.
+///   Implements the <see cref="core.Protocol.asn1.Asn1SequenceParser" />
 /// </summary>
-/// <seealso cref="core.Protocol.asn1.Asn1Encodable" />
-public class DerExternalParser : Asn1Encodable
+/// <seealso cref="core.Protocol.asn1.Asn1SequenceParser" />
+public class DerSequenceParser : IAsn1SequenceParser
 {
 	/// <summary>
 	///   The parser
@@ -22,27 +22,20 @@ public class DerExternalParser : Asn1Encodable
 	private readonly Asn1StreamParser _parser;
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DerExternalParser" /> class.
+	///   Initializes a new instance of the <see cref="DerSequenceParser" /> class.
 	/// </summary>
 	/// <param name="parser">The parser.</param>
-	internal DerExternalParser(Asn1StreamParser parser) => _parser = parser;
+	public DerSequenceParser(Asn1StreamParser parser) => _parser = parser;
 
 	/// <summary>
 	///   Reads the object.
 	/// </summary>
-	/// <returns>System.Nullable&lt;IAsn1Convertable&gt;.</returns>
+	/// <returns>IAsn1Convertable.</returns>
 	public IAsn1Convertable? ReadObject() => _parser.ReadObject();
 
 	/// <summary>
 	///   defined the conversion to and asn.1 object.
 	/// </summary>
 	/// <returns>Asn1Object.</returns>
-	public override Asn1Object ToAsn1Object() => Parse(_parser);
-
-	/// <summary>
-	///   Parses the specified sp.
-	/// </summary>
-	/// <param name="sp">The sp.</param>
-	/// <returns>DerExternal.</returns>
-	internal static DerExternal Parse(Asn1StreamParser sp) => new DLExternal(sp.LoadVector());
+	public Asn1Object ToAsn1Object() => DLSequence.FromVector(_parser.LoadVector());
 }
