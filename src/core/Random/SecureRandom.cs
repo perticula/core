@@ -114,10 +114,8 @@ public class SecureRandom : System.Random
 	{
 		switch (maxValue)
 		{
-			case < 2 and < 0:
-				throw new ArgumentOutOfRangeException(nameof(maxValue), "cannot be negative");
-			case < 2:
-				return 0;
+			case < 2 and < 0: throw new ArgumentOutOfRangeException(nameof(maxValue), "cannot be negative");
+			case < 2:         return 0;
 		}
 
 		int bits;
@@ -200,7 +198,7 @@ public class SecureRandom : System.Random
 	{
 		Span<byte> bytes = stackalloc byte[4];
 		NextBytes(bytes);
-		return (int) Pack.BE_To_UInt32(bytes);
+		return (int) Pack.BigEndian_To_UInt32(bytes);
 	}
 
 	/// <summary>
@@ -211,7 +209,7 @@ public class SecureRandom : System.Random
 	{
 		Span<byte> bytes = stackalloc byte[8];
 		NextBytes(bytes);
-		return (long) Pack.BE_To_UInt64(bytes);
+		return (long) Pack.BigEndian_To_UInt64(bytes);
 	}
 
 	/// <summary>

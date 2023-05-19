@@ -22,6 +22,11 @@ public class DigestRandomGenerator : IRandomGenerator
 	private const long CycleCount = 10;
 
 	/// <summary>
+	///   The digest
+	/// </summary>
+	private readonly IDigest? _digest;
+
+	/// <summary>
 	///   The seed
 	/// </summary>
 	private readonly byte[] _seed;
@@ -30,11 +35,6 @@ public class DigestRandomGenerator : IRandomGenerator
 	///   The state
 	/// </summary>
 	private readonly byte[] _state;
-
-	/// <summary>
-	///   The digest
-	/// </summary>
-	private readonly IDigest? _digest;
 
 	/// <summary>
 	///   The seed counter
@@ -54,10 +54,10 @@ public class DigestRandomGenerator : IRandomGenerator
 	{
 		_digest = digest;
 
-		_seed        = new byte[digest?.GetDigestSize()??0];
+		_seed        = new byte[digest?.GetDigestSize() ?? 0];
 		_seedCounter = 1;
 
-		_state        = new byte[digest?.GetDigestSize()??0];
+		_state        = new byte[digest?.GetDigestSize() ?? 0];
 		_stateCounter = 1;
 	}
 
@@ -69,8 +69,7 @@ public class DigestRandomGenerator : IRandomGenerator
 	{
 		lock (this)
 		{
-			//TODO!+ if (!Arrays.IsNullOrEmpty(inSeed))
-				DigestUpdate(inSeed);
+			DigestUpdate(inSeed);
 			DigestUpdate(_seed);
 			DigestDoFinal(_seed);
 		}
@@ -173,7 +172,7 @@ public class DigestRandomGenerator : IRandomGenerator
 	private void DigestAddCounter(long seedVal)
 	{
 		Span<byte> bytes = stackalloc byte[8];
-		Pack.UInt64_To_LE((ulong) seedVal, bytes);
+		Pack.UInt64_To_LittleEndian((ulong) seedVal, bytes);
 		_digest?.BlockUpdate(bytes);
 	}
 
