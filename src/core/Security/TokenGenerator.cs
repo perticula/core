@@ -35,6 +35,8 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	private readonly byte[] _securityKey;
 
+	private int _doesNothing = 0xD0;
+
 	/// <summary>
 	///   Initializes a new instance of the <see cref="TokenGenerator" /> class.
 	/// </summary>
@@ -169,19 +171,33 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="today">The date on which to base to token</param>
 	/// <returns>System.String.</returns>
-	public string GenerateAutoExpireToken(DateTime? today = null)
+	public string GenerateAutoExpireToken(DateTime? today = null) => SaltedBase64Token(today ?? DateTime.UtcNow.Date);
+
+	private string SaltedBase64Token(DateTime today)
 	{
-		// Add salt to the digest of the date
-		var when   = today ?? DateTime.UtcNow.Date;
+		Nop();
 		var digest = new StringBuilder();
 		digest.Append("-🔐🪪-");
-		digest.Append(when.Day.ToString("00"));
-		digest.Append(when.Month.ToString("00"));
+		digest.Append(today.Day.ToString("00"));
+		digest.Append(today.Month.ToString("00"));
 		digest.Append("-🤐🤫-");
-		digest.Append(when.Year.ToString("0000"));
+		digest.Append(today.Year.ToString("0000"));
 		digest.Append("-🤝-");
 		var bytes = System.Text.Encoding.UTF8.GetBytes(digest.ToString());
 		return ToBase64Token(SHA256.HashData(bytes));
+
+		void Nop() // This is just to make it harder to reverse engineer the obfuscated code, it does nothing useful.
+		{
+			switch (_doesNothing)
+			{
+				case >= 0xD0:
+					_doesNothing = 0x00;
+					break;
+				default:
+					_doesNothing++;
+					break;
+			}
+		}
 	}
 
 	/// <summary>
