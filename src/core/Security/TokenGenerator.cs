@@ -35,6 +35,9 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	private readonly byte[] _securityKey;
 
+	/// <summary>
+	///   The does nothing
+	/// </summary>
 	private int _doesNothing = 0xD0;
 
 	/// <summary>
@@ -42,13 +45,21 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="settings">The settings.</param>
 	/// <param name="settingKey">The setting key.</param>
-	/// <exception cref="ConfigurationErrorsException">
-	///   Configuration is missing a 'security key' setting called '{settingKey}
-	///   or
-	///   'Security key' setting '{settingKey}
-	///   or
-	///   'Security key' setting '{settingKey}
+	/// <exception cref="System.ArgumentNullException">settings</exception>
+	/// <exception cref="System.ArgumentNullException">settingKey</exception>
+	/// <exception cref="System.Configuration.ConfigurationErrorsException">
+	///   Configuration is missing a 'security key' setting
+	///   called '{settingKey}'
 	/// </exception>
+	/// <exception cref="System.Configuration.ConfigurationErrorsException">
+	///   'Security key' setting '{settingKey}' is null or
+	///   empty
+	/// </exception>
+	/// <exception cref="System.Configuration.ConfigurationErrorsException">
+	///   'Security key' setting '{settingKey}' has an
+	///   invalid value (expected key|iv)
+	/// </exception>
+	/// <exception cref="System.Configuration.ConfigurationErrorsException"></exception>
 	public TokenGenerator(IAppSettings settings, string settingKey = "SsoAuthorizationKey")
 	{
 		if (settings == null) throw new ArgumentNullException(nameof(settings));
@@ -77,6 +88,9 @@ internal class TokenGenerator : ITokenGenerator
 	/// <param name="duration">The duration of this token in seconds (1 - 9999)</param>
 	/// <param name="starting">The time on which to base the expiration</param>
 	/// <returns>System.String.</returns>
+	/// <exception cref="System.ArgumentOutOfRangeException">duration - duration must be between 1 and 9999</exception>
+	/// <exception cref="System.ArgumentException">starting time may not be in the future - starting</exception>
+	/// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
 	public string GenerateAuthorizationToken(Guid securityGuid, int duration, DateTime? starting = null)
 	{
 		if (duration is < 1 or >= 9999) throw new ArgumentOutOfRangeException(nameof(duration), "duration must be between 1 and 9999");
@@ -128,6 +142,7 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="token">The security authorization token to decrypt</param>
 	/// <returns>Guid.</returns>
+	/// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
 	public Guid ValidateAuthorizationToken(string token)
 	{
 		if (string.IsNullOrEmpty(token)) return Guid.Empty;
@@ -173,6 +188,11 @@ internal class TokenGenerator : ITokenGenerator
 	/// <returns>System.String.</returns>
 	public string GenerateAutoExpireToken(DateTime? today = null) => SaltedBase64Token(today ?? DateTime.UtcNow.Date);
 
+	/// <summary>
+	///   Salteds the base64 token.
+	/// </summary>
+	/// <param name="today">The today.</param>
+	/// <returns>System.String.</returns>
 	private string SaltedBase64Token(DateTime today)
 	{
 		Nop();

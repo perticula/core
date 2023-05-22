@@ -55,7 +55,7 @@ public class ConstructedDefiniteLengthEncoding : IAsn1Encoding
 	public void Encode(Asn1OutputStream asn1Out)
 	{
 		asn1Out.WriteIdentifier(Asn1Tags.Constructed | _tagClass, _tagNo);
-		asn1Out.WriteDL(_contentsLength);
+		asn1Out.WriteDefiniteLength(_contentsLength);
 		asn1Out.EncodeContents(_contentsElements);
 	}
 
@@ -63,5 +63,5 @@ public class ConstructedDefiniteLengthEncoding : IAsn1Encoding
 	///   Gets the length of the value to encode.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingDL(_tagNo, _contentsLength);
+	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingDefiniteLength(_tagNo, _contentsLength);
 }

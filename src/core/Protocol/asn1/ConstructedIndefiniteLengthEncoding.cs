@@ -8,27 +8,29 @@
 namespace core.Protocol.asn1;
 
 /// <summary>
-/// Class ConstructedIndefiniteLengthEncoding.
-/// Implements the <see cref="core.Protocol.asn1.IAsn1Encoding" />
+///   Class ConstructedIndefiniteLengthEncoding.
+///   Implements the <see cref="core.Protocol.asn1.IAsn1Encoding" />
 /// </summary>
 /// <seealso cref="core.Protocol.asn1.IAsn1Encoding" />
 public class ConstructedIndefiniteLengthEncoding : IAsn1Encoding
 {
 	/// <summary>
-	/// The contents elements
+	///   The contents elements
 	/// </summary>
 	private readonly IAsn1Encoding[] _contentsElements;
-	/// <summary>
-	/// The tag class
-	/// </summary>
-	private readonly int             _tagClass;
-	/// <summary>
-	/// The tag no
-	/// </summary>
-	private readonly int             _tagNo;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="ConstructedIndefiniteLengthEncoding"/> class.
+	///   The tag class
+	/// </summary>
+	private readonly int _tagClass;
+
+	/// <summary>
+	///   The tag no
+	/// </summary>
+	private readonly int _tagNo;
+
+	/// <summary>
+	///   Initializes a new instance of the <see cref="ConstructedIndefiniteLengthEncoding" /> class.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
@@ -41,7 +43,7 @@ public class ConstructedIndefiniteLengthEncoding : IAsn1Encoding
 	}
 
 	/// <summary>
-	/// Encodes the specified buffer.
+	///   Encodes the specified buffer.
 	/// </summary>
 	/// <param name="asn1Out">The asn1 out.</param>
 	public void Encode(Asn1OutputStream asn1Out)
@@ -54,8 +56,8 @@ public class ConstructedIndefiniteLengthEncoding : IAsn1Encoding
 	}
 
 	/// <summary>
-	/// Gets the length of the value to encode.
+	///   Gets the length of the value to encode.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingIL(_tagNo, _contentsElements);
+	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingIndefiniteLength(_tagNo, _contentsElements);
 }

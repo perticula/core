@@ -75,7 +75,7 @@ public abstract class Asn1TaggedObject : Asn1Object, IAsn1TaggedObjectParser
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
 	/// <exception cref="System.ArgumentNullException">obj</exception>
-	/// <exception cref="System.ArgumentException">invalid tag class: " + tagClass - tagClass</exception>
+	/// <exception cref="System.ArgumentException">invalid tag class: {tagClass} - tagClass</exception>
 	internal Asn1TaggedObject(int explicitness, int tagClass, int tagNo, Asn1Encodable obj)
 	{
 		if (null == obj) throw new ArgumentNullException(nameof(obj));
@@ -409,13 +409,13 @@ public abstract class Asn1TaggedObject : Asn1Object, IAsn1TaggedObjectParser
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="contentsElements">The contents elements.</param>
 	/// <returns>Asn1Object.</returns>
-	internal static Asn1Object CreateConstructedDL(int tagClass, int tagNo, Asn1EncodableVector contentsElements)
+	internal static Asn1Object CreateConstructedDefinteLength(int tagClass, int tagNo, Asn1EncodableVector contentsElements)
 	{
 		var maybeExplicit = contentsElements.Count == 1;
 
 		return maybeExplicit
-			       ? new DLTaggedObject(ParsedExplicit, tagClass, tagNo, contentsElements[0])
-			       : new DLTaggedObject(ParsedImplicit, tagClass, tagNo, DLSequence.FromVector(contentsElements));
+			       ? new DefiniteLengthTaggedObject(ParsedExplicit, tagClass, tagNo, contentsElements[0])
+			       : new DefiniteLengthTaggedObject(ParsedImplicit, tagClass, tagNo, DefinteLengthSequence.FromVector(contentsElements));
 	}
 
 	/// <summary>
@@ -425,7 +425,7 @@ public abstract class Asn1TaggedObject : Asn1Object, IAsn1TaggedObjectParser
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="contentsElements">The contents elements.</param>
 	/// <returns>Asn1Object.</returns>
-	internal static Asn1Object CreateConstructedIL(int tagClass, int tagNo, Asn1EncodableVector contentsElements)
+	internal static Asn1Object CreateConstructedIndefinteLength(int tagClass, int tagNo, Asn1EncodableVector contentsElements)
 	{
 		var maybeExplicit = contentsElements.Count == 1;
 
@@ -441,14 +441,14 @@ public abstract class Asn1TaggedObject : Asn1Object, IAsn1TaggedObjectParser
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="contentsOctets">The contents octets.</param>
 	/// <returns>Asn1Object.</returns>
-	internal static Asn1Object CreatePrimitive(int tagClass, int tagNo, byte[] contentsOctets) => new DLTaggedObject(ParsedImplicit, tagClass, tagNo, new DerOctetString(contentsOctets));
+	internal static Asn1Object CreatePrimitive(int tagClass, int tagNo, byte[] contentsOctets) => new DefiniteLengthTaggedObject(ParsedImplicit, tagClass, tagNo, new DerOctetString(contentsOctets));
 
 	/// <summary>
 	///   Checkeds the cast.
 	/// </summary>
 	/// <param name="asn1Object">The asn1 object.</param>
 	/// <returns>Asn1TaggedObject.</returns>
-	/// <exception cref="System.InvalidOperationException">unexpected object: {asn1Object.GetTypeName()}</exception>
+	/// <exception cref="System.InvalidOperationException">unexpected object: {asn1Object?.GetTypeName()}</exception>
 	private static Asn1TaggedObject CheckedCast(Asn1Object? asn1Object)
 	{
 		if (asn1Object is Asn1TaggedObject taggedObject) return taggedObject;

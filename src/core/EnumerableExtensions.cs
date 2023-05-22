@@ -10,6 +10,9 @@ using core.Matching;
 
 namespace core;
 
+/// <summary>
+///   Class EnumerableExtensions.
+/// </summary>
 public static class EnumerableExtensions
 {
 	/// <summary>
@@ -20,6 +23,8 @@ public static class EnumerableExtensions
 	/// <param name="num">The number.</param>
 	/// <param name="parts">The parts.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
+	/// <exception cref="System.ArgumentOutOfRangeException">num - num must be greater than 0</exception>
+	/// <exception cref="System.ArgumentOutOfRangeException">parts - parts must be greater than 1</exception>
 	public static IEnumerable<T> Divide<T>(this IEnumerable<T> list, int num, int parts)
 	{
 		if (num   < 0) throw new ArgumentOutOfRangeException(nameof(num),   "num must be greater than 0");
@@ -84,6 +89,7 @@ public static class EnumerableExtensions
 	/// <param name="value">The value.</param>
 	/// <param name="count">The count.</param>
 	/// <returns>List&lt;IGrouping&lt;System.Int32, TType&gt;&gt;.</returns>
+	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static IEnumerable<IGrouping<int, TType>> GroupByCount<TType>(this IEnumerable<TType> value, int count)
 	{
 		if (value == null) throw new ArgumentNullException(nameof(value));
@@ -99,7 +105,8 @@ public static class EnumerableExtensions
 	/// <param name="source">The source list.</param>
 	/// <param name="predicate">The predicate to determine when to stop processing items.</param>
 	/// <returns>IEnumerable&lt;TSource&gt;.</returns>
-	/// <exception cref="ArgumentNullException">source or predicate </exception>
+	/// <exception cref="System.ArgumentNullException">source</exception>
+	/// <exception cref="System.ArgumentNullException">predicate</exception>
 	public static IEnumerable<TSource> TakeUntil<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate)
 	{
 		if (source    == null) throw new ArgumentNullException(nameof(source));

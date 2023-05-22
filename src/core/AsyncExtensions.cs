@@ -7,6 +7,9 @@
 
 namespace core;
 
+/// <summary>
+///   Class AsyncExtensions.
+/// </summary>
 public static class AsyncExtensions
 {
 	/// <summary>

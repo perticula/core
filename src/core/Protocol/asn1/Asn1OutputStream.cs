@@ -1,4 +1,4 @@
-// perticula - core - IAsn1Encoding.cs
+// perticula - core - Asn1OutputStream.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -154,7 +154,7 @@ public class Asn1OutputStream : FilterStream
 	///   Writes the dl.
 	/// </summary>
 	/// <param name="dl">The dl.</param>
-	internal void WriteDL(int dl)
+	internal void WriteDefiniteLength(int dl)
 	{
 		if (dl < 128)
 		{
@@ -245,7 +245,7 @@ public class Asn1OutputStream : FilterStream
 	/// </summary>
 	/// <param name="dl">The dl.</param>
 	/// <returns>System.Int32.</returns>
-	internal static int GetLengthOfDL(int dl)
+	internal static int GetLengthOfDefiniteLength(int dl)
 	{
 		if (dl < 128)
 			return 1;
@@ -261,7 +261,7 @@ public class Asn1OutputStream : FilterStream
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="contentsLength">Length of the contents.</param>
 	/// <returns>System.Int32.</returns>
-	internal static int GetLengthOfEncodingDL(int tagNo, int contentsLength) => GetLengthOfIdentifier(tagNo) + GetLengthOfDL(contentsLength) + contentsLength;
+	internal static int GetLengthOfEncodingDefiniteLength(int tagNo, int contentsLength) => GetLengthOfIdentifier(tagNo) + GetLengthOfDefiniteLength(contentsLength) + contentsLength;
 
 	/// <summary>
 	///   Gets the length of encoding il.
@@ -269,7 +269,7 @@ public class Asn1OutputStream : FilterStream
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="contentsEncodings">The contents encodings.</param>
 	/// <returns>System.Int32.</returns>
-	internal static int GetLengthOfEncodingIL(int tagNo, IAsn1Encoding[] contentsEncodings) => GetLengthOfIdentifier(tagNo) + 3 + GetLengthOfContents(contentsEncodings);
+	internal static int GetLengthOfEncodingIndefiniteLength(int tagNo, IAsn1Encoding[] contentsEncodings) => GetLengthOfIdentifier(tagNo) + 3 + GetLengthOfContents(contentsEncodings);
 
 	/// <summary>
 	///   Gets the length of identifier.

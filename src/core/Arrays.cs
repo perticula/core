@@ -79,8 +79,10 @@ public static class Arrays
 		if (aLength != bLength) return false;
 
 		for (var i = 0; i < aLength; ++i)
+		{
 			if (!Equals(a[aFromIndex + i], b[bFromIndex + i]))
 				return false;
+		}
 
 		return true;
 	}
@@ -354,6 +356,7 @@ public static class Arrays
 	/// <summary>
 	///   Determines whether [is null or contains null] [the specified array].
 	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	/// <param name="array">The array.</param>
 	/// <returns><c>true</c> if [is null or contains null] [the specified array]; otherwise, <c>false</c>.</returns>
 	public static bool IsNullOrContainsNull<T>(T?[]? array)

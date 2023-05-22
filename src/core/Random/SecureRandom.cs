@@ -151,7 +151,7 @@ public class SecureRandom : System.Random
 	///   <paramref name="maxValue" />. If <paramref name="minValue" /> equals <paramref name="maxValue" />,
 	///   <paramref name="minValue" /> is returned.
 	/// </returns>
-	/// <exception cref="System.ArgumentException">maxValue cannot be less than minValue</exception>
+	/// <exception cref="System.ArgumentException">maxValue cannot be less than minValue - maxValue</exception>
 	public override int Next(int minValue, int maxValue)
 	{
 		if (maxValue <= minValue)

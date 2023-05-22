@@ -9,6 +9,9 @@ using System.Globalization;
 
 namespace core;
 
+/// <summary>
+///   Class DateTimeExtensions.
+/// </summary>
 public static class DateTimeExtensions
 {
 	/// <summary>
@@ -107,16 +110,8 @@ public static class DateTimeExtensions
 	/// <param name="value2">The value2.</param>
 	/// <param name="toleranceSeconds">The tolerance value (in seconds).</param>
 	/// <returns><c>true</c> if the dates match within the allowed tolerance, <c>false</c> otherwise.</returns>
-	/// <exception cref="ArgumentOutOfRangeException">
-	///   toleranceSeconds - Tolerance must be a positive number
-	///   or
-	///   toleranceSeconds - Tolerance must be less than one minute
-	/// </exception>
-	/// <exception cref="System.ArgumentOutOfRangeException">
-	///   Tolerance must be a positive number
-	///   or
-	///   Tolerance must be less than one minute
-	/// </exception>
+	/// <exception cref="System.ArgumentOutOfRangeException">toleranceSeconds - Tolerance must be a positive number</exception>
+	/// <exception cref="System.ArgumentOutOfRangeException">toleranceSeconds - Tolerance must be less than one minute</exception>
 	/// <remarks>
 	///   This is very useful for edge cases in unit testing where DateTime.now can differ by periods of 1 second during test
 	///   execution.
@@ -228,6 +223,10 @@ public static class DateTimeExtensions
 		return (utc.Ticks - ue.Ticks) / TimeSpan.TicksPerMillisecond;
 	}
 
+	/// <summary>
+	///   Currents the unix ms.
+	/// </summary>
+	/// <returns>System.Int64.</returns>
 	public static long CurrentUnixMs() => ToUnixEpochTimeMs(DateTime.UtcNow);
 
 	/// <summary>
@@ -252,24 +251,44 @@ public static class DateTimeExtensions
 	/// <returns>System.Int64.</returns>
 	private static long GetTicks(DateTime value, int? modifier = 0) => value.AddSeconds(modifier ?? 0).Ticks;
 
+	/// <summary>
+	///   Withes the precision centisecond.
+	/// </summary>
+	/// <param name="dateTime">The date time.</param>
+	/// <returns>DateTime.</returns>
 	public static DateTime WithPrecisionCentisecond(DateTime dateTime)
 	{
 		var ticks = dateTime.Ticks - dateTime.Ticks % (TimeSpan.TicksPerMillisecond * 10L);
 		return new DateTime(ticks, dateTime.Kind);
 	}
 
+	/// <summary>
+	///   Withes the precision decisecond.
+	/// </summary>
+	/// <param name="dateTime">The date time.</param>
+	/// <returns>DateTime.</returns>
 	public static DateTime WithPrecisionDecisecond(DateTime dateTime)
 	{
 		var ticks = dateTime.Ticks - dateTime.Ticks % (TimeSpan.TicksPerMillisecond * 100L);
 		return new DateTime(ticks, dateTime.Kind);
 	}
 
+	/// <summary>
+	///   Withes the precision millisecond.
+	/// </summary>
+	/// <param name="dateTime">The date time.</param>
+	/// <returns>DateTime.</returns>
 	public static DateTime WithPrecisionMillisecond(DateTime dateTime)
 	{
 		var ticks = dateTime.Ticks - dateTime.Ticks % TimeSpan.TicksPerMillisecond;
 		return new DateTime(ticks, dateTime.Kind);
 	}
 
+	/// <summary>
+	///   Withes the precision second.
+	/// </summary>
+	/// <param name="dateTime">The date time.</param>
+	/// <returns>DateTime.</returns>
 	public static DateTime WithPrecisionSecond(DateTime dateTime)
 	{
 		var ticks = dateTime.Ticks - dateTime.Ticks % TimeSpan.TicksPerSecond;

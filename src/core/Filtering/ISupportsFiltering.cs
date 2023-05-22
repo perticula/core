@@ -7,6 +7,9 @@
 
 namespace core.Filtering;
 
+/// <summary>
+///   Interface ISupportsFiltering
+/// </summary>
 public interface ISupportsFiltering
 {
 	/// <summary>

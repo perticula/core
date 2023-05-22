@@ -7,6 +7,9 @@
 
 namespace core.Cryptography;
 
+/// <summary>
+///   Interface IBlockCipher
+/// </summary>
 public interface IBlockCipher
 {
 	/// <summary>
@@ -36,7 +39,7 @@ public interface IBlockCipher
 	/// </summary>
 	/// <param name="input">The input block (as a span).</param>
 	/// <param name="output">The output block (as a span).</param>
-	/// <exception cref="DataLengthException">If input block is wrong size, or output span too small.</exception>
 	/// <returns>System.Int32: The number of bytes processed and produced.</returns>
+	/// <exception cref="DataLengthException">If input block is wrong size, or output span too small.</exception>
 	int ProcessBlock(ReadOnlySpan<byte> input, Span<byte> output);
 }

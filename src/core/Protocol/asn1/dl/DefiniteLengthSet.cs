@@ -1,4 +1,4 @@
-// perticula - core - DLSet.cs
+// perticula - core - DefiniteLengthSet.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -10,48 +10,48 @@ using core.Protocol.asn1.der;
 namespace core.Protocol.asn1.dl;
 
 /// <summary>
-///   Class DLSet.
+///   Class DefiniteLengthSet.
 ///   Implements the <see cref="DerSet" />
 /// </summary>
 /// <seealso cref="DerSet" />
-public class DLSet : DerSet
+public class DefiniteLengthSet : DerSet
 {
 	/// <summary>
 	///   The empty
 	/// </summary>
-	internal new static readonly DLSet Empty = new();
+	internal new static readonly DefiniteLengthSet Empty = new();
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSet" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthSet" /> class.
 	/// </summary>
 	/// <param name="element">The element.</param>
-	internal DLSet(Asn1Encodable element) : base(element) { }
+	internal DefiniteLengthSet(Asn1Encodable element) : base(element) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSet" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthSet" /> class.
 	/// </summary>
 	/// <param name="elements">The elements.</param>
-	internal DLSet(params Asn1Encodable[] elements) : base(elements, false) { }
+	internal DefiniteLengthSet(params Asn1Encodable[] elements) : base(elements, false) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSet" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthSet" /> class.
 	/// </summary>
 	/// <param name="elementVector">The element vector.</param>
-	internal DLSet(Asn1EncodableVector elementVector) : base(elementVector, false) { }
+	internal DefiniteLengthSet(Asn1EncodableVector elementVector) : base(elementVector, false) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSet" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthSet" /> class.
 	/// </summary>
 	/// <param name="isSorted">if set to <c>true</c> [is sorted].</param>
 	/// <param name="elements">The elements.</param>
-	internal DLSet(bool isSorted, Asn1Encodable[] elements) : base(isSorted, elements) { }
+	internal DefiniteLengthSet(bool isSorted, Asn1Encodable[] elements) : base(isSorted, elements) { }
 
 	/// <summary>
 	///   Froms the vector.
 	/// </summary>
 	/// <param name="elementVector">The element vector.</param>
-	/// <returns>DLSet.</returns>
-	internal new static DLSet FromVector(Asn1EncodableVector elementVector) => elementVector.Count < 1 ? Empty : new DLSet(elementVector);
+	/// <returns>DefiniteLengthSet.</returns>
+	internal new static DefiniteLengthSet FromVector(Asn1EncodableVector elementVector) => elementVector.Count < 1 ? Empty : new DefiniteLengthSet(elementVector);
 
 	/// <summary>
 	///   Gets the encoding.

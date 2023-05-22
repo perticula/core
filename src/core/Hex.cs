@@ -74,12 +74,12 @@ public static class Hex
 		if (upperCase)
 			return string.Create(data.Length * 2, data, (chars, memory) =>
 			{
-				int length = Encoder.EncodeUpper(memory.Span, chars);
+				var length = Encoder.EncodeUpper(memory.Span, chars);
 				Debug.Assert(chars.Length == length);
 			});
 		return string.Create(data.Length * 2, data, (chars, memory) =>
 		{
-			int length = Encoder.EncodeLower(memory.Span, chars);
+			var length = Encoder.EncodeLower(memory.Span, chars);
 			Debug.Assert(chars.Length == length);
 		});
 	}

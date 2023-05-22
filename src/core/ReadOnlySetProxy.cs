@@ -15,6 +15,9 @@ namespace core;
 /// <seealso cref="core.ReadOnlySet{T}" />
 public class ReadOnlySetProxy<T> : ReadOnlySet<T>, IProxy<ISet<T>>
 {
+	/// <summary>
+	///   The target
+	/// </summary>
 	private readonly ISet<T> _target;
 
 	/// <summary>
@@ -34,6 +37,7 @@ public class ReadOnlySetProxy<T> : ReadOnlySet<T>, IProxy<ISet<T>>
 	///   Gets the target.
 	/// </summary>
 	/// <value>The target.</value>
+	/// <exception cref="System.NotSupportedException"></exception>
 	public ISet<T> Target
 	{
 		get => _target;

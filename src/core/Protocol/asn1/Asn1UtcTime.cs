@@ -311,6 +311,11 @@ public class Asn1UtcTime : Asn1Object
 		if (!InRange(dateTime, twoDigitYearMax)) throw new ArgumentOutOfRangeException(nameof(dateTime));
 	}
 
+	/// <summary>
+	///   Creates the primitive.
+	/// </summary>
+	/// <param name="contents">The contents.</param>
+	/// <returns>Asn1UtcTime.</returns>
 	public static Asn1UtcTime CreatePrimitive(byte[] contents) => new(contents);
 
 	/// <summary>

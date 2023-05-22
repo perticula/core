@@ -7,6 +7,9 @@
 
 namespace core;
 
+/// <summary>
+///   Class Enums.
+/// </summary>
 public static class Enums
 {
 	/// <summary>
@@ -15,7 +18,7 @@ public static class Enums
 	/// <typeparam name="TEnum">The type of the t enum.</typeparam>
 	/// <param name="s">The s.</param>
 	/// <returns>TEnum.</returns>
-	/// <exception cref="System.ArgumentException"></exception>
+	/// <exception cref="System.ArgumentException">Could not find enum value {s} - s</exception>
 	public static TEnum GetEnumValue<TEnum>(string s) where TEnum : struct, Enum
 	{
 		switch (s.Length)

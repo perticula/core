@@ -9,6 +9,9 @@ using System.Reflection;
 
 namespace core.Filtering;
 
+/// <summary>
+///   Class FilteringExtensions.
+/// </summary>
 public static class FilteringExtensions
 {
 	/// <summary>

@@ -14,10 +14,23 @@ using core.Cryptography;
 
 namespace core.Math.Raw;
 
+/// <summary>
+///   Class Nat256.
+/// </summary>
 public static class Nat256
 {
+	/// <summary>
+	///   The m
+	/// </summary>
 	private const ulong M = 0xFFFFFFFFUL;
 
+	/// <summary>
+	///   Adds the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add(uint[] x, uint[] y, uint[] z)
 	{
 		ulong c = 0;
@@ -48,6 +61,16 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add(uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		ulong c = 0;
@@ -78,6 +101,13 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the both to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddBothTo(uint[] x, uint[] y, uint[] z)
 	{
 		ulong c = 0;
@@ -108,6 +138,16 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the both to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddBothTo(uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		ulong c = 0;
@@ -138,6 +178,13 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(uint[] x, uint[] z, uint cIn)
 	{
 		ulong c = cIn;
@@ -168,6 +215,15 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(uint[] x, int xOff, uint[] z, int zOff, uint cIn)
 	{
 		ulong c = cIn;
@@ -198,6 +254,13 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(ReadOnlySpan<uint> x, Span<uint> z, uint cIn)
 	{
 		ulong c = cIn;
@@ -228,6 +291,14 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to each other.
+	/// </summary>
+	/// <param name="u">The u.</param>
+	/// <param name="uOff">The u off.</param>
+	/// <param name="v">The v.</param>
+	/// <param name="vOff">The v off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddToEachOther(uint[] u, int uOff, uint[] v, int vOff)
 	{
 		ulong c = 0;
@@ -266,6 +337,11 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Copies the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy(uint[] x, uint[] z)
 	{
 		z[0] = x[0];
@@ -278,6 +354,13 @@ public static class Nat256
 		z[7] = x[7];
 	}
 
+	/// <summary>
+	///   Copies the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Copy(uint[] x, int xOff, uint[] z, int zOff)
 	{
 		z[zOff + 0] = x[xOff + 0];
@@ -290,6 +373,11 @@ public static class Nat256
 		z[zOff + 7] = x[xOff + 7];
 	}
 
+	/// <summary>
+	///   Copy64s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy64(ulong[] x, ulong[] z)
 	{
 		z[0] = x[0];
@@ -298,6 +386,13 @@ public static class Nat256
 		z[3] = x[3];
 	}
 
+	/// <summary>
+	///   Copy64s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Copy64(ulong[] x, int xOff, ulong[] z, int zOff)
 	{
 		z[zOff + 0] = x[xOff + 0];
@@ -306,6 +401,11 @@ public static class Nat256
 		z[zOff + 3] = x[xOff + 3];
 	}
 
+	/// <summary>
+	///   Copy64s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy64(ReadOnlySpan<ulong> x, Span<ulong> z)
 	{
 		z[0] = x[0];
@@ -314,14 +414,40 @@ public static class Nat256
 		z[3] = x[3];
 	}
 
+	/// <summary>
+	///   Creates this instance.
+	/// </summary>
+	/// <returns>System.UInt32[].</returns>
 	public static uint[] Create() => new uint[8];
 
+	/// <summary>
+	///   Create64s this instance.
+	/// </summary>
+	/// <returns>System.UInt64[].</returns>
 	public static ulong[] Create64() => new ulong[4];
 
+	/// <summary>
+	///   Creates the ext.
+	/// </summary>
+	/// <returns>System.UInt32[].</returns>
 	public static uint[] CreateExt() => new uint[16];
 
+	/// <summary>
+	///   Creates the ext64.
+	/// </summary>
+	/// <returns>System.UInt64[].</returns>
 	public static ulong[] CreateExt64() => new ulong[8];
 
+	/// <summary>
+	///   Differences the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Diff(uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		var pos = Gte(x, xOff, y, yOff);
@@ -332,6 +458,12 @@ public static class Nat256
 		return pos;
 	}
 
+	/// <summary>
+	///   Eqs the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Eq(uint[] x, uint[] y)
 	{
 		for (var i = 7; i >= 0; --i)
@@ -343,16 +475,27 @@ public static class Nat256
 		return true;
 	}
 
+	/// <summary>
+	///   Eq64s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Eq64(ulong[] x, ulong[] y)
 	{
 		for (var i = 3; i >= 0; --i)
-		{
-			if (x[i] != y[i]) return false;
-		}
+			if (x[i] != y[i])
+				return false;
 
 		return true;
 	}
 
+	/// <summary>
+	///   Gets the bit.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="bit">The bit.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint GetBit(uint[] x, int bit)
 	{
 		if (bit         == 0) return x[0] & 1;
@@ -362,6 +505,12 @@ public static class Nat256
 		return (x[w] >> b) & 1;
 	}
 
+	/// <summary>
+	///   Gtes the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Gte(uint[] x, uint[] y)
 	{
 		for (var i = 7; i >= 0; --i)
@@ -376,6 +525,14 @@ public static class Nat256
 		return true;
 	}
 
+	/// <summary>
+	///   Gtes the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Gte(uint[] x, int xOff, uint[] y, int yOff)
 	{
 		for (var i = 7; i >= 0; --i)
@@ -390,6 +547,12 @@ public static class Nat256
 		return true;
 	}
 
+	/// <summary>
+	///   Gtes the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Gte(ReadOnlySpan<uint> x, ReadOnlySpan<uint> y)
 	{
 		for (var i = 7; i >= 0; --i)
@@ -404,28 +567,41 @@ public static class Nat256
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified x is one.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified x is one; otherwise, <c>false</c>.</returns>
 	public static bool IsOne(uint[] x)
 	{
 		if (x[0] != 1) return false;
 		for (var i = 1; i < 8; ++i)
-		{
-			if (x[i] != 0) return false;
-		}
+			if (x[i] != 0)
+				return false;
 
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified x is one64.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified x is one64; otherwise, <c>false</c>.</returns>
 	public static bool IsOne64(ulong[] x)
 	{
 		if (x[0] != 1UL) return false;
 		for (var i = 1; i < 4; ++i)
-		{
-			if (x[i] != 0UL) return false;
-		}
+			if (x[i] != 0UL)
+				return false;
 
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified x is zero.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified x is zero; otherwise, <c>false</c>.</returns>
 	public static bool IsZero(ReadOnlySpan<uint> x)
 	{
 		for (var i = 0; i < 8; ++i)
@@ -437,6 +613,11 @@ public static class Nat256
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified x is zero64.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified x is zero64; otherwise, <c>false</c>.</returns>
 	public static bool IsZero64(ReadOnlySpan<ulong> x)
 	{
 		for (var i = 0; i < 4; ++i)
@@ -448,6 +629,12 @@ public static class Nat256
 		return true;
 	}
 
+	/// <summary>
+	///   Muls the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul(uint[] x, uint[] y, uint[] zz)
 	{
 		ulong y_0 = y[0];
@@ -519,6 +706,15 @@ public static class Nat256
 		}
 	}
 
+	/// <summary>
+	///   Muls the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
 	public static void Mul(uint[] x, int xOff, uint[] y, int yOff, uint[] zz, int zzOff)
 	{
 		ulong y_0 = y[yOff + 0];
@@ -591,6 +787,12 @@ public static class Nat256
 		}
 	}
 
+	/// <summary>
+	///   Muls the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul(ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> zz)
 	{
 		ulong y_0 = y[0];
@@ -662,6 +864,12 @@ public static class Nat256
 		}
 	}
 
+	/// <summary>
+	///   Mul128s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y128">The y128.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul128(uint[] x, uint[] y128, uint[] zz)
 	{
 		ulong x_0 = x[0];
@@ -733,6 +941,12 @@ public static class Nat256
 		}
 	}
 
+	/// <summary>
+	///   Mul128s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y128">The y128.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul128(ReadOnlySpan<uint> x, ReadOnlySpan<uint> y128, Span<uint> zz)
 	{
 		ulong x_0 = x[0];
@@ -804,6 +1018,13 @@ public static class Nat256
 		}
 	}
 
+	/// <summary>
+	///   Muls the add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulAddTo(uint[] x, uint[] y, uint[] zz)
 	{
 		ulong y_0 = y[0];
@@ -852,6 +1073,16 @@ public static class Nat256
 		return (uint) zc;
 	}
 
+	/// <summary>
+	///   Muls the add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulAddTo(uint[] x, int xOff, uint[] y, int yOff, uint[] zz, int zzOff)
 	{
 		ulong y_0 = y[yOff + 0];
@@ -901,6 +1132,17 @@ public static class Nat256
 		return (uint) zc;
 	}
 
+	/// <summary>
+	///   Mul33s the add.
+	/// </summary>
+	/// <param name="w">The w.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong Mul33Add(uint w, uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		Debug.Assert(w >> 31 == 0);
@@ -942,6 +1184,12 @@ public static class Nat256
 		return c;
 	}
 
+	/// <summary>
+	///   Muls the by word.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulByWord(uint x, uint[] z)
 	{
 		ulong c = 0, xVal = x;
@@ -972,6 +1220,13 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the by word add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulByWordAddTo(uint x, uint[] y, uint[] z)
 	{
 		ulong c = 0, xVal = x;
@@ -1002,6 +1257,15 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWordAddTo(uint x, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		ulong c = 0, xVal = x;
@@ -1032,6 +1296,14 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Mul33s the d word add.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Mul33DWordAdd(uint x, ulong y, uint[] z, int zOff)
 	{
 		Debug.Assert(x >> 31 == 0);
@@ -1054,6 +1326,14 @@ public static class Nat256
 		return c == 0 ? 0 : Nat.IncAt(8, z, zOff, 4);
 	}
 
+	/// <summary>
+	///   Mul33s the word add.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Mul33WordAdd(uint x, uint y, uint[] z, int zOff)
 	{
 		Debug.Assert(x >> 31 == 0);
@@ -1071,6 +1351,14 @@ public static class Nat256
 		return c == 0 ? 0 : Nat.IncAt(8, z, zOff, 3);
 	}
 
+	/// <summary>
+	///   Muls the word dword add.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWordDwordAdd(uint x, ulong y, uint[] z, int zOff)
 	{
 		Debug.Assert(zOff <= 5);
@@ -1087,6 +1375,14 @@ public static class Nat256
 		return c == 0 ? 0 : Nat.IncAt(8, z, zOff, 3);
 	}
 
+	/// <summary>
+	///   Muls the word.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWord(uint x, uint[] y, uint[] z, int zOff)
 	{
 		ulong c = 0, xVal = x;
@@ -1101,6 +1397,11 @@ public static class Nat256
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Squares the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Square(uint[] x, uint[] zz)
 	{
 		ulong x_0 = x[0];
@@ -1120,7 +1421,7 @@ public static class Nat256
 
 			{
 				var p = x_0 * x_0;
-				zz_1  = c << 31 | (p >> 33);
+				zz_1  = (c << 31) | (p >> 33);
 				zz[0] = (uint) p;
 				c     = (uint) (p >> 32) & 1;
 			}
@@ -1274,6 +1575,13 @@ public static class Nat256
 		zz[15] = (w << 1) | c;
 	}
 
+	/// <summary>
+	///   Squares the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
 	public static void Square(uint[] x, int xOff, uint[] zz, int zzOff)
 	{
 		ulong x_0 = x[xOff + 0];
@@ -1293,7 +1601,7 @@ public static class Nat256
 
 			{
 				var p = x_0 * x_0;
-				zz_1          = c << 31 | (p >> 33);
+				zz_1          = (c << 31) | (p >> 33);
 				zz[zzOff + 0] = (uint) p;
 				c             = (uint) (p >> 32) & 1;
 			}
@@ -1447,6 +1755,11 @@ public static class Nat256
 		zz[zzOff + 15] = (w << 1) | c;
 	}
 
+	/// <summary>
+	///   Squares the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Square(ReadOnlySpan<uint> x, Span<uint> zz)
 	{
 		ulong x_0 = x[0];
@@ -1466,7 +1779,7 @@ public static class Nat256
 
 			{
 				var p = x_0 * x_0;
-				zz_1  = c << 31 | (p >> 33);
+				zz_1  = (c << 31) | (p >> 33);
 				zz[0] = (uint) p;
 				c     = (uint) (p >> 32) & 1;
 			}
@@ -1620,6 +1933,13 @@ public static class Nat256
 		zz[15] = (w << 1) | c;
 	}
 
+	/// <summary>
+	///   Subs the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub(uint[] x, uint[] y, uint[] z)
 	{
 		long c = 0;
@@ -1650,6 +1970,16 @@ public static class Nat256
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub(uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		long c = 0;
@@ -1680,6 +2010,13 @@ public static class Nat256
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the both from.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubBothFrom(uint[] x, uint[] y, uint[] z)
 	{
 		long c = 0;
@@ -1710,6 +2047,13 @@ public static class Nat256
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs from.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubFrom(uint[] x, uint[] z, int cIn)
 	{
 		long c = cIn;
@@ -1740,6 +2084,15 @@ public static class Nat256
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs from.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubFrom(uint[] x, int xOff, uint[] z, int zOff, int cIn)
 	{
 		long c = cIn;
@@ -1770,6 +2123,13 @@ public static class Nat256
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs from.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubFrom(ReadOnlySpan<uint> x, Span<uint> z, int cIn)
 	{
 		long c = cIn;
@@ -1800,6 +2160,11 @@ public static class Nat256
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Converts to biginteger.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger ToBigInteger(uint[] x)
 	{
 		var bs = new byte[32];
@@ -1812,6 +2177,11 @@ public static class Nat256
 		return new BigInteger(1, bs);
 	}
 
+	/// <summary>
+	///   Converts to biginteger64.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger ToBigInteger64(ulong[] x)
 	{
 		var bs = new byte[32];
@@ -1824,8 +2194,23 @@ public static class Nat256
 		return new BigInteger(1, bs);
 	}
 
+	/// <summary>
+	///   Xors the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Xor(uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff) => Xor(x.AsSpan(xOff), y.AsSpan(yOff), z.AsSpan(zOff));
 
+	/// <summary>
+	///   Xors the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor(ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		if (Avx2.IsSupported && Unsafe.SizeOf<Vector256<byte>>() == 32)
@@ -1872,6 +2257,10 @@ public static class Nat256
 		}
 	}
 
+	/// <summary>
+	///   Zeroes the specified z.
+	/// </summary>
+	/// <param name="z">The z.</param>
 	public static void Zero(uint[] z)
 	{
 		z[0] = 0;

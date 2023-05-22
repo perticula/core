@@ -9,8 +9,14 @@ using System.Text.RegularExpressions;
 
 namespace core.Matching;
 
+/// <summary>
+///   Class Alter.
+/// </summary>
 public static partial class Alter
 {
+	/// <summary>
+	///   Class Text.
+	/// </summary>
 	public static partial class Text
 	{
 		/// <summary>
@@ -49,12 +55,24 @@ public static partial class Alter
 		/// <returns>System.String.</returns>
 		public static string StripNonNumeric(string? value) => FindNonNumeric.Replace(value ?? "", "");
 
+		/// <summary>
+		///   Matches the non alpha.
+		/// </summary>
+		/// <returns>Regex.</returns>
 		[GeneratedRegex("[^A-Za-z]", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
 		private static partial Regex MatchNonAlpha();
 
+		/// <summary>
+		///   Matches the non alpha numeric.
+		/// </summary>
+		/// <returns>Regex.</returns>
 		[GeneratedRegex("[^\\dA-Za-z]", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
 		private static partial Regex MatchNonAlphaNumeric();
 
+		/// <summary>
+		///   Matches the non numeric.
+		/// </summary>
+		/// <returns>Regex.</returns>
 		[GeneratedRegex("[^\\d]", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
 		private static partial Regex MatchNonNumeric();
 	}

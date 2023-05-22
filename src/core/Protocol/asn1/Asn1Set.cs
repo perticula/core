@@ -21,14 +21,14 @@ namespace core.Protocol.asn1;
 public abstract class Asn1Set : Asn1Object, IEnumerable<Asn1Encodable>
 {
 	/// <summary>
-	///   The is sorted
-	/// </summary>
-	protected readonly bool IsSorted;
-
-	/// <summary>
 	///   The elements
 	/// </summary>
 	internal readonly Asn1Encodable[] Elements;
+
+	/// <summary>
+	///   The is sorted
+	/// </summary>
+	protected readonly bool IsSorted;
 
 	/// <summary>
 	///   The sorted der encodings
@@ -112,7 +112,7 @@ public abstract class Asn1Set : Asn1Object, IEnumerable<Asn1Encodable>
 	protected internal Asn1Set(bool isSorted, Asn1Encodable[] elements)
 	{
 		Debug.Assert(!isSorted);
-		IsSorted          = isSorted;
+		IsSorted           = isSorted;
 		Elements           = elements;
 		SortedDerEncodings = null;
 	}

@@ -8,21 +8,21 @@
 namespace core.Protocol.asn1.der;
 
 /// <summary>
-/// Class DerTaggedObject.
-/// Implements the <see cref="core.Protocol.asn1.Asn1TaggedObject" />
+///   Class DerTaggedObject.
+///   Implements the <see cref="core.Protocol.asn1.Asn1TaggedObject" />
 /// </summary>
 /// <seealso cref="core.Protocol.asn1.Asn1TaggedObject" />
 public class DerTaggedObject : Asn1TaggedObject
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="DerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
 	public DerTaggedObject(int tagNo, Asn1Encodable obj) : base(true, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="DerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
@@ -30,7 +30,7 @@ public class DerTaggedObject : Asn1TaggedObject
 	public DerTaggedObject(int tagClass, int tagNo, Asn1Encodable obj) : base(true, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="DerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="isExplicit">if set to <c>true</c> [is explicit].</param>
 	/// <param name="tagNo">The tag no.</param>
@@ -38,7 +38,7 @@ public class DerTaggedObject : Asn1TaggedObject
 	public DerTaggedObject(bool isExplicit, int tagNo, Asn1Encodable obj) : base(isExplicit, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="DerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="isExplicit">if set to <c>true</c> [is explicit].</param>
 	/// <param name="tagClass">The tag class.</param>
@@ -47,7 +47,7 @@ public class DerTaggedObject : Asn1TaggedObject
 	public DerTaggedObject(bool isExplicit, int tagClass, int tagNo, Asn1Encodable obj) : base(isExplicit, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="DerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="DerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="explicitness">The explicitness.</param>
 	/// <param name="tagClass">The tag class.</param>
@@ -56,13 +56,13 @@ public class DerTaggedObject : Asn1TaggedObject
 	internal DerTaggedObject(int explicitness, int tagClass, int tagNo, Asn1Encodable obj) : base(explicitness, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	/// Gets the asn1 encoding.
+	///   Gets the asn1 encoding.
 	/// </summary>
 	/// <value>The asn1 encoding.</value>
 	internal override string Asn1Encoding => Der;
 
 	/// <summary>
-	/// Gets the encoding.
+	///   Gets the encoding.
 	/// </summary>
 	/// <param name="encoding">The encoding.</param>
 	/// <returns>IAsn1Encoding.</returns>
@@ -74,11 +74,11 @@ public class DerTaggedObject : Asn1TaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingImplicit(encoding, TagClass, TagNo)
-			       : (IAsn1Encoding) new ConstructedDefiniteLengthEncoding(TagClass, TagNo, new[] {baseObject.GetEncoding(encoding)});
+			       : new ConstructedDefiniteLengthEncoding(TagClass, TagNo, new[] {baseObject.GetEncoding(encoding)});
 	}
 
 	/// <summary>
-	/// Gets the encoding implicit.
+	///   Gets the encoding implicit.
 	/// </summary>
 	/// <param name="encoding">The encoding.</param>
 	/// <param name="tagClass">The tag class.</param>
@@ -92,11 +92,11 @@ public class DerTaggedObject : Asn1TaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingImplicit(encoding, tagClass, tagNo)
-			       : (IAsn1Encoding) new ConstructedDefiniteLengthEncoding(tagClass, tagNo, new[] {baseObject.GetEncoding(encoding)});
+			       : new ConstructedDefiniteLengthEncoding(tagClass, tagNo, new[] {baseObject.GetEncoding(encoding)});
 	}
 
 	/// <summary>
-	/// Gets the encoding der.
+	///   Gets the encoding der.
 	/// </summary>
 	/// <returns>DerEncoding.</returns>
 	internal sealed override DerEncoding GetEncodingDer()
@@ -105,11 +105,11 @@ public class DerTaggedObject : Asn1TaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingDerImplicit(TagClass, TagNo)
-			       : (DerEncoding) new ConstructedDerEncoding(TagClass, TagNo, new[] {baseObject.GetEncodingDer()});
+			       : new ConstructedDerEncoding(TagClass, TagNo, new[] {baseObject.GetEncodingDer()});
 	}
 
 	/// <summary>
-	/// Gets the encoding der implicit.
+	///   Gets the encoding der implicit.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
@@ -120,18 +120,18 @@ public class DerTaggedObject : Asn1TaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingDerImplicit(tagClass, tagNo)
-			       : (DerEncoding) new ConstructedDerEncoding(tagClass, tagNo, new[] {baseObject.GetEncodingDer()});
+			       : new ConstructedDerEncoding(tagClass, tagNo, new[] {baseObject.GetEncodingDer()});
 	}
 
 	/// <summary>
-	/// Rebuilds the constructed.
+	///   Rebuilds the constructed.
 	/// </summary>
 	/// <param name="asn1Object">The asn1 object.</param>
 	/// <returns>Asn1Sequence.</returns>
 	internal override Asn1Sequence RebuildConstructed(Asn1Object asn1Object) => new DerSequence(asn1Object);
 
 	/// <summary>
-	/// Replaces the tag.
+	///   Replaces the tag.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>

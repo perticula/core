@@ -9,6 +9,11 @@ using core.Random;
 
 namespace core.Security;
 
+/// <summary>
+///   Class StrongPasswordGenerator.
+///   Implements the <see cref="core.Security.IStrongPasswordGenerator" />
+/// </summary>
+/// <seealso cref="core.Security.IStrongPasswordGenerator" />
 internal class StrongPasswordGenerator : IStrongPasswordGenerator
 {
 	/// <summary>

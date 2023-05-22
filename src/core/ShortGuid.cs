@@ -1,4 +1,4 @@
-// perticula - model - ShortGuid.cs
+// perticula - core - ShortGuid.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -7,6 +7,9 @@
 
 namespace core;
 
+/// <summary>
+///   Struct ShortGuid
+/// </summary>
 public readonly struct ShortGuid
 {
 	/// <summary>
@@ -77,6 +80,7 @@ public readonly struct ShortGuid
 	/// <summary>
 	///   News the unique identifier.
 	/// </summary>
+	/// <returns>ShortGuid.</returns>
 	public static ShortGuid NewGuid() => new(Guid.NewGuid());
 
 	/// <summary>

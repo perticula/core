@@ -113,16 +113,16 @@ public class Asn1InputStream : FilterStream
 		if (tagClass != 0)
 		{
 			var isConstructed = (tagHdr & Asn1Tags.Constructed) != 0;
-			return ReadTaggedObjectDL(tagClass, tagNo, isConstructed, defIn);
+			return ReadTaggedObjectDefiniteLength(tagClass, tagNo, isConstructed, defIn);
 		}
 
 		return tagNo switch
 		       {
 			       Asn1Tags.BitString   => BuildConstructedBitString(ReadVector(defIn)),
 			       Asn1Tags.OctetString => BuildConstructedOctetString(ReadVector(defIn)),
-			       Asn1Tags.Sequence    => DLSequence.FromVector(ReadVector(defIn)),
-			       Asn1Tags.Set         => DLSet.FromVector(ReadVector(defIn)),
-			       Asn1Tags.External    => DLSequence.FromVector(ReadVector(defIn)).ToAsn1External(),
+			       Asn1Tags.Sequence    => DefinteLengthSequence.FromVector(ReadVector(defIn)),
+			       Asn1Tags.Set         => DefiniteLengthSet.FromVector(ReadVector(defIn)),
+			       Asn1Tags.External    => DefinteLengthSequence.FromVector(ReadVector(defIn)).ToAsn1External(),
 			       _                    => throw new IOException("unknown tag " + tagNo + " encountered")
 		       };
 	}
@@ -135,7 +135,7 @@ public class Asn1InputStream : FilterStream
 	/// <param name="constructed">if set to <c>true</c> [constructed].</param>
 	/// <param name="defIn">The definition in.</param>
 	/// <returns>Asn1Object.</returns>
-	internal Asn1Object ReadTaggedObjectDL(int tagClass, int tagNo, bool constructed, DefiniteLengthInputStream defIn)
+	internal Asn1Object ReadTaggedObjectDefiniteLength(int tagClass, int tagNo, bool constructed, DefiniteLengthInputStream defIn)
 	{
 		if (!constructed)
 		{
@@ -144,7 +144,7 @@ public class Asn1InputStream : FilterStream
 		}
 
 		var contentsElements = ReadVector(defIn);
-		return Asn1TaggedObject.CreateConstructedDL(tagClass, tagNo, contentsElements);
+		return Asn1TaggedObject.CreateConstructedDefinteLength(tagClass, tagNo, contentsElements);
 	}
 
 	/// <summary>
@@ -251,7 +251,7 @@ public class Asn1InputStream : FilterStream
 			bitStrings[i] = bitString;
 		}
 
-		return new DLBitString(BerBitString.FlattenBitStrings(bitStrings), false);
+		return new DefinteLengthBitString(BerBitString.FlattenBitStrings(bitStrings), false);
 	}
 
 	/// <summary>
@@ -260,7 +260,7 @@ public class Asn1InputStream : FilterStream
 	/// <param name="contentsElements">The contents elements.</param>
 	/// <returns>Asn1OctetString.</returns>
 	/// <exception cref="core.Protocol.asn1.Asn1Exception">
-	///   unknown object encountered in constructed OCTET STRING:
+	///   unknown object encountered in constructed OCTET STRING (pos {i}):
 	///   {contentsElements[i].GetTypeName()}
 	/// </exception>
 	private Asn1OctetString BuildConstructedOctetString(Asn1EncodableVector contentsElements)
@@ -286,7 +286,7 @@ public class Asn1InputStream : FilterStream
 	/// <param name="tagHdr">The tag HDR.</param>
 	/// <returns>System.Int32.</returns>
 	/// <exception cref="System.IO.EndOfStreamException">EOF found inside tag value.</exception>
-	/// <exception cref="System.IO.IOException">corrupted stream - high tag number less than 31 found</exception>
+	/// <exception cref="System.IO.IOException">corrupted stream - high tag number < 31 found</exception>
 	/// <exception cref="System.IO.IOException">corrupted stream - invalid high tag number found</exception>
 	/// <exception cref="System.IO.IOException">Tag number more than 31 bits</exception>
 	internal static int ReadTagNumber(Stream s, int tagHdr)

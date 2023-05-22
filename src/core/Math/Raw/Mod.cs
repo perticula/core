@@ -11,22 +11,51 @@ using core.Random;
 
 namespace core.Math.Raw;
 
+/// <summary>
+///   Class Mod.
+/// </summary>
 public static class Mod
 {
-	private const int   M30             = 0x3FFFFFFF;
+	/// <summary>
+	///   The M30
+	/// </summary>
+	private const int M30 = 0x3FFFFFFF;
+
+	/// <summary>
+	///   The M32 unsigned long
+	/// </summary>
 	private const ulong M32UnsignedLong = 0xFFFFFFFFUL;
 
+	/// <summary>
+	///   Checkeds the mod odd inverse.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <exception cref="ArithmeticException">Inverse does not exist.</exception>
 	public static void CheckedModOddInverse(ReadOnlySpan<uint> m, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		if (0 == ModOddInverse(m, x, z)) throw new ArithmeticException("Inverse does not exist.");
 	}
 
+	/// <summary>
+	///   Checkeds the mod odd inverse variable.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <exception cref="ArithmeticException">Inverse does not exist.</exception>
 	public static void CheckedModOddInverseVar(ReadOnlySpan<uint> m, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		if (!ModOddInverseVar(m, x, z))
 			throw new ArithmeticException("Inverse does not exist.");
 	}
 
+	/// <summary>
+	///   Inverse32s the specified d.
+	/// </summary>
+	/// <param name="d">The d.</param>
+	/// <returns>uint.</returns>
 	public static uint Inverse32(uint d)
 	{
 		Debug.Assert((d & 1U) == 1U);
@@ -41,6 +70,11 @@ public static class Mod
 		return x;
 	}
 
+	/// <summary>
+	///   Inverse64s the specified d.
+	/// </summary>
+	/// <param name="d">The d.</param>
+	/// <returns>ulong.</returns>
 	public static ulong Inverse64(ulong d)
 	{
 		Debug.Assert((d & 1UL) == 1UL);
@@ -56,8 +90,22 @@ public static class Mod
 		return x;
 	}
 
+	/// <summary>
+	///   Mods the odd inverse.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>uint.</returns>
 	public static uint ModOddInverse(uint[] m, uint[] x, uint[] z) => ModOddInverse(m.AsSpan(), x.AsSpan(), z.AsSpan());
 
+	/// <summary>
+	///   Mods the odd inverse.
+	/// </summary>
+	/// <param name="valueM">The value m.</param>
+	/// <param name="valueX">The value x.</param>
+	/// <param name="valueZ">The value z.</param>
+	/// <returns>uint.</returns>
 	public static uint ModOddInverse(ReadOnlySpan<uint> valueM, ReadOnlySpan<uint> valueX, Span<uint> valueZ)
 	{
 		var len32 = valueM.Length;
@@ -111,8 +159,22 @@ public static class Mod
 		return (uint) (EqualTo(len30, f, 1) & EqualToZero(len30, g));
 	}
 
+	/// <summary>
+	///   Mods the odd inverse variable.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>bool.</returns>
 	public static bool ModOddInverseVar(uint[] m, uint[] x, uint[] z) => ModOddInverseVar(m.AsSpan(), x.AsSpan(), z.AsSpan());
 
+	/// <summary>
+	///   Mods the odd inverse variable.
+	/// </summary>
+	/// <param name="valueM">The value m.</param>
+	/// <param name="valueX">The value x.</param>
+	/// <param name="valueZ">The value z.</param>
+	/// <returns>bool.</returns>
 	public static bool ModOddInverseVar(ReadOnlySpan<uint> valueM, ReadOnlySpan<uint> valueX, Span<uint> valueZ)
 	{
 		var len32 = valueM.Length;
@@ -205,6 +267,12 @@ public static class Mod
 		return true;
 	}
 
+	/// <summary>
+	///   Randoms the specified random.
+	/// </summary>
+	/// <param name="random">The random.</param>
+	/// <param name="p">The p.</param>
+	/// <returns>uint[].</returns>
 	public static uint[] Random(SecureRandom random, uint[] p)
 	{
 		var len = p.Length;
@@ -228,6 +296,13 @@ public static class Mod
 		return s;
 	}
 
+	/// <summary>
+	///   Randoms the specified random.
+	/// </summary>
+	/// <param name="random">The random.</param>
+	/// <param name="p">The p.</param>
+	/// <param name="z">The z.</param>
+	/// <exception cref="ArgumentException">insufficient space, nameof(z)</exception>
 	public static void Random(SecureRandom random, ReadOnlySpan<uint> p, Span<uint> z)
 	{
 		var len = p.Length;
@@ -255,6 +330,13 @@ public static class Mod
 		} while (Nat.Gte(len, s, p));
 	}
 
+	/// <summary>
+	///   Add30s the specified len30.
+	/// </summary>
+	/// <param name="len30">The len30.</param>
+	/// <param name="d">The d.</param>
+	/// <param name="m">The m.</param>
+	/// <returns>int.</returns>
 	private static int Add30(int len30, Span<int> d, ReadOnlySpan<int> m)
 	{
 		Debug.Assert(len30    > 0);
@@ -275,6 +357,12 @@ public static class Mod
 		return c;
 	}
 
+	/// <summary>
+	///   cs the negate30.
+	/// </summary>
+	/// <param name="len30">The len30.</param>
+	/// <param name="cond">The cond.</param>
+	/// <param name="d">The d.</param>
 	private static void CNegate30(int len30, int cond, Span<int> d)
 	{
 		Debug.Assert(len30    > 0);
@@ -292,6 +380,13 @@ public static class Mod
 		d[last] =  c;
 	}
 
+	/// <summary>
+	///   cs the normalize30.
+	/// </summary>
+	/// <param name="len30">The len30.</param>
+	/// <param name="condNegate">The cond negate.</param>
+	/// <param name="d">The d.</param>
+	/// <param name="m">The m.</param>
 	private static void CNormalize30(int len30, int condNegate, Span<int> d, ReadOnlySpan<int> m)
 	{
 		Debug.Assert(len30    > 0);
@@ -344,6 +439,12 @@ public static class Mod
 		}
 	}
 
+	/// <summary>
+	///   Decode30s the specified bits.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	private static void Decode30(int bits, ReadOnlySpan<int> x, Span<uint> z)
 	{
 		Debug.Assert(bits > 0);
@@ -367,6 +468,14 @@ public static class Mod
 		}
 	}
 
+	/// <summary>
+	///   Divsteps30s the specified delta.
+	/// </summary>
+	/// <param name="delta">The delta.</param>
+	/// <param name="f0">The f0.</param>
+	/// <param name="g0">The g0.</param>
+	/// <param name="t">The t.</param>
+	/// <returns>int.</returns>
 	private static int Divsteps30(int delta, int f0, int g0, Span<int> t)
 	{
 		int u = 1 << 30, v = 0, q = 0, r = 1 << 30;
@@ -411,6 +520,14 @@ public static class Mod
 		return delta;
 	}
 
+	/// <summary>
+	///   Divsteps30s the variable.
+	/// </summary>
+	/// <param name="eta">The eta.</param>
+	/// <param name="f0">The f0.</param>
+	/// <param name="g0">The g0.</param>
+	/// <param name="t">The t.</param>
+	/// <returns>int.</returns>
 	private static int Divsteps30Var(int eta, int f0, int g0, Span<int> t)
 	{
 		int u = 1,  v = 0, q = 0, r = 1;
@@ -483,6 +600,12 @@ public static class Mod
 		return eta;
 	}
 
+	/// <summary>
+	///   Encode30s the specified bits.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	private static void Encode30(int bits, ReadOnlySpan<uint> x, Span<int> z)
 	{
 		Debug.Assert(bits > 0);
@@ -507,6 +630,13 @@ public static class Mod
 	}
 
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>int.</returns>
 	private static int EqualTo(int len, ReadOnlySpan<int> x, int y)
 	{
 		var d                           = x[0] ^ y;
@@ -515,6 +645,12 @@ public static class Mod
 		return (d - 1) >> 31;
 	}
 
+	/// <summary>
+	///   Equals to one variable expected.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>bool.</returns>
 	private static bool EqualToOneVar_Expected(int len, ReadOnlySpan<int> x)
 	{
 		var d                           = x[0] ^ 1;
@@ -522,6 +658,12 @@ public static class Mod
 		return d          == 0;
 	}
 
+	/// <summary>
+	///   Equals to zero.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>int.</returns>
 	private static int EqualToZero(int len, ReadOnlySpan<int> x)
 	{
 		var d                           = 0;
@@ -530,6 +672,12 @@ public static class Mod
 		return (d - 1) >> 31;
 	}
 
+	/// <summary>
+	///   Equals to zero variable unlikely.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>bool.</returns>
 	private static bool EqualToZeroVar_Unlikely(int len, ReadOnlySpan<int> x)
 	{
 		var d = x[0];
@@ -540,8 +688,19 @@ public static class Mod
 		return d          == 0;
 	}
 
+	/// <summary>
+	///   Gets the maximum divsteps.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <returns>int.</returns>
 	private static int GetMaximumDivsteps(int bits) => (49 * bits + (bits < 46 ? 80 : 47)) / 17;
 
+	/// <summary>
+	///   Negate30s the specified len30.
+	/// </summary>
+	/// <param name="len30">The len30.</param>
+	/// <param name="d">The d.</param>
+	/// <returns>int.</returns>
 	private static int Negate30(int len30, Span<int> d)
 	{
 		Debug.Assert(len30    > 0);
@@ -561,6 +720,15 @@ public static class Mod
 		return c;
 	}
 
+	/// <summary>
+	///   Updates the de30.
+	/// </summary>
+	/// <param name="len30">The len30.</param>
+	/// <param name="d">The d.</param>
+	/// <param name="e">The e.</param>
+	/// <param name="t">The t.</param>
+	/// <param name="m0Inv32">The m0 inv32.</param>
+	/// <param name="m">The m.</param>
 	private static void UpdateDe30(int len30, Span<int> d, Span<int> e, ReadOnlySpan<int> t, int m0Inv32, ReadOnlySpan<int> m)
 	{
 		Debug.Assert(len30          > 0);
@@ -626,6 +794,13 @@ public static class Mod
 		e[len30 - 1] = (int) ce;
 	}
 
+	/// <summary>
+	///   Updates the FG30.
+	/// </summary>
+	/// <param name="len30">The len30.</param>
+	/// <param name="f">The f.</param>
+	/// <param name="g">The g.</param>
+	/// <param name="t">The t.</param>
 	private static void UpdateFg30(int len30, Span<int> f, Span<int> g, ReadOnlySpan<int> t)
 	{
 		Debug.Assert(len30    > 0);

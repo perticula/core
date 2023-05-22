@@ -80,8 +80,8 @@ public abstract class Asn1Object : Asn1Encodable
 	{
 		try
 		{
-			using var  asn1In = new Asn1InputStream(new MemoryStream(data, false), data.Length);
-			var result = asn1In.ReadObject();
+			using var asn1In = new Asn1InputStream(new MemoryStream(data, false), data.Length);
+			var       result = asn1In.ReadObject();
 			if (data.Length != asn1In.Position) throw new IOException("extra data found after object");
 			return result;
 		}
@@ -101,7 +101,7 @@ public abstract class Asn1Object : Asn1Encodable
 	{
 		try
 		{
-			using var asn1In = new Asn1InputStream(inStr, int.MaxValue, leaveOpen: true);
+			using var asn1In = new Asn1InputStream(inStr, int.MaxValue, true);
 			return asn1In.ReadObject();
 		}
 		catch (InvalidCastException)

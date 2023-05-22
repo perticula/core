@@ -8,37 +8,37 @@
 namespace core.Protocol.asn1.ber;
 
 /// <summary>
-/// Class BerSequenceParser.
-/// Implements the <see cref="core.Protocol.asn1.Asn1SequenceParser" />
+///   Class BerSequenceParser.
+///   Implements the <see cref="core.Protocol.asn1.Asn1SequenceParser" />
 /// </summary>
 /// <seealso cref="core.Protocol.asn1.Asn1SequenceParser" />
 public class BerSequenceParser : IAsn1SequenceParser
 {
 	/// <summary>
-	/// The parser
+	///   The parser
 	/// </summary>
 	private readonly Asn1StreamParser _parser;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BerSequenceParser"/> class.
+	///   Initializes a new instance of the <see cref="BerSequenceParser" /> class.
 	/// </summary>
 	/// <param name="parser">The parser.</param>
 	internal BerSequenceParser(Asn1StreamParser parser) => _parser = parser;
 
 	/// <summary>
-	/// Reads the object.
+	///   Reads the object.
 	/// </summary>
 	/// <returns>IAsn1Convertable.</returns>
 	public IAsn1Convertable? ReadObject() => _parser.ReadObject();
 
 	/// <summary>
-	/// defined the conversion to and asn.1 object.
+	///   defined the conversion to and asn.1 object.
 	/// </summary>
 	/// <returns>Asn1Object.</returns>
 	public Asn1Object ToAsn1Object() => Parse(_parser);
 
 	/// <summary>
-	/// Parses the specified sp.
+	///   Parses the specified sp.
 	/// </summary>
 	/// <param name="sp">The sp.</param>
 	/// <returns>BerSequence.</returns>

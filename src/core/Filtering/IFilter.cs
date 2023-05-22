@@ -7,6 +7,9 @@
 
 namespace core.Filtering;
 
+/// <summary>
+///   Interface IFilter
+/// </summary>
 public interface IFilter
 {
 	/// <summary>
@@ -30,7 +33,7 @@ public interface IFilter
 	/// <summary>
 	///   Filters a list of objects based on this filter
 	/// </summary>
-	/// <typeparam name="TISupportsFiltering"></typeparam>
+	/// <typeparam name="TISupportsFiltering">The type of the ti supports filtering.</typeparam>
 	/// <param name="list">The list.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
 	IEnumerable<TISupportsFiltering> FilterList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list) where TISupportsFiltering : ISupportsFiltering;
@@ -38,7 +41,7 @@ public interface IFilter
 	/// <summary>
 	///   sorts the list based on the orderby clause (if present).
 	/// </summary>
-	/// <typeparam name="TISupportsFiltering"></typeparam>
+	/// <typeparam name="TISupportsFiltering">The type of the ti supports filtering.</typeparam>
 	/// <param name="list">The list.</param>
 	/// <param name="comparer">The comparer.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>

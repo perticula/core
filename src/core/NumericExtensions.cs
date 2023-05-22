@@ -7,6 +7,9 @@
 
 namespace core;
 
+/// <summary>
+///   Class NumericExtensions.
+/// </summary>
 public static class NumericExtensions
 {
 	/// <summary>
@@ -76,13 +79,17 @@ public static class NumericExtensions
 	/// <returns>T.</returns>
 	public static T OrMinMaxOf<T>(this T me, T min, T max) where T : IComparable<T> => me.OrMinimumOf(min).OrMaximumOf(max);
 
-	/// <summary>Safes the division.</summary>
+	/// <summary>
+	///   Safes the division.
+	/// </summary>
 	/// <param name="numerator">The numerator.</param>
 	/// <param name="denominator">The denominator.</param>
 	/// <returns>System.Decimal.</returns>
 	public static decimal SafeDivision(this decimal numerator, decimal denominator) => denominator == 0 ? 0 : numerator / denominator;
 
-	/// <summary>Determines if the specified int falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified int falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -93,7 +100,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this int value, int floor, int ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified uint falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified uint falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -104,7 +113,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this uint value, uint floor, uint ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified long falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified long falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -115,7 +126,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this long value, long floor, long ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified ulong falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified ulong falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -126,7 +139,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this ulong value, ulong floor, ulong ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified short falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified short falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -137,7 +152,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this short value, short floor, short ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified ushort falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified ushort falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -148,7 +165,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this ushort value, ushort floor, ushort ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified char falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified char falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -159,7 +178,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this char value, char floor, char ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified byte falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified byte falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -170,7 +191,9 @@ public static class NumericExtensions
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
 	public static bool WithinRange(this byte value, byte floor, byte ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
-	/// <summary>Determines if the specified sbyte falls between the floor and ceiling values</summary>
+	/// <summary>
+	///   Determines if the specified sbyte falls between the floor and ceiling values
+	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <param name="floor">The floor.</param>
 	/// <param name="ceiling">The ceiling.</param>
@@ -198,25 +221,40 @@ public static class NumericExtensions
 	/// <summary>
 	///   Converts a number to a size in bytes (ie 512 = "512 Bytes")
 	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="units">The units.</param>
+	/// <returns>System.String.</returns>
 	public static string ToSizeBytes(long bytes, string units = "Bytes") => $"{bytes:#,###,###,###,##0} {units}";
 
 	/// <summary>
 	///   Converts a number to a size in gigabytes (ie 1610612736 = "1.5 GB")
 	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="units">The units.</param>
+	/// <returns>System.String.</returns>
 	public static string ToSizeGib(long bytes, string units = "GiB") => ToSizeMib(bytes / 1024, units);
 
 	/// <summary>
 	///   Converts a number to a size in terrabytes (ie 1610612736 = "1.5 GB")
 	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="units">The units.</param>
+	/// <returns>System.String.</returns>
 	public static string ToSizeTib(long bytes, string units = "TiB") => ToSizeGib(bytes / 1024, units);
 
 	/// <summary>
 	///   Converts a number to a size in kilobytes (ie 1536 = "1.5 KB")
 	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="units">The units.</param>
+	/// <returns>System.String.</returns>
 	public static string ToSizeKib(long bytes, string units = "KiB") => $"{bytes / 1024.0:#,###,###,###,##0.#} {units}";
 
 	/// <summary>
 	///   Converts a number to a size in megabytes (ie 1572864 = "1.5 MB")
 	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="units">The units.</param>
+	/// <returns>System.String.</returns>
 	public static string ToSizeMib(long bytes, string units = "MiB") => ToSizeKib(bytes / 1024, units);
 }

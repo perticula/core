@@ -54,7 +54,7 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	///   Reads the byte.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	/// <exception cref="System.IO.EndOfStreamException">DEF length " + _originalLength + " object truncated by " + Remaining</exception>
+	/// <exception cref="System.IO.EndOfStreamException">DEF length {_originalLength} object truncated by {Remaining}</exception>
 	public override int ReadByte()
 	{
 		if (Remaining < 2)
@@ -89,7 +89,7 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	/// <param name="off">The off.</param>
 	/// <param name="len">The length.</param>
 	/// <returns>System.Int32.</returns>
-	/// <exception cref="System.IO.EndOfStreamException">DEF length " + _originalLength + " object truncated by " + Remaining</exception>
+	/// <exception cref="System.IO.EndOfStreamException">DEF length {_originalLength} object truncated by {Remaining}</exception>
 	public override int Read(byte[] buf, int off, int len)
 	{
 		if (Remaining == 0)
@@ -111,7 +111,7 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	/// </summary>
 	/// <param name="buffer">The buffer.</param>
 	/// <returns>System.Int32.</returns>
-	/// <exception cref="System.IO.EndOfStreamException">DEF length " + _originalLength + " object truncated by " + Remaining</exception>
+	/// <exception cref="System.IO.EndOfStreamException">DEF length {_originalLength} object truncated by {Remaining}</exception>
 	public override int Read(Span<byte> buffer)
 	{
 		if (Remaining == 0) return 0;
@@ -132,8 +132,8 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	/// </summary>
 	/// <param name="buf">The buf.</param>
 	/// <exception cref="System.ArgumentException">buffer length not right for data</exception>
-	/// <exception cref="System.IO.IOException">corrupted stream - out of bounds length found: " + Remaining + " >= " + limit</exception>
-	/// <exception cref="System.IO.EndOfStreamException">DEF length " + _originalLength + " object truncated by " + Remaining</exception>
+	/// <exception cref="System.IO.IOException">corrupted stream - out of bounds length found: {Remaining} >= {limit}</exception>
+	/// <exception cref="System.IO.EndOfStreamException">DEF length {_originalLength} object truncated by {Remaining}</exception>
 	internal void ReadAllIntoByteArray(byte[] buf)
 	{
 		if (Remaining != buf.Length)
@@ -156,8 +156,8 @@ public class DefiniteLengthInputStream : LimitedInputStream
 	///   Converts to array.
 	/// </summary>
 	/// <returns>System.Byte[].</returns>
-	/// <exception cref="System.IO.IOException">corrupted stream - out of bounds length found: " + Remaining + " >= " + limit</exception>
-	/// <exception cref="System.IO.EndOfStreamException">DEF length " + _originalLength + " object truncated by " + Remaining</exception>
+	/// <exception cref="System.IO.IOException">corrupted stream - out of bounds length found: {Remaining} >= {limit}</exception>
+	/// <exception cref="System.IO.EndOfStreamException">DEF length {_originalLength} object truncated by {Remaining}</exception>
 	internal byte[] ToArray()
 	{
 		if (Remaining == 0)

@@ -8,7 +8,7 @@
 namespace core.Protocol.asn1;
 
 /// <summary>
-/// Interface IAsn1Convertable
+///   Interface IAsn1Convertable
 /// </summary>
 public interface IAsn1Convertable
 {

@@ -10,10 +10,20 @@ using System.Text.RegularExpressions;
 
 namespace core.IO;
 
+/// <summary>
+///   Class FileUtilities.
+/// </summary>
 public static class FileUtilities
 {
+	/// <summary>
+	///   The invalid reg string
+	/// </summary>
 	private static readonly string InvalidRegStr;
-	public static readonly  char[] InvalidFileNameChars;
+
+	/// <summary>
+	///   The invalid file name chars
+	/// </summary>
+	public static readonly char[] InvalidFileNameChars;
 
 	/// <summary>
 	///   Initializes static members of the <see cref="FileUtilities" /> class.
@@ -112,6 +122,7 @@ public static class FileUtilities
 	/// </summary>
 	/// <param name="fileName">Name of the file.</param>
 	/// <returns>System.String.</returns>
+	/// <exception cref="ArgumentNullException">nameof(fileName)</exception>
 	/// <exception cref="System.ArgumentNullException">fileName</exception>
 	public static string SanitizeFileName(string fileName)
 	{

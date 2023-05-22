@@ -33,7 +33,7 @@ public class Asn1RelativeOid : Asn1Object
 	/// </summary>
 	/// <param name="identifier">The identifier.</param>
 	/// <exception cref="System.ArgumentNullException">identifier</exception>
-	/// <exception cref="System.FormatException">string " + identifier + " not a relative OID</exception>
+	/// <exception cref="System.FormatException">string {identifier} not a relative OID</exception>
 	public Asn1RelativeOid(string identifier)
 	{
 		if (identifier == null) throw new ArgumentNullException(nameof(identifier));
@@ -47,7 +47,7 @@ public class Asn1RelativeOid : Asn1Object
 	/// </summary>
 	/// <param name="oid">The oid.</param>
 	/// <param name="branchId">The branch identifier.</param>
-	/// <exception cref="System.FormatException">string {branchId} not a valid relative OID branch</exception>
+	/// <exception cref="System.FormatException">string {branchId} not a valid relative" + $" OID branch</exception>
 	private Asn1RelativeOid(Asn1RelativeOid oid, string branchId)
 	{
 		if (!IsValidIdentifier(branchId, 0)) throw new FormatException($"string {branchId} not a valid relative" + $" OID branch");

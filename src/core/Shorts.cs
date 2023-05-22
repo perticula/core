@@ -9,20 +9,64 @@ using System.Buffers.Binary;
 
 namespace core;
 
+/// <summary>
+///   Class Shorts.
+/// </summary>
 public class Shorts
 {
-	public const int NumBits  = 16;
+	/// <summary>
+	///   The number bits
+	/// </summary>
+	public const int NumBits = 16;
+
+	/// <summary>
+	///   The number bytes
+	/// </summary>
 	public const int NumBytes = 2;
 
+	/// <summary>
+	///   Reverses the bytes.
+	/// </summary>
+	/// <param name="i">The i.</param>
+	/// <returns>System.Int16.</returns>
 	public static short ReverseBytes(short i) => BinaryPrimitives.ReverseEndianness(i);
 
+	/// <summary>
+	///   Reverses the bytes.
+	/// </summary>
+	/// <param name="i">The i.</param>
+	/// <returns>System.UInt16.</returns>
 	public static ushort ReverseBytes(ushort i) => BinaryPrimitives.ReverseEndianness(i);
 
+	/// <summary>
+	///   Rotates the left.
+	/// </summary>
+	/// <param name="i">The i.</param>
+	/// <param name="distance">The distance.</param>
+	/// <returns>System.Int16.</returns>
 	public static short RotateLeft(short i, int distance) => (short) RotateLeft((ushort) i, distance);
 
+	/// <summary>
+	///   Rotates the left.
+	/// </summary>
+	/// <param name="i">The i.</param>
+	/// <param name="distance">The distance.</param>
+	/// <returns>System.UInt16.</returns>
 	public static ushort RotateLeft(ushort i, int distance) => (ushort) ((i << distance) | (i >> (16 - distance)));
 
+	/// <summary>
+	///   Rotates the right.
+	/// </summary>
+	/// <param name="i">The i.</param>
+	/// <param name="distance">The distance.</param>
+	/// <returns>System.Int16.</returns>
 	public static short RotateRight(short i, int distance) => (short) RotateRight((ushort) i, distance);
 
+	/// <summary>
+	///   Rotates the right.
+	/// </summary>
+	/// <param name="i">The i.</param>
+	/// <param name="distance">The distance.</param>
+	/// <returns>System.UInt16.</returns>
 	public static ushort RotateRight(ushort i, int distance) => (ushort) ((i >> distance) | (i << (16 - distance)));
 }

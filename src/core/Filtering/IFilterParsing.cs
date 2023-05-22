@@ -7,13 +7,16 @@
 
 namespace core.Filtering;
 
+/// <summary>
+///   Interface IFilterParsing
+/// </summary>
 public interface IFilterParsing
 {
 	/// <summary>
 	///   Parse a filter statement from a string.
 	/// </summary>
 	/// <param name="source">The filter statement to parse</param>
-	/// <exception cref="FilterSyntaxException">Throws FilterSyntaxException if the filter cannot be parsed</exception>
 	/// <returns>IFilter.</returns>
+	/// <exception cref="FilterSyntaxException">Throws FilterSyntaxException if the filter cannot be parsed</exception>
 	IFilter Parse(string source);
 }

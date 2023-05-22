@@ -38,6 +38,11 @@ public class DerEncoding : Asn1Encoding, IComparable<DerEncoding>
 	/// </summary>
 	protected int ContentsOctetsLength;
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DerEncoding" /> class.
+	/// </summary>
+	/// <param name="tagClass">The tag class.</param>
+	/// <param name="tagNo">The tag no.</param>
 	public DerEncoding(int tagClass, int tagNo) : this(tagClass, tagNo, null) { }
 
 	/// <summary>
@@ -99,22 +104,22 @@ public class DerEncoding : Asn1Encoding, IComparable<DerEncoding>
 	public override void Encode(Asn1OutputStream buffer)
 	{
 		buffer.WriteIdentifier(TagClass, TagNo);
-		buffer.WriteDL(ContentsOctets?.Length ?? 0);
-		buffer.Write(ContentsOctets           ?? Array.Empty<byte>(), 0, ContentsOctets?.Length ?? 0);
+		buffer.WriteDefiniteLength(ContentsOctets?.Length ?? 0);
+		buffer.Write(ContentsOctets                       ?? Array.Empty<byte>(), 0, ContentsOctets?.Length ?? 0);
 	}
 
 	/// <summary>
 	///   Gets the length of the value to encode.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	public override int GetLength() => Asn1OutputStream.GetLengthOfEncodingDL(TagNo, ContentsOctets?.Length ?? 0);
+	public override int GetLength() => Asn1OutputStream.GetLengthOfEncodingDefiniteLength(TagNo, ContentsOctets?.Length ?? 0);
 
 	/// <summary>
 	///   Compares the length and contents.
 	/// </summary>
 	/// <param name="other">The other.</param>
 	/// <returns>System.Int32.</returns>
-	/// <exception cref="InvalidOperationException"></exception>
+	/// <exception cref="System.InvalidOperationException"></exception>
 	protected virtual int CompareLengthAndContents(DerEncoding other)
 	{
 		switch (other)

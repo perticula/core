@@ -37,5 +37,5 @@ public class DerSetParser : IAsn1SetParser
 	///   defined the conversion to and asn.1 object.
 	/// </summary>
 	/// <returns>Asn1Object.</returns>
-	public Asn1Object ToAsn1Object() => DLSet.FromVector(_parser.LoadVector());
+	public Asn1Object ToAsn1Object() => DefiniteLengthSet.FromVector(_parser.LoadVector());
 }

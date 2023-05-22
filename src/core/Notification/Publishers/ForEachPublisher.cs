@@ -7,15 +7,23 @@
 
 namespace core.Notification.Publishers;
 
+/// <summary>
+///   Class ForEachPublisher.
+///   Implements the <see cref="core.Notification.INotificationPublisher" />
+/// </summary>
+/// <seealso cref="core.Notification.INotificationPublisher" />
 public class ForEachPublisher : INotificationPublisher
 {
 	/// <summary>
-	/// publishes a notification using the specified executors.
-	/// awaits for 
+	///   publishes a notification using the specified executors.
+	///   awaits for
 	/// </summary>
 	/// <param name="executors">The executor.</param>
 	/// <param name="notification">The notification.</param>
-	/// <param name="cancellationToken">The cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+	/// <param name="cancellationToken">
+	///   The cancellation token that can be used by other objects or threads to receive notice
+	///   of cancellation.
+	/// </param>
 	/// <returns>Task.</returns>
 	public async Task Publish(IEnumerable<NotificationHandlerExecutor> executors, INotification notification, CancellationToken cancellationToken)
 	{

@@ -9,8 +9,14 @@ using System.Text.RegularExpressions;
 
 namespace core.Matching;
 
+/// <summary>
+///   Class Alter.
+/// </summary>
 public static partial class Alter
 {
+	/// <summary>
+	///   Class Html.
+	/// </summary>
 	public static partial class Html
 	{
 		/// <summary>
@@ -33,6 +39,10 @@ public static partial class Alter
 		/// <returns>System.String.</returns>
 		public static string StripTags(string? value) => ReplaceTags(value, "");
 
+		/// <summary>
+		///   Matches the well formed XML tag.
+		/// </summary>
+		/// <returns>Regex.</returns>
 		[GeneratedRegex("<[^>]*>", RegexOptions.Multiline | RegexOptions.Compiled | RegexOptions.CultureInvariant)]
 		private static partial Regex MatchWellFormedXmlTag();
 	}

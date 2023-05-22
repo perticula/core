@@ -7,6 +7,9 @@
 
 namespace core.Encoding;
 
+/// <summary>
+///   Interface IEncodable
+/// </summary>
 public interface IEncodable
 {
 	/// <summary>

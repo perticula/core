@@ -9,6 +9,12 @@ using System.Collections;
 
 namespace core;
 
+/// <summary>
+///   Class EnumerableProxy. This class cannot be inherited.
+///   Implements the <see cref="System.Collections.Generic.IEnumerable{T}" />
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <seealso cref="System.Collections.Generic.IEnumerable{T}" />
 public sealed class EnumerableProxy<T> : IEnumerable<T>
 {
 	/// <summary>

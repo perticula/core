@@ -15,33 +15,116 @@ using core.Random;
 
 namespace core.Math;
 
+/// <summary>
+///   Class BigInteger. This class cannot be inherited.
+///   Implements the <see cref="System.IComparable" />
+///   Implements the <see cref="System.IComparable`1" />
+///   Implements the <see cref="System.IEquatable`1" />
+/// </summary>
+/// <seealso cref="System.IComparable" />
+/// <seealso cref="System.IComparable`1" />
+/// <seealso cref="System.IEquatable`1" />
 [Serializable]
 public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatable<BigInteger>
 {
-	private const long  IntegerMask         = 0xFFFFFFFFL;
+	/// <summary>
+	///   The integer mask
+	/// </summary>
+	private const long IntegerMask = 0xFFFFFFFFL;
+
+	/// <summary>
+	///   The unsigned integer mask
+	/// </summary>
 	private const ulong UnsignedIntegerMask = 0xFFFFFFFFUL;
 
-	private const int Chunk2  = 1;
-	private const int Chunk8  = 1;
+	/// <summary>
+	///   The chunk2
+	/// </summary>
+	private const int Chunk2 = 1;
+
+	/// <summary>
+	///   The chunk8
+	/// </summary>
+	private const int Chunk8 = 1;
+
+	/// <summary>
+	///   The chunk10
+	/// </summary>
 	private const int Chunk10 = 19;
+
+	/// <summary>
+	///   The chunk16
+	/// </summary>
 	private const int Chunk16 = 16;
 
-	private const            int   BitsPerByte = 8;
-	private const            int   BitsPerInt  = 32;
-	private const            int   BytesPerInt = 4;
+	/// <summary>
+	///   The bits per byte
+	/// </summary>
+	private const int BitsPerByte = 8;
+
+	/// <summary>
+	///   The bits per int
+	/// </summary>
+	private const int BitsPerInt = 32;
+
+	/// <summary>
+	///   The bytes per int
+	/// </summary>
+	private const int BytesPerInt = 4;
+
+	/// <summary>
+	///   The prime products
+	/// </summary>
 	internal static readonly int[] PrimeProducts;
 
+	/// <summary>
+	///   The zero magnitude
+	/// </summary>
 	private static readonly uint[] ZeroMagnitude = Array.Empty<uint>();
-	private static readonly byte[] ZeroEncoding  = Array.Empty<byte>();
 
+	/// <summary>
+	///   The zero encoding
+	/// </summary>
+	private static readonly byte[] ZeroEncoding = Array.Empty<byte>();
+
+	/// <summary>
+	///   The small constants
+	/// </summary>
 	private static readonly BigInteger[] SmallConstants = new BigInteger[17];
-	public static readonly  BigInteger   Zero;
-	public static readonly  BigInteger   One;
-	public static readonly  BigInteger   Two;
-	public static readonly  BigInteger   Three;
-	public static readonly  BigInteger   Four;
-	public static readonly  BigInteger   Ten;
 
+	/// <summary>
+	///   The zero
+	/// </summary>
+	public static readonly BigInteger Zero;
+
+	/// <summary>
+	///   The one
+	/// </summary>
+	public static readonly BigInteger One;
+
+	/// <summary>
+	///   The two
+	/// </summary>
+	public static readonly BigInteger Two;
+
+	/// <summary>
+	///   The three
+	/// </summary>
+	public static readonly BigInteger Three;
+
+	/// <summary>
+	///   The four
+	/// </summary>
+	public static readonly BigInteger Four;
+
+	/// <summary>
+	///   The ten
+	/// </summary>
+	public static readonly BigInteger Ten;
+
+	/// <summary>
+	///   The bit length table
+	/// </summary>
 	private static readonly byte[] BitLengthTable =
 	{
 		0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4,
@@ -62,13 +145,44 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8
 	};
 
+	/// <summary>
+	///   The radix2
+	/// </summary>
 	private static readonly BigInteger Radix2;
+
+	/// <summary>
+	///   The radix2 e
+	/// </summary>
 	private static readonly BigInteger Radix2E;
+
+	/// <summary>
+	///   The radix8
+	/// </summary>
 	private static readonly BigInteger Radix8;
+
+	/// <summary>
+	///   The radix8 e
+	/// </summary>
 	private static readonly BigInteger Radix8E;
+
+	/// <summary>
+	///   The radix10
+	/// </summary>
 	private static readonly BigInteger Radix10;
+
+	/// <summary>
+	///   The radix10 e
+	/// </summary>
 	private static readonly BigInteger Radix10E;
+
+	/// <summary>
+	///   The radix16
+	/// </summary>
 	private static readonly BigInteger Radix16;
+
+	/// <summary>
+	///   The radix16 e
+	/// </summary>
 	private static readonly BigInteger Radix16E;
 
 	/*
@@ -76,8 +190,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
    * They are calculated according to the expected savings in multiplications.
    * Some squares will also be saved on average, but we offset these against the extra storage costs.
    */
+	/// <summary>
+	///   The exponent window thresholds
+	/// </summary>
 	private static readonly int[] ExponentWindowThresholds = {7, 25, 81, 241, 673, 1793, 4609, int.MaxValue};
 
+	/// <summary>
+	///   The prime lists
+	/// </summary>
 	internal static readonly int[][] PrimeLists =
 	{
 		new[] {3, 5, 7, 11, 13, 17, 19, 23},
@@ -158,11 +278,25 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		new[] {1279, 1283, 1289}
 	};
 
+	/// <summary>
+	///   The magnitude
+	/// </summary>
 	private readonly uint[] _magnitude; // array of uints with [0] being the most significant
-	private readonly int    _sign;      // -1 means -ve; +1 means +ve; 0 means 0;
 
+	/// <summary>
+	///   The sign
+	/// </summary>
+	private readonly int _sign; // -1 means -ve; +1 means +ve; 0 means 0;
+
+	/// <summary>
+	///   The n bit length
+	/// </summary>
 	[NonSerialized] private int _nBitLength = -1; // cache BitLength() value
-	[NonSerialized] private int _nBits      = -1; // cache BitCount() value
+
+	/// <summary>
+	///   The n bits
+	/// </summary>
+	[NonSerialized] private int _nBits = -1; // cache BitCount() value
 
 	/// <summary>
 	///   Initializes static members of the <see cref="BigInteger" /> class.
@@ -207,6 +341,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="signum">The signum.</param>
+	/// <param name="mag">The mag.</param>
+	/// <param name="checkMag">The check mag.</param>
 	private BigInteger(int signum, uint[] mag, bool checkMag)
 	{
 		if (!checkMag)
@@ -241,8 +381,22 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="value">The value.</param>
 	public BigInteger(string? value) : this(value, 10) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="str">The string.</param>
+	/// <param name="radix">The radix.</param>
+	/// <exception cref="ArgumentNullException">nameof(str)</exception>
+	/// <exception cref="FormatException">Zero length BigInteger</exception>
+	/// <exception cref="FormatException">Only bases 2, 8, 10, or 16 allowed</exception>
+	/// <exception cref="FormatException">Bad character in radix 2 string: " + s</exception>
+	/// <exception cref="FormatException">Bad character in radix 8 string: " + s</exception>
 	public BigInteger(string? str, int radix)
 	{
 		if (str == null)
@@ -393,13 +547,29 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		_magnitude = b._magnitude;
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
 	public BigInteger(byte[] bytes) => _magnitude = InitBigEndian(bytes, 0, bytes.Length, out _sign);
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="bigEndian">The big endian.</param>
 	public BigInteger(byte[] bytes, bool bigEndian) =>
 		_magnitude = bigEndian
 			             ? InitBigEndian(bytes, 0, bytes.Length, out _sign)
 			             : InitLittleEndian(bytes, 0, bytes.Length, out _sign);
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <exception cref="FormatException">Zero length BigInteger</exception>
 	public BigInteger(byte[] bytes, int offset, int length)
 	{
 		if (length == 0) throw new FormatException("Zero length BigInteger");
@@ -407,6 +577,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		_magnitude = InitBigEndian(bytes, offset, length, out _sign);
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <param name="bigEndian">The big endian.</param>
+	/// <exception cref="FormatException">Zero length BigInteger</exception>
 	public BigInteger(byte[] bytes, int offset, int length, bool bigEndian)
 	{
 		if (length <= 0) throw new FormatException("Zero length BigInteger");
@@ -416,12 +594,39 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 			             : InitLittleEndian(bytes, offset, length, out _sign);
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="bytes">The bytes.</param>
 	public BigInteger(int sign, byte[] bytes) : this(sign, bytes, 0, bytes.Length, true) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="bigEndian">The big endian.</param>
 	public BigInteger(int sign, byte[] bytes, bool bigEndian) : this(sign, bytes, 0, bytes.Length, bigEndian) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
 	public BigInteger(int sign, byte[] bytes, int offset, int length) : this(sign, bytes, offset, length, true) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <param name="bigEndian">The big endian.</param>
+	/// <exception cref="FormatException">Invalid sign value</exception>
 	public BigInteger(int sign, byte[] bytes, int offset, int length, bool bigEndian)
 	{
 		switch (sign)
@@ -442,8 +647,20 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="bytes">The bytes.</param>
 	public BigInteger(int sign, ReadOnlySpan<byte> bytes) : this(sign, bytes, true) { }
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="bigEndian">The big endian.</param>
+	/// <exception cref="FormatException">Invalid sign value</exception>
 	public BigInteger(int sign, ReadOnlySpan<byte> bytes, bool bigEndian)
 	{
 		switch (sign)
@@ -464,6 +681,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="sizeInBits">The size in bits.</param>
+	/// <param name="random">The random.</param>
+	/// <exception cref="ArgumentException">sizeInBits must be non-negative</exception>
 	public BigInteger(int sizeInBits, System.Random random)
 	{
 		if (sizeInBits < 0) throw new ArgumentException("sizeInBits must be non-negative");
@@ -494,6 +717,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		_sign      = _magnitude.Length < 1 ? 0 : 1;
 	}
 
+	/// <summary>
+	///   Initializes a new instance of the <see cref="BigInteger" /> class.
+	/// </summary>
+	/// <param name="bitLength">Length of the bit.</param>
+	/// <param name="certainty">The certainty.</param>
+	/// <param name="random">The random.</param>
+	/// <exception cref="ArithmeticException">
+	///   bitLength < 2</exception>
 	public BigInteger(int bitLength, int certainty, System.Random random)
 	{
 		if (bitLength < 2)
@@ -553,6 +784,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Gets the bit count.
+	/// </summary>
+	/// <value>The bit count.</value>
 	public int BitCount
 	{
 		get
@@ -577,6 +812,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Gets the length of the bit.
+	/// </summary>
+	/// <value>The length of the bit.</value>
 	public int BitLength
 	{
 		get
@@ -588,8 +827,16 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Gets the sign value.
+	/// </summary>
+	/// <value>The sign value.</value>
 	public int SignValue => _sign;
 
+	/// <summary>
+	///   Gets the int value.
+	/// </summary>
+	/// <value>The int value.</value>
 	public int IntValue
 	{
 		get
@@ -603,6 +850,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Gets the int value exact.
+	/// </summary>
+	/// <value>The int value exact.</value>
+	/// <exception cref="ArithmeticException">BigInteger out of int range</exception>
 	public int IntValueExact
 	{
 		get
@@ -612,6 +864,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Gets the long value.
+	/// </summary>
+	/// <value>The long value.</value>
 	public long LongValue
 	{
 		get
@@ -628,6 +884,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Gets the long value exact.
+	/// </summary>
+	/// <value>The long value exact.</value>
+	/// <exception cref="ArithmeticException">BigInteger out of long range</exception>
 	public long LongValueExact
 	{
 		get
@@ -639,6 +900,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Compares to.
+	/// </summary>
+	/// <param name="obj">The object.</param>
+	/// <returns>int.</returns>
 	public int CompareTo(object? obj)
 	{
 		if (obj == null)
@@ -647,6 +913,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return obj is not BigInteger other ? throw new ArgumentException("Object is not a BigInteger", nameof(obj)) : CompareTo(other);
 	}
 
+	/// <summary>
+	///   Compares to.
+	/// </summary>
+	/// <param name="other">The other.</param>
+	/// <returns>int.</returns>
 	public int CompareTo(BigInteger? other)
 	{
 		if (other == null) return 1;
@@ -660,6 +931,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 					       : _sign * CompareNoLeadingZeroes(0, _magnitude, 0, other._magnitude);
 	}
 
+	/// <summary>
+	///   Equalses the specified other.
+	/// </summary>
+	/// <param name="other">The other.</param>
+	/// <returns>bool.</returns>
 	public bool Equals(BigInteger? other)
 	{
 		if (other == null) return false;
@@ -670,13 +946,19 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	/// <summary>
 	///   Determines whetherthis value is probably prime within the specified certainty (probability of 1 - (1/2)).
 	/// </summary>
+	/// <param name="certainty">The certainty.</param>
+	/// <returns><c>true</c> if is probably prime ; otherwise, <c>false</c>.</returns>
 	/// <remarks>
 	///   <p>From Knuth Vol 2, pg 395.</p>
 	/// </remarks>
-	/// <param name="certainty">The certainty.</param>
-	/// <returns><c>true</c> if is probably prime ; otherwise, <c>false</c>.</returns>
 	public bool IsProbablePrime(int certainty) => IsProbablePrime(certainty, false);
 
+	/// <summary>
+	///   Determines whether [is probable prime] [the specified certainty].
+	/// </summary>
+	/// <param name="certainty">The certainty.</param>
+	/// <param name="randomlySelected">The randomly selected.</param>
+	/// <returns>bool.</returns>
 	internal bool IsProbablePrime(int certainty, bool randomlySelected)
 	{
 		if (certainty <= 0) return true;
@@ -690,6 +972,13 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return n.CheckProbablePrime(certainty, SecureRandom.ArbitraryRandom, randomlySelected);
 	}
 
+	/// <summary>
+	///   Checks the probable prime.
+	/// </summary>
+	/// <param name="certainty">The certainty.</param>
+	/// <param name="random">The random.</param>
+	/// <param name="randomlySelected">The randomly selected.</param>
+	/// <returns>bool.</returns>
 	private bool CheckProbablePrime(int certainty, System.Random random, bool randomlySelected)
 	{
 		Debug.Assert(certainty      > 0);
@@ -735,8 +1024,21 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		//			return rbTest;
 	}
 
+	/// <summary>
+	///   Rabins the miller test.
+	/// </summary>
+	/// <param name="certainty">The certainty.</param>
+	/// <param name="random">The random.</param>
+	/// <returns>bool.</returns>
 	public bool RabinMillerTest(int certainty, System.Random random) => RabinMillerTest(certainty, random, false);
 
+	/// <summary>
+	///   Rabins the miller test.
+	/// </summary>
+	/// <param name="certainty">The certainty.</param>
+	/// <param name="random">The random.</param>
+	/// <param name="randomlySelected">The randomly selected.</param>
+	/// <returns>bool.</returns>
 	internal bool RabinMillerTest(int certainty, System.Random random, bool randomlySelected)
 	{
 		var bits = BitLength;
@@ -804,10 +1106,26 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return true;
 	}
 
+	/// <summary>
+	///   Determines the maximum of the parameters.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Max(BigInteger value) => CompareTo(value) > 0 ? this : value;
 
+	/// <summary>
+	///   Determines the minimum of the parameters.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Min(BigInteger value) => CompareTo(value) < 0 ? this : value;
 
+	/// <summary>
+	///   Mods the specified m.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Modulus must be positive</exception>
 	public BigInteger Mod(BigInteger m)
 	{
 		if (m._sign < 1) throw new ArithmeticException("Modulus must be positive");
@@ -818,10 +1136,33 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	}
 
 
-	private static int  BitLen(byte b)   => 32 - BitOperations.LeadingZeroCount(b);
-	private static int  BitLen(uint v)   => 32 - BitOperations.LeadingZeroCount(v);
-	private        bool QuickPow2Check() => _sign > 0 && _nBits == 1;
+	/// <summary>
+	///   Bits the length.
+	/// </summary>
+	/// <param name="b">The b.</param>
+	/// <returns>int.</returns>
+	private static int BitLen(byte b) => 32 - BitOperations.LeadingZeroCount(b);
 
+	/// <summary>
+	///   Bits the length.
+	/// </summary>
+	/// <param name="v">The v.</param>
+	/// <returns>int.</returns>
+	private static int BitLen(uint v) => 32 - BitOperations.LeadingZeroCount(v);
+
+	/// <summary>
+	///   Quicks the pow2 check.
+	/// </summary>
+	/// <returns>bool.</returns>
+	private bool QuickPow2Check() => _sign > 0 && _nBits == 1;
+
+	/// <summary>
+	///   Mods the inverse.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Modulus must be positive</exception>
+	/// <exception cref="ArithmeticException">Numbers not relatively prime.</exception>
 	public BigInteger ModInverse(BigInteger m)
 	{
 		if (m._sign < 1)
@@ -844,6 +1185,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return x;
 	}
 
+	/// <summary>
+	///   Mods the inverse pow2.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Numbers not relatively prime.</exception>
 	private BigInteger ModInversePow2(BigInteger m)
 	{
 		Debug.Assert(m.SignValue > 0);
@@ -883,14 +1230,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	///   u1 * a + u2 * b = u3
 	///   where u3 is the greatest common divider of a and b.
 	/// </summary>
-	/// <remarks>
-	///   <p>using the extended Euclid algorithm (refer p. 323 of The Art of Computer Programming vol 2, 2nd ed).</p>
-	///   <p>This also seems to have the side effect of calculating some form of multiplicative inverse.</p>
-	/// </remarks>
 	/// <param name="a">a.</param>
 	/// <param name="b">The b.</param>
 	/// <param name="u1Out">The u1 out.</param>
 	/// <returns>BigInteger.</returns>
+	/// <remarks>
+	///   <p>using the extended Euclid algorithm (refer p. 323 of The Art of Computer Programming vol 2, 2nd ed).</p>
+	///   <p>This also seems to have the side effect of calculating some form of multiplicative inverse.</p>
+	/// </remarks>
 	private static BigInteger ExtEuclid(BigInteger a, BigInteger b, out BigInteger u1Out)
 	{
 		BigInteger u1 = One, v1 = Zero;
@@ -917,8 +1264,19 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return u3;
 	}
 
+	/// <summary>
+	///   Zeroes the out.
+	/// </summary>
+	/// <param name="x">The x.</param>
 	private static void ZeroOut(int[] x) => Array.Clear(x, 0, x.Length);
 
+	/// <summary>
+	///   Mods the pow.
+	/// </summary>
+	/// <param name="e">The e.</param>
+	/// <param name="m">The m.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Modulus must be positive</exception>
 	public BigInteger ModPow(BigInteger e, BigInteger m)
 	{
 		if (m._sign < 1) throw new ArithmeticException("Modulus must be positive");
@@ -936,6 +1294,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Mods the pow monty.
+	/// </summary>
+	/// <param name="b">The b.</param>
+	/// <param name="e">The e.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="convert">The convert.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private static BigInteger ModPowMonty(BigInteger b, BigInteger e, BigInteger m, bool convert)
 	{
 		var n                 = m._magnitude.Length;
@@ -1021,6 +1387,13 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(1, yVal, true);
 	}
 
+	/// <summary>
+	///   Mods the pow barrett.
+	/// </summary>
+	/// <param name="b">The b.</param>
+	/// <param name="e">The e.</param>
+	/// <param name="m">The m.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private static BigInteger ModPowBarrett(BigInteger b, BigInteger e, BigInteger m)
 	{
 		var k  = m._magnitude.Length;
@@ -1074,6 +1447,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return y;
 	}
 
+	/// <summary>
+	///   Reduces the barrett.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="mr">The mr.</param>
+	/// <param name="yu">The yu.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private static BigInteger ReduceBarrett(BigInteger x, BigInteger m, BigInteger mr, BigInteger yu)
 	{
 		int xLen = x.BitLength, mLen = m.BitLength;
@@ -1101,6 +1482,13 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return x;
 	}
 
+	/// <summary>
+	///   Multiplies the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] Multiply(uint[] x, IReadOnlyList<uint> y, IReadOnlyList<uint> z)
 	{
 		var i = z.Count;
@@ -1136,6 +1524,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return x;
 	}
 
+	/// <summary>
+	///   Gets the m quote.
+	/// </summary>
+	/// <returns>uint.</returns>
 	private uint GetMQuote()
 	{
 		Debug.Assert(_sign > 0);
@@ -1204,6 +1596,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return w;
 	}
 
+	/// <summary>
+	///   Gets the window list.
+	/// </summary>
+	/// <param name="mag">The mag.</param>
+	/// <param name="extraBits">The extra bits.</param>
+	/// <returns>int[].</returns>
 	private static int[] GetWindowList(IReadOnlyList<uint> mag, int extraBits)
 	{
 		var v = (int) mag[0];
@@ -1258,6 +1656,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Creates the window entry.
+	/// </summary>
+	/// <param name="mult">The mult.</param>
+	/// <param name="zeroes">The zeroes.</param>
+	/// <returns>int.</returns>
 	private static int CreateWindowEntry(int mult, int zeroes)
 	{
 		Debug.Assert(mult > 0);
@@ -1269,6 +1673,13 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return mult | (zeroes << 8);
 	}
 
+	/// <summary>
+	///   Calculates the length of the bit.
+	/// </summary>
+	/// <param name="sign">The sign.</param>
+	/// <param name="indx">The indx.</param>
+	/// <param name="mag">The mag.</param>
+	/// <returns>int.</returns>
 	private static int CalcBitLength(int sign, int indx, IReadOnlyList<uint> mag)
 	{
 		for (;;)
@@ -1303,6 +1714,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return bitLength;
 	}
 
+	/// <summary>
+	///   Initializes the big endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <param name="sign">The sign.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] InitBigEndian(byte[] bytes, int offset, int length, out int sign)
 	{
 		// TODO Move this processing into MakeMagnitudeBigEndian (provide sign argument)
@@ -1344,8 +1763,18 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return MakeMagnitudeBigEndian(inverse);
 	}
 
+	/// <summary>
+	///   Abses this instance.
+	/// </summary>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Abs() => _sign >= 0 ? this : Negate();
 
+	/// <summary>
+	///   Adds the magnitudes.
+	/// </summary>
+	/// <param name="a">a.</param>
+	/// <param name="b">The b.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] AddMagnitudes(uint[] a, IReadOnlyList<uint> b)
 	{
 		var   tI = a.Length - 1;
@@ -1365,6 +1794,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return a;
 	}
 
+	/// <summary>
+	///   Adds the specified value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Add(BigInteger value)
 	{
 		if (_sign == 0)
@@ -1382,6 +1816,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return value.Subtract(Negate());
 	}
 
+	/// <summary>
+	///   Adds to magnitude.
+	/// </summary>
+	/// <param name="magToAdd">The mag to add.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private BigInteger AddToMagnitude(uint[] magToAdd)
 	{
 		uint[] big, small;
@@ -1418,6 +1857,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(_sign, bigCopy, possibleOverflow);
 	}
 
+	/// <summary>
+	///   Ands the specified value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger And(BigInteger value)
 	{
 		if (_sign == 0 || value._sign == 0)
@@ -1455,8 +1899,21 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Ands the not.
+	/// </summary>
+	/// <param name="val">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger AndNot(BigInteger val) => And(val.Not());
 
+	/// <summary>
+	///   Initializes the little endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <param name="sign">The sign.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] InitLittleEndian(byte[] bytes, int offset, int length, out int sign)
 	{
 		var end = offset + length;
@@ -1495,11 +1952,43 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return MakeMagnitudeLittleEndian(inverse);
 	}
 
-	private static uint[] MakeMagnitudeBigEndian(byte[]    bytes)                         => MakeMagnitudeBigEndian(bytes, 0, bytes.Length);
-	private static uint[] MakeMagnitudeLittleEndian(byte[] bytes)                         => MakeMagnitudeLittleEndian(bytes, 0, bytes.Length);
-	private static uint[] MakeMagnitudeBigEndian(byte[]    bytes, int offset, int length) => MakeMagnitudeBigEndian(bytes.AsSpan(offset,    length));
+	/// <summary>
+	///   Makes the magnitude big endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>uint[].</returns>
+	private static uint[] MakeMagnitudeBigEndian(byte[] bytes) => MakeMagnitudeBigEndian(bytes, 0, bytes.Length);
+
+	/// <summary>
+	///   Makes the magnitude little endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>uint[].</returns>
+	private static uint[] MakeMagnitudeLittleEndian(byte[] bytes) => MakeMagnitudeLittleEndian(bytes, 0, bytes.Length);
+
+	/// <summary>
+	///   Makes the magnitude big endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <returns>uint[].</returns>
+	private static uint[] MakeMagnitudeBigEndian(byte[] bytes, int offset, int length) => MakeMagnitudeBigEndian(bytes.AsSpan(offset, length));
+
+	/// <summary>
+	///   Makes the magnitude little endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <param name="offset">The offset.</param>
+	/// <param name="length">The length.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] MakeMagnitudeLittleEndian(byte[] bytes, int offset, int length) => MakeMagnitudeLittleEndian(bytes.AsSpan(offset, length));
 
+	/// <summary>
+	///   Makes the magnitude big endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] MakeMagnitudeBigEndian(ReadOnlySpan<byte> bytes)
 	{
 		var end = bytes.Length;
@@ -1524,6 +2013,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return magnitude;
 	}
 
+	/// <summary>
+	///   Makes the magnitude little endian.
+	/// </summary>
+	/// <param name="bytes">The bytes.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] MakeMagnitudeLittleEndian(ReadOnlySpan<byte> bytes)
 	{
 		// strip leading zeros
@@ -1555,6 +2049,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	}
 
 
+	/// <summary>
+	///   Called when [deserialized].
+	/// </summary>
+	/// <param name="context">The context.</param>
 	[OnDeserialized]
 	private void OnDeserialized(StreamingContext context)
 	{
@@ -1562,11 +2060,33 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		_nBitLength = -1;
 	}
 
+	/// <summary>
+	///   Gets the length of the bytes.
+	/// </summary>
+	/// <param name="nBits">The n bits.</param>
+	/// <returns>int.</returns>
 	private static int GetBytesLength(int nBits) => (nBits + BitsPerByte - 1) / BitsPerByte;
-	private static int GetIntsLength(int  nBits) => (nBits + BitsPerInt  - 1) / BitsPerInt;
 
+	/// <summary>
+	///   Gets the length of the ints.
+	/// </summary>
+	/// <param name="nBits">The n bits.</param>
+	/// <returns>int.</returns>
+	private static int GetIntsLength(int nBits) => (nBits + BitsPerInt - 1) / BitsPerInt;
+
+	/// <summary>
+	///   Arbitraries the specified size in bits.
+	/// </summary>
+	/// <param name="sizeInBits">The size in bits.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public static BigInteger Arbitrary(int sizeInBits) => new(sizeInBits, SecureRandom.ArbitraryRandom);
 
+	/// <summary>
+	///   Divides the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>uint[].</returns>
 	private uint[] Divide(uint[] x, uint[] y)
 	{
 		var xStart = 0;
@@ -1680,6 +2200,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return count;
 	}
 
+	/// <summary>
+	///   Divides the specified value.
+	/// </summary>
+	/// <param name="val">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Division by zero error</exception>
 	public BigInteger Divide(BigInteger val)
 	{
 		if (val._sign == 0)
@@ -1699,6 +2225,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(_sign * val._sign, Divide(mag, val._magnitude), true);
 	}
 
+	/// <summary>
+	///   Divides the and remainder.
+	/// </summary>
+	/// <param name="val">The value.</param>
+	/// <returns>core.Math.BigInteger[].</returns>
+	/// <exception cref="ArithmeticException">Division by zero error</exception>
 	public BigInteger[] DivideAndRemainder(BigInteger val)
 	{
 		if (val._sign == 0)
@@ -1732,6 +2264,15 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return biggies;
 	}
 
+	/// <summary>
+	///   Multiplies the monty.
+	/// </summary>
+	/// <param name="a">a.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="mDash">The m dash.</param>
+	/// <param name="smallMontyModulus">The small monty modulus.</param>
 	private static void MultiplyMonty(uint[] a, uint[] x, IReadOnlyList<uint> y, uint[] m, uint mDash, bool smallMontyModulus)
 		// mDash = -m^(-1) mod b
 	{
@@ -1807,6 +2348,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		Array.Copy(a, 1, x, 0, n);
 	}
 
+	/// <summary>
+	///   Multiplies the monty n is one.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="mDash">The m dash.</param>
+	/// <returns>uint.</returns>
 	private static uint MultiplyMontyNIsOne(uint x, uint y, uint m, uint mDash)
 	{
 		var   carry = (ulong) x    * y;
@@ -1821,10 +2370,26 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return (uint) carry;
 	}
 
+	/// <summary>
+	///   Negates this instance.
+	/// </summary>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Negate() => _sign == 0 ? this : new BigInteger(-_sign, _magnitude, false);
 
+	/// <summary>
+	///   Probables the prime.
+	/// </summary>
+	/// <param name="bitLength">Length of the bit.</param>
+	/// <param name="random">The random.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public static BigInteger ProbablePrime(int bitLength, System.Random random) => new(bitLength, 100, random);
 
+	/// <summary>
+	///   Nexts the probable prime.
+	/// </summary>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">
+	///   Cannot be called on value < 0</exception>
 	public BigInteger NextProbablePrime()
 	{
 		if (_sign < 0)
@@ -1840,8 +2405,19 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return n;
 	}
 
+	/// <summary>
+	///   Nots this instance.
+	/// </summary>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Not() => Inc().Negate();
 
+	/// <summary>
+	///   Pows the specified exp.
+	/// </summary>
+	/// <param name="exp">The exp.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Negative exponent</exception>
+	/// <exception cref="ArithmeticException">Result too large</exception>
 	public BigInteger Pow(int exp)
 	{
 		if (exp <= 0)
@@ -1875,6 +2451,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return y;
 	}
 
+	/// <summary>
+	///   Subtracts the specified x start.
+	/// </summary>
+	/// <param name="xStart">The x start.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="yStart">The y start.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] Subtract(int xStart, uint[] x, int yStart, uint[] y)
 	{
 		Debug.Assert(yStart            < y.Length);
@@ -1898,6 +2482,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return x;
 	}
 
+	/// <summary>
+	///   Subtracts the specified n.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Subtract(BigInteger n)
 	{
 		if (n._sign == 0)
@@ -1928,6 +2517,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(_sign * compare, DoSubBigLil(bigun._magnitude, lilun._magnitude), true);
 	}
 
+	/// <summary>
+	///   Does the sub big lil.
+	/// </summary>
+	/// <param name="bigMag">The big mag.</param>
+	/// <param name="lilMag">The lil mag.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] DoSubBigLil(uint[] bigMag, uint[] lilMag)
 	{
 		var res = (uint[]) bigMag.Clone();
@@ -1935,31 +2530,87 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return Subtract(0, res, 0, lilMag);
 	}
 
+	/// <summary>
+	///   Gets the lengthof byte array.
+	/// </summary>
+	/// <returns>int.</returns>
 	public int GetLengthofByteArray() => GetBytesLength(BitLength + 1);
 
+	/// <summary>
+	///   Gets the lengthof byte array unsigned.
+	/// </summary>
+	/// <returns>int.</returns>
 	public int GetLengthofByteArrayUnsigned() => GetBytesLength(_sign < 0 ? BitLength + 1 : BitLength);
 
+	/// <summary>
+	///   Gets the lengthof u int32 array.
+	/// </summary>
+	/// <returns>int.</returns>
 	public int GetLengthofUInt32Array() => GetIntsLength(BitLength + 1);
 
+	/// <summary>
+	///   Gets the lengthof u int32 array unsigned.
+	/// </summary>
+	/// <returns>int.</returns>
 	public int GetLengthofUInt32ArrayUnsigned() => GetIntsLength(_sign < 0 ? BitLength + 1 : BitLength);
 
-	public byte[] ToByteArray()                          => ToByteArray(false);
-	public void   ToByteArray(Span<byte> output)         => ToByteArray(false, output);
-	public byte[] ToByteArrayUnsigned()                  => ToByteArray(true);
-	public void   ToByteArrayUnsigned(Span<byte> output) => ToByteArray(true, output);
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <returns>byte[].</returns>
+	public byte[] ToByteArray() => ToByteArray(false);
+
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <param name="output">The output.</param>
+	public void ToByteArray(Span<byte> output) => ToByteArray(false, output);
+
+	/// <summary>
+	///   Converts to bytearrayunsigned.
+	/// </summary>
+	/// <returns>byte[].</returns>
+	public byte[] ToByteArrayUnsigned() => ToByteArray(true);
+
+	/// <summary>
+	///   Converts to bytearrayunsigned.
+	/// </summary>
+	/// <param name="output">The output.</param>
+	public void ToByteArrayUnsigned(Span<byte> output) => ToByteArray(true, output);
 
 
+	/// <summary>
+	///   Converts to uint32arraybigendianunsigned.
+	/// </summary>
+	/// <param name="output">The output.</param>
 	public void ToUInt32ArrayBigEndianUnsigned(Span<uint> output) => ToUInt32ArrayBigEndian(true, output);
 
 
+	/// <summary>
+	///   Converts to uint32arraylittleendianunsigned.
+	/// </summary>
+	/// <param name="output">The output.</param>
 	public void ToUInt32ArrayLittleEndianUnsigned(Span<uint> output) => ToUInt32ArrayLittleEndian(true, output);
 
 
+	/// <summary>
+	///   Converts to uint32arraybigendian.
+	/// </summary>
+	/// <param name="output">The output.</param>
 	public void ToUInt32ArrayBigEndian(Span<uint> output) => ToUInt32ArrayBigEndian(false, output);
 
 
+	/// <summary>
+	///   Converts to uint32arraylittleendian.
+	/// </summary>
+	/// <param name="output">The output.</param>
 	public void ToUInt32ArrayLittleEndian(Span<uint> output) => ToUInt32ArrayLittleEndian(false, output);
 
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <param name="unsigned">The unsigned.</param>
+	/// <returns>byte[].</returns>
 	private byte[] ToByteArray(bool unsigned)
 	{
 		if (_sign == 0)
@@ -2032,6 +2683,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return bytes;
 	}
 
+	/// <summary>
+	///   Converts to bytearray.
+	/// </summary>
+	/// <param name="unsigned">The unsigned.</param>
+	/// <param name="output">The output.</param>
+	/// <exception cref="ArgumentException">insufficient space, nameof(output)</exception>
 	private void ToByteArray(bool unsigned, Span<byte> output)
 	{
 		if (_sign == 0)
@@ -2101,6 +2758,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Converts to uint32arraybigendian.
+	/// </summary>
+	/// <param name="unsigned">The unsigned.</param>
+	/// <param name="output">The output.</param>
+	/// <exception cref="ArgumentException">insufficient space, nameof(output)</exception>
 	private void ToUInt32ArrayBigEndian(bool unsigned, Span<uint> output)
 	{
 		if (_sign == 0)
@@ -2142,6 +2805,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Converts to uint32arraylittleendian.
+	/// </summary>
+	/// <param name="unsigned">The unsigned.</param>
+	/// <param name="output">The output.</param>
+	/// <exception cref="ArgumentException">insufficient space, nameof(output)</exception>
 	private void ToUInt32ArrayLittleEndian(bool unsigned, Span<uint> output)
 	{
 		if (_sign == 0)
@@ -2188,8 +2857,19 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		}
 	}
 
+	/// <summary>
+	///   Remainders the specified m.
+	/// </summary>
+	/// <param name="m">The m.</param>
+	/// <returns>int.</returns>
 	private int Remainder(int m) => (int) _magnitude.Aggregate<uint, long>(0, (current, posVal) => ((current << 32) | posVal) % m);
 
+	/// <summary>
+	///   Remainders the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] Remainder(uint[] x, uint[] y)
 	{
 		var xStart = 0;
@@ -2280,6 +2960,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return x;
 	}
 
+	/// <summary>
+	///   Remainders the specified n.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Division by zero error</exception>
 	public BigInteger Remainder(BigInteger n)
 	{
 		if (n._sign == 0) throw new ArithmeticException("Division by zero error");
@@ -2323,6 +3009,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(_sign, result, true);
 	}
 
+	/// <summary>
+	///   Lasts the n bits.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>uint[].</returns>
 	private uint[] LastNBits(int n)
 	{
 		if (n < 1) return ZeroMagnitude;
@@ -2339,6 +3030,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Divides the words.
+	/// </summary>
+	/// <param name="w">The w.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private BigInteger DivideWords(int w)
 	{
 		Debug.Assert(w >= 0);
@@ -2349,6 +3045,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(_sign, mag, false);
 	}
 
+	/// <summary>
+	///   Remainders the words.
+	/// </summary>
+	/// <param name="w">The w.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private BigInteger RemainderWords(int w)
 	{
 		Debug.Assert(w >= 0);
@@ -2359,6 +3060,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(_sign, mag, false);
 	}
 
+	/// <summary>
+	///   Squares this instance.
+	/// </summary>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Square()
 	{
 		if (_sign == 0) return Zero;
@@ -2370,6 +3075,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(1, res, false);
 	}
 
+	/// <summary>
+	///   Multiplies the specified value.
+	/// </summary>
+	/// <param name="val">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Multiply(BigInteger val)
 	{
 		if (val.Equals(this)) return Square();
@@ -2397,6 +3107,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return new BigInteger(resSign, res, true);
 	}
 
+	/// <summary>
+	///   Shifts the left.
+	/// </summary>
+	/// <param name="mag">The mag.</param>
+	/// <param name="n">The n.</param>
+	/// <returns>uint[].</returns>
 	private static uint[] ShiftLeft(uint[] mag, int n)
 	{
 		var    nInts  = n >>> 5;
@@ -2440,6 +3156,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return newMag;
 	}
 
+	/// <summary>
+	///   Shifts the left one in place.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="carry">The carry.</param>
+	/// <returns>int.</returns>
 	private static int ShiftLeftOneInPlace(int[] x, int carry)
 	{
 		Debug.Assert(carry == 0 || carry == 1);
@@ -2454,6 +3176,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return carry;
 	}
 
+	/// <summary>
+	///   Shifts the left.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger ShiftLeft(int n)
 	{
 		if (_sign == 0 || _magnitude.Length == 0) return Zero;
@@ -2477,6 +3204,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Shifts the right one in place.
+	/// </summary>
+	/// <param name="start">The start.</param>
+	/// <param name="mag">The mag.</param>
 	private static void ShiftRightOneInPlace(int start, uint[] mag)
 	{
 		var i = mag.Length;
@@ -2492,6 +3224,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		mag[start] = mag[start] >> 1;
 	}
 
+	/// <summary>
+	///   Shifts the right.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger ShiftRight(int n)
 	{
 		if (n == 0)
@@ -2532,6 +3269,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	}
 
 
+	/// <summary>
+	///   Shifts the right in place.
+	/// </summary>
+	/// <param name="start">The start.</param>
+	/// <param name="mag">The mag.</param>
+	/// <param name="n">The n.</param>
 	private static void ShiftRightInPlace(int start, uint[] mag, int n)
 	{
 		var nInts  = (n >>> 5) + start;
@@ -2564,6 +3307,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	}
 
 
+	/// <summary>
+	///   Squares the monty.
+	/// </summary>
+	/// <param name="a">a.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="mDash">The m dash.</param>
+	/// <param name="smallMontyModulus">The small monty modulus.</param>
 	private static void SquareMonty(uint[] a, uint[] x, uint[] m, uint mDash, bool smallMontyModulus)
 		// mDash = -m^(-1) mod b
 	{
@@ -2651,6 +3402,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		Array.Copy(a, 1, x, 0, n);
 	}
 
+	/// <summary>
+	///   Montgomeries the reduce.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="mDash">The m dash.</param>
 	private static void MontgomeryReduce(uint[] x, uint[] m, uint mDash) // mDash = -m^(-1) mod b
 	{
 		// NOTE: Not a general purpose reduction (which would allow x up to twice the bitlength of m)
@@ -2682,6 +3439,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 	}
 
 
+	/// <summary>
+	///   Compares to.
+	/// </summary>
+	/// <param name="xIndx">The x indx.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="yIndx">The y indx.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>int.</returns>
 	private static int CompareTo(int xIndx, uint[] x, int yIndx, uint[] y)
 	{
 		while (xIndx != x.Length && x[xIndx] == 0U) xIndx++;
@@ -2691,6 +3456,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return CompareNoLeadingZeroes(xIndx, x, yIndx, y);
 	}
 
+	/// <summary>
+	///   Compares the no leading zeroes.
+	/// </summary>
+	/// <param name="xIndx">The x indx.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="yIndx">The y indx.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>int.</returns>
 	private static int CompareNoLeadingZeroes(int xIndx, IReadOnlyList<uint> x, int yIndx, IReadOnlyList<uint> y)
 	{
 		var diff = x.Count - y.Count - (xIndx - yIndx);
@@ -2712,6 +3485,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return 0;
 	}
 
+	/// <summary>
+	///   GCDs the specified value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Gcd(BigInteger value)
 	{
 		if (value._sign == 0) return Abs();
@@ -2730,8 +3508,17 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return u;
 	}
 
+	/// <summary>
+	///   Determines whether [is equal magnitude] [the specified x].
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns>bool.</returns>
 	private bool IsEqualMagnitude(BigInteger x) => _magnitude.Length == x._magnitude.Length && !_magnitude.Where((t, i) => t != x._magnitude[i]).Any();
 
+	/// <summary>
+	///   Gets the hash code.
+	/// </summary>
+	/// <returns>int.</returns>
 	public override int GetHashCode()
 	{
 		var hc = _magnitude.Length;
@@ -2748,6 +3535,10 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return _sign < 0 ? ~hc : hc;
 	}
 
+	/// <summary>
+	///   Incs this instance.
+	/// </summary>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Inc() =>
 		_sign switch
 		{
@@ -2756,6 +3547,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 			_   => AddToMagnitude(One._magnitude)
 		};
 
+	/// <summary>
+	///   Equalses the specified object.
+	/// </summary>
+	/// <param name="obj">The object.</param>
+	/// <returns>bool.</returns>
 	public override bool Equals(object? obj)
 	{
 		if (Equals(obj, this))
@@ -2766,8 +3562,18 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return _sign == biggie._sign && IsEqualMagnitude(biggie);
 	}
 
+	/// <summary>
+	///   Converts to string.
+	/// </summary>
+	/// <returns>string.</returns>
 	public override string ToString() => ToString(10);
 
+	/// <summary>
+	///   Converts to string.
+	/// </summary>
+	/// <param name="radix">The radix.</param>
+	/// <returns>string.</returns>
+	/// <exception cref="FormatException">Only bases 2, 8, 10, 16 are allowed</exception>
 	public string ToString(int radix)
 	{
 		// TODO Make this method work for other radices (ideally 2 <= radix <= 36)
@@ -2867,6 +3673,14 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return sb.ToString();
 	}
 
+	/// <summary>
+	///   Converts to string.
+	/// </summary>
+	/// <param name="sb">The sb.</param>
+	/// <param name="radix">The radix.</param>
+	/// <param name="moduli">The moduli.</param>
+	/// <param name="scale">The scale.</param>
+	/// <param name="pos">The position.</param>
 	private static void ToString(StringBuilder sb, int radix, IList<BigInteger> moduli, int scale, BigInteger pos)
 	{
 		if (pos.BitLength < 64)
@@ -2884,12 +3698,23 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		ToString(sb, radix, moduli, scale, qr[1]);
 	}
 
+	/// <summary>
+	///   Appends the zero extended string.
+	/// </summary>
+	/// <param name="sb">The sb.</param>
+	/// <param name="s">The s.</param>
+	/// <param name="minLength">The minimum length.</param>
 	private static void AppendZeroExtendedString(StringBuilder sb, string s, int minLength)
 	{
 		for (var len = s.Length; len < minLength; ++len) sb.Append('0');
 		sb.Append(s);
 	}
 
+	/// <summary>
+	///   Creates the u value of.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private static BigInteger CreateUValueOf(ulong value)
 	{
 		var msw = (uint) (value >> 32);
@@ -2909,6 +3734,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return Zero;
 	}
 
+	/// <summary>
+	///   Creates the value of.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private static BigInteger CreateValueOf(long value) =>
 		value switch
 		{
@@ -2917,8 +3747,17 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 			_                     => CreateUValueOf((ulong) value)
 		};
 
+	/// <summary>
+	///   Values the of.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public static BigInteger ValueOf(long value) => value >= 0 && value < SmallConstants.Length ? SmallConstants[value] : CreateValueOf(value);
 
+	/// <summary>
+	///   Gets the lowest set bit.
+	/// </summary>
+	/// <returns>int.</returns>
 	public int GetLowestSetBit()
 	{
 		if (_sign == 0) return -1;
@@ -2926,6 +3765,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return GetLowestSetBitMaskFirst(uint.MaxValue);
 	}
 
+	/// <summary>
+	///   Gets the lowest set bit mask first.
+	/// </summary>
+	/// <param name="firstWordMaskX">The first word mask x.</param>
+	/// <returns>int.</returns>
 	private int GetLowestSetBitMaskFirst(uint firstWordMaskX)
 	{
 		int w = _magnitude.Length, offset = 0;
@@ -2944,6 +3788,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return offset;
 	}
 
+	/// <summary>
+	///   Tests the bit.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>bool.</returns>
+	/// <exception cref="ArithmeticException">Bit position must not be negative</exception>
 	public bool TestBit(int n)
 	{
 		if (n < 0)
@@ -2960,6 +3810,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return ((word >> (n % 32)) & 1U) != 0;
 	}
 
+	/// <summary>
+	///   Ors the specified value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Or(BigInteger value)
 	{
 		if (_sign == 0)
@@ -3000,6 +3855,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Xors the specified value.
+	/// </summary>
+	/// <param name="value">The value.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	public BigInteger Xor(BigInteger value)
 	{
 		if (_sign == 0)
@@ -3041,6 +3901,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return result;
 	}
 
+	/// <summary>
+	///   Sets the bit.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Bit address less than zero</exception>
 	public BigInteger SetBit(int n)
 	{
 		if (n < 0)
@@ -3056,6 +3922,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return Or(One.ShiftLeft(n));
 	}
 
+	/// <summary>
+	///   Clears the bit.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Bit address less than zero</exception>
 	public BigInteger ClearBit(int n)
 	{
 		if (n < 0)
@@ -3071,6 +3943,12 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return AndNot(One.ShiftLeft(n));
 	}
 
+	/// <summary>
+	///   Flips the bit.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
+	/// <exception cref="ArithmeticException">Bit address less than zero</exception>
 	public BigInteger FlipBit(int n)
 	{
 		if (n < 0)
@@ -3083,6 +3961,11 @@ public sealed class BigInteger : IComparable, IComparable<BigInteger>, IEquatabl
 		return Xor(One.ShiftLeft(n));
 	}
 
+	/// <summary>
+	///   Flips the existing bit.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>core.Math.BigInteger.</returns>
 	private BigInteger FlipExistingBit(int n)
 	{
 		Debug.Assert(_sign > 0);

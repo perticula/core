@@ -9,6 +9,11 @@ using System.Runtime.Serialization;
 
 namespace core.Filtering;
 
+/// <summary>
+///   Class FilterSyntaxException.
+///   Implements the <see cref="System.Exception" />
+/// </summary>
+/// <seealso cref="System.Exception" />
 [Serializable]
 public class FilterSyntaxException : Exception
 {

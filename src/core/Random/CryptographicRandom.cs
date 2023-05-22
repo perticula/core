@@ -7,16 +7,24 @@
 
 namespace core.Random;
 
+/// <summary>
+///   Class CryptographicRandom.
+///   Implements the <see cref="core.Random.ICryptographicRandom" />
+/// </summary>
+/// <seealso cref="core.Random.ICryptographicRandom" />
 public abstract class CryptographicRandom : ICryptographicRandom
 {
 	/// <summary>
 	///   Returns a random number between 0 and <c>uint.MaxValue</c> inclusive
 	/// </summary>
+	/// <returns>System.UInt32.</returns>
 	public abstract uint GenerateNum();
 
 	/// <summary>
 	///   Returns a random number between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
+	/// <param name="maxInclusive">The maximum inclusive.</param>
+	/// <returns>System.UInt32.</returns>
 	public virtual uint GenerateNum(uint maxInclusive)
 	{
 		if (maxInclusive == 0) return 0;
@@ -37,6 +45,9 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns a random number between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
+	/// <param name="maxInclusive">The maximum inclusive.</param>
+	/// <returns>System.Int32.</returns>
+	/// <exception cref="System.ArgumentOutOfRangeException">maxInclusive - maxInclusive may not be negative.</exception>
 	public virtual int GenerateNum(int maxInclusive)
 	{
 		if (maxInclusive < 0) throw new ArgumentOutOfRangeException(nameof(maxInclusive), "maxInclusive may not be negative.");
@@ -46,6 +57,8 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns an infinite stream of random numbers between 0 and <paramref name="maxInclusive" /> inclusive
 	/// </summary>
+	/// <param name="maxInclusive">The maximum inclusive.</param>
+	/// <returns>IEnumerable&lt;System.Int32&gt;.</returns>
 	public virtual IEnumerable<int> GenerateNumStream(int maxInclusive)
 	{
 		while (true)
@@ -56,11 +69,18 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns one item from <paramref name="items" /> chosen randomly
 	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="items">The items.</param>
+	/// <returns>T.</returns>
 	public virtual T Choose<T>(IEnumerable<T> items) => Choose(new HashSet<T>(items));
 
 	/// <summary>
 	///   Returns one item from <paramref name="set" /> chosen randomly
 	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="set">The set.</param>
+	/// <returns>T.</returns>
+	/// <exception cref="System.ArgumentException">set is empty.</exception>
 	public virtual T Choose<T>(ISet<T> set)
 	{
 		if (set.Count == 0) throw new ArgumentException("set is empty.");
@@ -70,6 +90,10 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns an infinite stream of randomly chosen items from <paramref name="set" />
 	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="set">The set.</param>
+	/// <returns>IEnumerable&lt;T&gt;.</returns>
+	/// <exception cref="System.ArgumentException">set is empty.</exception>
 	public virtual IEnumerable<T> GetChoiceStream<T>(ISet<T> set)
 	{
 		if (set.Count == 0) throw new ArgumentException("set is empty.");
@@ -79,6 +103,9 @@ public abstract class CryptographicRandom : ICryptographicRandom
 	/// <summary>
 	///   Returns <paramref name="items" /> in a random order
 	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="items">The items.</param>
+	/// <returns>IEnumerable&lt;T&gt;.</returns>
 	public virtual IEnumerable<T> Shuffle<T>(IEnumerable<T> items)
 	{
 		// The Fisher-Yates shuffle algorithm

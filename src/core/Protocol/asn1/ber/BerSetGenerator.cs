@@ -1,4 +1,4 @@
-// perticula - core - BetSetGenerator.cs
+// perticula - core - BerSetGenerator.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 

@@ -9,10 +9,23 @@ using core.Attributes;
 
 namespace core.Filtering;
 
+/// <summary>
+///   Enum OrderByDirection
+/// </summary>
 public enum OrderByDirection
 {
+	/// <summary>
+	///   The invalid
+	/// </summary>
 	Invalid = 0x00, // all enums should define the default case as an invalid value.
 
-	[DisplayText("Ascending")]  Ascending  = 0x01,
+	/// <summary>
+	///   The ascending
+	/// </summary>
+	[DisplayText("Ascending")] Ascending = 0x01,
+
+	/// <summary>
+	///   The descending
+	/// </summary>
 	[DisplayText("Descending")] Descending = -0x01
 }

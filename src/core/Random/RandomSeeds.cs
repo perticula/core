@@ -7,6 +7,9 @@
 
 namespace core.Random;
 
+/// <summary>
+///   Enum RandomSeeds
+/// </summary>
 public enum RandomSeeds
 {
 	/// <summary>

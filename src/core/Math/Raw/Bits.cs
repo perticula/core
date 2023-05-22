@@ -10,8 +10,18 @@ using System.Runtime.CompilerServices;
 
 namespace core.Math.Raw;
 
+/// <summary>
+///   Class Bits.
+/// </summary>
 public static class Bits
 {
+	/// <summary>
+	///   Bits the permute step.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="s">The s.</param>
+	/// <returns>System.UInt32.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static uint BitPermuteStep(uint x, uint m, int s)
 	{
@@ -22,6 +32,13 @@ public static class Bits
 		return t ^ (t << s) ^ x;
 	}
 
+	/// <summary>
+	///   Bits the permute step.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="s">The s.</param>
+	/// <returns>System.UInt64.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static ulong BitPermuteStep(ulong x, ulong m, int s)
 	{
@@ -32,6 +49,13 @@ public static class Bits
 		return t ^ (t << s) ^ x;
 	}
 
+	/// <summary>
+	///   Bits the permute step2.
+	/// </summary>
+	/// <param name="hi">The hi.</param>
+	/// <param name="lo">The lo.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="s">The s.</param>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static void BitPermuteStep2(ref uint hi, ref uint lo, uint m, int s)
 	{
@@ -43,6 +67,13 @@ public static class Bits
 		hi ^= t;
 	}
 
+	/// <summary>
+	///   Bits the permute step2.
+	/// </summary>
+	/// <param name="hi">The hi.</param>
+	/// <param name="lo">The lo.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="s">The s.</param>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static void BitPermuteStep2(ref ulong hi, ref ulong lo, ulong m, int s)
 	{
@@ -54,6 +85,13 @@ public static class Bits
 		hi ^= t;
 	}
 
+	/// <summary>
+	///   Bits the permute step simple.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="s">The s.</param>
+	/// <returns>System.UInt32.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static uint BitPermuteStepSimple(uint x, uint m, int s)
 	{
@@ -63,6 +101,13 @@ public static class Bits
 		return ((x & m) << s) | ((x >> s) & m);
 	}
 
+	/// <summary>
+	///   Bits the permute step simple.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="s">The s.</param>
+	/// <returns>System.UInt64.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	internal static ulong BitPermuteStepSimple(ulong x, ulong m, int s)
 	{

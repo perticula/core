@@ -9,11 +9,29 @@ using System.Security.Cryptography;
 
 namespace core.Random;
 
+/// <summary>
+///   Class CryptographicRandomizer. This class cannot be inherited.
+///   Implements the <see cref="core.Random.CryptographicRandom" />
+///   Implements the <see cref="System.IDisposable" />
+/// </summary>
+/// <seealso cref="core.Random.CryptographicRandom" />
+/// <seealso cref="System.IDisposable" />
 public sealed class CryptographicRandomizer : CryptographicRandom, IDisposable
 {
-	private readonly byte[]                _buf = new byte[sizeof(uint) * 64];
+	/// <summary>
+	///   The buf
+	/// </summary>
+	private readonly byte[] _buf = new byte[sizeof(uint) * 64];
+
+	/// <summary>
+	///   The RNG
+	/// </summary>
 	private readonly RandomNumberGenerator _rng;
-	private          int                   _i;
+
+	/// <summary>
+	///   The i
+	/// </summary>
+	private int _i;
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="CryptographicRandomizer" /> class.

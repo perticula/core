@@ -7,6 +7,9 @@
 
 namespace core;
 
+/// <summary>
+///   Class Objects.
+/// </summary>
 public static class Objects
 {
 	/// <summary>

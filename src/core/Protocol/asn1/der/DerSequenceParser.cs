@@ -37,5 +37,5 @@ public class DerSequenceParser : IAsn1SequenceParser
 	///   defined the conversion to and asn.1 object.
 	/// </summary>
 	/// <returns>Asn1Object.</returns>
-	public Asn1Object ToAsn1Object() => DLSequence.FromVector(_parser.LoadVector());
+	public Asn1Object ToAsn1Object() => DefinteLengthSequence.FromVector(_parser.LoadVector());
 }

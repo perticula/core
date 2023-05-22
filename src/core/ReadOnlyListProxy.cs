@@ -15,6 +15,9 @@ namespace core;
 /// <seealso cref="core.ReadOnlyList{T}" />
 public class ReadOnlyListProxy<T> : ReadOnlyList<T>, IProxy<IList<T>>
 {
+	/// <summary>
+	///   The target
+	/// </summary>
 	private readonly IList<T> _target;
 
 	/// <summary>
@@ -33,6 +36,8 @@ public class ReadOnlyListProxy<T> : ReadOnlyList<T>, IProxy<IList<T>>
 	/// <summary>
 	///   The target
 	/// </summary>
+	/// <value>The target.</value>
+	/// <exception cref="System.NotSupportedException"></exception>
 	public IList<T> Target
 	{
 		get => _target;

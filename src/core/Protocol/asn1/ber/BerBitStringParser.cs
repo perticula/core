@@ -59,6 +59,7 @@ public class BerBitStringParser : IAsn1BitStringParser
 	///   Return the number of pad bits, if any, in the final byte, if any, read from <see cref="GetBitStream" />.
 	/// </summary>
 	/// <value>The number of pad bits. In the range zero to seven.</value>
+	/// <exception cref="System.NullReferenceException"></exception>
 	/// <remarks>
 	///   This number is in the range zero to seven. That number of the least significant bits of the final byte, if
 	///   any, are not part of the contents and should be ignored.

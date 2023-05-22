@@ -83,8 +83,8 @@ public class DerObjectIdentifier : Asn1Object
 	/// <returns>System.Nullable&lt;DerObjectIdentifier&gt;.</returns>
 	/// <exception cref="ArgumentException">$"failed to construct object identifier from byte[]: {e.Message}</exception>
 	/// <exception cref="ArgumentException">$"illegal object in GetInstance: {obj.GetTypeName()}, nameof(obj)</exception>
-	/// <exception cref="System.ArgumentException">failed to construct object identifier from byte[]: {e.Message}</exception>
-	/// <exception cref="System.ArgumentException">illegal object in GetInstance: {obj.GetTypeName()} - obj</exception>
+	/// <exception cref="System.ArgumentException">$"failed to construct object identifier from byte[]: {e.Message}</exception>
+	/// <exception cref="System.ArgumentException">$"illegal object in GetInstance: {obj.GetTypeName()}, nameof(obj)</exception>
 	public static DerObjectIdentifier? GetInstance(object? obj)
 	{
 		switch (obj)

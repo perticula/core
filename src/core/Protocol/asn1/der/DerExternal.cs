@@ -66,7 +66,7 @@ public class DerExternal : Asn1Object
 		if (asn1 is not Asn1TaggedObject o)
 			throw new ArgumentException("No tagged object found in sequence. Structure doesn't seem to be of type External", nameof(sequence));
 
-		BaseEncoding   = CheckEncoding(o.TagNo);
+		BaseEncoding    = CheckEncoding(o.TagNo);
 		ExternalContent = GetExternalContent(o);
 	}
 
@@ -82,7 +82,7 @@ public class DerExternal : Asn1Object
 		DirectReference     = directReference;
 		IndirectReference   = indirectReference;
 		DataValueDescriptor = dataValueDescriptor;
-		BaseEncoding       = CheckEncoding(externalData.TagNo);
+		BaseEncoding        = CheckEncoding(externalData.TagNo);
 		ExternalContent     = GetExternalContent(externalData);
 	}
 
@@ -99,7 +99,7 @@ public class DerExternal : Asn1Object
 		DirectReference     = directReference;
 		IndirectReference   = indirectReference;
 		DataValueDescriptor = dataValueDescriptor;
-		BaseEncoding       = CheckEncoding(encoding);
+		BaseEncoding        = CheckEncoding(encoding);
 		_externalContent    = CheckExternalContent(encoding, externalData);
 	}
 

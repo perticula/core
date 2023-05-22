@@ -1,4 +1,4 @@
-// perticula - model - INotification.cs
+// perticula - core - INotification.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 

@@ -13,8 +13,15 @@ namespace core.Protocol;
 /// </summary>
 public class OidTokenizer
 {
+	/// <summary>
+	///   The oid
+	/// </summary>
 	private readonly string _oid;
-	private          int    _index;
+
+	/// <summary>
+	///   The index
+	/// </summary>
+	private int _index;
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="OidTokenizer" /> class.

@@ -118,12 +118,12 @@ public class DerSequence : Asn1Sequence
 	///   Converts to asn1set.
 	/// </summary>
 	/// <returns>Asn1Set.</returns>
-	public override Asn1Set ToAsn1Set() => new DLSet(false, Elements); // NOTE: DLSet is intentional, we don't want sorting
+	public override Asn1Set ToAsn1Set() => new DefiniteLengthSet(false, Elements); // NOTE: DefiniteLengthSet is intentional, we don't want sorting
 
 	/// <summary>
 	///   Gets the length of the encoding.
 	/// </summary>
 	/// <param name="contentsLength">Length of the contents.</param>
 	/// <returns>System.Int32.</returns>
-	internal static int GetEncodingLength(int contentsLength) => Asn1OutputStream.GetLengthOfEncodingDL(Asn1Tags.Sequence, contentsLength);
+	internal static int GetEncodingLength(int contentsLength) => Asn1OutputStream.GetLengthOfEncodingDefiniteLength(Asn1Tags.Sequence, contentsLength);
 }

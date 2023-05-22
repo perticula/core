@@ -5,7 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-
 namespace core;
 
 /// <summary>
@@ -17,6 +16,9 @@ namespace core;
 /// <seealso cref="core.ReadOnlyCollection{T}" />
 public class ReadOnlyCollectionProxy<T> : ReadOnlyCollection<T>, IProxy<ICollection<T>>
 {
+	/// <summary>
+	///   The target
+	/// </summary>
 	private readonly ICollection<T> _target;
 
 	/// <summary>
@@ -36,6 +38,7 @@ public class ReadOnlyCollectionProxy<T> : ReadOnlyCollection<T>, IProxy<ICollect
 	///   Gets the target.
 	/// </summary>
 	/// <value>The target.</value>
+	/// <exception cref="System.NotSupportedException"></exception>
 	public ICollection<T> Target
 	{
 		get => _target;

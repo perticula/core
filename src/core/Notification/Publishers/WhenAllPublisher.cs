@@ -14,6 +14,16 @@ namespace core.Notification.Publishers;
 /// <seealso cref="core.Notification.INotificationPublisher" />
 public class WhenAllPublisher : INotificationPublisher
 {
+	/// <summary>
+	///   Publishes the specified executors.
+	/// </summary>
+	/// <param name="executors">The executors.</param>
+	/// <param name="notification">The notification.</param>
+	/// <param name="cancellationToken">
+	///   The cancellation token that can be used by other objects or threads to receive notice
+	///   of cancellation.
+	/// </param>
+	/// <returns>Task.</returns>
 	public Task Publish(IEnumerable<NotificationHandlerExecutor> executors, INotification notification, CancellationToken cancellationToken)
 	{
 		var tasks = executors

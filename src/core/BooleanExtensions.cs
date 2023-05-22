@@ -7,6 +7,9 @@
 
 namespace core;
 
+/// <summary>
+///   Class BooleanExtensions.
+/// </summary>
 public static class BooleanExtensions
 {
 	/// <summary>

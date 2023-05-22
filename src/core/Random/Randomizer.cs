@@ -7,6 +7,9 @@
 
 namespace core.Random;
 
+/// <summary>
+///   Class Randomizer.
+/// </summary>
 public static class Randomizer
 {
 	/// <summary>
@@ -19,7 +22,7 @@ public static class Randomizer
 	/// </summary>
 	/// <param name="seed">The seed.</param>
 	/// <returns>System.Random.</returns>
-	/// <exception cref="NotSupportedException">unknown random seed: {seed}</exception>
+	/// <exception cref="System.NotSupportedException">unknown random seed: {seed}</exception>
 	public static System.Random Get(RandomSeeds seed)
 	{
 		var now = DateTime.Now;

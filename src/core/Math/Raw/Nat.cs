@@ -11,10 +11,24 @@ using core.Cryptography;
 
 namespace core.Math.Raw;
 
+/// <summary>
+///   Class Nat.
+/// </summary>
 public static class Nat
 {
+	/// <summary>
+	///   The m
+	/// </summary>
 	private const ulong M = 0xFFFFFFFFUL;
 
+	/// <summary>
+	///   Adds the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add(int len, uint[] x, uint[] y, uint[] z)
 	{
 		var c = 0UL;
@@ -28,6 +42,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		var c = 0UL;
@@ -41,6 +63,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Add33s at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add33At(int len, uint x, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -53,6 +83,15 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Add33s at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add33At(int len, uint x, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -65,6 +104,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zOff, zPos + 2);
 	}
 
+	/// <summary>
+	///   Add33s at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add33At(int len, uint x, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -77,6 +124,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Add33s to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add33To(int len, uint x, uint[] z)
 	{
 		var c = (ulong) z[0] + x;
@@ -88,6 +142,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Add33s to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add33To(int len, uint x, uint[] z, int zOff)
 	{
 		var c = (ulong) z[zOff + 0] + x;
@@ -99,6 +161,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zOff, 2);
 	}
 
+	/// <summary>
+	///   Add33s to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Add33To(int len, uint x, Span<uint> z)
 	{
 		var c = (ulong) z[0] + x;
@@ -110,6 +179,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Adds the both to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddBothTo(int len, uint[] x, uint[] y, uint[] z)
 	{
 		ulong c = 0;
@@ -123,6 +200,17 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the both to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddBothTo(int len, uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		ulong c = 0;
@@ -136,6 +224,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the both to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddBothTo(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		ulong c = 0;
@@ -149,6 +245,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the d word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddDWordAt(int len, ulong x, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -161,6 +265,15 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Adds the d word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddDWordAt(int len, ulong x, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -173,6 +286,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zOff, zPos + 2);
 	}
 
+	/// <summary>
+	///   Adds the d word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddDWordAt(int len, ulong x, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -185,6 +306,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Adds the d word to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddDWordTo(int len, ulong x, uint[] z)
 	{
 		var c = z[0] + (x & M);
@@ -196,6 +324,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Adds the d word to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddDWordTo(int len, ulong x, uint[] z, int zOff)
 	{
 		var c = z[zOff + 0] + (x & M);
@@ -207,6 +343,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zOff, 2);
 	}
 
+	/// <summary>
+	///   Adds the d word to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddDWordTo(int len, ulong x, Span<uint> z)
 	{
 		var c = z[0] + (x & M);
@@ -218,6 +361,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(int len, uint[] x, uint[] z)
 	{
 		ulong c = 0;
@@ -231,6 +381,15 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(int len, uint[] x, int xOff, uint[] z, int zOff)
 	{
 		ulong c = 0;
@@ -244,6 +403,13 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		ulong c = 0;
@@ -257,6 +423,16 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(int len, uint[] x, int xOff, uint[] z, int zOff, uint cIn)
 	{
 		ulong c = cIn;
@@ -270,6 +446,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="cIn">The c in.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddTo(int len, ReadOnlySpan<uint> x, Span<uint> z, uint cIn)
 	{
 		ulong c = cIn;
@@ -283,6 +467,15 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to each other.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="u">The u.</param>
+	/// <param name="uOff">The u off.</param>
+	/// <param name="v">The v.</param>
+	/// <param name="vOff">The v off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddToEachOther(int len, uint[] u, int uOff, uint[] v, int vOff)
 	{
 		ulong c = 0;
@@ -297,6 +490,13 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds to each other.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="u">The u.</param>
+	/// <param name="v">The v.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddToEachOther(int len, Span<uint> u, Span<uint> v)
 	{
 		ulong c = 0;
@@ -311,6 +511,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Adds the word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddWordAt(int len, uint x, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 1);
@@ -320,6 +528,15 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 1);
 	}
 
+	/// <summary>
+	///   Adds the word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddWordAt(int len, uint x, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len - 1);
@@ -329,6 +546,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zOff, zPos + 1);
 	}
 
+	/// <summary>
+	///   Adds the word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddWordAt(int len, uint x, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 1);
@@ -338,6 +563,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 1);
 	}
 
+	/// <summary>
+	///   Adds the word to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddWordTo(int len, uint x, uint[] z)
 	{
 		var c = (ulong) x + z[0];
@@ -346,6 +578,14 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, 1);
 	}
 
+	/// <summary>
+	///   Adds the word to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddWordTo(int len, uint x, uint[] z, int zOff)
 	{
 		var c = (ulong) x + z[zOff];
@@ -354,6 +594,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zOff, 1);
 	}
 
+	/// <summary>
+	///   Adds the word to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint AddWordTo(int len, uint x, Span<uint> z)
 	{
 		var c = (ulong) x + z[0];
@@ -362,6 +609,15 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, 1);
 	}
 
+	/// <summary>
+	///   cs the add.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint CAdd(int len, int mask, uint[] x, uint[] y, uint[] z)
 	{
 		var lMask = (uint) -(mask & 1);
@@ -377,6 +633,15 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   cs the add.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint CAdd(int len, int mask, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		var lMask = (uint) -(mask & 1);
@@ -392,6 +657,15 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   cs the mov.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void CMov(int len, int mask, uint[] x, int xOff, uint[] z, int zOff)
 	{
 		var lMask = (uint) -(mask & 1);
@@ -399,7 +673,7 @@ public static class Nat
 		for (var i = 0; i < len; ++i)
 		{
 			uint zI = z[zOff + i], diff = zI ^ x[xOff + i];
-			zI         ^= diff & lMask;
+			zI          ^= diff & lMask;
 			z[zOff + i] =  zI;
 		}
 
@@ -414,6 +688,13 @@ public static class Nat
 		//}
 	}
 
+	/// <summary>
+	///   cs the mov.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void CMov(int len, int mask, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		var lMask = (uint) -(mask & 1);
@@ -421,7 +702,7 @@ public static class Nat
 		for (var i = 0; i < len; ++i)
 		{
 			uint zI = z[i], diff = zI ^ x[i];
-			zI  ^= diff & lMask;
+			zI   ^= diff & lMask;
 			z[i] =  zI;
 		}
 
@@ -436,6 +717,13 @@ public static class Nat
 		//}
 	}
 
+	/// <summary>
+	///   Compares the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Compare(int len, uint[] x, uint[] y)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -451,6 +739,15 @@ public static class Nat
 		return 0;
 	}
 
+	/// <summary>
+	///   Compares the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Compare(int len, uint[] x, int xOff, uint[] y, int yOff)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -466,6 +763,13 @@ public static class Nat
 		return 0;
 	}
 
+	/// <summary>
+	///   Compares the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Compare(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -481,6 +785,12 @@ public static class Nat
 		return 0;
 	}
 
+	/// <summary>
+	///   Copies the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>System.UInt32[].</returns>
 	public static uint[] Copy(int len, uint[] x)
 	{
 		var z = new uint[len];
@@ -488,21 +798,47 @@ public static class Nat
 		return z;
 	}
 
+	/// <summary>
+	///   Copies the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy(int len, uint[] x, uint[] z)
 	{
 		Array.Copy(x, 0, z, 0, len);
 	}
 
+	/// <summary>
+	///   Copies the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Copy(int len, uint[] x, int xOff, uint[] z, int zOff)
 	{
 		Array.Copy(x, xOff, z, zOff, len);
 	}
 
+	/// <summary>
+	///   Copies the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		x[..len].CopyTo(z);
 	}
 
+	/// <summary>
+	///   Copy64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>System.UInt64[].</returns>
 	public static ulong[] Copy64(int len, ulong[] x)
 	{
 		var z = new ulong[len];
@@ -510,29 +846,68 @@ public static class Nat
 		return z;
 	}
 
+	/// <summary>
+	///   Copy64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy64(int len, ulong[] x, ulong[] z)
 	{
 		Array.Copy(x, 0, z, 0, len);
 	}
 
+	/// <summary>
+	///   Copy64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Copy64(int len, ulong[] x, int xOff, ulong[] z, int zOff)
 	{
 		Array.Copy(x, xOff, z, zOff, len);
 	}
 
+	/// <summary>
+	///   Copy64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void Copy64(int len, ReadOnlySpan<ulong> x, Span<ulong> z)
 	{
 		x[..len].CopyTo(z);
 	}
 
+	/// <summary>
+	///   Creates the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <returns>System.UInt32[].</returns>
 	public static uint[] Create(int len) => new uint[len];
 
+	/// <summary>
+	///   Create64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <returns>System.UInt64[].</returns>
 	public static ulong[] Create64(int len) => new ulong[len];
 
+	/// <summary>
+	///   cs the sub.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int CSub(int len, int mask, uint[] x, uint[] y, uint[] z)
 	{
 		long lMask = (uint) -(mask & 1);
-		long c    = 0;
+		long c     = 0;
 		for (var i = 0; i < len; ++i)
 		{
 			c    +=  x[i] - (y[i] & lMask);
@@ -543,10 +918,22 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   cs the sub.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int CSub(int len, int mask, uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		long lMask = (uint) -(mask & 1);
-		long c    = 0;
+		long c     = 0;
 		for (var i = 0; i < len; ++i)
 		{
 			c           +=  x[xOff + i] - (y[yOff + i] & lMask);
@@ -557,10 +944,19 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   cs the sub.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="mask">The mask.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int CSub(int len, int mask, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		long lMask = (uint) -(mask & 1);
-		long c    = 0;
+		long c     = 0;
 		for (var i = 0; i < len; ++i)
 		{
 			c    +=  x[i] - (y[i] & lMask);
@@ -571,6 +967,12 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Decimals the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Dec(int len, uint[] z)
 	{
 		for (var i = 0; i < len; ++i)
@@ -582,6 +984,12 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Decimals the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Dec(int len, Span<uint> z)
 	{
 		for (var i = 0; i < len; ++i)
@@ -593,6 +1001,13 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Decimals the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Dec(int len, uint[] x, uint[] z)
 	{
 		var i = 0;
@@ -616,6 +1031,13 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Decimals the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Dec(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		var i = 0;
@@ -639,6 +1061,13 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Decimals at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int DecAt(int len, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len);
@@ -651,6 +1080,14 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Decimals at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int DecAt(int len, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len);
@@ -663,6 +1100,13 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Decimals at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int DecAt(int len, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len);
@@ -675,6 +1119,13 @@ public static class Nat
 		return -1;
 	}
 
+	/// <summary>
+	///   Eqs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Eq(int len, uint[] x, uint[] y)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -686,6 +1137,13 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Eqs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Eq(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -697,6 +1155,13 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualTo(int len, uint[] x, uint y)
 	{
 		var d                           = x[0] ^ y;
@@ -705,6 +1170,14 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualTo(int len, uint[] x, int xOff, uint y)
 	{
 		var d                           = x[xOff] ^ y;
@@ -713,6 +1186,13 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualTo(int len, ReadOnlySpan<uint> x, uint y)
 	{
 		var d                           = x[0] ^ y;
@@ -721,6 +1201,13 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualTo(int len, uint[] x, uint[] y)
 	{
 		uint d                          = 0;
@@ -729,6 +1216,15 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualTo(int len, uint[] x, int xOff, uint[] y, int yOff)
 	{
 		uint d                          = 0;
@@ -737,6 +1233,13 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualTo(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y)
 	{
 		uint d                          = 0;
@@ -745,6 +1248,12 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to zero.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualToZero(int len, uint[] x)
 	{
 		uint d                          = 0;
@@ -753,6 +1262,13 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to zero.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualToZero(int len, uint[] x, int xOff)
 	{
 		uint d                          = 0;
@@ -761,6 +1277,12 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Equals to zero.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint EqualToZero(int len, ReadOnlySpan<uint> x)
 	{
 		uint d                          = 0;
@@ -769,6 +1291,13 @@ public static class Nat
 		return (uint) (((int) d - 1) >> 31);
 	}
 
+	/// <summary>
+	///   Froms the big integer.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>System.UInt32[].</returns>
+	/// <exception cref="System.ArgumentException">invalid bit range - bits</exception>
 	public static uint[] FromBigInteger(int bits, BigInteger x)
 	{
 		if (x.SignValue < 0 || x.BitLength > bits)
@@ -783,6 +1312,13 @@ public static class Nat
 		return z;
 	}
 
+	/// <summary>
+	///   Froms the big integer.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <exception cref="System.ArgumentException">invalid bit range - bits</exception>
 	public static void FromBigInteger(int bits, BigInteger x, Span<uint> z)
 	{
 		if (x.SignValue < 0 || x.BitLength > bits)
@@ -797,6 +1333,13 @@ public static class Nat
 		z[xLen..].Clear();
 	}
 
+	/// <summary>
+	///   Froms the big integer64.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>System.UInt64[].</returns>
+	/// <exception cref="System.ArgumentException">invalid bit range - bits</exception>
 	public static ulong[] FromBigInteger64(int bits, BigInteger x)
 	{
 		if (x.SignValue < 0 || x.BitLength > bits)
@@ -816,6 +1359,13 @@ public static class Nat
 		return z;
 	}
 
+	/// <summary>
+	///   Froms the big integer64.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <exception cref="System.ArgumentException">invalid bit range - bits</exception>
 	public static void FromBigInteger64(int bits, BigInteger x, Span<ulong> z)
 	{
 		if (x.SignValue < 0 || x.BitLength > bits)
@@ -834,6 +1384,12 @@ public static class Nat
 		}
 	}
 
+	/// <summary>
+	///   Gets the bit.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="bit">The bit.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint GetBit(uint[] x, int bit)
 	{
 		if (bit == 0)
@@ -847,6 +1403,12 @@ public static class Nat
 		return (x[w] >> b) & 1;
 	}
 
+	/// <summary>
+	///   Gets the bit.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="bit">The bit.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint GetBit(ReadOnlySpan<uint> x, int bit)
 	{
 		if (bit == 0)
@@ -860,6 +1422,12 @@ public static class Nat
 		return (x[w] >> b) & 1;
 	}
 
+	/// <summary>
+	///   Gets the length for bits.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <returns>System.Int32.</returns>
+	/// <exception cref="System.ArgumentException">bits < 1 - bits</exception>
 	public static int GetLengthForBits(int bits)
 	{
 		if (bits < 1)
@@ -868,6 +1436,12 @@ public static class Nat
 		return (int) (((uint) bits + 31) >> 5);
 	}
 
+	/// <summary>
+	///   Gets the length for bits64.
+	/// </summary>
+	/// <param name="bits">The bits.</param>
+	/// <returns>System.Int32.</returns>
+	/// <exception cref="System.ArgumentException">bits < 1 - bits</exception>
 	public static int GetLengthForBits64(int bits)
 	{
 		if (bits < 1)
@@ -876,6 +1450,13 @@ public static class Nat
 		return (int) (((uint) bits + 63) >> 6);
 	}
 
+	/// <summary>
+	///   Gtes the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Gte(int len, uint[] x, uint[] y)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -890,6 +1471,13 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Gtes the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Gte(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y)
 	{
 		for (var i = len - 1; i >= 0; --i)
@@ -904,6 +1492,12 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Incs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Inc(int len, uint[] z)
 	{
 		for (var i = 0; i < len; ++i)
@@ -915,6 +1509,12 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Incs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Inc(int len, Span<uint> z)
 	{
 		for (var i = 0; i < len; ++i)
@@ -926,6 +1526,13 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Incs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Inc(int len, uint[] x, uint[] z)
 	{
 		var i = 0;
@@ -949,6 +1556,13 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Incs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Inc(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		var i = 0;
@@ -972,6 +1586,13 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Incs at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint IncAt(int len, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len);
@@ -984,6 +1605,14 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Incs at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint IncAt(int len, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len);
@@ -996,6 +1625,13 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Incs at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint IncAt(int len, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len);
@@ -1008,6 +1644,12 @@ public static class Nat
 		return 1;
 	}
 
+	/// <summary>
+	///   Determines whether the specified length is one.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified length is one; otherwise, <c>false</c>.</returns>
 	public static bool IsOne(int len, uint[] x)
 	{
 		if (x[0] != 1)
@@ -1022,6 +1664,12 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified length is one.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified length is one; otherwise, <c>false</c>.</returns>
 	public static bool IsOne(int len, ReadOnlySpan<uint> x)
 	{
 		if (x[0] != 1)
@@ -1036,6 +1684,12 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified length is zero.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified length is zero; otherwise, <c>false</c>.</returns>
 	public static bool IsZero(int len, uint[] x)
 	{
 		if (x[0] != 0)
@@ -1050,6 +1704,12 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Determines whether the specified length is zero.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified length is zero; otherwise, <c>false</c>.</returns>
 	public static bool IsZero(int len, ReadOnlySpan<uint> x)
 	{
 		if (x[0] != 0)
@@ -1064,6 +1724,13 @@ public static class Nat
 		return true;
 	}
 
+	/// <summary>
+	///   Lesses the than.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.Int32.</returns>
 	public static int LessThan(int len, uint[] x, uint[] y)
 	{
 		long c = 0;
@@ -1077,6 +1744,15 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Lesses the than.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int LessThan(int len, uint[] x, int xOff, uint[] y, int yOff)
 	{
 		long c = 0;
@@ -1090,6 +1766,13 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Lesses the than.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <returns>System.Int32.</returns>
 	public static int LessThan(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y)
 	{
 		long c = 0;
@@ -1103,6 +1786,13 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Muls the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul(int len, uint[] x, uint[] y, uint[] zz)
 	{
 		zz[len] = MulWord(len, x[0], y, zz);
@@ -1110,6 +1800,16 @@ public static class Nat
 		for (var i = 1; i < len; ++i) zz[i + len] = MulWordAddTo(len, x[i], y, 0, zz, i);
 	}
 
+	/// <summary>
+	///   Muls the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
 	public static void Mul(int len, uint[] x, int xOff, uint[] y, int yOff, uint[] zz, int zzOff)
 	{
 		zz[zzOff + len] = MulWord(len, x[xOff], y, yOff, zz, zzOff);
@@ -1117,6 +1817,13 @@ public static class Nat
 		for (var i = 1; i < len; ++i) zz[zzOff + i + len] = MulWordAddTo(len, x[xOff + i], y, yOff, zz, zzOff + i);
 	}
 
+	/// <summary>
+	///   Muls the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> zz)
 	{
 		zz[len] = MulWord(len, x[0], y, zz);
@@ -1124,6 +1831,17 @@ public static class Nat
 		for (var i = 1; i < len; ++i) zz[i + len] = MulWordAddTo(len, x[i], y, zz[i..]);
 	}
 
+	/// <summary>
+	///   Muls the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="xLen">Length of the x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="yLen">Length of the y.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
 	public static void Mul(uint[] x, int xOff, int xLen, uint[] y, int yOff, int yLen, uint[] zz, int zzOff)
 	{
 		zz[zzOff + yLen] = MulWord(yLen, x[xOff], y, yOff, zz, zzOff);
@@ -1131,6 +1849,12 @@ public static class Nat
 		for (var i = 1; i < xLen; ++i) zz[zzOff + i + yLen] = MulWordAddTo(yLen, x[xOff + i], y, yOff, zz, zzOff + i);
 	}
 
+	/// <summary>
+	///   Muls the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul(ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> zz)
 	{
 		int xLen = x.Length, yLen = y.Length;
@@ -1139,6 +1863,14 @@ public static class Nat
 		for (var i = 1; i < xLen; ++i) zz[i + yLen] = MulWordAddTo(yLen, x[i], y, zz[i..]);
 	}
 
+	/// <summary>
+	///   Muls the add to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulAddTo(int len, uint[] x, uint[] y, uint[] zz)
 	{
 		ulong zc = 0;
@@ -1153,6 +1885,17 @@ public static class Nat
 		return (uint) zc;
 	}
 
+	/// <summary>
+	///   Muls the add to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulAddTo(int len, uint[] x, int xOff, uint[] y, int yOff, uint[] zz, int zzOff)
 	{
 		ulong zc = 0;
@@ -1168,6 +1911,14 @@ public static class Nat
 		return (uint) zc;
 	}
 
+	/// <summary>
+	///   Muls the add to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulAddTo(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> zz)
 	{
 		ulong zc = 0;
@@ -1182,6 +1933,17 @@ public static class Nat
 		return (uint) zc;
 	}
 
+	/// <summary>
+	///   Mul31s the both add.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="a">a.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="b">The b.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Mul31BothAdd(int len, uint a, uint[] x, uint b, uint[] y, uint[] z, int zOff)
 	{
 		ulong c = 0, aVal = a, bVal = b;
@@ -1196,6 +1958,16 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Mul31s the both add.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="a">a.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="b">The b.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint Mul31BothAdd(int len, uint a, ReadOnlySpan<uint> x, uint b, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		ulong c = 0, aVal = a, bVal = b;
@@ -1210,6 +1982,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWord(int len, uint x, uint[] y, uint[] z)
 	{
 		ulong c = 0, xVal = x;
@@ -1224,6 +2004,16 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWord(int len, uint x, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		ulong c = 0, xVal = x;
@@ -1238,6 +2028,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWord(int len, uint x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		ulong c = 0, xVal = x;
@@ -1252,6 +2050,16 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word add to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWordAddTo(int len, uint x, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		ulong c = 0, xVal = x;
@@ -1266,6 +2074,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word add to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWordAddTo(int len, uint x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		ulong c = 0, xVal = x;
@@ -1280,6 +2096,15 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Muls the word dword add at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWordDwordAddAt(int len, uint x, ulong y, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 3);
@@ -1296,6 +2121,15 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 3);
 	}
 
+	/// <summary>
+	///   Muls the word dword add at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint MulWordDwordAddAt(int len, uint x, ulong y, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 3);
@@ -1312,6 +2146,13 @@ public static class Nat
 		return c == 0 ? 0 : IncAt(len, z, zPos + 3);
 	}
 
+	/// <summary>
+	///   Negates the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Negate(int len, uint[] x, uint[] z)
 	{
 		var c = 0L;
@@ -1325,6 +2166,13 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Negates the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Negate(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		var c = 0L;
@@ -1338,6 +2186,13 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Shifts down bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBit(int len, uint[] z, uint c)
 	{
 		var i = len;
@@ -1351,6 +2206,14 @@ public static class Nat
 		return c << 31;
 	}
 
+	/// <summary>
+	///   Shifts down bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBit(int len, uint[] z, int zOff, uint c)
 	{
 		var i = len;
@@ -1364,6 +2227,13 @@ public static class Nat
 		return c << 31;
 	}
 
+	/// <summary>
+	///   Shifts down bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBit(int len, Span<uint> z, uint c)
 	{
 		var i = len;
@@ -1377,6 +2247,14 @@ public static class Nat
 		return c << 31;
 	}
 
+	/// <summary>
+	///   Shifts down bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBit(int len, uint[] x, uint c, uint[] z)
 	{
 		var i = len;
@@ -1390,6 +2268,16 @@ public static class Nat
 		return c << 31;
 	}
 
+	/// <summary>
+	///   Shifts down bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBit(int len, uint[] x, int xOff, uint c, uint[] z, int zOff)
 	{
 		var i = len;
@@ -1403,6 +2291,14 @@ public static class Nat
 		return c << 31;
 	}
 
+	/// <summary>
+	///   Shifts down bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBit(int len, ReadOnlySpan<uint> x, uint c, Span<uint> z)
 	{
 		var i = len;
@@ -1416,6 +2312,14 @@ public static class Nat
 		return c << 31;
 	}
 
+	/// <summary>
+	///   Shifts down bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBits(int len, uint[] z, int bits, uint c)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1430,6 +2334,15 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBits(int len, uint[] z, int zOff, int bits, uint c)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1444,6 +2357,14 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBits(int len, Span<uint> z, int bits, uint c)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1458,6 +2379,15 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBits(int len, uint[] x, int bits, uint c, uint[] z)
 	{
 		Debug.Assert(bits is < 32 and > 0);
@@ -1472,6 +2402,17 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBits(int len, uint[] x, int xOff, int bits, uint c, uint[] z, int zOff)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1486,6 +2427,15 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownBits(int len, ReadOnlySpan<uint> x, int bits, uint c, Span<uint> z)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1500,6 +2450,15 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftDownBits64(int len, ulong[] z, int zOff, int bits, ulong c)
 	{
 		Debug.Assert(bits is > 0 and < 64);
@@ -1514,6 +2473,13 @@ public static class Nat
 		return c << -bits;
 	}
 
+	/// <summary>
+	///   Shifts down word.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftDownWord(int len, uint[] z, uint c)
 	{
 		var i                      = len;
@@ -1530,10 +2496,32 @@ public static class Nat
 	}
 #endif
 
+	/// <summary>
+	///   Shifts up bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBit(int len, uint[] z, uint c) => ShiftUpBit(len, z.AsSpan(0, len), c);
 
+	/// <summary>
+	///   Shifts up bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBit(int len, uint[] z, int zOff, uint c) => ShiftUpBit(len, z.AsSpan(zOff, len), c);
 
+	/// <summary>
+	///   Shifts up bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBit(int len, Span<uint> z, uint c)
 	{
 		int i = 0, limit4 = len - 4;
@@ -1562,10 +2550,36 @@ public static class Nat
 		return c >> 31;
 	}
 
+	/// <summary>
+	///   Shifts up bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBit(int len, uint[] x, uint c, uint[] z) => ShiftUpBit(len, x.AsSpan(0, len), c, z.AsSpan(0, len));
 
+	/// <summary>
+	///   Shifts up bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBit(int len, uint[] x, int xOff, uint c, uint[] z, int zOff) => ShiftUpBit(len, x.AsSpan(xOff, len), c, z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Shifts up bit.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBit(int len, ReadOnlySpan<uint> x, uint c, Span<uint> z)
 	{
 		int i = 0, limit4 = len - 4;
@@ -1594,10 +2608,36 @@ public static class Nat
 		return c >> 31;
 	}
 
+	/// <summary>
+	///   Shifts up bit64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBit64(int len, ulong[] x, ulong c, ulong[] z) => ShiftUpBit64(len, x.AsSpan(0, len), c, z.AsSpan(0, len));
 
+	/// <summary>
+	///   Shifts up bit64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBit64(int len, ulong[] x, int xOff, ulong c, ulong[] z, int zOff) => ShiftUpBit64(len, x.AsSpan(xOff, len), c, z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Shifts up bit64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBit64(int len, ReadOnlySpan<ulong> x, ulong c, Span<ulong> z)
 	{
 		int i = 0, limit4 = len - 4;
@@ -1626,10 +2666,35 @@ public static class Nat
 		return c >> 63;
 	}
 
+	/// <summary>
+	///   Shifts up bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBits(int len, uint[] z, int bits, uint c) => ShiftUpBits(len, z.AsSpan(0, len), bits, c);
 
+	/// <summary>
+	///   Shifts up bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBits(int len, uint[] z, int zOff, int bits, uint c) => ShiftUpBits(len, z.AsSpan(zOff, len), bits, c);
 
+	/// <summary>
+	///   Shifts up bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBits(int len, Span<uint> z, int bits, uint c)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1659,10 +2724,39 @@ public static class Nat
 		return c >> -bits;
 	}
 
+	/// <summary>
+	///   Shifts up bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBits(int len, uint[] x, int bits, uint c, uint[] z) => ShiftUpBits(len, x.AsSpan(0, len), bits, c, z.AsSpan(0, len));
 
+	/// <summary>
+	///   Shifts up bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBits(int len, uint[] x, int xOff, int bits, uint c, uint[] z, int zOff) => ShiftUpBits(len, x.AsSpan(xOff, len), bits, c, z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Shifts up bits.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint ShiftUpBits(int len, ReadOnlySpan<uint> x, int bits, uint c, Span<uint> z)
 	{
 		Debug.Assert(bits is > 0 and < 32);
@@ -1692,10 +2786,35 @@ public static class Nat
 		return c >> -bits;
 	}
 
+	/// <summary>
+	///   Shifts up bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBits64(int len, ulong[] z, int bits, ulong c) => ShiftUpBits64(len, z.AsSpan(0, len), bits, c);
 
+	/// <summary>
+	///   Shifts up bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBits64(int len, ulong[] z, int zOff, int bits, ulong c) => ShiftUpBits64(len, z.AsSpan(zOff, len), bits, c);
 
+	/// <summary>
+	///   Shifts up bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBits64(int len, Span<ulong> z, int bits, ulong c)
 	{
 		Debug.Assert(bits is > 0 and < 64);
@@ -1725,10 +2844,39 @@ public static class Nat
 		return c >> -bits;
 	}
 
+	/// <summary>
+	///   Shifts up bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBits64(int len, ulong[] x, int bits, ulong c, ulong[] z) => ShiftUpBits64(len, x.AsSpan(0, len), bits, c, z.AsSpan(0, len));
 
+	/// <summary>
+	///   Shifts up bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBits64(int len, ulong[] x, int xOff, int bits, ulong c, ulong[] z, int zOff) => ShiftUpBits64(len, x.AsSpan(xOff, len), bits, c, z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Shifts up bits64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="bits">The bits.</param>
+	/// <param name="c">The c.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt64.</returns>
 	public static ulong ShiftUpBits64(int len, ReadOnlySpan<ulong> x, int bits, ulong c, Span<ulong> z)
 	{
 		Debug.Assert(bits is > 0 and < 64);
@@ -1758,6 +2906,12 @@ public static class Nat
 		return c >> -bits;
 	}
 
+	/// <summary>
+	///   Squares the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Square(int len, uint[] x, uint[] zz)
 	{
 		var  extLen = len << 1;
@@ -1791,6 +2945,14 @@ public static class Nat
 		ShiftUpBit(extLen, zz, x[0] << 31);
 	}
 
+	/// <summary>
+	///   Squares the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="zz">The zz.</param>
+	/// <param name="zzOff">The zz off.</param>
 	public static void Square(int len, uint[] x, int xOff, uint[] zz, int zzOff)
 	{
 		var  extLen = len << 1;
@@ -1824,6 +2986,12 @@ public static class Nat
 		ShiftUpBit(extLen, zz, zzOff, x[xOff] << 31);
 	}
 
+	/// <summary>
+	///   Squares the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Square(int len, ReadOnlySpan<uint> x, Span<uint> zz)
 	{
 		var  extLen = len << 1;
@@ -1857,6 +3025,13 @@ public static class Nat
 		ShiftUpBit(extLen, zz, x[0] << 31);
 	}
 
+	/// <summary>
+	///   Squares the word add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xPos">The x position.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint SquareWordAddTo(uint[] x, int xPos, uint[] z)
 	{
 		ulong c = 0, xVal = x[xPos];
@@ -1871,6 +3046,15 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Squares the word add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="xPos">The x position.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint SquareWordAddTo(uint[] x, int xOff, int xPos, uint[] z, int zOff)
 	{
 		ulong c = 0, xVal = x[xOff + xPos];
@@ -1886,6 +3070,13 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Squares the word add to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xPos">The x position.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.UInt32.</returns>
 	public static uint SquareWordAddTo(ReadOnlySpan<uint> x, int xPos, Span<uint> z)
 	{
 		ulong c = 0, xVal = x[xPos];
@@ -1900,6 +3091,14 @@ public static class Nat
 		return (uint) c;
 	}
 
+	/// <summary>
+	///   Subs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub(int len, uint[] x, uint[] y, uint[] z)
 	{
 		long c = 0;
@@ -1913,6 +3112,17 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub(int len, uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		long c = 0;
@@ -1926,6 +3136,14 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		long c = 0;
@@ -1939,6 +3157,14 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Sub33s at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub33At(int len, uint x, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -1951,6 +3177,15 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Sub33s at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub33At(int len, uint x, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -1963,6 +3198,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zOff, zPos + 2);
 	}
 
+	/// <summary>
+	///   Sub33s at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub33At(int len, uint x, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -1975,6 +3218,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Sub33s from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub33From(int len, uint x, uint[] z)
 	{
 		var c = (long) z[0] - x;
@@ -1986,6 +3236,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Sub33s from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub33From(int len, uint x, uint[] z, int zOff)
 	{
 		var c = (long) z[zOff + 0] - x;
@@ -1997,6 +3255,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zOff, 2);
 	}
 
+	/// <summary>
+	///   Sub33s from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int Sub33From(int len, uint x, Span<uint> z)
 	{
 		var c = (long) z[0] - x;
@@ -2008,6 +3273,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Subs the both from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubBothFrom(int len, uint[] x, uint[] y, uint[] z)
 	{
 		long c = 0;
@@ -2021,6 +3294,17 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the both from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubBothFrom(int len, uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		long c = 0;
@@ -2034,6 +3318,14 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the both from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubBothFrom(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		long c = 0;
@@ -2047,6 +3339,14 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the d word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubDWordAt(int len, ulong x, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -2059,6 +3359,15 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Subs the d word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubDWordAt(int len, ulong x, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -2071,6 +3380,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zOff, zPos + 2);
 	}
 
+	/// <summary>
+	///   Subs the d word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubDWordAt(int len, ulong x, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 2);
@@ -2083,6 +3400,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zPos + 2);
 	}
 
+	/// <summary>
+	///   Subs the d word from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubDWordFrom(int len, ulong x, uint[] z)
 	{
 		var c = z[0] - (long) (x & M);
@@ -2094,6 +3418,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Subs the d word from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubDWordFrom(int len, ulong x, uint[] z, int zOff)
 	{
 		var c = z[zOff + 0] - (long) (x & M);
@@ -2105,6 +3437,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zOff, 2);
 	}
 
+	/// <summary>
+	///   Subs the d word from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubDWordFrom(int len, ulong x, Span<uint> z)
 	{
 		var c = z[0] - (long) (x & M);
@@ -2116,6 +3455,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, 2);
 	}
 
+	/// <summary>
+	///   Subs from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubFrom(int len, uint[] x, uint[] z)
 	{
 		long c = 0;
@@ -2129,6 +3475,15 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubFrom(int len, uint[] x, int xOff, uint[] z, int zOff)
 	{
 		long c = 0;
@@ -2142,6 +3497,13 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubFrom(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		long c = 0;
@@ -2155,6 +3517,13 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the int32 from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubInt32From(int len, int x, Span<uint> z)
 	{
 		var c = z[0] - x;
@@ -2172,6 +3541,14 @@ public static class Nat
 		return (int) c;
 	}
 
+	/// <summary>
+	///   Subs the word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubWordAt(int len, uint x, uint[] z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 1);
@@ -2181,6 +3558,15 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zPos + 1);
 	}
 
+	/// <summary>
+	///   Subs the word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubWordAt(int len, uint x, uint[] z, int zOff, int zPos)
 	{
 		Debug.Assert(zPos <= len - 1);
@@ -2190,6 +3576,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zOff, zPos + 1);
 	}
 
+	/// <summary>
+	///   Subs the word at.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zPos">The z position.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubWordAt(int len, uint x, Span<uint> z, int zPos)
 	{
 		Debug.Assert(zPos <= len - 1);
@@ -2199,6 +3593,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zPos + 1);
 	}
 
+	/// <summary>
+	///   Subs the word from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubWordFrom(int len, uint x, uint[] z)
 	{
 		var c = (long) z[0] - x;
@@ -2207,6 +3608,14 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, 1);
 	}
 
+	/// <summary>
+	///   Subs the word from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubWordFrom(int len, uint x, uint[] z, int zOff)
 	{
 		var c = (long) z[zOff + 0] - x;
@@ -2215,6 +3624,13 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, zOff, 1);
 	}
 
+	/// <summary>
+	///   Subs the word from.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
+	/// <returns>System.Int32.</returns>
 	public static int SubWordFrom(int len, uint x, Span<uint> z)
 	{
 		var c = (long) z[0] - x;
@@ -2223,8 +3639,20 @@ public static class Nat
 		return c == 0 ? 0 : DecAt(len, z, 1);
 	}
 
+	/// <summary>
+	///   Converts to biginteger.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger ToBigInteger(int len, uint[] x) => ToBigInteger(len, x.AsSpan());
 
+	/// <summary>
+	///   Converts to biginteger.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger ToBigInteger(int len, ReadOnlySpan<uint> x)
 	{
 		var bsLen = len << 2;
@@ -2237,13 +3665,37 @@ public static class Nat
 		return new BigInteger(1, bs, false);
 	}
 
+	/// <summary>
+	///   Xors the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor(int len, uint[] x, uint[] y, uint[] z) => Xor(len, x.AsSpan(0, len), y.AsSpan(0, len), z.AsSpan(0, len));
 
+	/// <summary>
+	///   Xors the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Xor(int len, uint[] x, int xOff, uint[] y, int yOff, uint[] z, int zOff)
 	{
 		Xor(len, x.AsSpan(xOff, len), y.AsSpan(yOff, len), z.AsSpan(zOff, len));
 	}
 
+	/// <summary>
+	///   Xors the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor(int len, ReadOnlySpan<uint> x, ReadOnlySpan<uint> y, Span<uint> z)
 	{
 		int i = 0, limit16 = len - 16;
@@ -2260,10 +3712,33 @@ public static class Nat
 		}
 	}
 
+	/// <summary>
+	///   Xor64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor64(int len, ulong[] x, ulong y, ulong[] z) => Xor64(len, x.AsSpan(0, len), y, z.AsSpan(0, len));
 
+	/// <summary>
+	///   Xor64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Xor64(int len, ulong[] x, int xOff, ulong y, ulong[] z, int zOff) => Xor64(len, x.AsSpan(xOff, len), y, z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Xor64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor64(int len, ReadOnlySpan<ulong> x, ulong y, Span<ulong> z)
 	{
 		var i = 0;
@@ -2299,13 +3774,37 @@ public static class Nat
 		}
 	}
 
+	/// <summary>
+	///   Xor64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor64(int len, ulong[] x, ulong[] y, ulong[] z) => Xor64(len, x.AsSpan(0, len), y.AsSpan(0, len), z.AsSpan(0, len));
 
+	/// <summary>
+	///   Xor64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Xor64(int len, ulong[] x, int xOff, ulong[] y, int yOff, ulong[] z, int zOff)
 	{
 		Xor64(len, x.AsSpan(xOff, len), y.AsSpan(yOff, len), z.AsSpan(zOff, len));
 	}
 
+	/// <summary>
+	///   Xor64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="z">The z.</param>
 	public static void Xor64(int len, ReadOnlySpan<ulong> x, ReadOnlySpan<ulong> y, Span<ulong> z)
 	{
 		int i = 0, limit8 = len - 8;
@@ -2322,10 +3821,30 @@ public static class Nat
 		}
 	}
 
+	/// <summary>
+	///   Xors to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void XorTo(int len, uint[] x, uint[] z) => XorTo(len, x.AsSpan(0, len), z.AsSpan(0, len));
 
+	/// <summary>
+	///   Xors to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void XorTo(int len, uint[] x, int xOff, uint[] z, int zOff) => XorTo(len, x.AsSpan(xOff, len), z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Xors to.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void XorTo(int len, ReadOnlySpan<uint> x, Span<uint> z)
 	{
 		int i = 0, limit16 = len - 16;
@@ -2342,10 +3861,30 @@ public static class Nat
 		}
 	}
 
+	/// <summary>
+	///   Xors the to64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void XorTo64(int len, ulong[] x, ulong[] z) => XorTo64(len, x.AsSpan(0, len), z.AsSpan(0, len));
 
+	/// <summary>
+	///   Xors the to64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void XorTo64(int len, ulong[] x, int xOff, ulong[] z, int zOff) => XorTo64(len, x.AsSpan(xOff, len), z.AsSpan(zOff, len));
 
+	/// <summary>
+	///   Xors the to64.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="x">The x.</param>
+	/// <param name="z">The z.</param>
 	public static void XorTo64(int len, ReadOnlySpan<ulong> x, Span<ulong> z)
 	{
 		int i = 0, limit8 = len - 8;
@@ -2362,11 +3901,31 @@ public static class Nat
 		}
 	}
 
+	/// <summary>
+	///   Zeroes the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
 	public static void Zero(int len, uint[] z) => z.AsSpan(0, len).Clear();
 
+	/// <summary>
+	///   Zeroes the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
 	public static void Zero(int len, Span<uint> z) => z[..len].Clear();
 
+	/// <summary>
+	///   Zero64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
 	public static void Zero64(int len, ulong[] z) => z.AsSpan(0, len).Clear();
 
+	/// <summary>
+	///   Zero64s the specified length.
+	/// </summary>
+	/// <param name="len">The length.</param>
+	/// <param name="z">The z.</param>
 	public static void Zero64(int len, Span<ulong> z) => z[..len].Clear();
 }

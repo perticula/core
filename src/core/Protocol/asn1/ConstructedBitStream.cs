@@ -10,38 +10,39 @@ using core.IO;
 namespace core.Protocol.asn1;
 
 /// <summary>
-/// Class ConstructedBitStream.
-/// Implements the <see cref="BaseInputStream" />
+///   Class ConstructedBitStream.
+///   Implements the <see cref="BaseInputStream" />
 /// </summary>
 /// <seealso cref="BaseInputStream" />
 public class ConstructedBitStream : BaseInputStream
 {
 	/// <summary>
-	/// The octet aligned
+	///   The octet aligned
 	/// </summary>
 	private readonly bool _octetAligned;
 
 	/// <summary>
-	/// The parser
+	///   The parser
 	/// </summary>
 	private readonly Asn1StreamParser _parser;
 
 	/// <summary>
-	/// The current parser
+	///   The current parser
 	/// </summary>
 	private IAsn1BitStringParser? _currentParser;
-	/// <summary>
-	/// The current stream
-	/// </summary>
-	private Stream?               _currentStream;
 
 	/// <summary>
-	/// The first
+	///   The current stream
+	/// </summary>
+	private Stream? _currentStream;
+
+	/// <summary>
+	///   The first
 	/// </summary>
 	private bool _first = true;
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="ConstructedBitStream"/> class.
+	///   Initializes a new instance of the <see cref="ConstructedBitStream" /> class.
 	/// </summary>
 	/// <param name="parser">The parser.</param>
 	/// <param name="octetAligned">if set to <c>true</c> [octet aligned].</param>
@@ -52,23 +53,29 @@ public class ConstructedBitStream : BaseInputStream
 	}
 
 	/// <summary>
-	/// Gets the pad bits.
+	///   Gets the pad bits.
 	/// </summary>
 	/// <value>The pad bits.</value>
 	internal int PadBits { get; private set; }
 
 	/// <summary>
-	/// When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position
-	/// within the stream by the number of bytes read.
+	///   When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position
+	///   within the stream by the number of bytes read.
 	/// </summary>
-	/// <param name="buffer">An array of bytes. When this method returns, the buffer contains the specified byte array with the
-	/// values between <paramref name="offset" /> and (<paramref name="offset" /> + <paramref name="count" /> - 1) replaced
-	/// by the bytes read from the current source.</param>
-	/// <param name="offset">The zero-based byte offset in <paramref name="buffer" /> at which to begin storing the data read
-	/// from the current stream.</param>
+	/// <param name="buffer">
+	///   An array of bytes. When this method returns, the buffer contains the specified byte array with the
+	///   values between <paramref name="offset" /> and (<paramref name="offset" /> + <paramref name="count" /> - 1) replaced
+	///   by the bytes read from the current source.
+	/// </param>
+	/// <param name="offset">
+	///   The zero-based byte offset in <paramref name="buffer" /> at which to begin storing the data read
+	///   from the current stream.
+	/// </param>
 	/// <param name="count">The maximum number of bytes to be read from the current stream.</param>
-	/// <returns>The total number of bytes read into the buffer. This can be less than the number of bytes requested if that
-	/// many bytes are not currently available, or zero (0) if the end of the stream has been reached.</returns>
+	/// <returns>
+	///   The total number of bytes read into the buffer. This can be less than the number of bytes requested if that
+	///   many bytes are not currently available, or zero (0) if the end of the stream has been reached.
+	/// </returns>
 	public override int Read(byte[] buffer, int offset, int count)
 	{
 		Streams.ValidateBufferArguments(buffer, offset, count);
@@ -77,13 +84,17 @@ public class ConstructedBitStream : BaseInputStream
 	}
 
 	/// <summary>
-	/// When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position
-	/// within the stream by the number of bytes read.
+	///   When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position
+	///   within the stream by the number of bytes read.
 	/// </summary>
-	/// <param name="buffer">A region of memory. When this method returns, the contents of this region are replaced by the
-	/// bytes read from the current source.</param>
-	/// <returns>The total number of bytes read into the buffer. This can be less than the number of bytes allocated in the
-	/// buffer if that many bytes are not currently available, or zero (0) if the end of the stream has been reached.</returns>
+	/// <param name="buffer">
+	///   A region of memory. When this method returns, the contents of this region are replaced by the
+	///   bytes read from the current source.
+	/// </param>
+	/// <returns>
+	///   The total number of bytes read into the buffer. This can be less than the number of bytes allocated in the
+	///   buffer if that many bytes are not currently available, or zero (0) if the end of the stream has been reached.
+	/// </returns>
 	public override int Read(Span<byte> buffer)
 	{
 		if (buffer.IsEmpty)
@@ -131,7 +142,8 @@ public class ConstructedBitStream : BaseInputStream
 	}
 
 	/// <summary>
-	/// Reads a byte from the stream and advances the position within the stream by one byte, or returns -1 if at the end of the stream.
+	///   Reads a byte from the stream and advances the position within the stream by one byte, or returns -1 if at the end of
+	///   the stream.
 	/// </summary>
 	/// <returns>The unsigned byte cast to an <see cref="T:System.Int32" />, or -1 if at the end of the stream.</returns>
 	public override int ReadByte()
@@ -169,7 +181,7 @@ public class ConstructedBitStream : BaseInputStream
 	}
 
 	/// <summary>
-	/// Gets the next parser.
+	///   Gets the next parser.
 	/// </summary>
 	/// <returns>System.Nullable&lt;IAsn1BitStringParser&gt;.</returns>
 	/// <exception cref="System.IO.IOException">expected octet-aligned bitstring, but found padBits: {PadBits}</exception>

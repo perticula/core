@@ -12,6 +12,9 @@ using core.Matching;
 
 namespace core;
 
+/// <summary>
+///   Class StringExtensions.
+/// </summary>
 public partial class StringExtensions
 {
 	/// <summary>
@@ -66,10 +69,10 @@ public partial class StringExtensions
 	/// <summary>
 	///   Performs a trim of a string from the end of the source string
 	/// </summary>
-	/// <param name="source"></param>
-	/// <param name="value"></param>
-	/// <param name="comparison"></param>
-	/// <returns></returns>
+	/// <param name="source">The source.</param>
+	/// <param name="value">The value.</param>
+	/// <param name="comparison">The comparison.</param>
+	/// <returns>System.String.</returns>
 	public static string TrimEnd(this string source, string value, StringComparison comparison = StringComparison.CurrentCulture)
 	{
 		if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value)) return source;
@@ -84,10 +87,10 @@ public partial class StringExtensions
 	/// <summary>
 	///   Performs a trim of a string from the start of the source string
 	/// </summary>
-	/// <param name="source"></param>
-	/// <param name="value"></param>
-	/// <param name="comparison"></param>
-	/// <returns></returns>
+	/// <param name="source">The source.</param>
+	/// <param name="value">The value.</param>
+	/// <param name="comparison">The comparison.</param>
+	/// <returns>System.String.</returns>
 	public static string TrimStart(this string source, string value, StringComparison comparison = StringComparison.CurrentCulture)
 	{
 		if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(value)) return source;

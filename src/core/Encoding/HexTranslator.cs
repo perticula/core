@@ -7,8 +7,16 @@
 
 namespace core.Encoding;
 
+/// <summary>
+///   Class HexTranslator.
+///   Implements the <see cref="core.Encoding.IEncodingTranslator" />
+/// </summary>
+/// <seealso cref="core.Encoding.IEncodingTranslator" />
 public class HexTranslator : IEncodingTranslator
 {
+	/// <summary>
+	///   The hexadecimal table
+	/// </summary>
 	private static readonly byte[] HexTable = "0123456789abcdef"u8.ToArray();
 
 	/// <summary>

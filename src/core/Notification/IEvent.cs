@@ -1,4 +1,4 @@
-// perticula - model - IEvent.cs
+// perticula - core - IEvent.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -14,6 +14,10 @@ namespace core.Notification;
 /// <seealso cref="INotification" />
 public abstract class NotificationEvent : INotification
 {
+	/// <summary>
+	///   Gets the type of the event.
+	/// </summary>
+	/// <value>The type of the event.</value>
 	public string EventType => GetType().FullName!;
 
 	/// <summary>

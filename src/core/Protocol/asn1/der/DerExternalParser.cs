@@ -44,5 +44,5 @@ public class DerExternalParser : Asn1Encodable
 	/// </summary>
 	/// <param name="sp">The sp.</param>
 	/// <returns>DerExternal.</returns>
-	internal static DerExternal Parse(Asn1StreamParser sp) => new DLExternal(sp.LoadVector());
+	internal static DerExternal Parse(Asn1StreamParser sp) => new DefiniteLengthExternal(sp.LoadVector());
 }

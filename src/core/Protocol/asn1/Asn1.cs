@@ -18,7 +18,7 @@ public static class Asn1
 	/// <param name="taggedObject">The tagged object.</param>
 	/// <param name="tagClass">The tag class.</param>
 	/// <returns>core.Protocol.asn1.Asn1TaggedObject.</returns>
-	/// <exception cref="InvalidOperationException">$"Expected {expected} tag but found {found}</exception>
+	/// <exception cref="System.InvalidOperationException">Expected {expected} tag but found {found}</exception>
 	internal static Asn1TaggedObject CheckTagClass(this Asn1TaggedObject taggedObject, int tagClass)
 	{
 		if (taggedObject.HasTagClass(tagClass)) return taggedObject;
@@ -33,7 +33,7 @@ public static class Asn1
 	/// <param name="taggedObjectParser">The tagged object parser.</param>
 	/// <param name="tagClass">The tag class.</param>
 	/// <returns>core.Protocol.asn1.IAsn1TaggedObjectParser.</returns>
-	/// <exception cref="InvalidOperationException">$"Expected {expected} tag but found {found}</exception>
+	/// <exception cref="System.InvalidOperationException">Expected {expected} tag but found {found}</exception>
 	internal static IAsn1TaggedObjectParser CheckTagClass(this IAsn1TaggedObjectParser taggedObjectParser, int tagClass)
 	{
 		if (taggedObjectParser.TagClass == tagClass) return taggedObjectParser;
@@ -49,7 +49,7 @@ public static class Asn1
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>core.Protocol.asn1.Asn1TaggedObject.</returns>
-	/// <exception cref="InvalidOperationException">$"Expected {expected} tag but found {found}</exception>
+	/// <exception cref="System.InvalidOperationException">Expected {expected} tag but found {found}</exception>
 	internal static Asn1TaggedObject CheckTag(this Asn1TaggedObject taggedObject, int tagClass, int tagNo)
 	{
 		if (taggedObject.HasTag(tagClass, tagNo)) return taggedObject;
@@ -65,7 +65,7 @@ public static class Asn1
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>core.Protocol.asn1.IAsn1TaggedObjectParser.</returns>
-	/// <exception cref="InvalidOperationException">$"Expected {expected} tag but found {found}</exception>
+	/// <exception cref="System.InvalidOperationException">Expected {expected} tag but found {found}</exception>
 	internal static IAsn1TaggedObjectParser CheckTag(this IAsn1TaggedObjectParser taggedObjectParser, int tagClass, int tagNo)
 	{
 		if (taggedObjectParser.HasTag(tagClass, tagNo)) return taggedObjectParser;
@@ -82,8 +82,8 @@ public static class Asn1
 	/// <param name="declaredExplicit">The declared explicit.</param>
 	/// <param name="constructor">The constructor.</param>
 	/// <returns>TChoice.</returns>
-	/// <exception cref="ArgumentException">message, nameof(declaredExplicit)</exception>
-	/// <exception cref="ArgumentNullException">nameof(taggedObject)</exception>
+	/// <exception cref="System.ArgumentException">declaredExplicit</exception>
+	/// <exception cref="System.ArgumentNullException">taggedObject</exception>
 	internal static TChoice GetInstanceFromChoice<TChoice>(this Asn1TaggedObject taggedObject, bool declaredExplicit, Func<object, TChoice> constructor)
 		where TChoice : Asn1Encodable, IAsn1Choice
 	{

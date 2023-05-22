@@ -98,7 +98,7 @@ public class BerSequence : DerSequence
 	///   Converts to asn1external.
 	/// </summary>
 	/// <returns>DerExternal.</returns>
-	public override DerExternal ToAsn1External() => new DLExternal(this);
+	public override DerExternal ToAsn1External() => new DefiniteLengthExternal(this);
 
 	/// <summary>
 	///   Converts to asn1octetstring.

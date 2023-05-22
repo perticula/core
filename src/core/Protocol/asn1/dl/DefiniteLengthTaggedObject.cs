@@ -1,4 +1,4 @@
-// perticula - core - DLTaggedObject.cs
+// perticula - core - DefiniteLengthTaggedObject.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -10,52 +10,52 @@ using core.Protocol.asn1.der;
 namespace core.Protocol.asn1.dl;
 
 /// <summary>
-///   Class DLTaggedObject.
+///   Class DefiniteLengthTaggedObject.
 ///   Implements the <see cref="DerTaggedObject" />
 /// </summary>
 /// <seealso cref="DerTaggedObject" />
-public class DLTaggedObject : DerTaggedObject
+public class DefiniteLengthTaggedObject : DerTaggedObject
 {
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLTaggedObject" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthTaggedObject" /> class.
 	/// </summary>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
-	internal DLTaggedObject(int tagNo, Asn1Encodable obj) : base(tagNo, obj) { }
+	internal DefiniteLengthTaggedObject(int tagNo, Asn1Encodable obj) : base(tagNo, obj) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLTaggedObject" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthTaggedObject" /> class.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
-	internal DLTaggedObject(int tagClass, int tagNo, Asn1Encodable obj) : base(tagClass, tagNo, obj) { }
+	internal DefiniteLengthTaggedObject(int tagClass, int tagNo, Asn1Encodable obj) : base(tagClass, tagNo, obj) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLTaggedObject" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthTaggedObject" /> class.
 	/// </summary>
 	/// <param name="isExplicit">if set to <c>true</c> [is explicit].</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
-	internal DLTaggedObject(bool isExplicit, int tagNo, Asn1Encodable obj) : base(isExplicit, tagNo, obj) { }
+	internal DefiniteLengthTaggedObject(bool isExplicit, int tagNo, Asn1Encodable obj) : base(isExplicit, tagNo, obj) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLTaggedObject" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthTaggedObject" /> class.
 	/// </summary>
 	/// <param name="isExplicit">if set to <c>true</c> [is explicit].</param>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
-	internal DLTaggedObject(bool isExplicit, int tagClass, int tagNo, Asn1Encodable obj) : base(isExplicit, tagClass, tagNo, obj) { }
+	internal DefiniteLengthTaggedObject(bool isExplicit, int tagClass, int tagNo, Asn1Encodable obj) : base(isExplicit, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLTaggedObject" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthTaggedObject" /> class.
 	/// </summary>
 	/// <param name="explicitness">The explicitness.</param>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
-	internal DLTaggedObject(int explicitness, int tagClass, int tagNo, Asn1Encodable obj) : base(explicitness, tagClass, tagNo, obj) { }
+	internal DefiniteLengthTaggedObject(int explicitness, int tagClass, int tagNo, Asn1Encodable obj) : base(explicitness, tagClass, tagNo, obj) { }
 
 	/// <summary>
 	///   Gets the asn1 encoding.
@@ -98,7 +98,7 @@ public class DLTaggedObject : DerTaggedObject
 	/// </summary>
 	/// <param name="asn1Object">The asn1 object.</param>
 	/// <returns>Asn1Sequence.</returns>
-	internal override Asn1Sequence RebuildConstructed(Asn1Object asn1Object) => new DLSequence(asn1Object);
+	internal override Asn1Sequence RebuildConstructed(Asn1Object asn1Object) => new DefinteLengthSequence(asn1Object);
 
 	/// <summary>
 	///   Replaces the tag.
@@ -106,5 +106,5 @@ public class DLTaggedObject : DerTaggedObject
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
 	/// <returns>Asn1TaggedObject.</returns>
-	internal override Asn1TaggedObject ReplaceTag(int tagClass, int tagNo) => new DLTaggedObject(Explicitness, tagClass, tagNo, BaseTaggedObject);
+	internal override Asn1TaggedObject ReplaceTag(int tagClass, int tagNo) => new DefiniteLengthTaggedObject(Explicitness, tagClass, tagNo, BaseTaggedObject);
 }

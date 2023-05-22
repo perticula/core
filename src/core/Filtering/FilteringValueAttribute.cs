@@ -19,7 +19,7 @@ public class FilteringValueAttribute : Attribute
 	/// <summary>
 	///   Prevents a default instance of the <see cref="FilteringValueAttribute" /> class from being created.
 	/// </summary>
-	/// <exception cref="System.InvalidOperationException">The Filtered item must have a name</exception>
+	/// <exception cref="System.InvalidOperationException">Missing Name Property: [FilteringValueAttribute(string name)]</exception>
 	private FilteringValueAttribute() => throw new InvalidOperationException("Missing Name Property: [FilteringValueAttribute(string name)]");
 
 	/// <summary>

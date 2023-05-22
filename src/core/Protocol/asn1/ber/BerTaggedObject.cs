@@ -10,21 +10,21 @@ using core.Protocol.asn1.der;
 namespace core.Protocol.asn1.ber;
 
 /// <summary>
-/// Class BerTaggedObject.
-/// Implements the <see cref="DerTaggedObject" />
+///   Class BerTaggedObject.
+///   Implements the <see cref="DerTaggedObject" />
 /// </summary>
 /// <seealso cref="DerTaggedObject" />
 public class BerTaggedObject : DerTaggedObject
 {
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="BerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="tagNo">The tag no.</param>
 	/// <param name="obj">The object.</param>
 	public BerTaggedObject(int tagNo, Asn1Encodable obj) : base(true, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="BerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>
@@ -32,7 +32,7 @@ public class BerTaggedObject : DerTaggedObject
 	public BerTaggedObject(int tagClass, int tagNo, Asn1Encodable obj) : base(true, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="BerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="isExplicit">if set to <c>true</c> [is explicit].</param>
 	/// <param name="tagNo">The tag no.</param>
@@ -40,7 +40,7 @@ public class BerTaggedObject : DerTaggedObject
 	public BerTaggedObject(bool isExplicit, int tagNo, Asn1Encodable obj) : base(isExplicit, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="BerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="isExplicit">if set to <c>true</c> [is explicit].</param>
 	/// <param name="tagClass">The tag class.</param>
@@ -49,7 +49,7 @@ public class BerTaggedObject : DerTaggedObject
 	public BerTaggedObject(bool isExplicit, int tagClass, int tagNo, Asn1Encodable obj) : base(isExplicit, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	/// Initializes a new instance of the <see cref="BerTaggedObject"/> class.
+	///   Initializes a new instance of the <see cref="BerTaggedObject" /> class.
 	/// </summary>
 	/// <param name="explicitness">The explicitness.</param>
 	/// <param name="tagClass">The tag class.</param>
@@ -58,13 +58,13 @@ public class BerTaggedObject : DerTaggedObject
 	internal BerTaggedObject(int explicitness, int tagClass, int tagNo, Asn1Encodable obj) : base(explicitness, tagClass, tagNo, obj) { }
 
 	/// <summary>
-	/// Gets the asn1 encoding.
+	///   Gets the asn1 encoding.
 	/// </summary>
 	/// <value>The asn1 encoding.</value>
 	internal override string Asn1Encoding => Ber;
 
 	/// <summary>
-	/// Gets the encoding.
+	///   Gets the encoding.
 	/// </summary>
 	/// <param name="encoding">The encoding.</param>
 	/// <returns>IAsn1Encoding.</returns>
@@ -77,11 +77,11 @@ public class BerTaggedObject : DerTaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingImplicit(encoding, TagClass, TagNo)
-			       : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(TagClass, TagNo, new[] {baseObject.GetEncoding(encoding)});
+			       : new ConstructedIndefiniteLengthEncoding(TagClass, TagNo, new[] {baseObject.GetEncoding(encoding)});
 	}
 
 	/// <summary>
-	/// Gets the encoding implicit.
+	///   Gets the encoding implicit.
 	/// </summary>
 	/// <param name="encoding">The encoding.</param>
 	/// <param name="tagClass">The tag class.</param>
@@ -96,18 +96,18 @@ public class BerTaggedObject : DerTaggedObject
 
 		return !IsExplicit()
 			       ? baseObject.GetEncodingImplicit(encoding, tagClass, tagNo)
-			       : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, new[] {baseObject.GetEncoding(encoding)});
+			       : new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, new[] {baseObject.GetEncoding(encoding)});
 	}
 
 	/// <summary>
-	/// Rebuilds the constructed.
+	///   Rebuilds the constructed.
 	/// </summary>
 	/// <param name="asn1Object">The asn1 object.</param>
 	/// <returns>Asn1Sequence.</returns>
 	internal override Asn1Sequence RebuildConstructed(Asn1Object asn1Object) => new BerSequence(asn1Object);
 
 	/// <summary>
-	/// Replaces the tag.
+	///   Replaces the tag.
 	/// </summary>
 	/// <param name="tagClass">The tag class.</param>
 	/// <param name="tagNo">The tag no.</param>

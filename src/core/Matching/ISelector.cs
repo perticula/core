@@ -7,10 +7,16 @@
 
 namespace core.Matching;
 
+/// <summary>
+///   Interface ISelector
+///   Implements the <see cref="System.ICloneable" />
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <seealso cref="System.ICloneable" />
 public interface ISelector<in T> : ICloneable
 {
 	/// <summary>
-	/// Matches the specified candidate object, returns true if the canidate would be matched by the selector.
+	///   Matches the specified candidate object, returns true if the canidate would be matched by the selector.
 	/// </summary>
 	/// <param name="candidate">The candidate.</param>
 	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>

@@ -8,7 +8,7 @@
 namespace core.Protocol.asn1;
 
 /// <summary>
-/// Interface IAsn1String
+///   Interface IAsn1String
 /// </summary>
 public interface IAsn1String
 {

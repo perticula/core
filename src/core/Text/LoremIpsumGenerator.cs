@@ -9,6 +9,9 @@ using System.Text;
 
 namespace core.Text;
 
+/// <summary>
+///   Class LoremIpsumGenerator.
+/// </summary>
 public static class LoremIpsumGenerator
 {
 	/// <summary>

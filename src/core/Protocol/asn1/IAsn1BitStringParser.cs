@@ -8,7 +8,7 @@
 namespace core.Protocol.asn1;
 
 /// <summary>
-/// Interface IAsn1BitStringParser
+///   Interface IAsn1BitStringParser
 /// </summary>
 public interface IAsn1BitStringParser : IAsn1Convertable
 {
@@ -16,13 +16,13 @@ public interface IAsn1BitStringParser : IAsn1Convertable
 	///   Gets the pad bits.
 	///   Return the number of pad bits, if any, in the final byte, if any, read from <see cref="GetBitStream" />.
 	/// </summary>
+	/// <value>The number of pad bits. In the range zero to seven.</value>
 	/// <remarks>
 	///   This number is in the range zero to seven. That number of the least significant bits of the final byte, if
 	///   any, are not part of the contents and should be ignored.
 	///   NOTE: Must be called AFTER the stream has been fully processed.
 	///   Does not need to be called if <see cref="GetOctetStream" /> was used instead of   <see cref="GetBitStream" />.
 	/// </remarks>
-	/// <value>The number of pad bits. In the range zero to seven.</value>
 	int PadBits { get; }
 
 	/// <summary>
@@ -30,8 +30,8 @@ public interface IAsn1BitStringParser : IAsn1Convertable
 	///   Return a <see cref="Stream" /> representing the contents of the BIT STRING. The final byte, if any,
 	///   may include pad bits. See <see cref="PadBits" />.
 	/// </summary>
-	/// <exception cref="IOException" />
 	/// <returns>Stream.</returns>
+	/// <exception cref="IOException"></exception>
 	Stream GetBitStream();
 
 	/// <summary>
@@ -39,7 +39,7 @@ public interface IAsn1BitStringParser : IAsn1Convertable
 	///   Return a <see cref="Stream" /> representing the contents of the BIT STRING. The final byte, if any,
 	///   may include pad bits. See <see cref="PadBits" />.
 	/// </summary>
-	/// <exception cref="IOException" />
 	/// <returns>Stream.</returns>
+	/// <exception cref="IOException"></exception>
 	Stream GetOctetStream();
 }

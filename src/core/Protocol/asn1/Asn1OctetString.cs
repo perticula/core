@@ -110,6 +110,7 @@ public abstract class Asn1OctetString : Asn1Object, IAsn1OctetStringParser
 	/// </summary>
 	/// <param name="obj">The object.</param>
 	/// <returns>System.Nullable&lt;Asn1OctetString&gt;.</returns>
+	/// <exception cref="System.ArgumentNullException">obj</exception>
 	/// <exception cref="System.ArgumentException">failed to construct OCTET STRING from byte[]: {e.Message}</exception>
 	/// <exception cref="System.ArgumentException">illegal object in GetInstance: {obj.GetTypeName()} - obj</exception>
 	public static Asn1OctetString GetInstance(object? obj)

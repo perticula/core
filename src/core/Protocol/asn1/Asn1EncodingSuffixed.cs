@@ -56,7 +56,7 @@ public class Asn1EncodingSuffixed : IAsn1Encoding
 	public void Encode(Asn1OutputStream asn1Out)
 	{
 		asn1Out.WriteIdentifier(_tagClass, _tagNo);
-		asn1Out.WriteDL(_contentsOctets.Length);
+		asn1Out.WriteDefiniteLength(_contentsOctets.Length);
 		asn1Out.Write(_contentsOctets, 0, _contentsOctets.Length - 1);
 		asn1Out.WriteByte(_contentsSuffix);
 	}
@@ -65,5 +65,5 @@ public class Asn1EncodingSuffixed : IAsn1Encoding
 	///   Gets the length of the value to encode.
 	/// </summary>
 	/// <returns>System.Int32.</returns>
-	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingDL(_tagNo, _contentsOctets.Length);
+	public int GetLength() => Asn1OutputStream.GetLengthOfEncodingDefiniteLength(_tagNo, _contentsOctets.Length);
 }

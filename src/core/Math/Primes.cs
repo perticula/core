@@ -10,16 +10,34 @@ using core.Random;
 
 namespace core.Math;
 
+/// <summary>
+///   Class Primes.
+/// </summary>
 public class Primes
 {
+	/// <summary>
+	///   The small factor limit
+	/// </summary>
 	public static readonly int SmallFactorLimit = 211;
 
-	private static readonly BigInteger One   = BigInteger.One;
-	private static readonly BigInteger Two   = BigInteger.Two;
+	/// <summary>
+	///   The one
+	/// </summary>
+	private static readonly BigInteger One = BigInteger.One;
+
+	/// <summary>
+	///   The two
+	/// </summary>
+	private static readonly BigInteger Two = BigInteger.Two;
+
+	/// <summary>
+	///   The three
+	/// </summary>
 	private static readonly BigInteger Three = BigInteger.Three;
 
-	/// <summary>FIPS 186-4 C.6 Shawe-Taylor Random_Prime Routine.</summary>
-	/// <remarks>Construct a provable prime number using a hash function.</remarks>
+	/// <summary>
+	///   FIPS 186-4 C.6 Shawe-Taylor Random_Prime Routine.
+	/// </summary>
 	/// <param name="hash">The <see cref="IDigest" /> instance to use (as "Hash()"). Cannot be null.</param>
 	/// <param name="length">The length (in bits) of the prime to be generated. Must be at least 2.</param>
 	/// <param name="inputSeed">
@@ -27,6 +45,11 @@ public class Primes
 	///   empty.
 	/// </param>
 	/// <returns>An <see cref="ShawTaylorOutput" /> instance containing the requested prime.</returns>
+	/// <exception cref="System.ArgumentNullException">hash</exception>
+	/// <exception cref="System.ArgumentNullException">inputSeed</exception>
+	/// <exception cref="System.ArgumentException">must be >= 2 - length</exception>
+	/// <exception cref="System.ArgumentException">cannot be empty - inputSeed</exception>
+	/// <remarks>Construct a provable prime number using a hash function.</remarks>
 	public static ShawTaylorOutput GenerateRandomPrime(IDigest hash, int length, byte[] inputSeed)
 	{
 		if (hash             == null) throw new ArgumentNullException(nameof(hash));
@@ -37,16 +60,20 @@ public class Primes
 		return RandomPrime(hash, length, Arrays.Clone(inputSeed));
 	}
 
-	/// <summary>FIPS 186-4 C.3.2 Enhanced Miller-Rabin Probabilistic Primality Test.</summary>
+	/// <summary>
+	///   FIPS 186-4 C.3.2 Enhanced Miller-Rabin Probabilistic Primality Test.
+	/// </summary>
+	/// <param name="candidate">The <see cref="BigInteger" /> instance to test for primality.</param>
+	/// <param name="random">The source of randomness to use to choose bases.</param>
+	/// <param name="iterations">The number of randomly-chosen bases to perform the test for.</param>
+	/// <returns>An <see cref="MillerRabinOutput" /> instance that can be further queried for details.</returns>
+	/// <exception cref="System.ArgumentNullException">random</exception>
+	/// <exception cref="System.ArgumentException">must be > 0 - iterations</exception>
 	/// <remarks>
 	///   Run several iterations of the Miller-Rabin algorithm with randomly-chosen bases. This is an alternative to
 	///   <see cref="IsProbablePrime" /> that provides more information about a
 	///   composite candidate, which may be useful when generating or validating RSA moduli.
 	/// </remarks>
-	/// <param name="candidate">The <see cref="BigInteger" /> instance to test for primality.</param>
-	/// <param name="random">The source of randomness to use to choose bases.</param>
-	/// <param name="iterations">The number of randomly-chosen bases to perform the test for.</param>
-	/// <returns>An <see cref="MillerRabinOutput" /> instance that can be further queried for details.</returns>
 	public static MillerRabinOutput EnhancedProbablePrimeTest(BigInteger candidate, SecureRandom random, int iterations)
 	{
 		CheckCandidate(candidate, nameof(candidate));
@@ -115,7 +142,9 @@ public class Primes
 		return MillerRabinOutput.ProbablyPrime();
 	}
 
-	/// <summary>A fast check for small divisors, up to some implementation-specific limit.</summary>
+	/// <summary>
+	///   A fast check for small divisors, up to some implementation-specific limit.
+	/// </summary>
 	/// <param name="candidate">The <see cref="BigInteger" /> instance to test for division by small factors.</param>
 	/// <returns><c>true</c> if the candidate is found to have any small factors, <c>false</c> otherwise.</returns>
 	public static bool HasAnySmallFactors(BigInteger candidate)
@@ -174,8 +203,9 @@ public class Primes
 		return false;
 	}
 
-	/// <summary>FIPS 186-4 C.3.1 Miller-Rabin Probabilistic Primality Test.</summary>
-	/// <remarks>Run several iterations of the Miller-Rabin algorithm with randomly-chosen bases.</remarks>
+	/// <summary>
+	///   FIPS 186-4 C.3.1 Miller-Rabin Probabilistic Primality Test.
+	/// </summary>
 	/// <param name="candidate">The <see cref="BigInteger" /> instance to test for primality.</param>
 	/// <param name="random">The source of randomness to use to choose bases.</param>
 	/// <param name="iterations">The number of randomly-chosen bases to perform the test for.</param>
@@ -184,6 +214,9 @@ public class Primes
 	///   <paramref name="candidate" /> is definitely NOT prime), or else <c>true</c> (indicating primality with some
 	///   probability dependent on the number of iterations that were performed).
 	/// </returns>
+	/// <exception cref="System.ArgumentException">cannot be null - random</exception>
+	/// <exception cref="System.ArgumentException">must be > 0 - iterations</exception>
+	/// <remarks>Run several iterations of the Miller-Rabin algorithm with randomly-chosen bases.</remarks>
 	public static bool IsProbablePrime(BigInteger candidate, SecureRandom random, int iterations)
 	{
 		CheckCandidate(candidate, nameof(candidate));
@@ -216,14 +249,18 @@ public class Primes
 		return true;
 	}
 
-	/// <summary>FIPS 186-4 C.3.1 Miller-Rabin Probabilistic Primality Test (to a fixed base).</summary>
-	/// <remarks>Run a single iteration of the Miller-Rabin algorithm against the specified base.</remarks>
+	/// <summary>
+	///   FIPS 186-4 C.3.1 Miller-Rabin Probabilistic Primality Test (to a fixed base).
+	/// </summary>
 	/// <param name="candidate">The <see cref="BigInteger" /> instance to test for primality.</param>
 	/// <param name="baseValue">The base value to use for this iteration.</param>
 	/// <returns>
 	///   <c>false</c> if <paramref name="baseValue" /> is a witness to compositeness (so
 	///   <paramref name="candidate" /> is definitely NOT prime), or else <c>true</c>.
 	/// </returns>
+	/// <exception cref="System.ArgumentException">
+	///   must be < ('candidate' - 1) - baseValue</exception>
+	/// <remarks>Run a single iteration of the Miller-Rabin algorithm against the specified base.</remarks>
 	public static bool IsProbablePrimeToBase(BigInteger candidate, BigInteger baseValue)
 	{
 		CheckCandidate(candidate, nameof(candidate));
@@ -244,12 +281,27 @@ public class Primes
 		return ProbablePrimeToBase(w, wSubOne, m, a, baseValue);
 	}
 
+	/// <summary>
+	///   Checks the candidate.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <param name="name">The name.</param>
+	/// <exception cref="System.ArgumentException">must be non-null and >= 2</exception>
 	private static void CheckCandidate(BigInteger n, string name)
 	{
 		if (n == null || n.SignValue < 1 || n.BitLength < 2)
 			throw new ArgumentException("must be non-null and >= 2", name);
 	}
 
+	/// <summary>
+	///   Probables the prime to base.
+	/// </summary>
+	/// <param name="w">The w.</param>
+	/// <param name="wSubOne">The w sub one.</param>
+	/// <param name="m">The m.</param>
+	/// <param name="a">a.</param>
+	/// <param name="b">The b.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	private static bool ProbablePrimeToBase(BigInteger w, BigInteger wSubOne, BigInteger m, int a, BigInteger b)
 	{
 		var z = b.ModPow(m, w);
@@ -271,6 +323,14 @@ public class Primes
 		return false;
 	}
 
+	/// <summary>
+	///   Randoms the prime.
+	/// </summary>
+	/// <param name="d">The d.</param>
+	/// <param name="length">The length.</param>
+	/// <param name="primeSeed">The prime seed.</param>
+	/// <returns>ShawTaylorOutput.</returns>
+	/// <exception cref="System.InvalidOperationException">Too many iterations in Shawe-Taylor Random_Prime Routine</exception>
 	private static ShawTaylorOutput RandomPrime(IDigest d, int length, byte[] primeSeed)
 	{
 		var dLen = d.GetDigestSize();
@@ -372,12 +432,26 @@ public class Primes
 		}
 	}
 
+	/// <summary>
+	///   Hashes the specified d.
+	/// </summary>
+	/// <param name="d">The d.</param>
+	/// <param name="input">The input.</param>
+	/// <param name="output">The output.</param>
+	/// <param name="outPos">The out position.</param>
 	private static void Hash(IDigest d, byte[] input, byte[] output, int outPos)
 	{
 		d.BlockUpdate(input, 0, input.Length);
 		d.DoFinal(output, outPos);
 	}
 
+	/// <summary>
+	///   Hashes the gen.
+	/// </summary>
+	/// <param name="d">The d.</param>
+	/// <param name="seed">The seed.</param>
+	/// <param name="count">The count.</param>
+	/// <returns>BigInteger.</returns>
 	private static BigInteger HashGen(IDigest d, byte[] seed, int count)
 	{
 		var dLen = d.GetDigestSize();
@@ -393,6 +467,11 @@ public class Primes
 		return new BigInteger(1, buf);
 	}
 
+	/// <summary>
+	///   Incs the specified seed.
+	/// </summary>
+	/// <param name="seed">The seed.</param>
+	/// <param name="c">The c.</param>
 	private static void Inc(IList<byte> seed, int c)
 	{
 		var pos = seed.Count;
@@ -404,6 +483,11 @@ public class Primes
 		}
 	}
 
+	/// <summary>
+	///   Determines whether the specified x is prime32.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <returns><c>true</c> if the specified x is prime32; otherwise, <c>false</c>.</returns>
 	private static bool IsPrime32(uint x)
 	{
 		/*
@@ -445,22 +529,52 @@ public class Primes
 	/// </summary>
 	public sealed class MillerRabinOutput
 	{
+		/// <summary>
+		///   Initializes a new instance of the <see cref="MillerRabinOutput" /> class.
+		/// </summary>
+		/// <param name="provablyComposite">if set to <c>true</c> [provably composite].</param>
+		/// <param name="factor">The factor.</param>
 		private MillerRabinOutput(bool provablyComposite, BigInteger? factor)
 		{
 			IsProvablyComposite = provablyComposite;
 			Factor              = factor;
 		}
 
+		/// <summary>
+		///   Gets the factor.
+		/// </summary>
+		/// <value>The factor.</value>
 		public BigInteger? Factor { get; }
 
+		/// <summary>
+		///   Gets a value indicating whether this instance is provably composite.
+		/// </summary>
+		/// <value><c>true</c> if this instance is provably composite; otherwise, <c>false</c>.</value>
 		public bool IsProvablyComposite { get; }
 
+		/// <summary>
+		///   Gets a value indicating whether this instance is not prime power.
+		/// </summary>
+		/// <value><c>true</c> if this instance is not prime power; otherwise, <c>false</c>.</value>
 		public bool IsNotPrimePower => IsProvablyComposite && Factor == null;
 
+		/// <summary>
+		///   Probablies the prime.
+		/// </summary>
+		/// <returns>MillerRabinOutput.</returns>
 		internal static MillerRabinOutput ProbablyPrime() => new(false, null);
 
+		/// <summary>
+		///   Provablies the composite with factor.
+		/// </summary>
+		/// <param name="factor">The factor.</param>
+		/// <returns>MillerRabinOutput.</returns>
 		internal static MillerRabinOutput ProvablyCompositeWithFactor(BigInteger factor) => new(true, factor);
 
+		/// <summary>
+		///   Provablies the composite not prime power.
+		/// </summary>
+		/// <returns>MillerRabinOutput.</returns>
 		internal static MillerRabinOutput ProvablyCompositeNotPrimePower() => new(true, null);
 	}
 
@@ -472,6 +586,12 @@ public class Primes
 	/// </summary>
 	public sealed class ShawTaylorOutput
 	{
+		/// <summary>
+		///   Initializes a new instance of the <see cref="ShawTaylorOutput" /> class.
+		/// </summary>
+		/// <param name="prime">The prime.</param>
+		/// <param name="primeSeed">The prime seed.</param>
+		/// <param name="primeGenCounter">The prime gen counter.</param>
 		internal ShawTaylorOutput(BigInteger prime, byte[] primeSeed, int primeGenCounter)
 		{
 			Prime           = prime;
@@ -479,10 +599,22 @@ public class Primes
 			PrimeGenCounter = primeGenCounter;
 		}
 
+		/// <summary>
+		///   Gets the prime.
+		/// </summary>
+		/// <value>The prime.</value>
 		public BigInteger Prime { get; }
 
+		/// <summary>
+		///   Gets the prime seed.
+		/// </summary>
+		/// <value>The prime seed.</value>
 		public byte[] PrimeSeed { get; }
 
+		/// <summary>
+		///   Gets the prime gen counter.
+		/// </summary>
+		/// <value>The prime gen counter.</value>
 		public int PrimeGenCounter { get; }
 	}
 }

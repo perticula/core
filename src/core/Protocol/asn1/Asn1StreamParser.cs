@@ -137,7 +137,7 @@ public class Asn1StreamParser
 		}
 
 		var contentsElements = LoadVector();
-		return Asn1TaggedObject.CreateConstructedDL(tagClass, tagNo, contentsElements);
+		return Asn1TaggedObject.CreateConstructedDefinteLength(tagClass, tagNo, contentsElements);
 	}
 
 	/// <summary>
@@ -149,7 +149,7 @@ public class Asn1StreamParser
 	internal Asn1Object LoadTaggedIndefiniteLength(int tagClass, int tagNo)
 	{
 		var contentsElements = LoadVector();
-		return Asn1TaggedObject.CreateConstructedIL(tagClass, tagNo, contentsElements);
+		return Asn1TaggedObject.CreateConstructedIndefinteLength(tagClass, tagNo, contentsElements);
 	}
 
 	/// <summary>

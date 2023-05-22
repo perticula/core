@@ -9,6 +9,9 @@ using System.Globalization;
 
 namespace core;
 
+/// <summary>
+///   Class Platform.
+/// </summary>
 public static class Platform
 {
 	/// <summary>

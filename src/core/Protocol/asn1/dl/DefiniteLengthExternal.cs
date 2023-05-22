@@ -1,4 +1,4 @@
-// perticula - core - DLExternal.cs
+// perticula - core - DefiniteLengthExternal.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -10,42 +10,42 @@ using core.Protocol.asn1.der;
 namespace core.Protocol.asn1.dl;
 
 /// <summary>
-///   Class DLExternal.
+///   Class DefiniteLengthExternal.
 ///   Implements the <see cref="DerExternal" />
 /// </summary>
 /// <seealso cref="DerExternal" />
-public class DLExternal : DerExternal
+public class DefiniteLengthExternal : DerExternal
 {
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLExternal" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthExternal" /> class.
 	/// </summary>
 	/// <param name="vector">The vector.</param>
-	internal DLExternal(Asn1EncodableVector vector) : base(vector) { }
+	internal DefiniteLengthExternal(Asn1EncodableVector vector) : base(vector) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLExternal" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthExternal" /> class.
 	/// </summary>
 	/// <param name="sequence">The sequence.</param>
-	internal DLExternal(Asn1Sequence sequence) : base(sequence) { }
+	internal DefiniteLengthExternal(Asn1Sequence sequence) : base(sequence) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLExternal" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthExternal" /> class.
 	/// </summary>
 	/// <param name="directReference">The direct reference.</param>
 	/// <param name="indirectReference">The indirect reference.</param>
 	/// <param name="dataValueDescriptor">The data value descriptor.</param>
 	/// <param name="externalData">The external data.</param>
-	internal DLExternal(DerObjectIdentifier directReference, DerInteger indirectReference, Asn1ObjectDescriptor dataValueDescriptor, Asn1TaggedObject externalData) : base(directReference, indirectReference, dataValueDescriptor, externalData) { }
+	internal DefiniteLengthExternal(DerObjectIdentifier directReference, DerInteger indirectReference, Asn1ObjectDescriptor dataValueDescriptor, Asn1TaggedObject externalData) : base(directReference, indirectReference, dataValueDescriptor, externalData) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLExternal" /> class.
+	///   Initializes a new instance of the <see cref="DefiniteLengthExternal" /> class.
 	/// </summary>
 	/// <param name="directReference">The direct reference.</param>
 	/// <param name="indirectReference">The indirect reference.</param>
 	/// <param name="dataValueDescriptor">The data value descriptor.</param>
 	/// <param name="encoding">The encoding.</param>
 	/// <param name="externalData">The external data.</param>
-	internal DLExternal(DerObjectIdentifier directReference, DerInteger indirectReference, Asn1ObjectDescriptor dataValueDescriptor, int encoding, Asn1Object externalData) : base(directReference, indirectReference, dataValueDescriptor, encoding, externalData) { }
+	internal DefiniteLengthExternal(DerObjectIdentifier directReference, DerInteger indirectReference, Asn1ObjectDescriptor dataValueDescriptor, int encoding, Asn1Object externalData) : base(directReference, indirectReference, dataValueDescriptor, encoding, externalData) { }
 
 	/// <summary>
 	///   Builds the sequence.
@@ -55,8 +55,8 @@ public class DLExternal : DerExternal
 	{
 		var v = new Asn1EncodableVector(4);
 		v.AddOptional(DirectReference, IndirectReference, DataValueDescriptor);
-		v.Add(new DLTaggedObject(0 == BaseEncoding, BaseEncoding, ExternalContent!));
-		return new DLSequence(v);
+		v.Add(new DefiniteLengthTaggedObject(0 == BaseEncoding, BaseEncoding, ExternalContent!));
+		return new DefinteLengthSequence(v);
 	}
 
 	/// <summary>

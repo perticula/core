@@ -148,7 +148,7 @@ public class BerBitString : DerBitString
 			   ? base.GetEncoding(encoding)
 			   : null == _elements
 				   ? new Asn1Encoding(Asn1Tags.Universal, Asn1Tags.BitString, Contents)
-				   : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(Asn1Tags.Universal, Asn1Tags.BitString, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
+				   : new ConstructedIndefiniteLengthEncoding(Asn1Tags.Universal, Asn1Tags.BitString, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
 
 	/// <summary>
 	///   Gets the encoding implicit.
@@ -162,5 +162,5 @@ public class BerBitString : DerBitString
 			   ? base.GetEncodingImplicit(encoding, tagClass, tagNo)
 			   : null == _elements
 				   ? new Asn1Encoding(tagClass, tagNo, Contents)
-				   : (IAsn1Encoding) new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
+				   : new ConstructedIndefiniteLengthEncoding(tagClass, tagNo, Asn1OutputStream.GetContentsEncodings(encoding, _elements));
 }

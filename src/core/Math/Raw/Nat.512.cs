@@ -12,8 +12,17 @@ using System.Runtime.Intrinsics.X86;
 
 namespace core.Math.Raw;
 
+/// <summary>
+///   Class Nat512.
+/// </summary>
 public static class Nat512
 {
+	/// <summary>
+	///   Muls the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Mul(uint[] x, uint[] y, uint[] zz)
 	{
 		Nat256.Mul(x, y, zz);
@@ -33,6 +42,11 @@ public static class Nat512
 		Nat.AddWordAt(32, c24, zz, 24);
 	}
 
+	/// <summary>
+	///   Squares the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="zz">The zz.</param>
 	public static void Square(uint[] x, uint[] zz)
 	{
 		Nat256.Square(x, zz);
@@ -52,8 +66,23 @@ public static class Nat512
 		Nat.AddWordAt(32, c24, zz, 24);
 	}
 
+	/// <summary>
+	///   Xors the specified x in.
+	/// </summary>
+	/// <param name="xIn">The x in.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="yIn">The y in.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="zIn">The z in.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Xor(uint[] xIn, int xOff, uint[] yIn, int yOff, uint[] zIn, int zOff) => Xor(xIn.AsSpan(xOff), yIn.AsSpan(yOff), zIn.AsSpan(zOff));
 
+	/// <summary>
+	///   Xors the specified x in.
+	/// </summary>
+	/// <param name="xIn">The x in.</param>
+	/// <param name="yIn">The y in.</param>
+	/// <param name="zIn">The z in.</param>
 	public static void Xor(ReadOnlySpan<uint> xIn, ReadOnlySpan<uint> yIn, Span<uint> zIn)
 	{
 		if (Avx2.IsSupported && Unsafe.SizeOf<Vector256<byte>>() == 32)
@@ -113,8 +142,20 @@ public static class Nat512
 		}
 	}
 
+	/// <summary>
+	///   Xors to.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void XorTo(uint[] x, int xOff, uint[] z, int zOff) => XorTo(x.AsSpan(xOff), z.AsSpan(zOff));
 
+	/// <summary>
+	///   Xors to.
+	/// </summary>
+	/// <param name="xIn">The x in.</param>
+	/// <param name="zIn">The z in.</param>
 	public static void XorTo(ReadOnlySpan<uint> xIn, Span<uint> zIn)
 	{
 		if (Avx2.IsSupported && Unsafe.SizeOf<Vector256<byte>>() == 32)
@@ -172,8 +213,23 @@ public static class Nat512
 		}
 	}
 
+	/// <summary>
+	///   Xor64s the specified x.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="y">The y.</param>
+	/// <param name="yOff">The y off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void Xor64(ulong[] x, int xOff, ulong[] y, int yOff, ulong[] z, int zOff) => Xor64(x.AsSpan(xOff), y.AsSpan(yOff), z.AsSpan(zOff));
 
+	/// <summary>
+	///   Xor64s the specified x in.
+	/// </summary>
+	/// <param name="xIn">The x in.</param>
+	/// <param name="yIn">The y in.</param>
+	/// <param name="zIn">The z in.</param>
 	public static void Xor64(ReadOnlySpan<ulong> xIn, ReadOnlySpan<ulong> yIn, Span<ulong> zIn)
 	{
 		if (Avx2.IsSupported && Unsafe.SizeOf<Vector256<byte>>() == 32)
@@ -233,8 +289,20 @@ public static class Nat512
 		}
 	}
 
+	/// <summary>
+	///   Xors the to64.
+	/// </summary>
+	/// <param name="x">The x.</param>
+	/// <param name="xOff">The x off.</param>
+	/// <param name="z">The z.</param>
+	/// <param name="zOff">The z off.</param>
 	public static void XorTo64(ulong[] x, int xOff, ulong[] z, int zOff) => XorTo64(x.AsSpan(xOff), z.AsSpan(zOff));
 
+	/// <summary>
+	///   Xors the to64.
+	/// </summary>
+	/// <param name="xIn">The x in.</param>
+	/// <param name="zIn">The z in.</param>
 	public static void XorTo64(ReadOnlySpan<ulong> xIn, Span<ulong> zIn)
 	{
 		if (Avx2.IsSupported && Unsafe.SizeOf<Vector256<byte>>() == 32)

@@ -1,4 +1,4 @@
-// perticula - core - DlBitString.cs
+// perticula - core - DefinteLengthBitString.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -10,63 +10,63 @@ using core.Protocol.asn1.der;
 namespace core.Protocol.asn1.dl;
 
 /// <summary>
-///   Class DLBitString.
+///   Class DefinteLengthBitString.
 ///   Implements the <see cref="DerBitString" />
 /// </summary>
 /// <seealso cref="DerBitString" />
-public class DLBitString : DerBitString
+public class DefinteLengthBitString : DerBitString
 {
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
 	/// </summary>
 	/// <param name="data">The data.</param>
 	/// <param name="padBits">The pad bits.</param>
-	public DLBitString(byte data, int padBits) : base(data, padBits) { }
+	public DefinteLengthBitString(byte data, int padBits) : base(data, padBits) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
 	/// </summary>
 	/// <param name="data">The data.</param>
-	public DLBitString(byte[] data) : this(data, 0) { }
+	public DefinteLengthBitString(byte[] data) : this(data, 0) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
-	/// </summary>
-	/// <param name="data">The data.</param>
-	/// <param name="padBits">The pad bits.</param>
-	public DLBitString(byte[] data, int padBits) : base(data, padBits) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
-	/// </summary>
-	/// <param name="data">The data.</param>
-	public DLBitString(ReadOnlySpan<byte> data) : this(data, 0) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
 	/// </summary>
 	/// <param name="data">The data.</param>
 	/// <param name="padBits">The pad bits.</param>
-	public DLBitString(ReadOnlySpan<byte> data, int padBits) : base(data, padBits) { }
+	public DefinteLengthBitString(byte[] data, int padBits) : base(data, padBits) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
+	public DefinteLengthBitString(ReadOnlySpan<byte> data) : this(data, 0) { }
+
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
+	/// </summary>
+	/// <param name="data">The data.</param>
+	/// <param name="padBits">The pad bits.</param>
+	public DefinteLengthBitString(ReadOnlySpan<byte> data, int padBits) : base(data, padBits) { }
+
+	/// <summary>
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
 	/// </summary>
 	/// <param name="namedBits">The named bits.</param>
-	public DLBitString(int namedBits) : base(namedBits) { }
+	public DefinteLengthBitString(int namedBits) : base(namedBits) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
 	/// </summary>
 	/// <param name="obj">The object.</param>
-	public DLBitString(Asn1Encodable obj) : this(obj.GetDerEncoded(), 0) { }
+	public DefinteLengthBitString(Asn1Encodable obj) : this(obj.GetDerEncoded(), 0) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLBitString" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthBitString" /> class.
 	/// </summary>
 	/// <param name="contents">The contents.</param>
 	/// <param name="check">if set to <c>true</c> [check].</param>
-	internal DLBitString(byte[] contents, bool check) : base(contents, check) { }
+	internal DefinteLengthBitString(byte[] contents, bool check) : base(contents, check) { }
 
 	/// <summary>
 	///   Gets the encoding.

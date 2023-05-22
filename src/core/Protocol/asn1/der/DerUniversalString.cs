@@ -97,7 +97,7 @@ public class DerUniversalString : DerString
 	public override string GetString()
 	{
 		var dl       = _contents.Length;
-		var capacity = 3 + 2 * (Asn1OutputStream.GetLengthOfDL(dl) + dl);
+		var capacity = 3 + 2 * (Asn1OutputStream.GetLengthOfDefiniteLength(dl) + dl);
 		var buf      = new StringBuilder("#1C", capacity);
 		EncodeHexDL(buf, dl);
 

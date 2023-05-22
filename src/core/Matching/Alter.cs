@@ -7,4 +7,7 @@
 
 namespace core.Matching;
 
+/// <summary>
+///   Class Alter.
+/// </summary>
 public static partial class Alter { }

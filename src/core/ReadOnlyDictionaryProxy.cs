@@ -16,6 +16,9 @@ namespace core;
 /// <seealso cref="core.ReadOnlyDictionary{TK, TV}" />
 public class ReadOnlyDictionaryProxy<TK, TV> : ReadOnlyDictionary<TK, TV>, IProxy<IDictionary<TK, TV>>
 {
+	/// <summary>
+	///   The target
+	/// </summary>
 	private readonly IDictionary<TK, TV> _target;
 
 	/// <summary>
@@ -46,6 +49,8 @@ public class ReadOnlyDictionaryProxy<TK, TV> : ReadOnlyDictionary<TK, TV>, IProx
 	/// <summary>
 	///   The target
 	/// </summary>
+	/// <value>The target.</value>
+	/// <exception cref="System.NotSupportedException"></exception>
 	public IDictionary<TK, TV> Target
 	{
 		get => _target;

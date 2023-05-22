@@ -1,4 +1,4 @@
-// perticula - core - DLSequence.cs
+// perticula - core - DefinteLengthSequence.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 
@@ -11,60 +11,60 @@ using core.Protocol.asn1.der;
 namespace core.Protocol.asn1.dl;
 
 /// <summary>
-///   Class DLSequence.
+///   Class DefinteLengthSequence.
 ///   Implements the <see cref="DerSequence" />
 /// </summary>
 /// <seealso cref="DerSequence" />
-public class DLSequence : DerSequence
+public class DefinteLengthSequence : DerSequence
 {
 	/// <summary>
 	///   The empty
 	/// </summary>
-	public new static readonly DLSequence Empty = new();
+	public new static readonly DefinteLengthSequence Empty = new();
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSequence" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthSequence" /> class.
 	/// </summary>
-	public DLSequence() { }
+	public DefinteLengthSequence() { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSequence" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthSequence" /> class.
 	/// </summary>
 	/// <param name="element">The element.</param>
-	public DLSequence(Asn1Encodable element) : base(element) { }
+	public DefinteLengthSequence(Asn1Encodable element) : base(element) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSequence" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthSequence" /> class.
 	/// </summary>
 	/// <param name="element1">The element1.</param>
 	/// <param name="element2">The element2.</param>
-	public DLSequence(Asn1Encodable element1, Asn1Encodable element2) : base(element1, element2) { }
+	public DefinteLengthSequence(Asn1Encodable element1, Asn1Encodable element2) : base(element1, element2) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSequence" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthSequence" /> class.
 	/// </summary>
 	/// <param name="elements">The elements.</param>
-	public DLSequence(params Asn1Encodable[] elements) : base(elements) { }
+	public DefinteLengthSequence(params Asn1Encodable[] elements) : base(elements) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSequence" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthSequence" /> class.
 	/// </summary>
 	/// <param name="elementVector">The element vector.</param>
-	public DLSequence(Asn1EncodableVector elementVector) : base(elementVector) { }
+	public DefinteLengthSequence(Asn1EncodableVector elementVector) : base(elementVector) { }
 
 	/// <summary>
-	///   Initializes a new instance of the <see cref="DLSequence" /> class.
+	///   Initializes a new instance of the <see cref="DefinteLengthSequence" /> class.
 	/// </summary>
 	/// <param name="elements">The elements.</param>
 	/// <param name="clone">if set to <c>true</c> [clone].</param>
-	public DLSequence(Asn1Encodable[] elements, bool clone) : base(elements, clone) { }
+	public DefinteLengthSequence(Asn1Encodable[] elements, bool clone) : base(elements, clone) { }
 
 	/// <summary>
 	///   Froms the vector.
 	/// </summary>
 	/// <param name="elementVector">The element vector.</param>
-	/// <returns>DLSequence.</returns>
-	public new static DLSequence FromVector(Asn1EncodableVector elementVector) => elementVector.Count < 1 ? Empty : new DLSequence(elementVector);
+	/// <returns>DefinteLengthSequence.</returns>
+	public new static DefinteLengthSequence FromVector(Asn1EncodableVector elementVector) => elementVector.Count < 1 ? Empty : new DefinteLengthSequence(elementVector);
 
 	/// <summary>
 	///   Gets the encoding.
@@ -86,17 +86,17 @@ public class DLSequence : DerSequence
 	///   Converts to asn1bitstring.
 	/// </summary>
 	/// <returns>DerBitString.</returns>
-	public override DerBitString ToAsn1BitString() => new DLBitString(BerBitString.FlattenBitStrings(GetConstructedBitStrings()), false);
+	public override DerBitString ToAsn1BitString() => new DefinteLengthBitString(BerBitString.FlattenBitStrings(GetConstructedBitStrings()), false);
 
 	/// <summary>
 	///   Converts to asn1external.
 	/// </summary>
 	/// <returns>DerExternal.</returns>
-	public override DerExternal ToAsn1External() => new DLExternal(this);
+	public override DerExternal ToAsn1External() => new DefiniteLengthExternal(this);
 
 	/// <summary>
 	///   Converts to asn1set.
 	/// </summary>
 	/// <returns>Asn1Set.</returns>
-	public override Asn1Set ToAsn1Set() => new DLSet(false, Elements);
+	public override Asn1Set ToAsn1Set() => new DefiniteLengthSet(false, Elements);
 }

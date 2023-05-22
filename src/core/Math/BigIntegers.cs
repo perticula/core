@@ -10,13 +10,32 @@ using core.Random;
 
 namespace core.Math;
 
+/// <summary>
+///   Class BigIntegers.
+/// </summary>
 public static class BigIntegers
 {
+	/// <summary>
+	///   The maximum iterations
+	/// </summary>
 	private const int MaxIterations = 1000;
 
+	/// <summary>
+	///   The zero
+	/// </summary>
 	public static readonly BigInteger Zero = BigInteger.Zero;
-	public static readonly BigInteger One  = BigInteger.One;
 
+	/// <summary>
+	///   The one
+	/// </summary>
+	public static readonly BigInteger One = BigInteger.One;
+
+	/// <summary>
+	///   Ases the uint32 array little endian.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <param name="buf">The buf.</param>
+	/// <exception cref="System.ArgumentException">standard length exceeded - n</exception>
 	public static void AsUint32ArrayLittleEndian(BigInteger n, Span<uint> buf)
 	{
 		var uintsLength = n.GetLengthofUInt32Array();
@@ -29,8 +48,20 @@ public static class BigIntegers
 		buf[uintsLength..].Fill((uint) sign);
 	}
 
+	/// <summary>
+	///   Ases the unsigned byte array.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>System.Byte[].</returns>
 	public static byte[] AsUnsignedByteArray(BigInteger n) => n.ToByteArrayUnsigned();
 
+	/// <summary>
+	///   Ases the unsigned byte array.
+	/// </summary>
+	/// <param name="length">The length.</param>
+	/// <param name="n">The n.</param>
+	/// <returns>System.Byte[].</returns>
+	/// <exception cref="System.ArgumentException">standard length exceeded - n</exception>
 	public static byte[] AsUnsignedByteArray(int length, BigInteger n)
 	{
 		var bytesLength = n.GetLengthofByteArrayUnsigned();
@@ -43,8 +74,21 @@ public static class BigIntegers
 		return bytes;
 	}
 
+	/// <summary>
+	///   Ases the unsigned byte array.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <param name="buf">The buf.</param>
+	/// <param name="off">The off.</param>
+	/// <param name="len">The length.</param>
 	public static void AsUnsignedByteArray(BigInteger n, byte[] buf, int off, int len) => AsUnsignedByteArray(n, buf.AsSpan(off, len));
 
+	/// <summary>
+	///   Ases the unsigned byte array.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <param name="buf">The buf.</param>
+	/// <exception cref="System.ArgumentException">standard length exceeded - n</exception>
 	public static void AsUnsignedByteArray(BigInteger n, Span<byte> buf)
 	{
 		var bytesLength = n.GetLengthofByteArrayUnsigned();
@@ -55,8 +99,22 @@ public static class BigIntegers
 		n.ToByteArrayUnsigned(buf[^bytesLength..]);
 	}
 
+	/// <summary>
+	///   Creates the random big integer.
+	/// </summary>
+	/// <param name="bitLength">Length of the bit.</param>
+	/// <param name="secureRandom">The secure random.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger CreateRandomBigInteger(int bitLength, SecureRandom secureRandom) => new(bitLength, secureRandom);
 
+	/// <summary>
+	///   Creates the random in range.
+	/// </summary>
+	/// <param name="min">The minimum.</param>
+	/// <param name="max">The maximum.</param>
+	/// <param name="random">The random.</param>
+	/// <returns>BigInteger.</returns>
+	/// <exception cref="System.ArgumentException">'min' may not be greater than 'max'</exception>
 	public static BigInteger CreateRandomInRange(BigInteger min, BigInteger max, SecureRandom random)
 	{
 		var cmp = min.CompareTo(max);
@@ -81,14 +139,45 @@ public static class BigIntegers
 		return new BigInteger(max.Subtract(min).BitLength - 1, random).Add(min);
 	}
 
+	/// <summary>
+	///   Froms the unsigned byte array.
+	/// </summary>
+	/// <param name="buf">The buf.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger FromUnsignedByteArray(byte[] buf) => new(1, buf);
 
+	/// <summary>
+	///   Froms the unsigned byte array.
+	/// </summary>
+	/// <param name="buf">The buf.</param>
+	/// <param name="off">The off.</param>
+	/// <param name="length">The length.</param>
+	/// <returns>BigInteger.</returns>
 	public static BigInteger FromUnsignedByteArray(byte[] buf, int off, int length) => new(1, buf, off, length);
 
+	/// <summary>
+	///   Gets the length of the byte.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>System.Int32.</returns>
 	public static int GetByteLength(BigInteger n) => n.GetLengthofByteArray();
 
+	/// <summary>
+	///   Gets the length of the unsigned byte.
+	/// </summary>
+	/// <param name="n">The n.</param>
+	/// <returns>System.Int32.</returns>
 	public static int GetUnsignedByteLength(BigInteger n) => n.GetLengthofByteArrayUnsigned();
 
+	/// <summary>
+	///   Mods the odd inverse.
+	/// </summary>
+	/// <param name="valueM">The value m.</param>
+	/// <param name="valueX">The value x.</param>
+	/// <returns>BigInteger.</returns>
+	/// <exception cref="System.ArgumentException">must be odd - valueM</exception>
+	/// <exception cref="System.ArithmeticException">BigInteger: modulus not positive</exception>
+	/// <exception cref="System.ArithmeticException">BigInteger not invertible</exception>
 	public static BigInteger ModOddInverse(BigInteger valueM, BigInteger valueX)
 	{
 		if (!valueM.TestBit(0)) throw new ArgumentException("must be odd", nameof(valueM));
@@ -121,6 +210,15 @@ public static class BigIntegers
 		}
 	}
 
+	/// <summary>
+	///   Mods the odd inverse variable.
+	/// </summary>
+	/// <param name="valueM">The value m.</param>
+	/// <param name="valueX">The value x.</param>
+	/// <returns>BigInteger.</returns>
+	/// <exception cref="System.ArgumentException">must be odd - valueM</exception>
+	/// <exception cref="System.ArithmeticException">BigInteger: modulus not positive</exception>
+	/// <exception cref="System.ArithmeticException">BigInteger not invertible</exception>
 	public static BigInteger ModOddInverseVar(BigInteger valueM, BigInteger valueX)
 	{
 		if (!valueM.TestBit(0)) throw new ArgumentException("must be odd", nameof(valueM));

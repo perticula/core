@@ -7,15 +7,20 @@
 
 namespace core;
 
+/// <summary>
+///   Class DictionaryExtensions.
+/// </summary>
 public static class DictionaryExtensions
 {
-	/// <summary>Adds a value a dictionary only if it is not already set. If it is already set no action is performed.</summary>
+	/// <summary>
+	///   Adds a value a dictionary only if it is not already set. If it is already set no action is performed.
+	/// </summary>
 	/// <typeparam name="TKey">The type of the attribute key.</typeparam>
 	/// <typeparam name="TValue">The type of the attribute value.</typeparam>
 	/// <param name="dictionary">The dictionary.</param>
 	/// <param name="key">The key.</param>
 	/// <param name="value">Lambda to get the value (not called if the key exists)</param>
-	/// <exception cref="ArgumentNullException">dictionary</exception>
+	/// <exception cref="System.ArgumentNullException">dictionary</exception>
 	public static void AddOnce<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> value)
 	{
 		if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
@@ -33,7 +38,7 @@ public static class DictionaryExtensions
 	/// <param name="key">The key.</param>
 	/// <param name="value">The value.</param>
 	/// <returns>TValue.</returns>
-	/// <exception cref="ArgumentNullException">dictionary</exception>
+	/// <exception cref="System.ArgumentNullException">dictionary</exception>
 	public static TValue AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
 	{
 		if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
@@ -45,7 +50,9 @@ public static class DictionaryExtensions
 		return value;
 	}
 
-	/// <summary>Deconstructs the dictionary into a key/value tuple. used as a workaround becuase .NET is kind of broken</summary>
+	/// <summary>
+	///   Deconstructs the dictionary into a key/value tuple. used as a workaround becuase .NET is kind of broken
+	/// </summary>
 	/// <typeparam name="T1">The type of the t1.</typeparam>
 	/// <typeparam name="T2">The type of the t2.</typeparam>
 	/// <param name="tuple">The tuple.</param>
@@ -57,7 +64,9 @@ public static class DictionaryExtensions
 		value = tuple.Value;
 	}
 
-	/// <summary>If a dictionary contains a value, the value is returns. Otherwise a default is returned.</summary>
+	/// <summary>
+	///   If a dictionary contains a value, the value is returns. Otherwise a default is returned.
+	/// </summary>
 	/// <typeparam name="TKey">The type of the dictionary key</typeparam>
 	/// <typeparam name="TValue">The type of the dictionary value</typeparam>
 	/// <param name="dictionary">The dictionary to search</param>
@@ -77,7 +86,9 @@ public static class DictionaryExtensions
 	/// <param name="key">The key to find or set</param>
 	/// <param name="value">The function used to create the value if it was not found</param>
 	/// <returns>TValue.</returns>
-	/// <exception cref="ArgumentNullException">dictionary or key or value</exception>
+	/// <exception cref="System.ArgumentNullException">dictionary</exception>
+	/// <exception cref="System.ArgumentNullException">key</exception>
+	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static TValue FindOrSet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> value)
 	{
 		if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
@@ -118,12 +129,22 @@ public static class DictionaryExtensions
 	/// <typeparam name="T2">The type of the t2.</typeparam>
 	/// <param name="value">The value.</param>
 	/// <returns>System.Collections.Generic.IEnumerable&lt;(T1 key, T2 value)&gt;.</returns>
+	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static IEnumerable<(T1 key, T2 value)> Spread<T1, T2>(this IDictionary<T1, T2> value)
 	{
 		if (value == null) throw new ArgumentNullException(nameof(value));
 		foreach (var (k, v) in value) yield return (k, v);
 	}
 
+	/// <summary>
+	///   Removes the specified k.
+	/// </summary>
+	/// <typeparam name="TK">The type of the tk.</typeparam>
+	/// <typeparam name="TV">The type of the tv.</typeparam>
+	/// <param name="d">The d.</param>
+	/// <param name="k">The k.</param>
+	/// <param name="v">The v.</param>
+	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
 	public static bool Remove<TK, TV>(this IDictionary<TK, TV?> d, TK k, out TV? v)
 	{
 		if (!d.TryGetValue(k, out v)) return false;
