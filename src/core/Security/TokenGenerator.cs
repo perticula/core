@@ -226,7 +226,7 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="bytes">The bytes.</param>
 	/// <returns>System.String.</returns>
-	internal static string ToBase64Token(byte[] bytes)
+	internal string ToBase64Token(byte[] bytes)
 		=> Convert.ToBase64String(bytes)
 		          .ToCharArray() // Append only letters and numbers to the string builder
 		          .Aggregate(new StringBuilder(), (sb, ch) => sb.Append(char.IsLetterOrDigit(ch) ? ch.ToString() : ""))
@@ -238,7 +238,7 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="bytes">The data to be converted</param>
 	/// <returns>System.String.</returns>
-	internal static string ToUrlFriendlyBase64(byte[] bytes)
+	internal string ToUrlFriendlyBase64(byte[] bytes)
 		=> Convert.ToBase64String(bytes)
 		          .ToCharArray() // Convert (/ to _) and (+ to -) and (= to ,)
 		          .Aggregate(new StringBuilder(), (sb, ch) =>
@@ -258,7 +258,7 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="data">The data to be decoded</param>
 	/// <returns>System.Byte[].</returns>
-	internal static byte[] FromUrlFriendlyBase64(string data)
+	internal byte[] FromUrlFriendlyBase64(string data)
 		=> Convert.FromBase64String(data.ToCharArray()
 		                                .Aggregate(new StringBuilder(), (sb, ch) =>
 		                                {
