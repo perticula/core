@@ -29,7 +29,7 @@ public class SecureRandom : System.Random
 	/// <summary>
 	///   The master random
 	/// </summary>
-	private static readonly SecureRandom MasterRandom = new(new CryptoApiRandomGenerator());
+	private static readonly SecureRandom MasterRandom = new(new CryptographicApiRandomGenerator());
 
 	/// <summary>
 	///   The arbitrary random
