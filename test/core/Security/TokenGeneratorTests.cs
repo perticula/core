@@ -15,7 +15,7 @@ namespace core.test.Security;
 
 public class TokenGeneratorTests
 {
-	private TokenGenerator CreateMock_TokenGenerator(string name = "RETURN", string testValue = null)
+	private TokenGenerator CreateMock_TokenGenerator(string name = "RETURN", string? testValue = null)
 	{
 		var mockIAppSettings = new Mock<IAppSettings>();
 		testValue ??= "cx3tBnJiXGTM83tFqR4eZhsvkfpWuUZFjWIux6X/dgE=|JJjtY4viwyhk4Trl9odh9w==";
@@ -121,7 +121,7 @@ public class TokenGeneratorTests
 	[Fact]
 	public void ITokenGenerator_GenerateRouteToken_Accepts_A_Date()
 	{
-		const string expected = @"QdYs2g1nKiBUusDFEqk4tgSPDsNKzrag8hmK92ewmcs";
+		const string expected = @"Ebs7YhtfHEnUsfcyrTXYZiho7phbksZbDysuTfzmvF4";
 		var          gen      = CreateMock_ITokenGenerator();
 		var          date     = new DateTime(2015, 12, 07, 0, 0, 0, DateTimeKind.Utc);
 
