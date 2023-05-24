@@ -50,6 +50,7 @@
     <Folder Include="Math\Raw\" />
     <Folder Include="Encoding\" />
     <Folder Include="Notification\Publishers\" />
+    <Folder Include="Protocol\x509\" />
   </ItemGroup>
 
 </Project>
