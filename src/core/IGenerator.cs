@@ -15,3 +15,13 @@ public interface IGenerator<out TType>
 	/// <returns>TType.</returns>
 	TType Generate();
 }
+
+public interface IGenerator<out TType, in TArg>
+{
+	/// <summary>
+	///   Generates an instance of the given type, with one specified initialization argument
+	/// </summary>
+	/// <param name="arg">The argument.</param>
+	/// <returns>TType.</returns>
+	TType Generate(TArg arg);
+}

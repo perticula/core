@@ -28,12 +28,12 @@ public static class Objects
 	/// <param name="arg">The argument.</param>
 	/// <param name="initializer">The initializer.</param>
 	/// <returns>the singleton instance.</returns>
-	public static T EnsureSingleton<T, TArg>(ref T? singleton, TArg arg, Func<TArg, T> initializer) where T : class
+	public static T EnsureSingleton<T, TArg>(ref T? singleton, TArg arg, Func<TArg, T>? initializer) where T : class
 	{
 		var current = Volatile.Read(ref singleton);
 		if (current != null) return current;
 
-		var canidate = initializer(arg);
+		var canidate = initializer?.Invoke(arg) ?? throw new TypeInitializationException(typeof(T).FullName, new NullReferenceException(nameof(initializer)));
 		return Interlocked.CompareExchange(ref singleton, canidate, null) ?? canidate;
 	}
 }

@@ -114,32 +114,6 @@ public static class Streams
 	public static void PipeAll(Stream inStr, Stream outStr, int bufferSize) => CopyTo(inStr, outStr, bufferSize);
 
 	/// <summary>
-	///   Pipe all bytes from <c>inStr</c> to <c>outStr</c>, throwing <c>StreamFlowException</c> if greater
-	///   than <c>limit</c> bytes in <c>inStr</c>.
-	/// </summary>
-	/// <param name="inStr">A <see cref="Stream" /></param>
-	/// <param name="limit">A <see cref="System.Int64" /></param>
-	/// <param name="outStr">A <see cref="Stream" /></param>
-	/// <returns>The number of bytes actually transferred, if not greater than <c>limit</c></returns>
-	/// <exception cref="IOException"></exception>
-	public static long PipeAllLimited(Stream inStr, int limit, Stream outStr) => PipeAllLimited(inStr, limit, outStr, DefaultBufferSize);
-
-	/// <summary>
-	///   Pipes all limited.
-	/// </summary>
-	/// <param name="inStr">The in string.</param>
-	/// <param name="limit">The limit.</param>
-	/// <param name="outStr">The out string.</param>
-	/// <param name="bufferSize">Size of the buffer.</param>
-	/// <returns>System.Int64.</returns>
-	public static long PipeAllLimited(Stream inStr, int limit, Stream outStr, int bufferSize)
-	{
-		var limited = new LimitedInputStream(inStr, limit);
-		CopyTo(limited, outStr, bufferSize);
-		return limit - limited.CurrentLimit;
-	}
-
-	/// <summary>
 	///   Reads all.
 	/// </summary>
 	/// <param name="inStr">The in string.</param>
@@ -157,19 +131,6 @@ public static class Streams
 	/// <param name="inStr">The in string.</param>
 	/// <returns>System.Byte[].</returns>
 	public static byte[] ReadAll(MemoryStream inStr) => inStr.ToArray();
-
-	/// <summary>
-	///   Reads all limited.
-	/// </summary>
-	/// <param name="inStr">The in string.</param>
-	/// <param name="limit">The limit.</param>
-	/// <returns>System.Byte[].</returns>
-	public static byte[] ReadAllLimited(Stream inStr, int limit)
-	{
-		var buf = new MemoryStream();
-		PipeAllLimited(inStr, limit, buf);
-		return buf.ToArray();
-	}
 
 	/// <summary>
 	///   Reads the asynchronous.
