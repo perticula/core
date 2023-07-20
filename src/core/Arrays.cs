@@ -176,7 +176,7 @@ public static class Arrays
 	public static T[] CopyOf<T>(T[] data, int newLength)
 	{
 		var tmp = new T[newLength];
-		Array.Copy(data, 0, tmp, 0, System.Math.Min(newLength, data.Length));
+		Array.Copy(data, 0, tmp, 0, Math.Min(newLength, data.Length));
 		return tmp;
 	}
 
@@ -195,7 +195,7 @@ public static class Arrays
 		var newLength = GetLength(from, to);
 
 		var tmp = new T[newLength];
-		Array.Copy(data, from, tmp, 0, System.Math.Min(newLength, data.Length - from));
+		Array.Copy(data, from, tmp, 0, Math.Min(newLength, data.Length - from));
 		return tmp;
 
 		static int GetLength(int from, int to)

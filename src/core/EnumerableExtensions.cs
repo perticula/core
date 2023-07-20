@@ -31,7 +31,7 @@ public static class EnumerableExtensions
 		if (parts < 1) throw new ArgumentOutOfRangeException(nameof(parts), "parts must be greater than 1");
 		var enumerable = list as IList<T> ?? list.ToList();
 		var count      = enumerable.Count;
-		var cut        = (int) System.Math.Ceiling((decimal) count / parts);
+		var cut        = (int) Math.Ceiling((decimal) count / parts);
 		return enumerable.Skip((num - 1) * cut).Take(cut);
 	}
 

@@ -8,8 +8,8 @@
 namespace model;
 
 /// <summary>
-/// Interface ICommand
-/// Implements the <see cref="model.IRequest{T}" />
+///   Interface ICommand
+///   Implements the <see cref="model.IRequest{T}" />
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <seealso cref="model.IRequest{T}" />

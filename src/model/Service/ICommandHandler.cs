@@ -8,8 +8,8 @@
 namespace model.Service;
 
 /// <summary>
-/// Interface ICommandHandler
-/// Implements the <see cref="model.Service.IRequestHandler{TCommand, TResponse}" />
+///   Interface ICommandHandler
+///   Implements the <see cref="model.Service.IRequestHandler{TCommand, TResponse}" />
 /// </summary>
 /// <typeparam name="TCommand">The type of the t command.</typeparam>
 /// <typeparam name="TResponse">The type of the t response.</typeparam>

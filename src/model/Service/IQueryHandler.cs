@@ -8,8 +8,8 @@
 namespace model.Service;
 
 /// <summary>
-/// Interface IQueryHandler
-/// Implements the <see cref="model.Service.IRequestHandler{TQuery, TResponse}" />
+///   Interface IQueryHandler
+///   Implements the <see cref="model.Service.IRequestHandler{TQuery, TResponse}" />
 /// </summary>
 /// <typeparam name="TQuery">The type of the t query.</typeparam>
 /// <typeparam name="TResponse">The type of the t response.</typeparam>

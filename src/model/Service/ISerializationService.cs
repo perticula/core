@@ -1,4 +1,4 @@
-// perticula - model - ISerializationrService.cs
+// perticula - model - ISerializationService.cs
 // 
 // Copyright © 2015-2023  Ris Adams - All Rights Reserved
 // 

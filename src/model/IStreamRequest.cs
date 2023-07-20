@@ -8,7 +8,7 @@
 namespace model;
 
 /// <summary>
-/// A Request with a streamed response
+///   A Request with a streamed response
 /// </summary>
 /// <typeparam name="TResponse">The type of the response.</typeparam>
 public interface IStreamRequest<out TResponse> : IRequest { }

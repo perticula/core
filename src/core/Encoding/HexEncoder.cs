@@ -61,7 +61,7 @@ public class HexEncoder : IEncoder
 		var        result = data.Length * 2;
 		while (!data.IsEmpty)
 		{
-			var inLen  = System.Math.Min(36, data.Length);
+			var inLen  = Math.Min(36, data.Length);
 			var outLen = Encode(data[..inLen], tmp);
 			outStream.Write(tmp[..outLen]);
 			data = data[inLen..];
