@@ -30,8 +30,10 @@ public static class SimpleEncrypt
 	static SimpleEncrypt()
 	{
 		var config = new ConfigurationManager()
-		             .AddUserSecrets(Assembly.GetExecutingAssembly())
-		             .Build();
+								 .SetBasePath(Directory.GetCurrentDirectory())
+								 .AddUserSecrets(Assembly.GetExecutingAssembly())
+								 .AddJsonFile("appsettings.json")
+								 .Build();
 
 		var fromEnv = Environment.GetEnvironmentVariable("aesKey");
 		if (!string.IsNullOrEmpty(fromEnv))
@@ -46,6 +48,7 @@ public static class SimpleEncrypt
 			AesKey = fromUserSecret;
 			return;
 		}
+
 
 		throw new ConfigurationErrorsException("Missing User Secret for aesKey");
 	}
@@ -78,7 +81,7 @@ public static class SimpleEncrypt
 
 		using var aes = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
-		aes.Key     = System.Text.Encoding.UTF8.GetBytes(AesKey);
+		aes.Key			= Convert.FromBase64String(AesKey);
 		aes.Mode    = CipherMode.CBC;
 		aes.Padding = PaddingMode.PKCS7;
 
@@ -114,7 +117,7 @@ public static class SimpleEncrypt
 
 		using var aes = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
-		aes.Key     = System.Text.Encoding.UTF8.GetBytes(AesKey);
+		aes.Key			= Convert.FromBase64String(AesKey);
 		aes.Mode    = CipherMode.CBC;
 		aes.Padding = PaddingMode.PKCS7;
 
