@@ -7,7 +7,7 @@
 
 using System.Text;
 
-namespace core.Text;
+namespace core.LongformText;
 
 /// <summary>
 ///   Class LoremIpsumGenerator.
@@ -47,7 +47,8 @@ public static class LoremIpsumGenerator
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.Boolean.</returns>
-	public static bool IsLoremIpsum(this string value) => value.StartsWith(@"Lorem ipsum", StringComparison.OrdinalIgnoreCase);
+	public static bool IsLoremIpsum(this string value) =>
+		value.StartsWith(@"Lorem ipsum", StringComparison.OrdinalIgnoreCase);
 
 	/// <summary>
 	///   Returns lorem ipsum text with the provided number of words
@@ -69,11 +70,11 @@ public static class LoremIpsumGenerator
 		}
 
 		return result.Append('.')
-		             .Replace(", .", ".")
-		             .Replace(". .", ".")
-		             .Replace(",.",  ".")
-		             .Replace("..",  ".")
-		             .Replace("  ",  " ")
-		             .ToString();
+			.Replace(", .", ".")
+			.Replace(". .", ".")
+			.Replace(",.",  ".")
+			.Replace("..",  ".")
+			.Replace("  ",  " ")
+			.ToString();
 	}
 }
