@@ -41,12 +41,12 @@ public static class GroupNameAttributeExtensions
 	{
 		if (value == null) return "";
 		return value
-		       .GetType()
-		       .GetField(value.ToString())
-		       ?.GetCustomAttributes(typeof(GroupNameAttribute), false)
-		       .Cast<GroupNameAttribute>()
-		       .Take(1)
-		       .Select(attr => attr.GroupName)
-		       .FirstOrDefault() ?? "";
+			.GetType()
+			.GetField(value.ToString())
+			?.GetCustomAttributes(typeof(GroupNameAttribute), false)
+			.Cast<GroupNameAttribute>()
+			.Take(1)
+			.Select(attr => attr.GroupName)
+			.FirstOrDefault() ?? "";
 	}
 }

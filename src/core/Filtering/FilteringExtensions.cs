@@ -23,8 +23,8 @@ public static class FilteringExtensions
 	/// <exception cref="System.ArgumentNullException">source</exception>
 	public static bool HasFilterValueAttribute(this ISupportsFiltering source, string name)
 	{
-		if (source == null) throw new ArgumentNullException(nameof(source));
-		ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
+				ArgumentNullException.ThrowIfNull(source);
+				ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
 
 		if (!source.SupportsFilterAttributes) return false;
 
@@ -58,9 +58,9 @@ public static class FilteringExtensions
 	/// <exception cref="System.ArgumentNullException">source</exception>
 	public static object? ResolveFilterValueAttribute(this ISupportsFiltering source, string name, Func<ISupportsFiltering, object>? def = null)
 	{
-		if (source == null) throw new ArgumentNullException(nameof(source));
+				ArgumentNullException.ThrowIfNull(source);
 
-		if (!source.SupportsFilterAttributes) return def?.Invoke(source) ?? null;
+				if (!source.SupportsFilterAttributes) return def?.Invoke(source) ?? null;
 
 		// find a matching property or field that has the specified name (ignoring case)
 		var member = source

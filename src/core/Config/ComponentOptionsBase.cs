@@ -33,7 +33,9 @@ public abstract class ComponentOptionsBase : IComponentOptions
 	/// <param name="name">The name of the option</param>
 	/// <returns>System.String.</returns>
 	/// <exception cref="System.Collections.Generic.KeyNotFoundException">name</exception>
-	public string GetOption(string name) => CurrentSettings.ContainsKey(name) ? CurrentSettings[name] : throw new KeyNotFoundException(nameof(name));
+	public string GetOption(string name) => CurrentSettings.ContainsKey(name)
+		? CurrentSettings[name]
+		: throw new KeyNotFoundException(nameof(name));
 
 	/// <summary>
 	///   Returns the value of an option by name and type.
@@ -49,7 +51,8 @@ public abstract class ComponentOptionsBase : IComponentOptions
 	public T GetOption<T>(string name)
 	{
 		if (!CurrentSettings.ContainsKey(name)) throw new KeyNotFoundException(nameof(name));
-		return Serialize.FromString<T>(CurrentSettings[name]) ?? throw new SerializationException($"Unable to serialize option {name} to type {typeof(T).Name}");
+		return Serialize.FromString<T>(CurrentSettings[name]) ??
+		       throw new SerializationException($"Unable to serialize option {name} to type {typeof(T).Name}");
 	}
 
 	/// <summary>

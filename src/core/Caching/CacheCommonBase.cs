@@ -30,8 +30,8 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
 	/// </summary>
 	/// <param name="threadSafe">if set to <c>true</c> [thread safe].</param>
 	internal CacheCommonBase(bool threadSafe) => _cache = threadSafe
-		                                                      ? new ConcurrentDictionary<string, object>(StringComparer.OrdinalIgnoreCase)
-		                                                      : new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+		? new ConcurrentDictionary<string, object>(StringComparer.OrdinalIgnoreCase)
+		: new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
 
 	/// <summary>
 	///   Determines whether the cache contains an item the specified key, and the item is not expired.
@@ -76,8 +76,8 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
 		while (true)
 		{
 			if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
-			if (value == null) throw new ArgumentNullException(nameof(value));
-			{
+						ArgumentNullException.ThrowIfNull(value);
+						{
 				if (_cache.ContainsKey(key))
 				{
 					var v = Get<TValue>(key);
@@ -97,7 +97,7 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
 	public virtual TChild Flush()
 	{
 		_cache.Clear();
-		return (TChild) this;
+		return (TChild)this;
 	}
 
 	/// <summary>
@@ -151,7 +151,7 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
 		if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
 		if (_cache.ContainsKey(key))
 			_cache.Remove(key);
-		return (TChild) this;
+		return (TChild)this;
 	}
 
 	/// <summary>
@@ -171,6 +171,6 @@ internal abstract class CacheCommonBase<TChild> : ICacheCommon<TChild>
 			_cache[key] = value;
 		else
 			_cache.Add(key, value);
-		return (TChild) this;
+		return (TChild)this;
 	}
 }

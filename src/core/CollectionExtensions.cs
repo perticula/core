@@ -23,9 +23,9 @@ public static class CollectionExtensions
 	/// <exception cref="System.ArgumentNullException">predicate</exception>
 	public static void ConditionalAdd<TType>(this ICollection<TType> collection, TType item, Func<ICollection<TType>, TType, bool> predicate)
 	{
-		if (collection == null) throw new ArgumentNullException(nameof(collection));
-		if (predicate  == null) throw new ArgumentNullException(nameof(predicate));
-		if (predicate(collection, item))
+				ArgumentNullException.ThrowIfNull(collection);
+				ArgumentNullException.ThrowIfNull(predicate);
+				if (predicate(collection, item))
 			collection.Add(item);
 	}
 
@@ -38,8 +38,8 @@ public static class CollectionExtensions
 	/// <exception cref="System.ArgumentNullException">collection</exception>
 	public static void Merge<TType>(this ICollection<TType> collection, IEnumerable<TType> newItems)
 	{
-		if (collection == null) throw new ArgumentNullException(nameof(collection));
-		foreach (var item in newItems)
+				ArgumentNullException.ThrowIfNull(collection);
+				foreach (var item in newItems)
 		{
 			if (item == null) continue;
 			if (!collection.Contains(item)) collection.Add(item);
@@ -96,8 +96,8 @@ public static class CollectionExtensions
 	/// <exception cref="System.ArgumentNullException">collection</exception>
 	public static void Purge<TType>(this ICollection<TType> collection, IEnumerable<TType> newItems)
 	{
-		if (collection == null) throw new ArgumentNullException(nameof(collection));
-		foreach (var item in newItems)
+				ArgumentNullException.ThrowIfNull(collection);
+				foreach (var item in newItems)
 		{
 			if (item == null) continue;
 			if (collection.Contains(item)) collection.Remove(item);

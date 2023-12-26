@@ -126,8 +126,8 @@ public static class FileUtilities
 	/// <exception cref="System.ArgumentNullException">fileName</exception>
 	public static string SanitizeFileName(string fileName)
 	{
-		if (fileName == null) throw new ArgumentNullException(nameof(fileName));
-		return Regex.Replace(fileName, InvalidRegStr, "_");
+				ArgumentNullException.ThrowIfNull(fileName);
+				return Regex.Replace(fileName, InvalidRegStr, "_");
 	}
 
 	/// <summary>

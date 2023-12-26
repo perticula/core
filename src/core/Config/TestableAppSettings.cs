@@ -61,7 +61,8 @@ public class TestableAppSettings : IAppSettings
 	/// <param name="intervalMs">The interval ms.</param>
 	/// <param name="name">The name.</param>
 	/// <returns>ICachedAppSettings&lt;T&gt;.</returns>
-	public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name) => _internal.GetCachedSetting<T>(intervalMs, name);
+	public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name) =>
+		_internal.GetCachedSetting<T>(intervalMs, name);
 
 	/// <summary>
 	///   Returns a connection string from the settings by name. Returns null

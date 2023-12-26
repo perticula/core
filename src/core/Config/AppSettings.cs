@@ -66,7 +66,8 @@ internal class AppSettings : IAppSettings
 	{
 		if (string.IsNullOrEmpty(name)) throw new ArgumentNullException(nameof(name));
 		var value = GetSetting(name) ?? throw new KeyNotFoundException($"Setting '{name}' not found");
-		return Serialize.FromString<T>(value) ?? throw new InvalidCastException($"Setting '{name}' cannot be converted to type {typeof(T).Name}");
+		return Serialize.FromString<T>(value) ??
+		       throw new InvalidCastException($"Setting '{name}' cannot be converted to type {typeof(T).Name}");
 	}
 
 	/// <summary>
@@ -95,8 +96,9 @@ internal class AppSettings : IAppSettings
 		if (ConfigurationManager.ConnectionStrings[machineSettingKey] != null)
 			name = machineSettingKey;
 		var value = ConfigurationManager.ConnectionStrings[name];
-		if (value == null) throw new KeyNotFoundException($"Connection string '{name}' not found");
-		return value.ConnectionString;
+		return value == null
+			? throw new KeyNotFoundException($"Connection string '{name}' not found")
+			: value.ConnectionString;
 	}
 
 	/// <summary>
@@ -120,5 +122,6 @@ internal class AppSettings : IAppSettings
 	/// <param name="intervalMs">The interval ms.</param>
 	/// <param name="name">The name.</param>
 	/// <returns>ICachedAppSettings&lt;T&gt;.</returns>
-	public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name) => new CachedAppSettings<T>(this, intervalMs, name);
+	public ICachedAppSettings<T> GetCachedSetting<T>(int intervalMs, string name) =>
+		new CachedAppSettings<T>(this, intervalMs, name);
 }

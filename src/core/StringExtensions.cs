@@ -12,7 +12,7 @@ using System.Text;
 using core.IO;
 using core.Random;
 using core.Security;
-using core.Text;
+using core.LongformText;
 
 namespace core;
 
@@ -21,8 +21,10 @@ namespace core;
 /// </summary>
 public static partial class StringExtensions
 {
+	private static readonly string[] HtmlBreakString = { "<br>" };
+
 	/// <summary>
-	///   Attempts to convert the string to a boolean using on of the approved truthy values
+	///   Attempts to convert the string to a boolean using on of the approved truth values
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.Boolean.</returns>
@@ -54,12 +56,13 @@ public static partial class StringExtensions
 	}
 
 	/// <summary>
-	///   Equalses the ignore case.
+	///   Determines if the provided strings are equivalent, regardless of casing.
 	/// </summary>
 	/// <param name="a">a.</param>
 	/// <param name="b">The b.</param>
-	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-	public static bool EqualsIgnoreCase(this string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
+	/// <returns><c>true</c> if the string are equal, <c>false</c> otherwise.</returns>
+	public static bool EqualsIgnoreCase(this string a, string b) =>
+		string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
 
 	/// <summary>
 	///   Repeats the specified count.
@@ -77,7 +80,7 @@ public static partial class StringExtensions
 	}
 
 	/// <summary>
-	///   Trim text to a specific length with an elpisis added at the end
+	///   Trim text to a specific length with an ellipsis added at the end
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <param name="len">The length.</param>
@@ -91,7 +94,7 @@ public static partial class StringExtensions
 		// the clip length covers the whole source string, no need to clip.
 		if (text == null || text.Length <= len) return text ?? "";
 
-		var breaks = text.Split(new[] {"<br>"}, StringSplitOptions.None);
+		var breaks = text.Split(HtmlBreakString, StringSplitOptions.None);
 		var output = new StringBuilder(len);
 		foreach (var p in breaks)
 		{
@@ -117,10 +120,14 @@ public static partial class StringExtensions
 	/// <param name="value">The string to test</param>
 	/// <param name="subStrings">The list of substrings to check for</param>
 	/// <returns><c>true</c> if the specified sub strings contains any; otherwise, <c>false</c>.</returns>
-	public static bool ContainsAny(this string? value, params string[]? subStrings) => value != null && subStrings != null && subStrings.Where(sz => !string.IsNullOrEmpty(sz)).Any(value.Contains);
+	public static bool ContainsAny(this string? value, params string[]? subStrings) => value != null &&
+	                                                                                   subStrings != null &&
+	                                                                                   subStrings.Where(sz =>
+			                                                                                   !string.IsNullOrEmpty(sz))
+		                                                                                   .Any(value.Contains);
 
 	/// <summary>
-	///   Converts 'Carrige Return' characters to Html 'Break Tags'
+	///   Converts 'Carriage Return' characters to Html 'Break Tags'
 	/// </summary>
 	/// <param name="text">The text.</param>
 	/// <returns>System.String.</returns>
@@ -136,7 +143,7 @@ public static partial class StringExtensions
 	{
 		if (string.IsNullOrEmpty(s)) return 0;
 
-		return s.IndexOf(charValue) != -1 ? s.ToCharArray().Count(c => c == charValue) : 0;
+		return s.Contains(charValue) ? s.ToCharArray().Count(c => c == charValue) : 0;
 	}
 
 	/// <summary>
@@ -147,7 +154,7 @@ public static partial class StringExtensions
 	public static string DecryptValue(this string value) => SimpleEncrypt.Decrypt(value);
 
 	/// <summary>
-	///   Encodes foramtted basic authentication credentials from a username and password.
+	///   Encodes formatted basic authentication credentials from a username and password.
 	///   used for calling rest services that won't accept this any other way for some stupid reason.
 	///   yes. iDSS.  that means you.  you stupid idiots.
 	/// </summary>
@@ -162,7 +169,7 @@ public static partial class StringExtensions
 	}
 
 	/// <summary>
-	///   Encodes a string so it can be saftely used in a url
+	///   Encodes a string so it can be safely used in a url
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.String.</returns>
@@ -192,8 +199,9 @@ public static partial class StringExtensions
 	public static string FilterCharacters(this string value, params string[] filters)
 	{
 		ArgumentException.ThrowIfNullOrEmpty(value, nameof(value));
-		if (filters == null || !filters.Any()) throw new ArgumentNullException(nameof(filters));
-		return filters.Aggregate(value, (current, filter) => !string.IsNullOrEmpty(filter) ? current.Replace(filter, string.Empty) : current);
+		if (filters == null || filters.Length == 0) throw new ArgumentNullException(nameof(filters));
+		return filters.Aggregate(value,
+			(current, filter) => !string.IsNullOrEmpty(filter) ? current.Replace(filter, string.Empty) : current);
 	}
 
 	/// <summary>
@@ -215,7 +223,8 @@ public static partial class StringExtensions
 	/// <param name="machineName">Name of the machine.</param>
 	/// <param name="name">The name.</param>
 	/// <returns>System.String.</returns>
-	public static string FormatPrivateQueueName(string machineName, string name) => $"FormatName:DIRECT=TCP:{machineName}\\private$\\{name}";
+	public static string FormatPrivateQueueName(string machineName, string name) =>
+		$"FormatName:DIRECT=TCP:{machineName}\\private$\\{name}";
 
 	/// <summary>
 	///   Gets the article preceding the role display text, (e.g. an author vs. a business partner.
@@ -223,7 +232,8 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="value">The role.</param>
 	/// <returns>System.String.</returns>
-	public static string GetArticle(this string? value) => string.IsNullOrEmpty(value) ? "" : MatchGrammarArticle().IsMatch(value) ? "an" : "a";
+	public static string GetArticle(this string? value) =>
+		string.IsNullOrEmpty(value) ? "" : MatchGrammarArticle().IsMatch(value) ? "an" : "a";
 
 	/// <summary>
 	///   Parses the path and returns the file extension.
@@ -252,7 +262,8 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.Boolean.</returns>
-	public static bool IsNullOrDefault(this string? value) => string.IsNullOrWhiteSpace(value) || value.IsLoremIpsum() || value.IsPlaceholderText();
+	public static bool IsNullOrDefault(this string? value) =>
+		string.IsNullOrWhiteSpace(value) || value.IsLoremIpsum() || value.IsPlaceholderText();
 
 	/// <summary>
 	///   Indicates whether the text is placeholder as in not set by the user but
@@ -260,7 +271,10 @@ public static partial class StringExtensions
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns><c>true</c> if [is placeholder text] [the specified value]; otherwise, <c>false</c>.</returns>
-	public static bool IsPlaceholderText(this string? value) => string.IsNullOrWhiteSpace(value) || (value.Length > 4 && value.StartsWith("(", StringComparison.OrdinalIgnoreCase) && value.EndsWith(")", StringComparison.OrdinalIgnoreCase));
+	public static bool IsPlaceholderText(this string? value) =>
+		string.IsNullOrWhiteSpace(value) || (value.Length > 4                                          &&
+		                                     value.StartsWith("(", StringComparison.OrdinalIgnoreCase) &&
+		                                     value.EndsWith(")", StringComparison.OrdinalIgnoreCase));
 
 	/// <summary>
 	///   using the specified delimiter returns a joined string list containing all values.
@@ -276,15 +290,15 @@ public static partial class StringExtensions
 		if (values == null) return string.Empty;
 
 		var enumerable = values as T[] ?? values.ToArray();
-		if (!enumerable.Any()) return string.Empty;
+		if (enumerable.Length == 0) return string.Empty;
 
 		var strings = enumerable.Select(v => v?.ToString());
 		strings = strings.Where(sz => !string.IsNullOrEmpty(sz));
 
 		return string.Join(delimiter,
-		                   string.IsNullOrWhiteSpace(prefix)
-			                   ? strings.Select(v => v?.ToString() ?? "")
-			                   : strings.Select(v => $"{prefix}{v}"));
+			string.IsNullOrWhiteSpace(prefix)
+				? strings.Select(v => v?.ToString() ?? "")
+				: strings.Select(v => $"{prefix}{v}"));
 	}
 
 	/// <summary>
@@ -294,7 +308,10 @@ public static partial class StringExtensions
 	/// <param name="delimiter">The delimiter.</param>
 	/// <param name="values">The list of values.</param>
 	/// <returns>System.String.</returns>
-	public static string JoinWith(this string value, string delimiter, params string[]? values) => string.Join(delimiter, new[] {value}.Concat(values ?? Enumerable.Empty<string>()));
+	public static string JoinWith(this string value, string delimiter, params string[]? values)
+	{
+		return string.Join(delimiter, new[] { value }.Concat(values ?? Enumerable.Empty<string>()));
+	}
 
 	/// <summary>
 	///   using the specified delimiter returns a joined string list containing all values.
@@ -303,7 +320,8 @@ public static partial class StringExtensions
 	/// <param name="delimiter">The delimiter.</param>
 	/// <param name="values">The list of values.</param>
 	/// <returns>System.String.</returns>
-	public static string JoinWith(this string? value, string delimiter, IEnumerable<string>? values) => string.Join(delimiter, new[] {value ?? ""}.Concat(values ?? Enumerable.Empty<string>()));
+	public static string JoinWith(this string? value, string delimiter, IEnumerable<string>? values) =>
+		string.Join(delimiter, new[] { value ?? "" }.Concat(values ?? Enumerable.Empty<string>()));
 
 	/// <summary>
 	///   Makes a term singular or plural based on explicitly specified terms.
@@ -392,7 +410,8 @@ public static partial class StringExtensions
 	/// <param name="charsToReplace">The chars to replace.</param>
 	/// <param name="replacement">The replacement.</param>
 	/// <returns>System.String.</returns>
-	public static string ReplaceAll(this string value, IEnumerable<char> charsToReplace, char replacement) => charsToReplace.Aggregate(value, (current, c) => current.Replace(c, replacement));
+	public static string ReplaceAll(this string value, IEnumerable<char> charsToReplace, char replacement) =>
+		charsToReplace.Aggregate(value, (current, c) => current.Replace(c, replacement));
 
 	/// <summary>
 	///   Replaces the last occurrence of a matching value within a string.
@@ -403,7 +422,8 @@ public static partial class StringExtensions
 	/// <returns>System.String.</returns>
 	public static string ReplaceLastOccurrence(this string? source, string find, string replace)
 	{
-		if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(find) || string.IsNullOrEmpty(replace)) return string.Empty;
+		if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(find) || string.IsNullOrEmpty(replace))
+			return string.Empty;
 
 		var place = source.LastIndexOf(find, StringComparison.Ordinal);
 		if (place == -1) return source;
@@ -416,7 +436,7 @@ public static partial class StringExtensions
 	///   Returns the last occurrence.
 	/// </summary>
 	/// <param name="source">The source.</param>
-	/// <param name="separator">The separator.</param>
+	/// <param name="separator">The HtmlBreakString.</param>
 	/// <returns>System.String.</returns>
 	public static string ReturnLastOccurrence(this string? source, char separator)
 	{
@@ -424,8 +444,8 @@ public static partial class StringExtensions
 
 		var relativePath = source.LastIndexOf(separator);
 		return relativePath == -1
-			       ? string.Empty
-			       : source[(relativePath + 1)..];
+			? string.Empty
+			: source[(relativePath + 1)..];
 	}
 
 	/// <summary>
@@ -439,10 +459,10 @@ public static partial class StringExtensions
 	public static IEnumerable<TValue>? SplitAndParse<TValue>(this string? value, Func<string, TValue> parseExpression)
 	{
 		if (string.IsNullOrEmpty(value)) return null;
-		if (parseExpression == null) throw new ArgumentNullException(nameof(parseExpression));
+		ArgumentNullException.ThrowIfNull(parseExpression);
 
 		var chunks = value.Split(',', ';');
-		return !chunks.Any() ? null : chunks.Select(parseExpression);
+		return chunks.Length == 0 ? null : chunks.Select(parseExpression);
 	}
 
 	/// <summary>
@@ -455,8 +475,8 @@ public static partial class StringExtensions
 	{
 		if (string.IsNullOrEmpty(value)) return value;
 
-		var chunks = value.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries);
-		return !chunks.Any() ? string.Empty : chunks.First();
+		var chunks = value.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries);
+		return chunks.Length == 0 ? string.Empty : chunks.First();
 	}
 
 	/// <summary>
@@ -470,10 +490,11 @@ public static partial class StringExtensions
 	{
 		if (string.IsNullOrEmpty(value)) return string.Empty;
 
-		splitOn ??= new[] {',', ';'};
+		splitOn ??= new[] { ',', ';' };
 
 		var chunks = value.Split(splitOn, StringSplitOptions.RemoveEmptyEntries);
-		var list   = chunks.Select(chunk => string.Format(CultureInfo.InvariantCulture, "{1}{0}{1}", chunk, wrapper)).ToList();
+		var list = chunks.Select(chunk => string.Format(CultureInfo.InvariantCulture, "{1}{0}{1}", chunk, wrapper))
+			.ToList();
 		return string.Join(",", list);
 	}
 
@@ -540,7 +561,8 @@ public static partial class StringExtensions
 	/// <param name="list">The list.</param>
 	/// <param name="trim">Optionally trim the values before checking them</param>
 	/// <returns>IEnumerable&lt;System.String&gt;.</returns>
-	public static IEnumerable<string> WhereHasValue(this IEnumerable<string> list, bool trim = false) => list.Where(sz => !string.IsNullOrEmpty(trim ? sz.Trim() : sz));
+	public static IEnumerable<string> WhereHasValue(this IEnumerable<string> list, bool trim = false) =>
+		list.Where(sz => !string.IsNullOrEmpty(trim ? sz.Trim() : sz));
 
 	/// <summary>
 	///   Converts an enumerable char array to a string
@@ -555,7 +577,8 @@ public static partial class StringExtensions
 	/// <param name="stringBuilder">The sb.</param>
 	/// <param name="condition">The condition.</param>
 	/// <param name="val">The value.</param>
-	public static void AppendIf(this StringBuilder stringBuilder, bool condition, string? val) => stringBuilder.AppendIf(() => condition, val);
+	public static void AppendIf(this StringBuilder stringBuilder, bool condition, string? val) =>
+		stringBuilder.AppendIf(() => condition, val);
 
 	/// <summary>
 	///   Appends a value to a string builder if the condition is satisfied.
@@ -568,8 +591,8 @@ public static partial class StringExtensions
 	public static void AppendIf(this StringBuilder stringBuilder, Func<bool> condition, string? val)
 	{
 		ArgumentException.ThrowIfNullOrEmpty(val, nameof(val));
-		if (stringBuilder == null) throw new ArgumentNullException(nameof(stringBuilder));
-		if (condition     == null) throw new ArgumentNullException(nameof(condition));
+		ArgumentNullException.ThrowIfNull(stringBuilder);
+		ArgumentNullException.ThrowIfNull(condition);
 
 		if (condition()) stringBuilder.Append(val);
 	}
@@ -609,7 +632,8 @@ public static partial class StringExtensions
 	/// <param name="index">The index.</param>
 	/// <param name="count">The count.</param>
 	/// <returns>System.String.</returns>
-	public static string FromUtf8ByteArray(this byte[] bytes, int index, int count) => System.Text.Encoding.UTF8.GetString(bytes, index, count);
+	public static string FromUtf8ByteArray(this byte[] bytes, int index, int count) =>
+		System.Text.Encoding.UTF8.GetString(bytes, index, count);
 
 	/// <summary>
 	///   Converts to utf8bytearray.
@@ -644,7 +668,10 @@ public static partial class StringExtensions
 	/// <param name="s">The s.</param>
 	/// <param name="candidates">The candidates.</param>
 	/// <returns><c>true</c> if [is one of] [the specified candidates]; otherwise, <c>false</c>.</returns>
-	public static bool IsOneOf(this string s, params string[] candidates) => candidates.Any(candidate => s == candidate);
+	public static bool IsOneOf(this string s, params string[] candidates)
+	{
+		return candidates.Any(candidate => s == candidate);
+	}
 
 
 	/// <summary>
@@ -653,11 +680,13 @@ public static partial class StringExtensions
 	/// <param name="bs">The bs.</param>
 	/// <returns>System.String.</returns>
 	public static string FromByteArray(this byte[] bs)
-		=> string.Create(bs.Length, bs, (chars, bytes)
-			                 =>
-		                 {
-			                 for (var i = 0; i < chars.Length; ++i) chars[i] = Convert.ToChar(bytes[i]);
-		                 });
+	{
+		return string.Create(bs.Length, bs, (chars, bytes)
+			=>
+		{
+			for (var i = 0; i < chars.Length; ++i) chars[i] = Convert.ToChar(bytes[i]);
+		});
+	}
 
 	/// <summary>
 	///   Converts to bytearray.

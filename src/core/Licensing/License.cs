@@ -291,10 +291,10 @@ public class License
 	/// <param name="value">The value.</param>
 	private void SetTag(string name, string value)
 	{
-		if (name is null) throw new ArgumentNullException(nameof(name));
-		if (value is null) throw new ArgumentNullException(nameof(value));
+				ArgumentNullException.ThrowIfNull(name);
+				ArgumentNullException.ThrowIfNull(value);
 
-		var element = _xmlData.Element(name);
+				var element = _xmlData.Element(name);
 
 		if (element == null)
 		{

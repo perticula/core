@@ -27,8 +27,8 @@ public static class Serialize
 	/// <exception cref="System.InvalidCastException">unable to convert ${value.GetType()} to ${typeof(T)}</exception>
 	public static T ConvertTo<T>(object value)
 	{
-		if (value == null) throw new ArgumentNullException(nameof(value));
-		return (T) ConvertToType(value, typeof(T))! ?? throw new InvalidCastException($"unable to convert ${value.GetType()} to ${typeof(T)}");
+				ArgumentNullException.ThrowIfNull(value);
+				return (T) ConvertToType(value, typeof(T))! ?? throw new InvalidCastException($"unable to convert ${value.GetType()} to ${typeof(T)}");
 	}
 
 	/// <summary>
@@ -40,8 +40,8 @@ public static class Serialize
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static object? ConvertToType(object value, Type toType)
 	{
-		if (value  == null) throw new ArgumentNullException(nameof(value));
-		if (toType == typeof(string)) return value.ToString();
+				ArgumentNullException.ThrowIfNull(value);
+				if (toType == typeof(string)) return value.ToString();
 		var fromType = value.GetType();
 		if (fromType == toType) return value;
 		if (toType.IsEnum) return Enum.Parse(toType, value.ToString()!);

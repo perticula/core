@@ -24,13 +24,13 @@ public static class DisplayTextAttributeExtensions
 	{
 		if (value == null) return "";
 		return value
-		       .GetType()
-		       .GetField(value.ToString())
-		       ?.GetCustomAttributes(typeof(DisplayTextAttribute), false)
-		       .Cast<DisplayTextAttribute>()
-		       .Take(1)
-		       .Select(attr => attr.DisplayText)
-		       .FirstOrDefault() ?? "";
+			.GetType()
+			.GetField(value.ToString())
+			?.GetCustomAttributes(typeof(DisplayTextAttribute), false)
+			.Cast<DisplayTextAttribute>()
+			.Take(1)
+			.Select(attr => attr.DisplayText)
+			.FirstOrDefault() ?? "";
 	}
 
 	/// <summary>
@@ -47,13 +47,13 @@ public static class DisplayTextAttributeExtensions
 	{
 		if (value == null) return "";
 		var attribute = value
-		                .GetType()
-		                .GetField(value.ToString())
-		                ?.GetCustomAttributes(typeof(DisplayTextAttribute), false)
-		                .Cast<DisplayTextAttribute>()
-		                .Take(1)
-		                .Select(attr => attr)
-		                .FirstOrDefault();
+			.GetType()
+			.GetField(value.ToString())
+			?.GetCustomAttributes(typeof(DisplayTextAttribute), false)
+			.Cast<DisplayTextAttribute>()
+			.Take(1)
+			.Select(attr => attr)
+			.FirstOrDefault();
 
 		if (string.IsNullOrEmpty(attribute?.DisplayText)) return attribute?.DefaultText ?? "";
 
@@ -75,12 +75,14 @@ public static class DisplayTextAttributeExtensions
 		{
 			//check to see if entire string matches
 			var dt = e.DisplayText();
-			if (string.Equals(dt, value, StringComparison.OrdinalIgnoreCase)) return (T) Enum.Parse(typeof(T), e.ToString(), true);
+			if (string.Equals(dt, value, StringComparison.OrdinalIgnoreCase))
+				return (T)Enum.Parse(typeof(T), e.ToString(), true);
 
 			//check to see if multiple values match (e.g. 'Hotels/Lodging' matches either 'hotels' or 'lodging')
 			if (!dt.Contains('/')) continue;
-			var splitValues = dt.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-			if (splitValues.Any(split => string.Equals(split, value, StringComparison.OrdinalIgnoreCase))) return (T) Enum.Parse(typeof(T), e.ToString(), true);
+			var splitValues = dt.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+			if (splitValues.Any(split => string.Equals(split, value, StringComparison.OrdinalIgnoreCase)))
+				return (T)Enum.Parse(typeof(T), e.ToString(), true);
 		}
 
 		//check to see if we can parse to enum directly

@@ -303,8 +303,8 @@ public class HexEncoder : IEncoder
 	/// <exception cref="IOException">invalid characters encountered in Hex data</exception>
 	internal byte[] DecodeStrict(string str, int off, int len)
 	{
-		if (null == str) throw new ArgumentNullException(nameof(str));
-		if (off < 0 || len < 0 || off > str.Length - len) throw new IndexOutOfRangeException("invalid offset and/or length specified");
+				ArgumentNullException.ThrowIfNull(str);
+				if (off < 0 || len < 0 || off > str.Length - len) throw new IndexOutOfRangeException("invalid offset and/or length specified");
 		if (0 != (len & 1)) throw new ArgumentException("a hexadecimal encoding must have an even number of characters", nameof(len));
 
 		var resultLen = len >> 1;

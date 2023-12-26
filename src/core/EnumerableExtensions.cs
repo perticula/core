@@ -53,8 +53,8 @@ public static class EnumerableExtensions
 	/// <exception cref="System.ArgumentNullException">matches</exception>
 	public static void CollectMatches<T>(this ICollection<T> matches, ISelector<T> selector, IEnumerable<IObjectStore<T>>? stores)
 	{
-		if (matches == null) throw new ArgumentNullException(nameof(matches));
-		if (stores  == null) return;
+				ArgumentNullException.ThrowIfNull(matches);
+				if (stores  == null) return;
 
 		foreach (var store in stores)
 		foreach (var match in store.EnumerateMatches(selector))
@@ -92,9 +92,9 @@ public static class EnumerableExtensions
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static IEnumerable<IGrouping<int, TType>> GroupByCount<TType>(this IEnumerable<TType> value, int count)
 	{
-		if (value == null) throw new ArgumentNullException(nameof(value));
+				ArgumentNullException.ThrowIfNull(value);
 
-		var source = value as TType[] ?? value.ToArray();
+				var source = value as TType[] ?? value.ToArray();
 		return source.GroupBy(src => source.ToList().IndexOf(src) / count);
 	}
 
@@ -109,10 +109,10 @@ public static class EnumerableExtensions
 	/// <exception cref="System.ArgumentNullException">predicate</exception>
 	public static IEnumerable<TSource> TakeUntil<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate)
 	{
-		if (source    == null) throw new ArgumentNullException(nameof(source));
-		if (predicate == null) throw new ArgumentNullException(nameof(predicate));
+				ArgumentNullException.ThrowIfNull(source);
+				ArgumentNullException.ThrowIfNull(predicate);
 
-		return _();
+				return _();
 
 		IEnumerable<TSource> _()
 		{

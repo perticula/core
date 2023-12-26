@@ -45,14 +45,14 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">key</exception>
 	public TValue FindOrDefault<TValue>(string key, TValue def)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 		key = NotCaseSensitive(key);
 		lock (_cacheLock)
 		{
 			if (!MemoryCache.Default.Contains(key)) return def;
 			var value = MemoryCache.Default.Get(key);
-			return value is TValue typeMatechedValue ? typeMatechedValue : def;
+			return value is TValue typeMatchedValue ? typeMatchedValue : def;
 		}
 	}
 
@@ -64,10 +64,13 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">key</exception>
 	public object Get(string key)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 		key = NotCaseSensitive(key);
-		lock (_cacheLock) return MemoryCache.Default.Get(key);
+		lock (_cacheLock)
+		{
+			return MemoryCache.Default.Get(key);
+		}
 	}
 
 	/// <summary>
@@ -81,7 +84,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.Collections.Generic.KeyNotFoundException">Key {key} not found in cache</exception>
 	public TValue Get<TValue>(string key)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 		key = NotCaseSensitive(key);
 		lock (_cacheLock)
@@ -104,7 +107,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">key</exception>
 	public ISharedCache Remove(string key)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 		key = NotCaseSensitive(key);
 		lock (_cacheLock)
@@ -124,10 +127,13 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">key</exception>
 	public bool Contains(string key)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 		key = NotCaseSensitive(key);
-		lock (_cacheLock) return MemoryCache.Default.Contains(key);
+		lock (_cacheLock)
+		{
+			return MemoryCache.Default.Contains(key);
+		}
 	}
 
 	/// <summary>
@@ -146,7 +152,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">baseKey</exception>
 	public string Key(string baseKey, params object[]? args)
 	{
-		if (baseKey == null) throw new ArgumentNullException(nameof(baseKey));
+		ArgumentNullException.ThrowIfNull(baseKey);
 		if (string.IsNullOrWhiteSpace(baseKey)) throw new ArgumentNullException(nameof(baseKey));
 		return args == null ? baseKey : baseKey + "-" + string.Join("-", args.Select(arg => arg));
 	}
@@ -179,8 +185,8 @@ internal class SharedMemoryCache : ISharedCache
 	{
 		while (true)
 		{
-			if (key   == null) throw new ArgumentNullException(nameof(key));
-			if (value == null) throw new ArgumentNullException(nameof(value));
+			ArgumentNullException.ThrowIfNull(key);
+			ArgumentNullException.ThrowIfNull(value);
 			if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 			key = NotCaseSensitive(key);
 			lock (_cacheLock)
@@ -225,7 +231,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public ISharedCache Set<TValue>(string key, TValue value, int expires)
 	{
-		if (key   == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (value == null) throw new ArgumentNullException(nameof(value));
 
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
@@ -250,7 +256,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">key</exception>
 	public IConcurrentCache ByName(string key, int expires = -1)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
 		key = NotCaseSensitive(key);
 		lock (_cacheLock)
@@ -262,7 +268,7 @@ internal class SharedMemoryCache : ISharedCache
 			}
 
 			MemoryCache.Default.Add(key, new ConcurrentCache(), GetExpirePolicy(expires));
-			return (IConcurrentCache) MemoryCache.Default.Get(key);
+			return (IConcurrentCache)MemoryCache.Default.Get(key);
 		}
 	}
 
@@ -272,10 +278,10 @@ internal class SharedMemoryCache : ISharedCache
 	public void Reset()
 	{
 		foreach (var item in MemoryCache.Default)
-		{
 			lock (_cacheLock)
+			{
 				MemoryCache.Default.Remove(item.Key);
-		}
+			}
 	}
 
 	/// <summary>
@@ -286,7 +292,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// <exception cref="System.ArgumentNullException">key</exception>
 	private static string NotCaseSensitive(string key)
 	{
-		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(key);
 		return key.ToUpperInvariant();
 	}
 
@@ -295,5 +301,7 @@ internal class SharedMemoryCache : ISharedCache
 	/// </summary>
 	/// <param name="expires">The expires.</param>
 	/// <returns>CacheItemPolicy.</returns>
-	private CacheItemPolicy GetExpirePolicy(int expires) => expires < 1 ? _permPolicy : new CacheItemPolicy {SlidingExpiration = TimeSpan.FromSeconds(expires)};
+	private CacheItemPolicy GetExpirePolicy(int expires) => expires < 1
+		? _permPolicy
+		: new CacheItemPolicy { SlidingExpiration = TimeSpan.FromSeconds(expires) };
 }

@@ -292,8 +292,8 @@ public static class Streams
 	/// <exception cref="System.ArgumentOutOfRangeException">count</exception>
 	public static void ValidateBufferArguments(byte[] buffer, int offset, int count)
 	{
-		if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-		var available = buffer.Length - offset;
+				ArgumentNullException.ThrowIfNull(buffer);
+				var available = buffer.Length - offset;
 		if ((offset | available) < 0) throw new ArgumentOutOfRangeException(nameof(offset));
 
 		var remaining = available - count;

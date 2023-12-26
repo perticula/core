@@ -52,7 +52,9 @@ public sealed class DisplayTextAttribute : Attribute
 	///   Initializes a new instance of the <see cref="T:Attributes.DisplayTextAttribute" /> class.
 	/// </summary>
 	/// <inheritdoc />
-	public DisplayTextAttribute() : this(string.Empty) { }
+	public DisplayTextAttribute() : this(string.Empty)
+	{
+	}
 
 	/// <summary>
 	///   Gets the default text if the DisplayText attribute is empty.
@@ -75,7 +77,8 @@ public sealed class DisplayTextAttribute : Attribute
 	public override bool Equals(object? obj)
 	{
 		if (obj == this) return true;
-		if (obj is DisplayTextAttribute da) return string.Equals(da.DisplayText, DisplayText, StringComparison.OrdinalIgnoreCase);
+		if (obj is DisplayTextAttribute da)
+			return string.Equals(da.DisplayText, DisplayText, StringComparison.OrdinalIgnoreCase);
 		return false;
 	}
 

@@ -19,7 +19,9 @@ internal class SimpleCache : CacheCommonBase<SimpleCache>, ISimpleCache
 	/// <summary>
 	///   Initializes a new instance of the <see cref="SimpleCache" /> class.
 	/// </summary>
-	public SimpleCache() : base(false) { }
+	public SimpleCache() : base(false)
+	{
+	}
 
 	/// <summary>
 	///   Create or overwrite an entry in the cache.

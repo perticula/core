@@ -19,7 +19,9 @@ internal class ConcurrentCache : CacheCommonBase<ConcurrentCache>, IConcurrentCa
 	/// <summary>
 	///   Initializes a new instance of the <see cref="ConcurrentCache" /> class.
 	/// </summary>
-	public ConcurrentCache() : base(true) { }
+	public ConcurrentCache() : base(true)
+	{
+	}
 
 	/// <summary>
 	///   Create or overwrite an entry in the cache.

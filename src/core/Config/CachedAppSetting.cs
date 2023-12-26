@@ -77,11 +77,11 @@ internal class CachedAppSettings<T> : ICachedAppSettings<T>
 	/// </summary>
 	/// <value>The setting age ms.</value>
 	public double SettingAgeMs => _lastUpdate.HasValue
-		                              ? DateTime.Now.Subtract(_lastUpdate.Value).TotalMilliseconds
-		                              : double.MaxValue;
+		? DateTime.Now.Subtract(_lastUpdate.Value).TotalMilliseconds
+		: double.MaxValue;
 
 	/// <summary>
-	///   The defalut value to be used if no setting value is available
+	///   The default value to be used if no setting value is available
 	/// </summary>
 	/// <value>The default value.</value>
 	public T? DefaultValue => default;

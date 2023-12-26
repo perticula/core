@@ -62,8 +62,8 @@ internal class TokenGenerator : ITokenGenerator
 	/// <exception cref="System.Configuration.ConfigurationErrorsException"></exception>
 	public TokenGenerator(IAppSettings settings, string settingKey = "SsoAuthorizationKey")
 	{
-		if (settings == null) throw new ArgumentNullException(nameof(settings));
-		if (string.IsNullOrWhiteSpace(settingKey)) throw new ArgumentNullException(nameof(settingKey));
+				ArgumentNullException.ThrowIfNull(settings);
+				if (string.IsNullOrWhiteSpace(settingKey)) throw new ArgumentNullException(nameof(settingKey));
 
 		if (!settings.HasSetting(settingKey)) throw new ConfigurationErrorsException($"Configuration is missing a 'security key' setting called '{settingKey}'");
 

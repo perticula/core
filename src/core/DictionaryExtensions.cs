@@ -23,8 +23,8 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">dictionary</exception>
 	public static void AddOnce<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> value)
 	{
-		if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
-		if (dictionary.ContainsKey(key)) return;
+				ArgumentNullException.ThrowIfNull(dictionary);
+				if (dictionary.ContainsKey(key)) return;
 		dictionary.Add(key, value(key));
 	}
 
@@ -41,8 +41,8 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">dictionary</exception>
 	public static TValue AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
 	{
-		if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
-		if (dictionary.ContainsKey(key))
+				ArgumentNullException.ThrowIfNull(dictionary);
+				if (dictionary.ContainsKey(key))
 			dictionary[key] = value;
 		else
 			dictionary.Add(key, value);
@@ -91,11 +91,11 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static TValue FindOrSet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> value)
 	{
-		if (dictionary == null) throw new ArgumentNullException(nameof(dictionary));
-		if (key        == null) throw new ArgumentNullException(nameof(key));
-		if (value      == null) throw new ArgumentNullException(nameof(value));
+				ArgumentNullException.ThrowIfNull(dictionary);
+				if (key        == null) throw new ArgumentNullException(nameof(key));
+				ArgumentNullException.ThrowIfNull(value);
 
-		if (dictionary.TryGetValue(key, out var current)) return current;
+				if (dictionary.TryGetValue(key, out var current)) return current;
 
 		var val = value(key);
 		if (val != null) dictionary.Add(key, val);
@@ -132,8 +132,8 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static IEnumerable<(T1 key, T2 value)> Spread<T1, T2>(this IDictionary<T1, T2> value)
 	{
-		if (value == null) throw new ArgumentNullException(nameof(value));
-		foreach (var (k, v) in value) yield return (k, v);
+				ArgumentNullException.ThrowIfNull(value);
+				foreach (var (k, v) in value) yield return (k, v);
 	}
 
 	/// <summary>

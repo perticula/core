@@ -26,7 +26,7 @@ public interface ICachedAppSettings<out T>
 	double SettingAgeMs { get; }
 
 	/// <summary>
-	///   The defalut value to be used if no setting value is available
+	///   The default value to be used if no setting value is available
 	/// </summary>
 	/// <value>The default value.</value>
 	T? DefaultValue { get; }
