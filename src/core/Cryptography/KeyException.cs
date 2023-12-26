@@ -15,7 +15,6 @@ namespace core.Cryptography;
 ///   Implements the <see cref="Security.GeneralSecurityException" />
 /// </summary>
 /// <seealso cref="Security.GeneralSecurityException" />
-[Serializable]
 public class KeyException : GeneralSecurityException
 {
 	/// <summary>
@@ -35,17 +34,4 @@ public class KeyException : GeneralSecurityException
 	/// <param name="message">The message.</param>
 	/// <param name="inner">The inner.</param>
 	public KeyException(string message, Exception inner) : base(message, inner) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="KeyException" /> class.
-	/// </summary>
-	/// <param name="info">
-	///   The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object
-	///   data about the exception being thrown.
-	/// </param>
-	/// <param name="context">
-	///   The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual
-	///   information about the source or destination.
-	/// </param>
-	protected KeyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }

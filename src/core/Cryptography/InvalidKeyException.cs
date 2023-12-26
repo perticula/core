@@ -14,7 +14,6 @@ namespace core.Cryptography;
 ///   Implements the <see cref="System.Exception" />
 /// </summary>
 /// <seealso cref="System.Exception" />
-[Serializable]
 public class InvalidKeyException : Exception
 {
 	/// <summary>
@@ -34,17 +33,4 @@ public class InvalidKeyException : Exception
 	/// <param name="message">The message.</param>
 	/// <param name="inner">The inner.</param>
 	public InvalidKeyException(string message, Exception inner) : base(message, inner) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="InvalidKeyException" /> class.
-	/// </summary>
-	/// <param name="info">
-	///   The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object
-	///   data about the exception being thrown.
-	/// </param>
-	/// <param name="context">
-	///   The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual
-	///   information about the source or destination.
-	/// </param>
-	protected InvalidKeyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }

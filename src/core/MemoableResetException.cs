@@ -14,7 +14,6 @@ namespace core;
 ///   Implements the <see cref="System.InvalidCastException" />
 /// </summary>
 /// <seealso cref="System.InvalidCastException" />
-[Serializable]
 public class MemoableResetException : InvalidCastException
 {
 	/// <summary>
@@ -38,11 +37,4 @@ public class MemoableResetException : InvalidCastException
 	///   <see langword="catch" /> block that handles the inner exception.
 	/// </param>
 	public MemoableResetException(string message, Exception innerException) : base(message, innerException) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="MemoableResetException" /> class.
-	/// </summary>
-	/// <param name="info">The object that holds the serialized object data.</param>
-	/// <param name="context">The contextual information about the source or destination.</param>
-	protected MemoableResetException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }

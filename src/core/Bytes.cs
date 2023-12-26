@@ -75,7 +75,7 @@ public static class Bytes
 				var x64 = MemoryMarshal.Read<ulong>(x[i..]);
 				var y64 = MemoryMarshal.Read<ulong>(y[i..]);
 				var z64 = x64 ^ y64;
-				MemoryMarshal.Write(z[i..], ref z64);
+				MemoryMarshal.Write(z[i..], in z64);
 				i += 8;
 			}
 		}
@@ -134,7 +134,7 @@ public static class Bytes
 				var x64 = MemoryMarshal.Read<ulong>(x[i..]);
 				var z64 = MemoryMarshal.Read<ulong>(z[i..]);
 				z64 ^= x64;
-				MemoryMarshal.Write(z[i..], ref z64);
+				MemoryMarshal.Write(z[i..], in z64);
 				i += 8;
 			}
 		}

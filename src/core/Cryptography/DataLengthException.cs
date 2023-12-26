@@ -18,7 +18,6 @@ namespace core.Cryptography;
 ///   Generally this is similar to an IndexOutOfRangeException, but it's more specific and it's a semantically more
 ///   precise.
 /// </remarks>
-[Serializable]
 public class DataLengthException : CryptoException
 {
 	/// <summary>
@@ -38,11 +37,4 @@ public class DataLengthException : CryptoException
 	/// <param name="message">The message.</param>
 	/// <param name="innerException">The inner exception.</param>
 	public DataLengthException(string message, Exception innerException) : base(message, innerException) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="DataLengthException" /> class.
-	/// </summary>
-	/// <param name="info">The information.</param>
-	/// <param name="context">The context.</param>
-	protected DataLengthException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }

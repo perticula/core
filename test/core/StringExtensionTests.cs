@@ -23,7 +23,7 @@ public class StringExtensionTests
 	[InlineData("i_am_root",  "iAmRoot")]
 	[InlineData("i_am _root", "iAm_root")]
 	[InlineData(null,         null)]
-	public void StringUtilities_Verify_ToCamelCase_Tests(string input, string expected) => Assert.Equal(expected, input.ToCamelCase());
+	public void StringUtilities_Verify_ToCamelCase_Tests(string? input, string? expected) => Assert.Equal(expected, input.ToCamelCase());
 
 	[Theory]
 	[InlineData("i am root",   "IAmRoot")]
@@ -31,7 +31,7 @@ public class StringExtensionTests
 	[InlineData("i_am _root",  "IAm_root")]
 	[InlineData("i_am_ _root", "IAm Root")]
 	[InlineData(null,          null)]
-	public void StringUtilities_Verify_ToPascalCase_Tests(string input, string expected) => Assert.Equal(expected, input.ToPascalCase());
+	public void StringUtilities_Verify_ToPascalCase_Tests(string? input, string? expected) => Assert.Equal(expected, input.ToPascalCase());
 
 	[Theory]
 	[InlineData("i am root",   "i-am-root")]
@@ -39,7 +39,7 @@ public class StringExtensionTests
 	[InlineData("i_am _root",  "i-am--root")]
 	[InlineData("i_am_ _root", "i-am---root")]
 	[InlineData(null,          null)]
-	public void StringUtilities_Verify_ToKebabCase_Tests(string input, string expected) => Assert.Equal(expected, input.ToKebabCase());
+	public void StringUtilities_Verify_ToKebabCase_Tests(string? input, string? expected) => Assert.Equal(expected, input.ToKebabCase());
 
 	[Theory]
 	[InlineData("i am root",   "i_am_root")]
@@ -47,7 +47,7 @@ public class StringExtensionTests
 	[InlineData("i_am _root",  "i_am__root")]
 	[InlineData("i_am_ _root", "i_am___root")]
 	[InlineData(null,          null)]
-	public void StringUtilities_Verify_ToUnderscoreCase_Tests(string input, string expected) => Assert.Equal(expected, input.ToUnderscoreCase());
+	public void StringUtilities_Verify_ToUnderscoreCase_Tests(string? input, string? expected) => Assert.Equal(expected, input.ToUnderscoreCase());
 
 	[Theory]
 	[ClassData(typeof(CredentialTestData))]

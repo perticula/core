@@ -14,7 +14,6 @@ namespace core.IO;
 ///   Implements the <see cref="System.IO.IOException" />
 /// </summary>
 /// <seealso cref="System.IO.IOException" />
-[Serializable]
 public class StreamOverflowException : IOException
 {
 	/// <summary>
@@ -42,11 +41,4 @@ public class StreamOverflowException : IOException
 	///   <see langword="catch" /> block that handles the inner exception.
 	/// </param>
 	public StreamOverflowException(string message, Exception innerException) : base(message, innerException) { }
-
-	/// <summary>
-	///   Initializes a new instance of the <see cref="StreamOverflowException" /> class.
-	/// </summary>
-	/// <param name="info">The data for serializing or deserializing the object.</param>
-	/// <param name="context">The source and destination for the object.</param>
-	protected StreamOverflowException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 }
