@@ -17,12 +17,14 @@ public class HexEncoder : IEncoder
 	/// <summary>
 	///   The chars lower
 	/// </summary>
-	private static readonly char[] CharsLower = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+	private static readonly char[] CharsLower =
+		{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
 	/// <summary>
 	///   The chars upper
 	/// </summary>
-	private static readonly char[] CharsUpper = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	private static readonly char[] CharsUpper =
+		{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	/// <summary>
 	///   The decoding table
@@ -96,7 +98,7 @@ public class HexEncoder : IEncoder
 
 		while (end > 0)
 		{
-			if (!Ignore((char) data[end - 1]))
+			if (!Ignore((char)data[end - 1]))
 				break;
 
 			end--;
@@ -105,18 +107,18 @@ public class HexEncoder : IEncoder
 		var i = 0;
 		while (i < end)
 		{
-			while (i < end && Ignore((char) data[i])) i++;
+			while (i < end && Ignore((char)data[i])) i++;
 
 			var b1 = DecodingTable[data[i++]];
 
-			while (i < end && Ignore((char) data[i])) i++;
+			while (i < end && Ignore((char)data[i])) i++;
 
 			var b2 = DecodingTable[data[i++]];
 
 			if ((b1 | b2) >= 0x80)
 				throw new IOException("invalid characters encountered in Hex data");
 
-			buf[bufOff++] = (byte) ((b1 << 4) | b2);
+			buf[bufOff++] = (byte)((b1 << 4) | b2);
 
 			if (bufOff == buf.Length)
 			{
@@ -169,7 +171,7 @@ public class HexEncoder : IEncoder
 
 			if ((b1 | b2) >= 0x80) throw new IOException("invalid characters encountered in Hex data");
 
-			buf[bufOff++] = (byte) ((b1 << 4) | b2);
+			buf[bufOff++] = (byte)((b1 << 4) | b2);
 
 			if (bufOff == buf.Length)
 			{
@@ -237,9 +239,9 @@ public class HexEncoder : IEncoder
 	/// </summary>
 	protected void InitialiseDecodingTable()
 	{
-		Arrays.Fill(DecodingTable, (byte) 0xff);
+		Arrays.Fill(DecodingTable, (byte)0xff);
 
-		for (var i = 0; i < EncodingTable.Length; i++) DecodingTable[EncodingTable[i]] = (byte) i;
+		for (var i = 0; i < EncodingTable.Length; i++) DecodingTable[EncodingTable[i]] = (byte)i;
 
 		DecodingTable['A'] = DecodingTable['a'];
 		DecodingTable['B'] = DecodingTable['b'];
@@ -258,7 +260,8 @@ public class HexEncoder : IEncoder
 	/// <param name="outBuf">The out buf.</param>
 	/// <param name="outOff">The out off.</param>
 	/// <returns>int.</returns>
-	public int Encode(byte[] inBuf, int inOff, int inLen, byte[] outBuf, int outOff) => Encode(inBuf.AsSpan(inOff, inLen), outBuf.AsSpan(outOff));
+	public int Encode(byte[] inBuf, int inOff, int inLen, byte[] outBuf, int outOff) =>
+		Encode(inBuf.AsSpan(inOff, inLen), outBuf.AsSpan(outOff));
 
 	/// <summary>
 	///   Encodes the specified input.
@@ -303,9 +306,11 @@ public class HexEncoder : IEncoder
 	/// <exception cref="IOException">invalid characters encountered in Hex data</exception>
 	internal byte[] DecodeStrict(string str, int off, int len)
 	{
-				ArgumentNullException.ThrowIfNull(str);
-				if (off < 0 || len < 0 || off > str.Length - len) throw new IndexOutOfRangeException("invalid offset and/or length specified");
-		if (0 != (len & 1)) throw new ArgumentException("a hexadecimal encoding must have an even number of characters", nameof(len));
+		ArgumentNullException.ThrowIfNull(str);
+		if (off < 0 || len < 0 || off > str.Length - len)
+			throw new IndexOutOfRangeException("invalid offset and/or length specified");
+		if (0 != (len & 1))
+			throw new ArgumentException("a hexadecimal encoding must have an even number of characters", nameof(len));
 
 		var resultLen = len >> 1;
 		var result    = new byte[resultLen];
@@ -319,7 +324,7 @@ public class HexEncoder : IEncoder
 			if ((b1 | b2) >= 0x80)
 				throw new IOException("invalid characters encountered in Hex data");
 
-			result[i] = (byte) ((b1 << 4) | b2);
+			result[i] = (byte)((b1 << 4) | b2);
 		}
 
 		return result;

@@ -27,8 +27,8 @@ public class WhenAllPublisher : INotificationPublisher
 	public Task Publish(IEnumerable<NotificationHandlerExecutor> executors, INotification notification, CancellationToken cancellationToken)
 	{
 		var tasks = executors
-		            .Select(handler => handler.Handle(notification, cancellationToken))
-		            .ToArray();
+			.Select(handler => handler.Handle(notification, cancellationToken))
+			.ToArray();
 
 		return Task.WhenAll(tasks);
 	}

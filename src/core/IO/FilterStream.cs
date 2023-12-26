@@ -66,7 +66,8 @@ public class FilterStream : Stream
 	/// </summary>
 	/// <param name="destination">The stream to which the contents of the current stream will be copied.</param>
 	/// <param name="bufferSize">The size of the buffer. This value must be greater than zero. The default size is 81920.</param>
-	public override void CopyTo(Stream destination, int bufferSize) => Streams.CopyTo(BaseStream, destination, bufferSize);
+	public override void CopyTo(Stream destination, int bufferSize) =>
+		Streams.CopyTo(BaseStream, destination, bufferSize);
 
 	/// <summary>
 	///   Asynchronously reads the bytes from the current stream and writes them to another stream, using a specified buffer
@@ -82,7 +83,8 @@ public class FilterStream : Stream
 	///   <see cref="P:System.Threading.CancellationToken.None" />.
 	/// </param>
 	/// <returns>A task that represents the asynchronous copy operation.</returns>
-	public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) => Streams.CopyToAsync(BaseStream, destination, bufferSize, cancellationToken);
+	public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) =>
+		Streams.CopyToAsync(BaseStream, destination, bufferSize, cancellationToken);
 
 	/// <summary>
 	///   When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to
@@ -139,7 +141,8 @@ public class FilterStream : Stream
 	///   buffer. The result value can be less than the number of bytes allocated in the buffer if that many bytes are not
 	///   currently available, or it can be 0 (zero) if the end of the stream has been reached.
 	/// </returns>
-	public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => Streams.ReadAsync(BaseStream, buffer, cancellationToken);
+	public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+		Streams.ReadAsync(BaseStream, buffer, cancellationToken);
 
 	/// <summary>
 	///   Reads a byte from the stream and advances the position within the stream by one byte, or returns -1 if at the end of
@@ -203,7 +206,8 @@ public class FilterStream : Stream
 	///   <see cref="P:System.Threading.CancellationToken.None" />.
 	/// </param>
 	/// <returns>A task that represents the asynchronous write operation.</returns>
-	public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) => Streams.WriteAsync(BaseStream, buffer, cancellationToken);
+	public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) =>
+		Streams.WriteAsync(BaseStream, buffer, cancellationToken);
 
 	/// <summary>
 	///   Detaches the specified disposing.

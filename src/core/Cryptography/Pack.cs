@@ -29,7 +29,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
-	internal static void UInt16_To_BigEndian(ushort n, byte[] bs, int off) => BinaryPrimitives.WriteUInt16BigEndian(bs.AsSpan(off), n);
+	internal static void UInt16_To_BigEndian(ushort n, byte[] bs, int off) =>
+		BinaryPrimitives.WriteUInt16BigEndian(bs.AsSpan(off), n);
 
 	/// <summary>
 	///   us the int16 to big endian.
@@ -102,7 +103,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt16.</returns>
-	internal static ushort BigEndian_To_UInt16(byte[] bs, int off) => BinaryPrimitives.ReadUInt16BigEndian(bs.AsSpan(off));
+	internal static ushort BigEndian_To_UInt16(byte[] bs, int off) =>
+		BinaryPrimitives.ReadUInt16BigEndian(bs.AsSpan(off));
 
 	/// <summary>
 	///   Bigs the endian to u int16.
@@ -111,7 +113,8 @@ public static class Pack
 	/// <param name="bsOff">The bs off.</param>
 	/// <param name="ns">The ns.</param>
 	/// <param name="nsOff">The ns off.</param>
-	internal static void BigEndian_To_UInt16(byte[] bs, int bsOff, ushort[] ns, int nsOff) => ns[nsOff] = BigEndian_To_UInt16(bs, bsOff);
+	internal static void BigEndian_To_UInt16(byte[] bs, int bsOff, ushort[] ns, int nsOff) =>
+		ns[nsOff] = BigEndian_To_UInt16(bs, bsOff);
 
 	/// <summary>
 	///   Bigs the endian to u int16.
@@ -145,9 +148,9 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	internal static void UInt24_To_BigEndian(uint n, byte[] bs)
 	{
-		bs[0] = (byte) (n >> 16);
-		bs[1] = (byte) (n >> 8);
-		bs[2] = (byte) n;
+		bs[0] = (byte)(n >> 16);
+		bs[1] = (byte)(n >> 8);
+		bs[2] = (byte)n;
 	}
 
 	/// <summary>
@@ -158,9 +161,9 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	internal static void UInt24_To_BigEndian(uint n, byte[] bs, int off)
 	{
-		bs[off + 0] = (byte) (n >> 16);
-		bs[off + 1] = (byte) (n >> 8);
-		bs[off + 2] = (byte) n;
+		bs[off + 0] = (byte)(n >> 16);
+		bs[off + 1] = (byte)(n >> 8);
+		bs[off + 2] = (byte)n;
 	}
 
 	/// <summary>
@@ -169,8 +172,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <returns>System.UInt32.</returns>
 	internal static uint BigEndian_To_UInt24(byte[] bs) =>
-		((uint) bs[0]   << 16)
-		| ((uint) bs[1] << 8)
+		((uint)bs[0]   << 16)
+		| ((uint)bs[1] << 8)
 		| bs[2];
 
 	/// <summary>
@@ -180,8 +183,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt32.</returns>
 	internal static uint BigEndian_To_UInt24(byte[] bs, int off) =>
-		((uint) bs[off]       << 16)
-		| ((uint) bs[off + 1] << 8)
+		((uint)bs[off]       << 16)
+		| ((uint)bs[off + 1] << 8)
 		| bs[off + 2];
 
 	/// <summary>
@@ -197,7 +200,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
-	internal static void UInt32_To_BigEndian(uint n, byte[] bs, int off) => BinaryPrimitives.WriteUInt32BigEndian(bs.AsSpan(off), n);
+	internal static void UInt32_To_BigEndian(uint n, byte[] bs, int off) =>
+		BinaryPrimitives.WriteUInt32BigEndian(bs.AsSpan(off), n);
 
 	/// <summary>
 	///   us the int32 to big endian high.
@@ -211,11 +215,11 @@ public static class Pack
 		Debug.Assert(len is >= 1 and <= 4);
 
 		var pos = 24;
-		bs[off] = (byte) (n >> pos);
+		bs[off] = (byte)(n >> pos);
 		for (var i = 1; i < len; ++i)
 		{
 			pos         -= 8;
-			bs[off + i] =  (byte) (n >> pos);
+			bs[off + i] =  (byte)(n >> pos);
 		}
 	}
 
@@ -226,7 +230,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
 	/// <param name="len">The length.</param>
-	internal static void UInt32_To_BigEndian_Low(uint n, byte[] bs, int off, int len) => UInt32_To_BigEndian_High(n << ((4 - len) << 3), bs, off, len);
+	internal static void UInt32_To_BigEndian_Low(uint n, byte[] bs, int off, int len) =>
+		UInt32_To_BigEndian_High(n << ((4 - len) << 3), bs, off, len);
 
 	/// <summary>
 	///   us the int32 to big endian.
@@ -306,7 +311,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <param name="len">The length.</param>
 	/// <returns>System.UInt32.</returns>
-	internal static uint BigEndian_To_UInt32_High(byte[] bs, int off, int len) => BigEndian_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
+	internal static uint BigEndian_To_UInt32_High(byte[] bs, int off, int len) =>
+		BigEndian_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
 
 	/// <summary>
 	///   Bigs the endian to u int32 low.
@@ -386,7 +392,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
-	internal static void UInt64_To_BigEndian(ulong n, byte[] bs, int off) => BinaryPrimitives.WriteUInt64BigEndian(bs.AsSpan(off), n);
+	internal static void UInt64_To_BigEndian(ulong n, byte[] bs, int off) =>
+		BinaryPrimitives.WriteUInt64BigEndian(bs.AsSpan(off), n);
 
 	/// <summary>
 	///   us the int64 to big endian high.
@@ -400,11 +407,11 @@ public static class Pack
 		Debug.Assert(len is >= 1 and <= 8);
 
 		var pos = 56;
-		bs[off] = (byte) (n >> pos);
+		bs[off] = (byte)(n >> pos);
 		for (var i = 1; i < len; ++i)
 		{
 			pos         -= 8;
-			bs[off + i] =  (byte) (n >> pos);
+			bs[off + i] =  (byte)(n >> pos);
 		}
 	}
 
@@ -415,7 +422,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
 	/// <param name="len">The length.</param>
-	internal static void UInt64_To_BigEndian_Low(ulong n, byte[] bs, int off, int len) => UInt64_To_BigEndian_High(n << ((8 - len) << 3), bs, off, len);
+	internal static void UInt64_To_BigEndian_Low(ulong n, byte[] bs, int off, int len) =>
+		UInt64_To_BigEndian_High(n << ((8 - len) << 3), bs, off, len);
 
 	/// <summary>
 	///   us the int64 to big endian.
@@ -483,7 +491,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <param name="len">The length.</param>
 	/// <returns>System.UInt64.</returns>
-	internal static ulong BigEndian_To_UInt64_High(byte[] bs, int off, int len) => BigEndian_To_UInt64_Low(bs, off, len) << ((8 - len) << 3);
+	internal static ulong BigEndian_To_UInt64_High(byte[] bs, int off, int len) =>
+		BigEndian_To_UInt64_Low(bs, off, len) << ((8 - len) << 3);
 
 	/// <summary>
 	///   Bigs the endian to u int64 low.
@@ -551,7 +560,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
-	internal static void UInt16_To_LittleEndian(ushort n, byte[] bs, int off) => BinaryPrimitives.WriteUInt16LittleEndian(bs.AsSpan(off), n);
+	internal static void UInt16_To_LittleEndian(ushort n, byte[] bs, int off) =>
+		BinaryPrimitives.WriteUInt16LittleEndian(bs.AsSpan(off), n);
 
 	/// <summary>
 	///   us the int16 to little endian.
@@ -622,7 +632,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt16.</returns>
-	internal static ushort LittleEndian_To_UInt16(byte[] bs, int off) => BinaryPrimitives.ReadUInt16LittleEndian(bs.AsSpan(off));
+	internal static ushort LittleEndian_To_UInt16(byte[] bs, int off) =>
+		BinaryPrimitives.ReadUInt16LittleEndian(bs.AsSpan(off));
 
 	/// <summary>
 	///   Littles the endian to u int16.
@@ -695,7 +706,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
-	internal static void UInt32_To_LittleEndian(uint n, byte[] bs, int off) => BinaryPrimitives.WriteUInt32LittleEndian(bs.AsSpan(off), n);
+	internal static void UInt32_To_LittleEndian(uint n, byte[] bs, int off) =>
+		BinaryPrimitives.WriteUInt32LittleEndian(bs.AsSpan(off), n);
 
 	/// <summary>
 	///   us the int32 to little endian.
@@ -749,8 +761,8 @@ public static class Pack
 	/// <returns>System.UInt32.</returns>
 	internal static uint LittleEndian_To_UInt24(byte[] bs, int off) =>
 		bs[off]
-		| ((uint) bs[off + 1] << 8)
-		| ((uint) bs[off + 2] << 16);
+		| ((uint)bs[off + 1] << 8)
+		| ((uint)bs[off + 2] << 16);
 
 	/// <summary>
 	///   Littles the endian to u int32.
@@ -765,7 +777,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt32.</returns>
-	internal static uint LittleEndian_To_UInt32(byte[] bs, int off) => BinaryPrimitives.ReadUInt32LittleEndian(bs.AsSpan(off));
+	internal static uint LittleEndian_To_UInt32(byte[] bs, int off) =>
+		BinaryPrimitives.ReadUInt32LittleEndian(bs.AsSpan(off));
 
 	/// <summary>
 	///   Littles the endian to u int32 high.
@@ -774,7 +787,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <param name="len">The length.</param>
 	/// <returns>System.UInt32.</returns>
-	internal static uint LittleEndian_To_UInt32_High(byte[] bs, int off, int len) => LittleEndian_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
+	internal static uint LittleEndian_To_UInt32_High(byte[] bs, int off, int len) =>
+		LittleEndian_To_UInt32_Low(bs, off, len) << ((4 - len) << 3);
 
 	/// <summary>
 	///   Littles the endian to u int32 low.
@@ -792,7 +806,7 @@ public static class Pack
 		for (var i = 1; i < len; ++i)
 		{
 			pos    += 8;
-			result |= (uint) bs[off + i] << pos;
+			result |= (uint)bs[off + i] << pos;
 		}
 
 		return result;
@@ -869,7 +883,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
-	internal static void UInt64_To_LittleEndian(ulong n, byte[] bs, int off) => BinaryPrimitives.WriteUInt64LittleEndian(bs.AsSpan(off), n);
+	internal static void UInt64_To_LittleEndian(ulong n, byte[] bs, int off) =>
+		BinaryPrimitives.WriteUInt64LittleEndian(bs.AsSpan(off), n);
 
 	/// <summary>
 	///   us the int64 to little endian.
@@ -928,7 +943,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt64.</returns>
-	internal static ulong LittleEndian_To_UInt64(byte[] bs, int off) => BinaryPrimitives.ReadUInt64LittleEndian(bs.AsSpan(off));
+	internal static ulong LittleEndian_To_UInt64(byte[] bs, int off) =>
+		BinaryPrimitives.ReadUInt64LittleEndian(bs.AsSpan(off));
 
 	/// <summary>
 	///   Littles the endian to u int64.
@@ -991,7 +1007,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt32.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint BigEndian_To_UInt32(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt32BigEndian(bs[off..]);
+	internal static uint BigEndian_To_UInt32(ReadOnlySpan<byte> bs, int off) =>
+		BinaryPrimitives.ReadUInt32BigEndian(bs[off..]);
 
 	/// <summary>
 	///   Bigs the endian to u int32.
@@ -1014,7 +1031,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <returns>System.UInt32.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint BigEndian_To_UInt32_High(ReadOnlySpan<byte> bs) => BigEndian_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
+	internal static uint BigEndian_To_UInt32_High(ReadOnlySpan<byte> bs) =>
+		BigEndian_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
 
 	/// <summary>
 	///   Bigs the endian to u int32 low.
@@ -1051,7 +1069,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt64.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong BigEndian_To_UInt64(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt64BigEndian(bs[off..]);
+	internal static ulong BigEndian_To_UInt64(ReadOnlySpan<byte> bs, int off) =>
+		BinaryPrimitives.ReadUInt64BigEndian(bs[off..]);
 
 	/// <summary>
 	///   Bigs the endian to u int64.
@@ -1074,7 +1093,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <returns>System.UInt64.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong BigEndian_To_UInt64_High(ReadOnlySpan<byte> bs) => BigEndian_To_UInt64_Low(bs) << ((8 - bs.Length) << 3);
+	internal static ulong BigEndian_To_UInt64_High(ReadOnlySpan<byte> bs) =>
+		BigEndian_To_UInt64_Low(bs) << ((8 - bs.Length) << 3);
 
 	/// <summary>
 	///   Bigs the endian to u int64 low.
@@ -1134,7 +1154,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt32.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint LittleEndian_To_UInt32(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt32LittleEndian(bs[off..]);
+	internal static uint LittleEndian_To_UInt32(ReadOnlySpan<byte> bs, int off) =>
+		BinaryPrimitives.ReadUInt32LittleEndian(bs[off..]);
 
 	/// <summary>
 	///   Littles the endian to u int32.
@@ -1157,7 +1178,8 @@ public static class Pack
 	/// <param name="bs">The bs.</param>
 	/// <returns>System.UInt32.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static uint LittleEndian_To_UInt32_High(ReadOnlySpan<byte> bs) => LittleEndian_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
+	internal static uint LittleEndian_To_UInt32_High(ReadOnlySpan<byte> bs) =>
+		LittleEndian_To_UInt32_Low(bs) << ((4 - bs.Length) << 3);
 
 	/// <summary>
 	///   Littles the endian to u int32 low.
@@ -1174,7 +1196,7 @@ public static class Pack
 		for (var i = 1; i < len; ++i)
 		{
 			pos    += 8;
-			result |= (uint) bs[i] << pos;
+			result |= (uint)bs[i] << pos;
 		}
 
 		return result;
@@ -1195,7 +1217,8 @@ public static class Pack
 	/// <param name="off">The off.</param>
 	/// <returns>System.UInt64.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ulong LittleEndian_To_UInt64(ReadOnlySpan<byte> bs, int off) => BinaryPrimitives.ReadUInt64LittleEndian(bs[off..]);
+	internal static ulong LittleEndian_To_UInt64(ReadOnlySpan<byte> bs, int off) =>
+		BinaryPrimitives.ReadUInt64LittleEndian(bs[off..]);
 
 	/// <summary>
 	///   Littles the endian to u int64.
@@ -1286,11 +1309,11 @@ public static class Pack
 		Debug.Assert(len is >= 1 and <= 4);
 
 		var pos = 24;
-		bs[0] = (byte) (n >> pos);
+		bs[0] = (byte)(n >> pos);
 		for (var i = 1; i < len; ++i)
 		{
 			pos   -= 8;
-			bs[i] =  (byte) (n >> pos);
+			bs[i] =  (byte)(n >> pos);
 		}
 	}
 
@@ -1362,11 +1385,11 @@ public static class Pack
 		Debug.Assert(len is >= 1 and <= 8);
 
 		var pos = 56;
-		bs[0] = (byte) (n >> pos);
+		bs[0] = (byte)(n >> pos);
 		for (var i = 1; i < len; ++i)
 		{
 			pos   -= 8;
-			bs[i] =  (byte) (n >> pos);
+			bs[i] =  (byte)(n >> pos);
 		}
 	}
 
@@ -1376,7 +1399,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_BigEndian_Low(ulong n, Span<byte> bs) => UInt64_To_BigEndian_High(n << ((8 - bs.Length) << 3), bs);
+	internal static void UInt64_To_BigEndian_Low(ulong n, Span<byte> bs) =>
+		UInt64_To_BigEndian_High(n << ((8 - bs.Length) << 3), bs);
 
 	/// <summary>
 	///   us the int64 to big endian.
@@ -1399,7 +1423,8 @@ public static class Pack
 	/// <param name="n">The n.</param>
 	/// <param name="bs">The bs.</param>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static void UInt64_To_LittleEndian(ulong n, Span<byte> bs) => BinaryPrimitives.WriteUInt64LittleEndian(bs, n);
+	internal static void UInt64_To_LittleEndian(ulong n, Span<byte> bs) =>
+		BinaryPrimitives.WriteUInt64LittleEndian(bs, n);
 
 	/// <summary>
 	///   us the int64 to little endian.

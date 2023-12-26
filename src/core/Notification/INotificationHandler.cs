@@ -9,7 +9,7 @@ namespace core.Notification;
 
 /// <summary>
 ///   Interface INotificationHandler
-///   defines a habdler for a notification.
+///   defines a handler for a notification.
 /// </summary>
 /// <typeparam name="TNotification">The type of the t notification.</typeparam>
 public interface INotificationHandler<in TNotification>

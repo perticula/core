@@ -70,14 +70,14 @@ public class HexTranslator : IEncodingTranslator
 			var left  = input[inOff + i * 2];
 			var right = input[inOff + i * 2 + 1];
 
-			if (left < (byte) 'a')
-				outBytes[outOff] = (byte) ((left - '0') << 4);
+			if (left < (byte)'a')
+				outBytes[outOff] = (byte)((left - '0') << 4);
 			else
-				outBytes[outOff] = (byte) ((left - 'a' + 10) << 4);
-			if (right < (byte) 'a')
-				outBytes[outOff] += (byte) (right - '0');
+				outBytes[outOff] = (byte)((left - 'a' + 10) << 4);
+			if (right < (byte)'a')
+				outBytes[outOff] += (byte)(right - '0');
 			else
-				outBytes[outOff] += (byte) (right - 'a' + 10);
+				outBytes[outOff] += (byte)(right - 'a' + 10);
 
 			outOff++;
 		}

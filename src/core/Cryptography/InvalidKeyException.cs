@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using System.Runtime.Serialization;
-
 namespace core.Cryptography;
 
 /// <summary>
@@ -19,18 +17,24 @@ public class InvalidKeyException : Exception
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidKeyException" /> class.
 	/// </summary>
-	public InvalidKeyException() { }
+	public InvalidKeyException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidKeyException" /> class.
 	/// </summary>
 	/// <param name="message">The message that describes the error.</param>
-	public InvalidKeyException(string message) : base(message) { }
+	public InvalidKeyException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidKeyException" /> class.
 	/// </summary>
 	/// <param name="message">The message.</param>
 	/// <param name="inner">The inner.</param>
-	public InvalidKeyException(string message, Exception inner) : base(message, inner) { }
+	public InvalidKeyException(string message, Exception inner) : base(message, inner)
+	{
+	}
 }

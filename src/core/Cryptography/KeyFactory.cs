@@ -35,7 +35,8 @@ public class KeyFactory
 		secureRandom.SetSeed(secureRandom.GenerateSeed(16));
 		secureRandom.NextBytes(salt);
 
-		return Convert.ToBase64String(PrivateKeyFactory.EncryptKey(KeyEncryptionAlgorithm, passPhrase.ToCharArray(), salt, 10, key));
+		return Convert.ToBase64String(PrivateKeyFactory.EncryptKey(KeyEncryptionAlgorithm, passPhrase.ToCharArray(), salt,
+			10, key));
 	}
 
 	/// <summary>
@@ -44,19 +45,22 @@ public class KeyFactory
 	/// <param name="privateKey">The private key.</param>
 	/// <param name="passPhrase">The pass phrase.</param>
 	/// <returns>AsymmetricKeyParameter.</returns>
-	public static AsymmetricKeyParameter FromEncryptedPrivateKeyString(string privateKey, string passPhrase) => PrivateKeyFactory.DecryptKey(passPhrase.ToCharArray(), Convert.FromBase64String(privateKey));
+	public static AsymmetricKeyParameter FromEncryptedPrivateKeyString(string privateKey, string passPhrase) =>
+		PrivateKeyFactory.DecryptKey(passPhrase.ToCharArray(), Convert.FromBase64String(privateKey));
 
 	/// <summary>
 	///   Converts to publickeystring.
 	/// </summary>
 	/// <param name="key">The key.</param>
 	/// <returns>System.String.</returns>
-	public static string ToPublicKeyString(AsymmetricKeyParameter key) => Convert.ToBase64String(SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(key).ToAsn1Object().GetDerEncoded());
+	public static string ToPublicKeyString(AsymmetricKeyParameter key) =>
+		Convert.ToBase64String(SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(key).ToAsn1Object().GetDerEncoded());
 
 	/// <summary>
 	///   Froms the public key string.
 	/// </summary>
 	/// <param name="publicKey">The public key.</param>
 	/// <returns>AsymmetricKeyParameter.</returns>
-	public static AsymmetricKeyParameter FromPublicKeyString(string publicKey) => PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKey));
+	public static AsymmetricKeyParameter FromPublicKeyString(string publicKey) =>
+		PublicKeyFactory.CreateKey(Convert.FromBase64String(publicKey));
 }

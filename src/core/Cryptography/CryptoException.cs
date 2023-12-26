@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using System.Runtime.Serialization;
-
 namespace core.Cryptography;
 
 /// <summary>
@@ -19,13 +17,17 @@ public class CryptoException : Exception
 	/// <summary>
 	///   Initializes a new instance of the <see cref="CryptoException" /> class.
 	/// </summary>
-	public CryptoException() { }
+	public CryptoException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="CryptoException" /> class.
 	/// </summary>
 	/// <param name="message">The message that describes the error.</param>
-	public CryptoException(string message) : base(message) { }
+	public CryptoException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="CryptoException" /> class.
@@ -35,5 +37,7 @@ public class CryptoException : Exception
 	///   The exception that is the cause of the current exception, or a null reference (
 	///   <see langword="Nothing" /> in Visual Basic) if no inner exception is specified.
 	/// </param>
-	public CryptoException(string message, Exception innerException) : base(message, innerException) { }
+	public CryptoException(string message, Exception innerException) : base(message, innerException)
+	{
+	}
 }

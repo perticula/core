@@ -28,9 +28,7 @@ public class ForEachPublisher : INotificationPublisher
 	public async Task Publish(IEnumerable<NotificationHandlerExecutor> executors, INotification notification, CancellationToken cancellationToken)
 	{
 		foreach (var executor in executors)
-		{
 			await executor.Handle(notification, cancellationToken)
-			              .ConfigureAwait(false);
-		}
+				.ConfigureAwait(false);
 	}
 }

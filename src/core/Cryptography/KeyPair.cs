@@ -30,7 +30,8 @@ public class KeyPair
 	/// </summary>
 	/// <param name="passPhrase">The pass phrase.</param>
 	/// <returns>System.String.</returns>
-	public string ToEncryptedPrivateKeyString(string passPhrase) => KeyFactory.ToEncryptedPrivateKeyString(_keyPair.Private, passPhrase);
+	public string ToEncryptedPrivateKeyString(string passPhrase) =>
+		KeyFactory.ToEncryptedPrivateKeyString(_keyPair.Private, passPhrase);
 
 	/// <summary>
 	///   Converts to publickeystring.

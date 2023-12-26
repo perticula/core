@@ -33,7 +33,8 @@ public static class Streams
 	/// <param name="source">The source.</param>
 	/// <param name="destination">The destination.</param>
 	/// <returns>Task.</returns>
-	public static Task CopyToAsync(Stream source, Stream destination) => CopyToAsync(source, destination, DefaultBufferSize);
+	public static Task CopyToAsync(Stream source, Stream destination) =>
+		CopyToAsync(source, destination, DefaultBufferSize);
 
 	/// <summary>
 	///   Copies to asynchronous.
@@ -42,7 +43,8 @@ public static class Streams
 	/// <param name="destination">The destination.</param>
 	/// <param name="bufferSize">Size of the buffer.</param>
 	/// <returns>Task.</returns>
-	public static Task CopyToAsync(Stream source, Stream destination, int bufferSize) => CopyToAsync(source, destination, bufferSize, CancellationToken.None);
+	public static Task CopyToAsync(Stream source, Stream destination, int bufferSize) =>
+		CopyToAsync(source, destination, bufferSize, CancellationToken.None);
 
 	/// <summary>
 	///   Copies to asynchronous.
@@ -54,7 +56,8 @@ public static class Streams
 	///   of cancellation.
 	/// </param>
 	/// <returns>Task.</returns>
-	public static Task CopyToAsync(Stream source, Stream destination, CancellationToken cancellationToken) => CopyToAsync(source, destination, DefaultBufferSize, cancellationToken);
+	public static Task CopyToAsync(Stream source, Stream destination, CancellationToken cancellationToken) =>
+		CopyToAsync(source, destination, DefaultBufferSize, cancellationToken);
 
 	/// <summary>
 	///   Copy to as an asynchronous operation.
@@ -67,12 +70,15 @@ public static class Streams
 	///   of cancellation.
 	/// </param>
 	/// <returns>A Task representing the asynchronous operation.</returns>
-	public static async Task CopyToAsync(Stream source, Stream destination, int bufferSize, CancellationToken cancellationToken)
+	public static async Task CopyToAsync(Stream source, Stream destination, int bufferSize,
+		CancellationToken                         cancellationToken)
 	{
 		int bytesRead;
 		var buffer = new byte[bufferSize];
-		while ((bytesRead = await ReadAsync(source, new Memory<byte>(buffer), cancellationToken).ConfigureAwait(false)) != 0)
-			await WriteAsync(destination, new ReadOnlyMemory<byte>(buffer, 0, bytesRead), cancellationToken).ConfigureAwait(false);
+		while ((bytesRead = await ReadAsync(source, new Memory<byte>(buffer), cancellationToken).ConfigureAwait(false)) !=
+		       0)
+			await WriteAsync(destination, new ReadOnlyMemory<byte>(buffer, 0, bytesRead), cancellationToken)
+				.ConfigureAwait(false);
 	}
 
 	/// <summary>
@@ -85,8 +91,8 @@ public static class Streams
 	{
 		int bytesRead;
 		var buffer = bufferSize <= DefaultBufferSize
-			             ? stackalloc byte[bufferSize]
-			             : new byte[bufferSize];
+			? stackalloc byte[bufferSize]
+			: new byte[bufferSize];
 		while ((bytesRead = source.Read(buffer)) != 0) destination.Write(buffer[..bytesRead]);
 	}
 
@@ -142,7 +148,8 @@ public static class Streams
 	///   of cancellation.
 	/// </param>
 	/// <returns>ValueTask&lt;System.Int32&gt;.</returns>
-	public static ValueTask<int> ReadAsync(Stream source, Memory<byte> buffer, CancellationToken cancellationToken = default)
+	public static ValueTask<int> ReadAsync(Stream source, Memory<byte> buffer,
+		CancellationToken                           cancellationToken = default)
 	{
 		if (MemoryMarshal.TryGetArray(buffer, out ArraySegment<byte> array))
 			return new ValueTask<int>(source.ReadAsync(array.Array!, array.Offset, array.Count, cancellationToken));
@@ -159,7 +166,8 @@ public static class Streams
 	/// <param name="localBuffer">The local buffer.</param>
 	/// <param name="localDestination">The local destination.</param>
 	/// <returns>A Task&lt;System.Int32&gt; representing the asynchronous operation.</returns>
-	private static async ValueTask<int> FinishReadAsync(Task<int> readTask, byte[] localBuffer, Memory<byte> localDestination)
+	private static async ValueTask<int> FinishReadAsync(Task<int> readTask, byte[] localBuffer,
+		Memory<byte>                                                localDestination)
 	{
 		try
 		{
@@ -233,7 +241,8 @@ public static class Streams
 	///   of cancellation.
 	/// </param>
 	/// <returns>ValueTask.</returns>
-	public static ValueTask WriteAsync(Stream destination, ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+	public static ValueTask WriteAsync(Stream destination, ReadOnlyMemory<byte> buffer,
+		CancellationToken                       cancellationToken = default)
 	{
 		if (MemoryMarshal.TryGetArray(buffer, out var array))
 			return new ValueTask(destination.WriteAsync(array.Array!, array.Offset, array.Count, cancellationToken));
@@ -292,8 +301,8 @@ public static class Streams
 	/// <exception cref="System.ArgumentOutOfRangeException">count</exception>
 	public static void ValidateBufferArguments(byte[] buffer, int offset, int count)
 	{
-				ArgumentNullException.ThrowIfNull(buffer);
-				var available = buffer.Length - offset;
+		ArgumentNullException.ThrowIfNull(buffer);
+		var available = buffer.Length - offset;
 		if ((offset | available) < 0) throw new ArgumentOutOfRangeException(nameof(offset));
 
 		var remaining = available - count;

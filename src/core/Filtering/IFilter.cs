@@ -36,7 +36,8 @@ public interface IFilter
 	/// <typeparam name="TISupportsFiltering">The type of the ti supports filtering.</typeparam>
 	/// <param name="list">The list.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
-	IEnumerable<TISupportsFiltering> FilterList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list) where TISupportsFiltering : ISupportsFiltering;
+	IEnumerable<TISupportsFiltering> FilterList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list)
+		where TISupportsFiltering : ISupportsFiltering;
 
 	/// <summary>
 	///   sorts the list based on the orderby clause (if present).
@@ -45,7 +46,8 @@ public interface IFilter
 	/// <param name="list">The list.</param>
 	/// <param name="comparer">The comparer.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
-	IEnumerable<TISupportsFiltering> OrderList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list, Func<TISupportsFiltering, TISupportsFiltering, int> comparer) where TISupportsFiltering : ISupportsFiltering;
+	IEnumerable<TISupportsFiltering> OrderList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list,
+		Func<TISupportsFiltering, TISupportsFiltering, int> comparer) where TISupportsFiltering : ISupportsFiltering;
 
 	/// <summary>
 	///   Filters a list of objects based on this filter and then sorts the list based on the orderby clause (if present).
@@ -54,5 +56,6 @@ public interface IFilter
 	/// <param name="list">The list.</param>
 	/// <param name="comparer">The comparer.</param>
 	/// <returns>IEnumerable&lt;TISupportsFiltering&gt;.</returns>
-	IEnumerable<TISupportsFiltering> FilterAndOrderList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list, Func<TISupportsFiltering, TISupportsFiltering, int> comparer) where TISupportsFiltering : ISupportsFiltering;
+	IEnumerable<TISupportsFiltering> FilterAndOrderList<TISupportsFiltering>(IEnumerable<TISupportsFiltering> list,
+		Func<TISupportsFiltering, TISupportsFiltering, int> comparer) where TISupportsFiltering : ISupportsFiltering;
 }

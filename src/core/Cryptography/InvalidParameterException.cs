@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using System.Runtime.Serialization;
-
 namespace core.Cryptography;
 
 /// <summary>
@@ -19,18 +17,24 @@ public class InvalidParameterException : Exception
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidParameterException" /> class.
 	/// </summary>
-	public InvalidParameterException() { }
+	public InvalidParameterException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidParameterException" /> class.
 	/// </summary>
 	/// <param name="message">The message that describes the error.</param>
-	public InvalidParameterException(string message) : base(message) { }
+	public InvalidParameterException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidParameterException" /> class.
 	/// </summary>
 	/// <param name="message">The message.</param>
 	/// <param name="inner">The inner.</param>
-	public InvalidParameterException(string message, Exception inner) : base(message, inner) { }
+	public InvalidParameterException(string message, Exception inner) : base(message, inner)
+	{
+	}
 }

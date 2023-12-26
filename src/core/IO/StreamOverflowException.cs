@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using System.Runtime.Serialization;
-
 namespace core.IO;
 
 /// <summary>
@@ -19,7 +17,9 @@ public class StreamOverflowException : IOException
 	/// <summary>
 	///   Initializes a new instance of the <see cref="StreamOverflowException" /> class.
 	/// </summary>
-	public StreamOverflowException() { }
+	public StreamOverflowException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="StreamOverflowException" /> class.
@@ -29,7 +29,9 @@ public class StreamOverflowException : IOException
 	///   <paramref name="message" /> is intended to be understood by humans. The caller of this constructor is required to
 	///   ensure that this string has been localized for the current system culture.
 	/// </param>
-	public StreamOverflowException(string message) : base(message) { }
+	public StreamOverflowException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="StreamOverflowException" /> class.
@@ -40,5 +42,7 @@ public class StreamOverflowException : IOException
 	///   <paramref name="innerException" /> parameter is not <see langword="null" />, the current exception is raised in a
 	///   <see langword="catch" /> block that handles the inner exception.
 	/// </param>
-	public StreamOverflowException(string message, Exception innerException) : base(message, innerException) { }
+	public StreamOverflowException(string message, Exception innerException) : base(message, innerException)
+	{
+	}
 }

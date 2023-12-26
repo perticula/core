@@ -17,18 +17,24 @@ public class InvalidLicenseException : Exception
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidLicenseException" /> class.
 	/// </summary>
-	public InvalidLicenseException() { }
+	public InvalidLicenseException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidLicenseException" /> class.
 	/// </summary>
 	/// <param name="message">The message that describes the error.</param>
-	public InvalidLicenseException(string message) : base(message) { }
+	public InvalidLicenseException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="InvalidLicenseException" /> class.
 	/// </summary>
 	/// <param name="message">The message.</param>
 	/// <param name="inner">The inner.</param>
-	public InvalidLicenseException(string message, Exception inner) : base(message, inner) { }
+	public InvalidLicenseException(string message, Exception inner) : base(message, inner)
+	{
+	}
 }

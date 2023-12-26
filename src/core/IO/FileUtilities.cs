@@ -92,7 +92,7 @@ public static class FileUtilities
 	public static void RemoveReadonlyFlagFromFile(string fileName)
 	{
 		var file = new FileInfo(fileName);
-		if (file is {Exists: true, IsReadOnly: true})
+		if (file is { Exists: true, IsReadOnly: true })
 			file.IsReadOnly = false;
 	}
 
@@ -126,8 +126,8 @@ public static class FileUtilities
 	/// <exception cref="System.ArgumentNullException">fileName</exception>
 	public static string SanitizeFileName(string fileName)
 	{
-				ArgumentNullException.ThrowIfNull(fileName);
-				return Regex.Replace(fileName, InvalidRegStr, "_");
+		ArgumentNullException.ThrowIfNull(fileName);
+		return Regex.Replace(fileName, InvalidRegStr, "_");
 	}
 
 	/// <summary>

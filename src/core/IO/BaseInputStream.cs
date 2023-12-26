@@ -69,13 +69,16 @@ public abstract class BaseInputStream : Stream
 	/// </param>
 	/// <returns>A task that represents the asynchronous write operation.</returns>
 	/// <exception cref="System.NotSupportedException"></exception>
-	public sealed override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) => throw new NotSupportedException();
+	public sealed override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer,
+		CancellationToken cancellationToken = default) => throw new NotSupportedException();
 
 	/// <summary>
 	///   When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to
 	///   the underlying device.
 	/// </summary>
-	public sealed override void Flush() { }
+	public sealed override void Flush()
+	{
+	}
 
 	/// <summary>
 	///   When overridden in a derived class, sets the position within the current stream.
@@ -134,7 +137,8 @@ public abstract class BaseInputStream : Stream
 	///   <see cref="P:System.Threading.CancellationToken.None" />.
 	/// </param>
 	/// <returns>A task that represents the asynchronous copy operation.</returns>
-	public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) => Streams.CopyToAsync(this, destination, bufferSize, cancellationToken);
+	public override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) =>
+		Streams.CopyToAsync(this, destination, bufferSize, cancellationToken);
 
 	/// <summary>
 	///   When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position
@@ -167,7 +171,7 @@ public abstract class BaseInputStream : Stream
 				if (b < 0)
 					break;
 
-				buffer[offset + pos++] = (byte) b;
+				buffer[offset + pos++] = (byte)b;
 			}
 		}
 		catch (IOException)
@@ -202,7 +206,7 @@ public abstract class BaseInputStream : Stream
 				if (b < 0)
 					break;
 
-				buffer[pos++] = (byte) b;
+				buffer[pos++] = (byte)b;
 			}
 		}
 		catch (IOException)
@@ -229,5 +233,6 @@ public abstract class BaseInputStream : Stream
 	///   buffer. The result value can be less than the number of bytes allocated in the buffer if that many bytes are not
 	///   currently available, or it can be 0 (zero) if the end of the stream has been reached.
 	/// </returns>
-	public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => Streams.ReadAsync(this, buffer, cancellationToken);
+	public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+		Streams.ReadAsync(this, buffer, cancellationToken);
 }

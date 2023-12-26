@@ -23,18 +23,18 @@ public static class FilteringExtensions
 	/// <exception cref="System.ArgumentNullException">source</exception>
 	public static bool HasFilterValueAttribute(this ISupportsFiltering source, string name)
 	{
-				ArgumentNullException.ThrowIfNull(source);
-				ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentException.ThrowIfNullOrEmpty(name, nameof(name));
 
 		if (!source.SupportsFilterAttributes) return false;
 
 		// find a matching property or field that has the specified name (ignoring case)
 		var member = source
-		             .GetType()
-		             .GetMembers()
-		             .FirstOrDefault(m => m.GetCustomAttributes(typeof(FilteringValueAttribute), true)
-		                                   .Cast<FilteringValueAttribute>()
-		                                   .Any(a => string.Compare(a.Name, name, StringComparison.OrdinalIgnoreCase) == 0));
+			.GetType()
+			.GetMembers()
+			.FirstOrDefault(m => m.GetCustomAttributes(typeof(FilteringValueAttribute), true)
+				.Cast<FilteringValueAttribute>()
+				.Any(a => string.Compare(a.Name, name, StringComparison.OrdinalIgnoreCase) == 0));
 		if (member == null) return false;
 
 		// if a matching member is found, determine if it can be used.
@@ -56,28 +56,31 @@ public static class FilteringExtensions
 	/// <param name="def">The definition.</param>
 	/// <returns>System.Nullable&lt;System.Object&gt;.</returns>
 	/// <exception cref="System.ArgumentNullException">source</exception>
-	public static object? ResolveFilterValueAttribute(this ISupportsFiltering source, string name, Func<ISupportsFiltering, object>? def = null)
+	public static object? ResolveFilterValueAttribute(this ISupportsFiltering source, string name,
+		Func<ISupportsFiltering, object>?                                       def = null)
 	{
-				ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(source);
 
-				if (!source.SupportsFilterAttributes) return def?.Invoke(source) ?? null;
+		if (!source.SupportsFilterAttributes) return def?.Invoke(source) ?? null;
 
 		// find a matching property or field that has the specified name (ignoring case)
 		var member = source
-		             .GetType()
-		             .GetMembers()
-		             .FirstOrDefault(m => m.GetCustomAttributes(typeof(FilteringValueAttribute), true)
-		                                   .Cast<FilteringValueAttribute>()
-		                                   .Any(a => string.Compare(a.Name, name, StringComparison.OrdinalIgnoreCase) == 0));
+			.GetType()
+			.GetMembers()
+			.FirstOrDefault(m => m.GetCustomAttributes(typeof(FilteringValueAttribute), true)
+				.Cast<FilteringValueAttribute>()
+				.Any(a => string.Compare(a.Name, name, StringComparison.OrdinalIgnoreCase) == 0));
 
 		if (member == null) return def?.Invoke(source) ?? null;
 
 		// Get the member value
 		return member switch
 		       {
-			       FieldInfo field   => field.GetValue(source),
-			       PropertyInfo prop => prop.CanRead ? prop.GetValue(source) : def?.Invoke(source) ?? null, //If we can't read the prop, consider the member null
-			       _                 => def?.Invoke(source) ?? null
+			       FieldInfo field => field.GetValue(source),
+			       PropertyInfo prop => prop.CanRead
+				       ? prop.GetValue(source)
+				       : def?.Invoke(source) ?? null, //If we can't read the prop, consider the member null
+			       _ => def?.Invoke(source) ?? null
 		       };
 	}
 }

@@ -74,13 +74,16 @@ public class BaseOutputStream : Stream
 	/// </param>
 	/// <returns>A task that represents the asynchronous copy operation.</returns>
 	/// <exception cref="System.NotSupportedException"></exception>
-	public sealed override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) => throw new NotSupportedException();
+	public sealed override Task CopyToAsync(Stream destination, int bufferSize, CancellationToken cancellationToken) =>
+		throw new NotSupportedException();
 
 	/// <summary>
 	///   When overridden in a derived class, clears all buffers for this stream and causes any buffered data to be written to
 	///   the underlying device.
 	/// </summary>
-	public override void Flush() { }
+	public override void Flush()
+	{
+	}
 
 	/// <summary>
 	///   When overridden in a derived class, reads a sequence of bytes from the current stream and advances the position
@@ -134,7 +137,8 @@ public class BaseOutputStream : Stream
 	///   currently available, or it can be 0 (zero) if the end of the stream has been reached.
 	/// </returns>
 	/// <exception cref="System.NotSupportedException"></exception>
-	public sealed override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => throw new NotSupportedException();
+	public sealed override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) =>
+		throw new NotSupportedException();
 
 	/// <summary>
 	///   When overridden in a derived class, sets the position within the current stream.
@@ -196,7 +200,8 @@ public class BaseOutputStream : Stream
 	///   <see cref="P:System.Threading.CancellationToken.None" />.
 	/// </param>
 	/// <returns>A task that represents the asynchronous write operation.</returns>
-	public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) => Streams.WriteAsync(this, buffer, cancellationToken);
+	public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) =>
+		Streams.WriteAsync(this, buffer, cancellationToken);
 
 	/// <summary>
 	///   Writes the specified buffer.

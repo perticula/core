@@ -52,7 +52,7 @@ public class License
 	/// <value>The type.</value>
 	public LicenseType Type
 	{
-		get => (LicenseType) Enum.Parse(typeof(LicenseType), GetTag("Type") ?? LicenseType.Community.ToString(), false);
+		get => (LicenseType)Enum.Parse(typeof(LicenseType), GetTag("Type") ?? LicenseType.Community.ToString(), false);
 		set
 		{
 			if (!IsSigned) SetTag("Type", value.ToString());
@@ -146,7 +146,9 @@ public class License
 	/// <value>The expiration.</value>
 	public DateTime Expiration
 	{
-		get => DateTime.ParseExact(GetTag("Expiration") ?? DateTime.MaxValue.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture), "r", CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
+		get => DateTime.ParseExact(
+			GetTag("Expiration") ?? DateTime.MaxValue.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture), "r",
+			CultureInfo.InvariantCulture, DateTimeStyles.AssumeUniversal);
 		set
 		{
 			if (!IsSigned) SetTag("Expiration", value.ToUniversalTime().ToString("r", CultureInfo.InvariantCulture));
@@ -291,10 +293,10 @@ public class License
 	/// <param name="value">The value.</param>
 	private void SetTag(string name, string value)
 	{
-				ArgumentNullException.ThrowIfNull(name);
-				ArgumentNullException.ThrowIfNull(value);
+		ArgumentNullException.ThrowIfNull(name);
+		ArgumentNullException.ThrowIfNull(value);
 
-				var element = _xmlData.Element(name);
+		var element = _xmlData.Element(name);
 
 		if (element == null)
 		{

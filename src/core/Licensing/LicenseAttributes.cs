@@ -58,7 +58,8 @@ public class LicenseAttributes
 	/// <param name="key">The key.</param>
 	public virtual void Remove(string key)
 	{
-		var element = XmlData.Elements(ChildName).FirstOrDefault(e => e.Attribute("name") != null && e.Attribute("name")?.Value == key);
+		var element = XmlData.Elements(ChildName)
+			.FirstOrDefault(e => e.Attribute("name") != null && e.Attribute("name")?.Value == key);
 		element?.Remove();
 	}
 
@@ -78,21 +79,24 @@ public class LicenseAttributes
 	///   Gets all.
 	/// </summary>
 	/// <returns>IDictionary&lt;System.String, System.String&gt;.</returns>
-	public virtual IDictionary<string, string> GetAll() => XmlData.Elements(ChildName).ToDictionary(e => e.Attribute("name")?.Value ?? "", e => e.Value);
+	public virtual IDictionary<string, string> GetAll() => XmlData.Elements(ChildName)
+		.ToDictionary(e => e.Attribute("name")?.Value ?? "", e => e.Value);
 
 	/// <summary>
 	///   Determines whether this instance contains the object.
 	/// </summary>
 	/// <param name="key">The key.</param>
 	/// <returns><c>true</c> if [contains] [the specified key]; otherwise, <c>false</c>.</returns>
-	public virtual bool Contains(string key) => XmlData.Elements(ChildName).Any(e => e.Attribute("name") != null && e.Attribute("name")?.Value == key);
+	public virtual bool Contains(string key) => XmlData.Elements(ChildName)
+		.Any(e => e.Attribute("name") != null && e.Attribute("name")?.Value == key);
 
 	/// <summary>
 	///   Determines whether the specified keys contains all.
 	/// </summary>
 	/// <param name="keys">The keys.</param>
 	/// <returns><c>true</c> if the specified keys contains all; otherwise, <c>false</c>.</returns>
-	public virtual bool ContainsAll(string[] keys) => XmlData.Elements(ChildName).All(e => e.Attribute("name") != null && keys.Contains(e.Attribute("name")?.Value));
+	public virtual bool ContainsAll(string[] keys) => XmlData.Elements(ChildName)
+		.All(e => e.Attribute("name") != null && keys.Contains(e.Attribute("name")?.Value));
 
 	/// <summary>
 	///   Sets the tag.
@@ -119,7 +123,8 @@ public class LicenseAttributes
 	/// <param name="value">The value.</param>
 	protected virtual void SetChildTag(string name, string value)
 	{
-		var element = XmlData.Elements(ChildName).FirstOrDefault(e => e.Attribute("name") != null && e.Attribute("name")?.Value == name);
+		var element = XmlData.Elements(ChildName)
+			.FirstOrDefault(e => e.Attribute("name") != null && e.Attribute("name")?.Value == name);
 
 		if (element == null)
 		{
@@ -143,5 +148,6 @@ public class LicenseAttributes
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <returns>System.Nullable&lt;System.String&gt;.</returns>
-	protected virtual string? GetChildTag(string name) => XmlData.Elements(ChildName).FirstOrDefault(e => e.Attribute("name") != null && e.Attribute("name")?.Value == name)?.Value;
+	protected virtual string? GetChildTag(string name) => XmlData.Elements(ChildName)
+		.FirstOrDefault(e => e.Attribute("name") != null && e.Attribute("name")?.Value == name)?.Value;
 }

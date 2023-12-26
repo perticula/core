@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using System.Runtime.Serialization;
-
 namespace core.Cryptography;
 
 /// <summary>
@@ -23,18 +21,24 @@ public class DataLengthException : CryptoException
 	/// <summary>
 	///   Initializes a new instance of the <see cref="DataLengthException" /> class.
 	/// </summary>
-	public DataLengthException() { }
+	public DataLengthException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="DataLengthException" /> class.
 	/// </summary>
 	/// <param name="message">The message.</param>
-	public DataLengthException(string message) : base(message) { }
+	public DataLengthException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="DataLengthException" /> class.
 	/// </summary>
 	/// <param name="message">The message.</param>
 	/// <param name="innerException">The inner exception.</param>
-	public DataLengthException(string message, Exception innerException) : base(message, innerException) { }
+	public DataLengthException(string message, Exception innerException) : base(message, innerException)
+	{
+	}
 }

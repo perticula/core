@@ -21,7 +21,9 @@ public class Customer : LicenseAttributes
 	/// </summary>
 	/// <param name="xmlData">The XML data.</param>
 	internal Customer(XElement xmlData)
-		: base(xmlData, "CustomerData") { }
+		: base(xmlData, "CustomerData")
+	{
+	}
 
 	/// <summary>
 	///   Gets or sets the name.
