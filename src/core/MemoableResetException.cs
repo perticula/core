@@ -5,8 +5,6 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
-using System.Runtime.Serialization;
-
 namespace core;
 
 /// <summary>
@@ -19,13 +17,17 @@ public class MemoableResetException : InvalidCastException
 	/// <summary>
 	///   Initializes a new instance of the <see cref="MemoableResetException" /> class.
 	/// </summary>
-	public MemoableResetException() { }
+	public MemoableResetException()
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="MemoableResetException" /> class.
 	/// </summary>
 	/// <param name="message">The message that describes the error.</param>
-	public MemoableResetException(string message) : base(message) { }
+	public MemoableResetException(string message) : base(message)
+	{
+	}
 
 	/// <summary>
 	///   Initializes a new instance of the <see cref="MemoableResetException" /> class.
@@ -36,5 +38,7 @@ public class MemoableResetException : InvalidCastException
 	///   <paramref name="innerException" /> parameter is not <see langword="null" />, the current exception is raised in a
 	///   <see langword="catch" /> block that handles the inner exception.
 	/// </param>
-	public MemoableResetException(string message, Exception innerException) : base(message, innerException) { }
+	public MemoableResetException(string message, Exception innerException) : base(message, innerException)
+	{
+	}
 }

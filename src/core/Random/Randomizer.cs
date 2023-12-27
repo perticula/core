@@ -34,15 +34,15 @@ public static class Randomizer
 			case RandomSeeds.PerMinute:
 				// Set the same seed per minute
 				var perMin = new DateTime(now.Year, now.Month, now.Day, now.Hour, now.Minute, 0);
-				return new System.Random((int) perMin.Ticks % int.MaxValue);
+				return new System.Random((int)perMin.Ticks % int.MaxValue);
 			case RandomSeeds.PerHour:
 				// Set the same seed per hour
 				var perHour = new DateTime(now.Year, now.Month, now.Day, now.Hour, 0, 0);
-				return new System.Random((int) perHour.Ticks % int.MaxValue);
+				return new System.Random((int)perHour.Ticks % int.MaxValue);
 			case RandomSeeds.PerDay:
 				// Set the same seed per day
 				var perDay = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0);
-				return new System.Random((int) perDay.Ticks % int.MaxValue);
+				return new System.Random((int)perDay.Ticks % int.MaxValue);
 			default:
 				throw new NotSupportedException($"unknown random seed: {seed}");
 		}
@@ -69,7 +69,8 @@ public static class Randomizer
 	/// <param name="where">Filter the list before selecting a random item</param>
 	/// <param name="seed">The seed used to generate the random order</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
-	public static IEnumerable<T> Randomize<T>(this IEnumerable<T> list, Func<T, bool> where, RandomSeeds seed = RandomSeeds.Random)
+	public static IEnumerable<T> Randomize<T>(this IEnumerable<T> list, Func<T, bool> where,
+		RandomSeeds                                                 seed = RandomSeeds.Random)
 	{
 		var random = Get(seed);
 		return list.Where(where).OrderBy(_ => random.Next());
@@ -83,7 +84,8 @@ public static class Randomizer
 	/// <param name="where">Filter the list before selecting a random item</param>
 	/// <param name="seed">The seed used to generate the random order</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
-	public static IEnumerable<T> Randomize<T>(this IEnumerable<T> list, Func<T, bool?> where, RandomSeeds seed = RandomSeeds.Random)
+	public static IEnumerable<T> Randomize<T>(this IEnumerable<T> list, Func<T, bool?> where,
+		RandomSeeds                                                 seed = RandomSeeds.Random)
 	{
 		var random = Get(seed);
 		return list.Where(i => where(i) ?? false).OrderBy(_ => random.Next());
@@ -96,7 +98,8 @@ public static class Randomizer
 	/// <param name="list">This list to randomize</param>
 	/// <param name="seed">The seed used to generate the random order</param>
 	/// <returns>T.</returns>
-	public static T? RandomItem<T>(this IEnumerable<T> list, RandomSeeds seed = RandomSeeds.Random) => list.Randomize(seed).FirstOrDefault();
+	public static T? RandomItem<T>(this IEnumerable<T> list, RandomSeeds seed = RandomSeeds.Random) =>
+		list.Randomize(seed).FirstOrDefault();
 
 	/// <summary>
 	///   Returns a random item from the list based on the selected seed
@@ -106,5 +109,7 @@ public static class Randomizer
 	/// <param name="where">Filter the list before selecting a random item</param>
 	/// <param name="seed">The seed used to generate the random order</param>
 	/// <returns>T.</returns>
-	public static T? RandomItem<T>(this IEnumerable<T> list, Func<T, bool> where, RandomSeeds seed = RandomSeeds.Random) => list.Randomize(where, seed).FirstOrDefault();
+	public static T?
+		RandomItem<T>(this IEnumerable<T> list, Func<T, bool> where, RandomSeeds seed = RandomSeeds.Random) =>
+		list.Randomize(where, seed).FirstOrDefault();
 }

@@ -21,10 +21,11 @@ public static class DictionaryExtensions
 	/// <param name="key">The key.</param>
 	/// <param name="value">Lambda to get the value (not called if the key exists)</param>
 	/// <exception cref="System.ArgumentNullException">dictionary</exception>
-	public static void AddOnce<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> value)
+	public static void AddOnce<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
+		Func<TKey, TValue>                                                    value)
 	{
-				ArgumentNullException.ThrowIfNull(dictionary);
-				if (dictionary.ContainsKey(key)) return;
+		ArgumentNullException.ThrowIfNull(dictionary);
+		if (dictionary.ContainsKey(key)) return;
 		dictionary.Add(key, value(key));
 	}
 
@@ -41,8 +42,8 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">dictionary</exception>
 	public static TValue AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
 	{
-				ArgumentNullException.ThrowIfNull(dictionary);
-				if (dictionary.ContainsKey(key))
+		ArgumentNullException.ThrowIfNull(dictionary);
+		if (dictionary.ContainsKey(key))
 			dictionary[key] = value;
 		else
 			dictionary.Add(key, value);
@@ -73,7 +74,8 @@ public static class DictionaryExtensions
 	/// <param name="key">The key to find</param>
 	/// <param name="def">The default to return if the key is not set</param>
 	/// <returns>TValue.</returns>
-	public static TValue? FindOrDefault<TKey, TValue>(this IDictionary<TKey, TValue?>? dictionary, TKey key, TValue? def = default) => dictionary?.ContainsKey(key) ?? false ? dictionary[key] : def;
+	public static TValue? FindOrDefault<TKey, TValue>(this IDictionary<TKey, TValue?>? dictionary, TKey key,
+		TValue? def = default) => dictionary?.ContainsKey(key) ?? false ? dictionary[key] : def;
 
 
 	/// <summary>
@@ -91,11 +93,11 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static TValue FindOrSet<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> value)
 	{
-				ArgumentNullException.ThrowIfNull(dictionary);
-				if (key        == null) throw new ArgumentNullException(nameof(key));
-				ArgumentNullException.ThrowIfNull(value);
+		ArgumentNullException.ThrowIfNull(dictionary);
+		if (key == null) throw new ArgumentNullException(nameof(key));
+		ArgumentNullException.ThrowIfNull(value);
 
-				if (dictionary.TryGetValue(key, out var current)) return current;
+		if (dictionary.TryGetValue(key, out var current)) return current;
 
 		var val = value(key);
 		if (val != null) dictionary.Add(key, val);
@@ -120,7 +122,8 @@ public static class DictionaryExtensions
 	/// <param name="d">The d.</param>
 	/// <param name="k">The k.</param>
 	/// <returns>System.Nullable&lt;TV&gt;.</returns>
-	public static TV? GetValueOrNull<TK, TV>(this IDictionary<TK, TV> d, TK k) where TV : class => d.TryGetValue(k, out var v) ? v : null;
+	public static TV? GetValueOrNull<TK, TV>(this IDictionary<TK, TV> d, TK k) where TV : class =>
+		d.TryGetValue(k, out var v) ? v : null;
 
 	/// <summary>
 	///   Spreads the specified dictionary into a key/value tuple.
@@ -132,8 +135,8 @@ public static class DictionaryExtensions
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static IEnumerable<(T1 key, T2 value)> Spread<T1, T2>(this IDictionary<T1, T2> value)
 	{
-				ArgumentNullException.ThrowIfNull(value);
-				foreach (var (k, v) in value) yield return (k, v);
+		ArgumentNullException.ThrowIfNull(value);
+		foreach (var (k, v) in value) yield return (k, v);
 	}
 
 	/// <summary>

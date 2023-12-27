@@ -26,7 +26,8 @@ public class ReadOnlyCollectionProxy<T> : ReadOnlyCollection<T>, IProxy<ICollect
 	/// </summary>
 	/// <param name="target">The target.</param>
 	/// <exception cref="System.ArgumentNullException">target</exception>
-	public ReadOnlyCollectionProxy(ICollection<T> target) => _target = target ?? throw new ArgumentNullException(nameof(target));
+	public ReadOnlyCollectionProxy(ICollection<T> target) =>
+		_target = target ?? throw new ArgumentNullException(nameof(target));
 
 	/// <summary>
 	///   Gets the number of elements contained in the <see cref="T:System.Collections.Generic.ICollection`1" />.

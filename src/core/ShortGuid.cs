@@ -91,7 +91,9 @@ public readonly struct ShortGuid
 	public static string Encode(Guid value)
 	{
 		var encoded = Convert.ToBase64String(value.ToByteArray());
-		encoded = encoded.Replace("/", "_").Replace("+", "-"); // ensure certain chars are replaced so that the guid can appear in a url without being encoded.
+		encoded = encoded.Replace("/", "_")
+			.Replace("+",
+				"-"); // ensure certain chars are replaced so that the guid can appear in a url without being encoded.
 		return encoded[..22];
 	}
 
@@ -107,7 +109,9 @@ public readonly struct ShortGuid
 		if (string.IsNullOrEmpty(value)) throw new ArgumentNullException(value);
 		try
 		{
-			value = value.Replace("_", "/").Replace("-", "+"); // ensure certain chars are replaced so that the guid can appear in a url without being encoded.
+			value = value.Replace("_", "/")
+				.Replace("-",
+					"+"); // ensure certain chars are replaced so that the guid can appear in a url without being encoded.
 			var buffer = Convert.FromBase64String(value + "==");
 			return new Guid(buffer);
 		}
@@ -167,5 +171,6 @@ public readonly struct ShortGuid
 	/// </summary>
 	/// <param name="other">The other.</param>
 	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-	public bool Equals(ShortGuid other) => GuidValue.Equals(other.GuidValue) && string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
+	public bool Equals(ShortGuid other) => GuidValue.Equals(other.GuidValue) &&
+	                                       string.Equals(Value, other.Value, StringComparison.OrdinalIgnoreCase);
 }

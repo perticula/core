@@ -21,11 +21,12 @@ public static class CollectionExtensions
 	/// <param name="predicate">The predicate.</param>
 	/// <exception cref="System.ArgumentNullException">collection</exception>
 	/// <exception cref="System.ArgumentNullException">predicate</exception>
-	public static void ConditionalAdd<TType>(this ICollection<TType> collection, TType item, Func<ICollection<TType>, TType, bool> predicate)
+	public static void ConditionalAdd<TType>(this ICollection<TType> collection, TType item,
+		Func<ICollection<TType>, TType, bool>                          predicate)
 	{
-				ArgumentNullException.ThrowIfNull(collection);
-				ArgumentNullException.ThrowIfNull(predicate);
-				if (predicate(collection, item))
+		ArgumentNullException.ThrowIfNull(collection);
+		ArgumentNullException.ThrowIfNull(predicate);
+		if (predicate(collection, item))
 			collection.Add(item);
 	}
 
@@ -38,8 +39,8 @@ public static class CollectionExtensions
 	/// <exception cref="System.ArgumentNullException">collection</exception>
 	public static void Merge<TType>(this ICollection<TType> collection, IEnumerable<TType> newItems)
 	{
-				ArgumentNullException.ThrowIfNull(collection);
-				foreach (var item in newItems)
+		ArgumentNullException.ThrowIfNull(collection);
+		foreach (var item in newItems)
 		{
 			if (item == null) continue;
 			if (!collection.Contains(item)) collection.Add(item);
@@ -96,11 +97,11 @@ public static class CollectionExtensions
 	/// <exception cref="System.ArgumentNullException">collection</exception>
 	public static void Purge<TType>(this ICollection<TType> collection, IEnumerable<TType> newItems)
 	{
-				ArgumentNullException.ThrowIfNull(collection);
-				foreach (var item in newItems)
+		ArgumentNullException.ThrowIfNull(collection);
+		foreach (var item in newItems)
 		{
 			if (item == null) continue;
-			if (collection.Contains(item)) collection.Remove(item);
+			collection.Remove(item);
 		}
 	}
 }

@@ -25,7 +25,7 @@ public record EnumJson<TEnum> : EnumJson
 	///   Converts from this enum json object back the original enum value
 	/// </summary>
 	/// <returns>TEnum.</returns>
-	public TEnum ToEnum() => (TEnum) Enum.Parse(typeof(TEnum), IntValue.ToString(), true);
+	public TEnum ToEnum() => (TEnum)Enum.Parse(typeof(TEnum), IntValue.ToString(), true);
 
 	/// <summary>
 	///   Converts from an enum value to this standardize enum json object
@@ -39,7 +39,7 @@ public record EnumJson<TEnum> : EnumJson
 			DataType    = typeof(TEnum).Name,
 			DisplayText = (e as Enum)?.DisplayText(),
 			GroupName   = (e as Enum)?.GroupName(),
-			IntValue    = (int) (object) e
+			IntValue    = (int)(object)e
 		};
 }
 

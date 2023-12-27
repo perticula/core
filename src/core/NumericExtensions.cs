@@ -77,7 +77,8 @@ public static class NumericExtensions
 	/// <param name="min">The minimum.</param>
 	/// <param name="max">The maximum.</param>
 	/// <returns>T.</returns>
-	public static T OrMinMaxOf<T>(this T me, T min, T max) where T : IComparable<T> => me.OrMinimumOf(min).OrMaximumOf(max);
+	public static T OrMinMaxOf<T>(this T me, T min, T max) where T : IComparable<T> =>
+		me.OrMinimumOf(min).OrMaximumOf(max);
 
 	/// <summary>
 	///   Safes the division.
@@ -85,7 +86,8 @@ public static class NumericExtensions
 	/// <param name="numerator">The numerator.</param>
 	/// <param name="denominator">The denominator.</param>
 	/// <returns>System.Decimal.</returns>
-	public static decimal SafeDivision(this decimal numerator, decimal denominator) => denominator == 0 ? 0 : numerator / denominator;
+	public static decimal SafeDivision(this decimal numerator, decimal denominator) =>
+		denominator == 0 ? 0 : numerator / denominator;
 
 	/// <summary>
 	///   Determines if the specified int falls between the floor and ceiling values
@@ -98,7 +100,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this int value, int floor, int ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this int value, int floor, int ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified uint falls between the floor and ceiling values
@@ -111,7 +114,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this uint value, uint floor, uint ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this uint value, uint floor, uint ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified long falls between the floor and ceiling values
@@ -124,7 +128,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this long value, long floor, long ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this long value, long floor, long ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified ulong falls between the floor and ceiling values
@@ -137,7 +142,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this ulong value, ulong floor, ulong ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this ulong value, ulong floor, ulong ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified short falls between the floor and ceiling values
@@ -150,7 +156,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this short value, short floor, short ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this short value, short floor, short ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified ushort falls between the floor and ceiling values
@@ -163,7 +170,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this ushort value, ushort floor, ushort ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this ushort value, ushort floor, ushort ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified char falls between the floor and ceiling values
@@ -176,7 +184,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this char value, char floor, char ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this char value, char floor, char ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified byte falls between the floor and ceiling values
@@ -189,7 +198,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this byte value, byte floor, byte ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this byte value, byte floor, byte ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Determines if the specified sbyte falls between the floor and ceiling values
@@ -202,7 +212,8 @@ public static class NumericExtensions
 	///   excluded.
 	/// </param>
 	/// <returns><c>true</c> if the number is within range, <c>false</c> otherwise.</returns>
-	public static bool WithinRange(this sbyte value, sbyte floor, sbyte ceiling, bool includeBoundary = true) => includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
+	public static bool WithinRange(this sbyte value, sbyte floor, sbyte ceiling, bool includeBoundary = true) =>
+		includeBoundary ? value <= ceiling && value >= floor : value < ceiling && value > floor;
 
 	/// <summary>
 	///   Converts a number to a size with the appropriate units

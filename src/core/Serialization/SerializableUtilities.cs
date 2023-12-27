@@ -21,15 +21,16 @@ public static class SerializableUtilities
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
 	public static IEnumerable<T?> DeserializeFrom<T>(this string value, string delimiter = ",")
 		=> string.IsNullOrEmpty(value)
-			   ? Enumerable.Empty<T>()
-			   : value.Split(new[] {delimiter}, StringSplitOptions.RemoveEmptyEntries).Select(Serialize.FromString<T>);
+			? Enumerable.Empty<T>()
+			: value.Split(new[] { delimiter }, StringSplitOptions.RemoveEmptyEntries).Select(Serialize.FromString<T>);
 
 	/// <summary>
-	///   Serializeds the join.
+	///   Serializes the join.
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="values">The values.</param>
 	/// <param name="delimiter">The delimiter.</param>
 	/// <returns>System.String.</returns>
-	public static string SerializedJoin<T>(this IEnumerable<T> values, string delimiter = ", ") => string.Join(delimiter, values.Select(Serialize.ToString));
+	public static string SerializedJoin<T>(this IEnumerable<T> values, string delimiter = ", ") =>
+		string.Join(delimiter, values.Select(Serialize.ToString));
 }

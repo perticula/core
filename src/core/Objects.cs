@@ -33,7 +33,9 @@ public static class Objects
 		var current = Volatile.Read(ref singleton);
 		if (current != null) return current;
 
-		var canidate = initializer?.Invoke(arg) ?? throw new TypeInitializationException(typeof(T).FullName, new NullReferenceException(nameof(initializer)));
-		return Interlocked.CompareExchange(ref singleton, canidate, null) ?? canidate;
+		var candidate = initializer?.Invoke(arg) ??
+		               throw new TypeInitializationException(typeof(T).FullName,
+			               new NullReferenceException(nameof(initializer)));
+		return Interlocked.CompareExchange(ref singleton, candidate, null) ?? candidate;
 	}
 }

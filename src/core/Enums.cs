@@ -49,7 +49,7 @@ public static class Enums
 	public static TEnum GetArbitraryValue<TEnum>() where TEnum : struct, Enum
 	{
 		var values = GetEnumValues<TEnum>();
-		var pos    = (int) (DateTimeExtensions.GetUnixEpochTimestamp() & int.MaxValue) % values.Length;
+		var pos    = (int)(DateTimeExtensions.GetUnixEpochTimestamp() & int.MaxValue) % values.Length;
 		return values[pos];
 	}
 }

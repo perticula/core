@@ -30,10 +30,10 @@ public static class SimpleEncrypt
 	static SimpleEncrypt()
 	{
 		var config = new ConfigurationManager()
-								 .SetBasePath(Directory.GetCurrentDirectory())
-								 .AddUserSecrets(Assembly.GetExecutingAssembly())
-								 .AddJsonFile("appsettings.json")
-								 .Build();
+			.SetBasePath(Directory.GetCurrentDirectory())
+			.AddUserSecrets(Assembly.GetExecutingAssembly())
+			.AddJsonFile("appsettings.json")
+			.Build();
 
 		var fromEnv = Environment.GetEnvironmentVariable("aesKey");
 		if (!string.IsNullOrEmpty(fromEnv))
@@ -79,9 +79,10 @@ public static class SimpleEncrypt
 		if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
 		var payload = Convert.FromBase64String(value);
 
-		using var aes = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+		using var aes = Aes.Create() ??
+		                throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
-		aes.Key			= Convert.FromBase64String(AesKey);
+		aes.Key     = Convert.FromBase64String(AesKey);
 		aes.Mode    = CipherMode.CBC;
 		aes.Padding = PaddingMode.PKCS7;
 
@@ -115,9 +116,10 @@ public static class SimpleEncrypt
 		if (string.IsNullOrWhiteSpace(value)) throw new ArgumentNullException(nameof(value));
 		var payload = System.Text.Encoding.UTF8.GetBytes(value);
 
-		using var aes = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+		using var aes = Aes.Create() ??
+		                throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
-		aes.Key			= Convert.FromBase64String(AesKey);
+		aes.Key     = Convert.FromBase64String(AesKey);
 		aes.Mode    = CipherMode.CBC;
 		aes.Padding = PaddingMode.PKCS7;
 

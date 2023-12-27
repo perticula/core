@@ -56,5 +56,5 @@ public static class CommonCharSets
 	///   Gets the alphanumeric groups.
 	/// </summary>
 	/// <value>The alphanumeric groups.</value>
-	public static IEnumerable<string> AlphanumericGroups => new[] {LowercaseEn, UppercaseEn, Digits};
+	public static IEnumerable<string> AlphanumericGroups => new[] { LowercaseEn, UppercaseEn, Digits };
 }

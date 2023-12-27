@@ -27,7 +27,8 @@ public sealed class EnumerableProxy<T> : IEnumerable<T>
 	/// </summary>
 	/// <param name="target">The target.</param>
 	/// <exception cref="System.ArgumentNullException">target</exception>
-	internal EnumerableProxy(IEnumerable<T> target) => _target = target ?? throw new ArgumentNullException(nameof(target));
+	internal EnumerableProxy(IEnumerable<T> target) =>
+		_target = target ?? throw new ArgumentNullException(nameof(target));
 
 	/// <summary>
 	///   Returns an enumerator that iterates through a collection.

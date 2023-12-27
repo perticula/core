@@ -44,7 +44,7 @@ public class Shorts
 	/// <param name="i">The i.</param>
 	/// <param name="distance">The distance.</param>
 	/// <returns>System.Int16.</returns>
-	public static short RotateLeft(short i, int distance) => (short) RotateLeft((ushort) i, distance);
+	public static short RotateLeft(short i, int distance) => (short)RotateLeft((ushort)i, distance);
 
 	/// <summary>
 	///   Rotates the left.
@@ -52,7 +52,7 @@ public class Shorts
 	/// <param name="i">The i.</param>
 	/// <param name="distance">The distance.</param>
 	/// <returns>System.UInt16.</returns>
-	public static ushort RotateLeft(ushort i, int distance) => (ushort) ((i << distance) | (i >> (16 - distance)));
+	public static ushort RotateLeft(ushort i, int distance) => (ushort)((i << distance) | (i >> (16 - distance)));
 
 	/// <summary>
 	///   Rotates the right.
@@ -60,7 +60,7 @@ public class Shorts
 	/// <param name="i">The i.</param>
 	/// <param name="distance">The distance.</param>
 	/// <returns>System.Int16.</returns>
-	public static short RotateRight(short i, int distance) => (short) RotateRight((ushort) i, distance);
+	public static short RotateRight(short i, int distance) => (short)RotateRight((ushort)i, distance);
 
 	/// <summary>
 	///   Rotates the right.
@@ -68,5 +68,5 @@ public class Shorts
 	/// <param name="i">The i.</param>
 	/// <param name="distance">The distance.</param>
 	/// <returns>System.UInt16.</returns>
-	public static ushort RotateRight(ushort i, int distance) => (ushort) ((i >> distance) | (i << (16 - distance)));
+	public static ushort RotateRight(ushort i, int distance) => (ushort)((i >> distance) | (i << (16 - distance)));
 }

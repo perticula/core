@@ -62,13 +62,15 @@ internal class TokenGenerator : ITokenGenerator
 	/// <exception cref="System.Configuration.ConfigurationErrorsException"></exception>
 	public TokenGenerator(IAppSettings settings, string settingKey = "SsoAuthorizationKey")
 	{
-				ArgumentNullException.ThrowIfNull(settings);
-				if (string.IsNullOrWhiteSpace(settingKey)) throw new ArgumentNullException(nameof(settingKey));
+		ArgumentNullException.ThrowIfNull(settings);
+		if (string.IsNullOrWhiteSpace(settingKey)) throw new ArgumentNullException(nameof(settingKey));
 
-		if (!settings.HasSetting(settingKey)) throw new ConfigurationErrorsException($"Configuration is missing a 'security key' setting called '{settingKey}'");
+		if (!settings.HasSetting(settingKey))
+			throw new ConfigurationErrorsException($"Configuration is missing a 'security key' setting called '{settingKey}'");
 
 		var keyBoth = settings.GetSetting(settingKey);
-		if (string.IsNullOrEmpty(keyBoth)) throw new ConfigurationErrorsException($"'Security key' setting '{settingKey}' is null or empty");
+		if (string.IsNullOrEmpty(keyBoth))
+			throw new ConfigurationErrorsException($"'Security key' setting '{settingKey}' is null or empty");
 
 		var key = keyBoth.Split('|');
 		if (key.Length < 2)
@@ -93,10 +95,12 @@ internal class TokenGenerator : ITokenGenerator
 	/// <exception cref="System.NullReferenceException">Encryption failed: Unable to create AesCryptoServiceProvider</exception>
 	public string GenerateAuthorizationToken(Guid securityGuid, int duration, DateTime? starting = null)
 	{
-		if (duration is < 1 or >= 9999) throw new ArgumentOutOfRangeException(nameof(duration), "duration must be between 1 and 9999");
+		if (duration is < 1 or >= 9999)
+			throw new ArgumentOutOfRangeException(nameof(duration), "duration must be between 1 and 9999");
 
 		var startOn = starting ?? DateTime.UtcNow;
-		if (startOn.ToUniversalTime() > DateTime.UtcNow.AddMinutes(30)) throw new ArgumentException("starting time may not be in the future", nameof(starting));
+		if (startOn.ToUniversalTime() > DateTime.UtcNow.AddMinutes(30))
+			throw new ArgumentException("starting time may not be in the future", nameof(starting));
 
 		using var aes = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
@@ -148,8 +152,9 @@ internal class TokenGenerator : ITokenGenerator
 		if (string.IsNullOrEmpty(token)) return Guid.Empty;
 		try
 		{
-			var       encrypted = FromUrlFriendlyBase64(token);
-			using var aes       = Aes.Create() ?? throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
+			var encrypted = FromUrlFriendlyBase64(token);
+			using var aes = Aes.Create() ??
+			                throw new NullReferenceException("Encryption failed: Unable to create AesCryptoServiceProvider");
 
 			aes.Key     = _securityKey;
 			aes.IV      = _securityIv;
@@ -169,8 +174,8 @@ internal class TokenGenerator : ITokenGenerator
 			});
 			if (payload != null)
 				return DateTime.UtcNow > payload.expires
-					       ? Guid.Empty
-					       : payload.security;
+					? Guid.Empty
+					: payload.security;
 			return Guid.Empty;
 		}
 		catch
@@ -226,11 +231,11 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="bytes">The bytes.</param>
 	/// <returns>System.String.</returns>
-	internal string ToBase64Token(byte[] bytes)
+	internal static string ToBase64Token(byte[] bytes)
 		=> Convert.ToBase64String(bytes)
-		          .ToCharArray() // Append only letters and numbers to the string builder
-		          .Aggregate(new StringBuilder(), (sb, ch) => sb.Append(char.IsLetterOrDigit(ch) ? ch.ToString() : ""))
-		          .ToString();
+			.ToCharArray() // Append only letters and numbers to the string builder
+			.Aggregate(new StringBuilder(), (sb, ch) => sb.Append(char.IsLetterOrDigit(ch) ? ch.ToString() : ""))
+			.ToString();
 
 	/// <summary>
 	///   Converts the data into base 64 and replaces reserved url
@@ -238,37 +243,37 @@ internal class TokenGenerator : ITokenGenerator
 	/// </summary>
 	/// <param name="bytes">The data to be converted</param>
 	/// <returns>System.String.</returns>
-	internal string ToUrlFriendlyBase64(byte[] bytes)
+	internal static string ToUrlFriendlyBase64(byte[] bytes)
 		=> Convert.ToBase64String(bytes)
-		          .ToCharArray() // Convert (/ to _) and (+ to -) and (= to ,)
-		          .Aggregate(new StringBuilder(), (sb, ch) =>
-		          {
-			          return ch switch
-			                 {
-				                 '/' => sb.Append('_'),
-				                 '+' => sb.Append('-'),
-				                 '=' => sb.Append(','),
-				                 'o' => sb.Append('~'),
-				                 _   => sb.Append(ch)
-			                 };
-		          }).ToString();
+			.ToCharArray() // Convert (/ to _) and (+ to -) and (= to ,)
+			.Aggregate(new StringBuilder(), (sb, ch) =>
+			{
+				return ch switch
+				       {
+					       '/' => sb.Append('_'),
+					       '+' => sb.Append('-'),
+					       '=' => sb.Append(','),
+					       'o' => sb.Append('~'),
+					       _   => sb.Append(ch)
+				       };
+			}).ToString();
 
 	/// <summary>
 	///   Reverses the process of used to create the url friendly base 64 data
 	/// </summary>
 	/// <param name="data">The data to be decoded</param>
 	/// <returns>System.Byte[].</returns>
-	internal byte[] FromUrlFriendlyBase64(string data)
+	internal static byte[] FromUrlFriendlyBase64(string data)
 		=> Convert.FromBase64String(data.ToCharArray()
-		                                .Aggregate(new StringBuilder(), (sb, ch) =>
-		                                {
-			                                return ch switch
-			                                       {
-				                                       '~' => sb.Append('o'),
-				                                       '_' => sb.Append('/'),
-				                                       '-' => sb.Append('+'),
-				                                       ',' => sb.Append('='),
-				                                       _   => sb.Append(ch)
-			                                       };
-		                                }).ToString());
+			.Aggregate(new StringBuilder(), (sb, ch) =>
+			{
+				return ch switch
+				       {
+					       '~' => sb.Append('o'),
+					       '_' => sb.Append('/'),
+					       '-' => sb.Append('+'),
+					       ',' => sb.Append('='),
+					       _   => sb.Append(ch)
+				       };
+			}).ToString());
 }

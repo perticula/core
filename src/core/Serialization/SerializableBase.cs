@@ -37,7 +37,7 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
 		var       json = new JsonSerializer();
 		try
 		{
-			var result = (TParent) json.Deserialize(sz, typeof(TParent))!;
+			var result = (TParent)json.Deserialize(sz, typeof(TParent))!;
 			if (result == null) throw new Exception("Unable to deserialize string");
 			result.FileName = "";
 			return result;
@@ -60,7 +60,7 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
 		var       json = new JsonSerializer();
 		try
 		{
-			var result = (TParent) json.Deserialize(file, typeof(TParent))!;
+			var result = (TParent)json.Deserialize(file, typeof(TParent))!;
 			if (result == null) throw new Exception("Unable to deserialize stream");
 			result.FileName = "";
 			return result;
@@ -109,7 +109,7 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
 		try
 		{
 			var json   = new JsonSerializer();
-			var result = (TParent) json.Deserialize(file, typeof(TParent))!;
+			var result = (TParent)json.Deserialize(file, typeof(TParent))!;
 			if (result == null) throw new Exception("Unable to deserialize file");
 			result.FileName = fileName;
 			return result;
@@ -128,7 +128,7 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
 	{
 		using var file = File.CreateText(fileName);
 		var       json = new JsonSerializer();
-		json.Serialize(file, (TParent) this);
+		json.Serialize(file, (TParent)this);
 		FileName = fileName;
 	}
 
@@ -140,7 +140,7 @@ public abstract class SerializableBase<TParent> where TParent : SerializableBase
 	{
 		using var sz   = new StringWriter();
 		var       json = new JsonSerializer();
-		json.Serialize(sz, (TParent) this);
+		json.Serialize(sz, (TParent)this);
 		FileName = "";
 		return sz.ToString();
 	}

@@ -27,8 +27,9 @@ public static class Serialize
 	/// <exception cref="System.InvalidCastException">unable to convert ${value.GetType()} to ${typeof(T)}</exception>
 	public static T ConvertTo<T>(object value)
 	{
-				ArgumentNullException.ThrowIfNull(value);
-				return (T) ConvertToType(value, typeof(T))! ?? throw new InvalidCastException($"unable to convert ${value.GetType()} to ${typeof(T)}");
+		ArgumentNullException.ThrowIfNull(value);
+		return (T)ConvertToType(value, typeof(T))! ??
+		       throw new InvalidCastException($"unable to convert ${value.GetType()} to ${typeof(T)}");
 	}
 
 	/// <summary>
@@ -40,8 +41,8 @@ public static class Serialize
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static object? ConvertToType(object value, Type toType)
 	{
-				ArgumentNullException.ThrowIfNull(value);
-				if (toType == typeof(string)) return value.ToString();
+		ArgumentNullException.ThrowIfNull(value);
+		if (toType == typeof(string)) return value.ToString();
 		var fromType = value.GetType();
 		if (fromType == toType) return value;
 		if (toType.IsEnum) return Enum.Parse(toType, value.ToString()!);
@@ -97,23 +98,23 @@ public static class Serialize
 		{
 			// Nullable type conversion
 			var realType = Nullable.GetUnderlyingType(typeof(T));
-			return (T) Convert.ChangeType(value, realType ?? throw new InvalidOperationException());
+			return (T)Convert.ChangeType(value, realType ?? throw new InvalidOperationException());
 		}
 
-		if (typeof(T).IsEnum) return (T) Enum.Parse(typeof(T), value);
-		if (typeof(T) == typeof(string)) return (T) (object) value;
+		if (typeof(T).IsEnum) return (T)Enum.Parse(typeof(T), value);
+		if (typeof(T) == typeof(string)) return (T)(object)value;
 
 		var convertor = TypeDescriptor.GetConverter(typeof(T));
-		if (convertor.CanConvertFrom(typeof(string))) return (T) convertor.ConvertFrom(value)!;
+		if (convertor.CanConvertFrom(typeof(string))) return (T)convertor.ConvertFrom(value)!;
 
 		if (typeof(T).IsClass)
 		{
 			using var sz   = new StringReader(value);
 			var       json = new JsonSerializer();
-			return (T) json.Deserialize(sz, typeof(T))!;
+			return (T)json.Deserialize(sz, typeof(T))!;
 		}
 
-		if (typeof(T).IsValueType) return (T) Convert.ChangeType(value, typeof(T));
+		if (typeof(T).IsValueType) return (T)Convert.ChangeType(value, typeof(T));
 
 		// Don't know how to convert this type
 		throw new FormatException($"Unable to convert '{value}' to type {typeof(T)}");
@@ -124,7 +125,8 @@ public static class Serialize
 	/// </summary>
 	/// <typeparam name="TEnum">The num type</typeparam>
 	/// <returns>IEnumerable&lt;EnumJson&lt;TEnum&gt;&gt;.</returns>
-	public static IEnumerable<EnumJson<TEnum>> GetEnumJsonValues<TEnum>() where TEnum : struct, IConvertible => ((TEnum[]) Enum.GetValues(typeof(TEnum))).Select(ToEnumJson);
+	public static IEnumerable<EnumJson<TEnum>> GetEnumJsonValues<TEnum>() where TEnum : struct, IConvertible =>
+		((TEnum[])Enum.GetValues(typeof(TEnum))).Select(ToEnumJson);
 
 	/// <summary>
 	///   Loads this object from a Json string
@@ -139,7 +141,8 @@ public static class Serialize
 	/// <typeparam name="TEnum">The type of the t enum.</typeparam>
 	/// <param name="e">The e.</param>
 	/// <returns>EnumJson&lt;TEnum&gt;.</returns>
-	public static EnumJson<TEnum> ToEnumJson<TEnum>(this TEnum e) where TEnum : struct, IConvertible => EnumJson<TEnum>.FromEnum(e);
+	public static EnumJson<TEnum> ToEnumJson<TEnum>(this TEnum e) where TEnum : struct, IConvertible =>
+		EnumJson<TEnum>.FromEnum(e);
 
 	/// <summary>
 	///   Serialize an object to JSON
@@ -160,7 +163,8 @@ public static class Serialize
 	/// <typeparam name="T"></typeparam>
 	/// <param name="data">The data.</param>
 	/// <returns>System.String.</returns>
-	public static string ToJson<T>(IEnumerable<T> data) => JsonConvert.SerializeObject(data, Formatting.Indented, new JsonSerializerSettings {NullValueHandling = NullValueHandling.Ignore});
+	public static string ToJson<T>(IEnumerable<T> data) => JsonConvert.SerializeObject(data, Formatting.Indented,
+		new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
 
 	/// <summary>
 	///   This is the preferred method of serializing from an object of type T to

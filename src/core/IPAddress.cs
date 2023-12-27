@@ -24,7 +24,8 @@ public static class IpAddress
 	/// </summary>
 	/// <param name="address">The address.</param>
 	/// <returns><c>true</c> if [is valid with net mask] [the specified address]; otherwise, <c>false</c>.</returns>
-	public static bool IsValidWithNetMask(string address) => IsValidIPv4WithNetmask(address) || IsValidIPv6WithNetmask(address);
+	public static bool IsValidWithNetMask(string address) =>
+		IsValidIPv4WithNetmask(address) || IsValidIPv6WithNetmask(address);
 
 	/// <summary>
 	///   Determines whether [is valid i PV4] [the specified address].
@@ -146,7 +147,8 @@ public static class IpAddress
 	/// <param name="pos">The position.</param>
 	/// <param name="end">The end.</param>
 	/// <returns><c>true</c> if [is parseable i PV4 octet] [the specified s]; otherwise, <c>false</c>.</returns>
-	private static bool IsParseableIPv4Octet(string s, int pos, int end) => IsParseableDecimal(s, pos, end, 3, true, 0, 255);
+	private static bool IsParseableIPv4Octet(string s, int pos, int end) =>
+		IsParseableDecimal(s, pos, end, 3, true, 0, 255);
 
 	/// <summary>
 	///   Determines whether [is parseable i PV6 mask] [the specified s].
@@ -162,7 +164,8 @@ public static class IpAddress
 	/// <param name="pos">The position.</param>
 	/// <param name="end">The end.</param>
 	/// <returns><c>true</c> if [is parseable i PV6 segment] [the specified s]; otherwise, <c>false</c>.</returns>
-	private static bool IsParseableIPv6Segment(string s, int pos, int end) => IsParseableHexadecimal(s, pos, end, 4, true, 0x0000, 0xFFFF);
+	private static bool IsParseableIPv6Segment(string s, int pos, int end) =>
+		IsParseableHexadecimal(s, pos, end, 4, true, 0x0000, 0xFFFF);
 
 	/// <summary>
 	///   Determines whether [is parseable decimal] [the specified s].
@@ -175,7 +178,8 @@ public static class IpAddress
 	/// <param name="minValue">The minimum value.</param>
 	/// <param name="maxValue">The maximum value.</param>
 	/// <returns><c>true</c> if [is parseable decimal] [the specified s]; otherwise, <c>false</c>.</returns>
-	private static bool IsParseableDecimal(string s, int pos, int end, int maxLength, bool allowLeadingZero, int minValue, int maxValue)
+	private static bool IsParseableDecimal(string s, int pos, int end, int maxLength, bool allowLeadingZero, int minValue,
+		int                                         maxValue)
 	{
 		var length = end - pos;
 		if ((length < 1) | (length > maxLength)) return false;
@@ -207,7 +211,8 @@ public static class IpAddress
 	/// <param name="minValue">The minimum value.</param>
 	/// <param name="maxValue">The maximum value.</param>
 	/// <returns><c>true</c> if [is parseable hexadecimal] [the specified s]; otherwise, <c>false</c>.</returns>
-	private static bool IsParseableHexadecimal(string s, int pos, int end, int maxLength, bool allowLeadingZero, int minValue, int maxValue)
+	private static bool IsParseableHexadecimal(string s,        int pos, int end, int maxLength, bool allowLeadingZero,
+		int                                             minValue, int maxValue)
 	{
 		var length = end - pos;
 		if ((length < 1) | (length > maxLength)) return false;
@@ -237,8 +242,8 @@ public static class IpAddress
 	private static int GetDigitDecimal(string s, int pos)
 	{
 		var c = s[pos];
-		var d = (uint) (c - '0');
-		return d <= 9 ? (int) d : -1;
+		var d = (uint)(c - '0');
+		return d <= 9 ? (int)d : -1;
 	}
 
 	/// <summary>
@@ -251,7 +256,7 @@ public static class IpAddress
 	{
 		var c = s[pos];
 		var d = c | 0x20U;
-		d -= d >= 'a' ? (uint) 'a' - 10 : '0';
-		return d <= 16 ? (int) d : -1;
+		d -= d >= 'a' ? (uint)'a' - 10 : '0';
+		return d <= 16 ? (int)d : -1;
 	}
 }

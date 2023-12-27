@@ -52,7 +52,8 @@ public static class Hex
 	/// <param name="length">The length.</param>
 	/// <param name="upperCase">if set to <c>true</c> [upper case].</param>
 	/// <returns>System.String.</returns>
-	public static string ToHexString(byte[] data, int off, int length, bool upperCase) => ToHexString(data.AsMemory(off, length), upperCase);
+	public static string ToHexString(byte[] data, int off, int length, bool upperCase) =>
+		ToHexString(data.AsMemory(off, length), upperCase);
 
 	/// <summary>
 	///   Converts to hexstring.
@@ -123,7 +124,8 @@ public static class Hex
 	/// <param name="length">The length.</param>
 	/// <param name="outStream">The out stream.</param>
 	/// <returns>System.Int32.</returns>
-	public static int Encode(byte[] data, int off, int length, Stream outStream) => Encoder.Encode(data, off, length, outStream);
+	public static int Encode(byte[] data, int off, int length, Stream outStream) =>
+		Encoder.Encode(data, off, length, outStream);
 
 	/// <summary>
 	///   Decodes the specified data.

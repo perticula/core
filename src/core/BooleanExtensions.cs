@@ -13,7 +13,7 @@ namespace core;
 public static class BooleanExtensions
 {
 	/// <summary>
-	///   Determines whether the any of specified values are truthy.
+	///   Determines whether the any of specified values are true.
 	/// </summary>
 	/// <param name="values">The values.</param>
 	/// <returns><c>true</c> if any of the specified values is true; otherwise, <c>false</c>.</returns>

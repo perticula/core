@@ -79,10 +79,8 @@ public static class Arrays
 		if (aLength != bLength) return false;
 
 		for (var i = 0; i < aLength; ++i)
-		{
 			if (!Equals(a[aFromIndex + i], b[bFromIndex + i]))
 				return false;
-		}
 
 		return true;
 	}
@@ -114,7 +112,8 @@ public static class Arrays
 	/// <param name="a">a.</param>
 	/// <param name="b">The b.</param>
 	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-	public static bool FixedTimeEquals(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b) => CryptographicOperations.FixedTimeEquals(a, b);
+	public static bool FixedTimeEquals(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b) =>
+		CryptographicOperations.FixedTimeEquals(a, b);
 
 	/// <summary>
 	///   Fixeds the time equals.
@@ -133,7 +132,8 @@ public static class Arrays
 	/// <param name="b">The b.</param>
 	/// <param name="bOff">The b off.</param>
 	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
-	public static bool FixedTimeEquals(int len, byte[] a, int aOff, byte[] b, int bOff) => CryptographicOperations.FixedTimeEquals(a.AsSpan(aOff, len), b.AsSpan(bOff, len));
+	public static bool FixedTimeEquals(int len, byte[] a, int aOff, byte[] b, int bOff) =>
+		CryptographicOperations.FixedTimeEquals(a.AsSpan(aOff, len), b.AsSpan(bOff, len));
 
 	/// <summary>
 	///   Clones the specified data.
@@ -141,7 +141,7 @@ public static class Arrays
 	/// <typeparam name="T"></typeparam>
 	/// <param name="data">The data.</param>
 	/// <returns>T[].</returns>
-	public static T[] Clone<T>(T[] data) => (T[]) data.Clone();
+	public static T[] Clone<T>(T[] data) => (T[])data.Clone();
 
 	/// <summary>
 	///   Clones the specified data.
@@ -365,10 +365,8 @@ public static class Arrays
 
 		var count = array.Length;
 		for (var i = 0; i < count; ++i)
-		{
 			if (null == array[i])
 				return true;
-		}
 
 		return false;
 	}
@@ -493,7 +491,7 @@ public static class Arrays
 		while (--i >= 0)
 		{
 			hc *= 257;
-			hc ^= (int) data[i];
+			hc ^= (int)data[i];
 		}
 
 		return hc;
@@ -514,7 +512,7 @@ public static class Arrays
 		while (--i >= 0)
 		{
 			hc *= 257;
-			hc ^= (int) data[off + i];
+			hc ^= (int)data[off + i];
 		}
 
 		return hc;
@@ -534,9 +532,9 @@ public static class Arrays
 		{
 			var di = data[i];
 			hc *= 257;
-			hc ^= (int) di;
+			hc ^= (int)di;
 			hc *= 257;
-			hc ^= (int) (di >> 32);
+			hc ^= (int)(di >> 32);
 		}
 
 		return hc;
@@ -558,9 +556,9 @@ public static class Arrays
 		{
 			var di = data[off + i];
 			hc *= 257;
-			hc ^= (int) di;
+			hc ^= (int)di;
 			hc *= 257;
-			hc ^= (int) (di >> 32);
+			hc ^= (int)(di >> 32);
 		}
 
 		return hc;

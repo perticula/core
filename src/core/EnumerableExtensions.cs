@@ -31,7 +31,7 @@ public static class EnumerableExtensions
 		if (parts < 1) throw new ArgumentOutOfRangeException(nameof(parts), "parts must be greater than 1");
 		var enumerable = list as IList<T> ?? list.ToList();
 		var count      = enumerable.Count;
-		var cut        = (int) Math.Ceiling((decimal) count / parts);
+		var cut        = (int)Math.Ceiling((decimal)count / parts);
 		return enumerable.Skip((num - 1) * cut).Take(cut);
 	}
 
@@ -51,10 +51,11 @@ public static class EnumerableExtensions
 	/// <param name="selector">The selector.</param>
 	/// <param name="stores">The stores.</param>
 	/// <exception cref="System.ArgumentNullException">matches</exception>
-	public static void CollectMatches<T>(this ICollection<T> matches, ISelector<T> selector, IEnumerable<IObjectStore<T>>? stores)
+	public static void CollectMatches<T>(this ICollection<T> matches, ISelector<T> selector,
+		IEnumerable<IObjectStore<T>>?                          stores)
 	{
-				ArgumentNullException.ThrowIfNull(matches);
-				if (stores  == null) return;
+		ArgumentNullException.ThrowIfNull(matches);
+		if (stores == null) return;
 
 		foreach (var store in stores)
 		foreach (var match in store.EnumerateMatches(selector))
@@ -92,9 +93,9 @@ public static class EnumerableExtensions
 	/// <exception cref="System.ArgumentNullException">value</exception>
 	public static IEnumerable<IGrouping<int, TType>> GroupByCount<TType>(this IEnumerable<TType> value, int count)
 	{
-				ArgumentNullException.ThrowIfNull(value);
+		ArgumentNullException.ThrowIfNull(value);
 
-				var source = value as TType[] ?? value.ToArray();
+		var source = value as TType[] ?? value.ToArray();
 		return source.GroupBy(src => source.ToList().IndexOf(src) / count);
 	}
 
@@ -107,12 +108,13 @@ public static class EnumerableExtensions
 	/// <returns>IEnumerable&lt;TSource&gt;.</returns>
 	/// <exception cref="System.ArgumentNullException">source</exception>
 	/// <exception cref="System.ArgumentNullException">predicate</exception>
-	public static IEnumerable<TSource> TakeUntil<TSource>(this IEnumerable<TSource>? source, Func<TSource, bool>? predicate)
+	public static IEnumerable<TSource> TakeUntil<TSource>(this IEnumerable<TSource>? source,
+		Func<TSource, bool>?                                                           predicate)
 	{
-				ArgumentNullException.ThrowIfNull(source);
-				ArgumentNullException.ThrowIfNull(predicate);
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(predicate);
 
-				return _();
+		return _();
 
 		IEnumerable<TSource> _()
 		{
@@ -162,16 +164,17 @@ public static class EnumerableExtensions
 	/// <typeparam name="T"></typeparam>
 	/// <param name="item">The item.</param>
 	/// <returns>IEnumerable&lt;T&gt;.</returns>
-	public static IEnumerable<T> ToEnumerable<T>(this T item) => new[] {item};
+	public static IEnumerable<T> ToEnumerable<T>(this T item) => new[] { item };
 
 	/// <summary>
 	///   Generates a sequence of typed tuples by combining the items in each list positionally
-	///   will return the shortest intersection of the two enumerables as a typed tuple
+	///   will return the shortest intersection of the two enumerable as a typed tuple
 	/// </summary>
 	/// <typeparam name="T1">The type of the first list.</typeparam>
 	/// <typeparam name="T2">The type of the second list.</typeparam>
 	/// <param name="first">The first list.</param>
 	/// <param name="second">The second list.</param>
 	/// <returns>IEnumerable&lt;System.ValueTuple&lt;T1, T2&gt;&gt;.</returns>
-	public static IEnumerable<(T1 first, T2 second)> Zip<T1, T2>(this IEnumerable<T1>? first, IEnumerable<T2>? second) => first?.Zip(second ?? Array.Empty<T2>(), (x, y) => (x, y)) ?? new List<(T1 first, T2 second)>(0);
+	public static IEnumerable<(T1 first, T2 second)> Zip<T1, T2>(this IEnumerable<T1>? first, IEnumerable<T2>? second) =>
+		first?.Zip(second ?? Array.Empty<T2>(), (x, y) => (x, y)) ?? new List<(T1 first, T2 second)>(0);
 }

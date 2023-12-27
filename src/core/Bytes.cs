@@ -32,7 +32,8 @@ public static class Bytes
 	/// <param name="x">The x.</param>
 	/// <param name="y">The y.</param>
 	/// <param name="z">The z.</param>
-	public static void Xor(int len, byte[] x, byte[] y, byte[] z) => Xor(len, x.AsSpan(0, len), y.AsSpan(0, len), z.AsSpan(0, len));
+	public static void Xor(int len, byte[] x, byte[] y, byte[] z) =>
+		Xor(len, x.AsSpan(0, len), y.AsSpan(0, len), z.AsSpan(0, len));
 
 	/// <summary>
 	///   Xors the specified length.
@@ -44,7 +45,8 @@ public static class Bytes
 	/// <param name="yOff">The y off.</param>
 	/// <param name="z">The z.</param>
 	/// <param name="zOff">The z off.</param>
-	public static void Xor(int len, byte[] x, int xOff, byte[] y, int yOff, byte[] z, int zOff) => Xor(len, x.AsSpan(xOff, len), y.AsSpan(yOff, len), z.AsSpan(zOff, len));
+	public static void Xor(int len, byte[] x, int xOff, byte[] y, int yOff, byte[] z, int zOff) =>
+		Xor(len, x.AsSpan(xOff, len), y.AsSpan(yOff, len), z.AsSpan(zOff, len));
 
 	/// <summary>
 	///   Xors the specified length.
@@ -82,7 +84,7 @@ public static class Bytes
 		{
 			while (i < len)
 			{
-				z[i] = (byte) (x[i] ^ y[i]);
+				z[i] = (byte)(x[i] ^ y[i]);
 				++i;
 			}
 		}
@@ -104,7 +106,8 @@ public static class Bytes
 	/// <param name="xOff">The x off.</param>
 	/// <param name="z">The z.</param>
 	/// <param name="zOff">The z off.</param>
-	public static void XorTo(int len, byte[] x, int xOff, byte[] z, int zOff) => XorTo(len, x.AsSpan(xOff, len), z.AsSpan(zOff, len));
+	public static void XorTo(int len, byte[] x, int xOff, byte[] z, int zOff) =>
+		XorTo(len, x.AsSpan(xOff, len), z.AsSpan(zOff, len));
 
 	/// <summary>
 	///   Xors to.

@@ -18,7 +18,8 @@ public static class AsyncExtensions
 	/// </summary>
 	/// <param name="task">The task.</param>
 	/// <returns>Task.</returns>
-	public static Task FireAndForget(this Task task) => task.ContinueWith(t => t, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
+	public static Task FireAndForget(this Task task) => task.ContinueWith(t => t, CancellationToken.None,
+		TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
 
 	/// <summary>
 	///   Fire off an async task, but don't wait for results.
@@ -30,5 +31,6 @@ public static class AsyncExtensions
 	///   of cancellation.
 	/// </param>
 	/// <returns>Task.</returns>
-	public static Task FireAndForget(this Task task, CancellationToken cancellationToken) => task.ContinueWith(t => t, cancellationToken, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
+	public static Task FireAndForget(this Task task, CancellationToken cancellationToken) => task.ContinueWith(t => t,
+		cancellationToken, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);
 }

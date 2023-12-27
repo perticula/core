@@ -59,5 +59,6 @@ public static class Spans
 	/// <param name="start">The start.</param>
 	/// <returns>ReadOnlySpan&lt;T&gt;.</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	internal static ReadOnlySpan<T> FromNullableReadOnly<T>(T[]? array, int start) => array == null ? Span<T>.Empty : array.AsSpan(start);
+	internal static ReadOnlySpan<T> FromNullableReadOnly<T>(T[]? array, int start) =>
+		array == null ? Span<T>.Empty : array.AsSpan(start);
 }

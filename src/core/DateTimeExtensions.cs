@@ -17,7 +17,8 @@ public static class DateTimeExtensions
 	/// <summary>
 	///   The maximum unix ms
 	/// </summary>
-	public static readonly long MaxUnixMs = (DateTime.MaxValue.Ticks - GetUnixEpoch().Ticks) / TimeSpan.TicksPerMillisecond;
+	public static readonly long MaxUnixMs =
+		(DateTime.MaxValue.Ticks - GetUnixEpoch().Ticks) / TimeSpan.TicksPerMillisecond;
 
 	/// <summary>
 	///   The minimum unix ms
@@ -52,7 +53,8 @@ public static class DateTimeExtensions
 	/// <param name="preFix">an optional prefix value.</param>
 	/// <param name="postFix">an optional post fix value.</param>
 	/// <returns>System.String.</returns>
-	public static string ToRelativeElapsed(DateTime when, string justNow = "", string preFix = "", string postFix = "") => ToRelativeElapsed(DateTime.Now.Subtract(when), justNow, preFix, postFix);
+	public static string ToRelativeElapsed(DateTime when, string justNow = "", string preFix = "", string postFix = "") =>
+		ToRelativeElapsed(DateTime.Now.Subtract(when), justNow, preFix, postFix);
 
 	/// <summary>
 	///   Converts a timespan into a human readable "Time elapsed since" format.
@@ -65,11 +67,11 @@ public static class DateTimeExtensions
 	/// <returns>System.String.</returns>
 	public static string ToRelativeElapsed(TimeSpan span, string justNow = "", string preFix = "", string postFix = "")
 	{
-		if (span.TotalDays >= 2) return $"{preFix}{(int) span.TotalDays} days{postFix}";
+		if (span.TotalDays >= 2) return $"{preFix}{(int)span.TotalDays} days{postFix}";
 		return span.TotalMinutes switch
 		       {
-			       > 90 => $"{preFix}{(int) span.TotalHours} hours{postFix}",
-			       > 2  => $"{preFix}{(int) span.TotalMinutes} minutes{postFix}",
+			       > 90 => $"{preFix}{(int)span.TotalHours} hours{postFix}",
+			       > 2  => $"{preFix}{(int)span.TotalMinutes} minutes{postFix}",
 			       _    => justNow
 		       };
 	}
@@ -121,8 +123,12 @@ public static class DateTimeExtensions
 	{
 		switch (toleranceSeconds)
 		{
-			case <= 0:  throw new ArgumentOutOfRangeException(nameof(toleranceSeconds), toleranceSeconds, "Tolerance must be a positive number");
-			case >= 60: throw new ArgumentOutOfRangeException(nameof(toleranceSeconds), toleranceSeconds, "Tolerance must be less than one minute");
+			case <= 0:
+				throw new ArgumentOutOfRangeException(nameof(toleranceSeconds), toleranceSeconds,
+					"Tolerance must be a positive number");
+			case >= 60:
+				throw new ArgumentOutOfRangeException(nameof(toleranceSeconds), toleranceSeconds,
+					"Tolerance must be less than one minute");
 		}
 
 		if (value1.Ticks == value2.Ticks) return true;
@@ -329,7 +335,8 @@ public static class DateTimeExtensions
 	/// <param name="value">The time in that time zone</param>
 	/// <param name="timeZone">The name of the time zone</param>
 	/// <returns>DateTime.</returns>
-	public static DateTime ToLocalTime(DateTime value, string timeZone) => TimeZoneInfo.ConvertTimeFromUtc(TimeZoneInfo.ConvertTimeToUtc(value, TimeZoneInfo.FindSystemTimeZoneById(timeZone)), TimeZoneInfo.Local);
+	public static DateTime ToLocalTime(DateTime value, string timeZone) => TimeZoneInfo.ConvertTimeFromUtc(
+		TimeZoneInfo.ConvertTimeToUtc(value, TimeZoneInfo.FindSystemTimeZoneById(timeZone)), TimeZoneInfo.Local);
 
 	/// <summary>
 	///   Converts from the time in the provided time zone to local time. The caller
@@ -338,5 +345,7 @@ public static class DateTimeExtensions
 	/// </summary>
 	/// <param name="value">The value.</param>
 	/// <returns>System.DateTime.</returns>
-	public static DateTime ToLocalTime(DateTime value) => TimeZoneInfo.ConvertTimeFromUtc(TimeZoneInfo.ConvertTimeToUtc(value, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id)), TimeZoneInfo.Local);
+	public static DateTime ToLocalTime(DateTime value) => TimeZoneInfo.ConvertTimeFromUtc(
+		TimeZoneInfo.ConvertTimeToUtc(value, TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id)),
+		TimeZoneInfo.Local);
 }

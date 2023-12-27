@@ -26,7 +26,8 @@ public class ReadOnlyDictionaryProxy<TK, TV> : ReadOnlyDictionary<TK, TV>, IProx
 	/// </summary>
 	/// <param name="target">The target.</param>
 	/// <exception cref="System.ArgumentNullException">target</exception>
-	internal ReadOnlyDictionaryProxy(IDictionary<TK, TV> target) => _target = target ?? throw new ArgumentNullException(nameof(target));
+	internal ReadOnlyDictionaryProxy(IDictionary<TK, TV> target) =>
+		_target = target ?? throw new ArgumentNullException(nameof(target));
 
 	/// <summary>
 	///   Gets the count.
