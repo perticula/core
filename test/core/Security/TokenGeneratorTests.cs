@@ -52,7 +52,7 @@ public class TokenGeneratorTests
 		new System.Random().NextBytes(data);
 		var raw = Convert.ToBase64String(data);
 
-		var token = gen.ToBase64Token(data);
+		var token = TokenGenerator.ToBase64Token(data);
 
 		Assert.NotNull(token);
 		Assert.False(string.IsNullOrEmpty(token), "toBase64Token returned empty string");
@@ -65,7 +65,7 @@ public class TokenGeneratorTests
 		var gen = CreateMock_TokenGenerator();
 
 		var bytes = Convert.FromBase64String("Go/Foo+Bar==");
-		var token = gen.ToUrlFriendlyBase64(bytes);
+		var token = TokenGenerator.ToUrlFriendlyBase64(bytes);
 
 		Assert.NotNull(token);
 		Assert.False(string.IsNullOrEmpty(token),              "toUrlFriendlyBase64 returned empty string");
@@ -80,9 +80,9 @@ public class TokenGeneratorTests
 	{
 		var gen    = CreateMock_TokenGenerator();
 		var expect = Convert.FromBase64String("Go/Foo+Bar==");
-		var url    = gen.ToUrlFriendlyBase64(expect);
+		var url    = TokenGenerator.ToUrlFriendlyBase64(expect);
 
-		var result = gen.FromUrlFriendlyBase64(url);
+		var result = TokenGenerator.FromUrlFriendlyBase64(url);
 
 		Assert.NotNull(result);
 		Assert.False(result.Length < 1, "fromUrlFriendlyBase64 returned empty array");

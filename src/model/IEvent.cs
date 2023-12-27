@@ -5,6 +5,8 @@
 // You may use, distribute and modify this code under the terms of the MIT license
 // You should have received a copy of the MIT license with this file. If not, please write to: perticula@risadams.com, or visit : https://github.com/perticula
 
+using core;
+
 namespace model;
 
 /// <summary>
