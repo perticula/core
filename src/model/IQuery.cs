@@ -13,4 +13,6 @@ namespace model;
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <seealso cref="model.IRequest{T}" />
-public interface IQuery<out T> : IRequest<T> where T : notnull { }
+public interface IQuery<out T> : IRequest<T> where T : notnull
+{
+}

@@ -15,7 +15,7 @@ namespace model.Integration;
 public static class IntegrationExtensions
 {
 	/// <summary>
-	///   Determines whether this instance is externaly synchronized.
+	///   Determines whether this instance is externally synchronized.
 	/// </summary>
 	/// <param name="model">The model.</param>
 	/// <returns><c>true</c> if the specified model is external; otherwise, <c>false</c>.</returns>

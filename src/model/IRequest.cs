@@ -10,7 +10,9 @@ namespace model;
 /// <summary>
 ///   A Request without a response
 /// </summary>
-public interface IRequest { }
+public interface IRequest
+{
+}
 
 /// <summary>
 ///   A Request that returns a response model
@@ -18,4 +20,6 @@ public interface IRequest { }
 /// </summary>
 /// <typeparam name="TResponse">The type of the response.</typeparam>
 /// <seealso cref="model.IRequest" />
-public interface IRequest<out TResponse> : IRequest { }
+public interface IRequest<out TResponse> : IRequest
+{
+}

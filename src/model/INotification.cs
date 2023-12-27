@@ -10,4 +10,6 @@ namespace model;
 /// <summary>
 ///   Interface INotification, represents any form of notification
 /// </summary>
-public interface INotification { }
+public interface INotification
+{
+}

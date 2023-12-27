@@ -10,4 +10,6 @@ namespace model.Service;
 /// <summary>
 ///   Interface ITransientService
 /// </summary>
-public interface ITransientService { }
+public interface ITransientService
+{
+}

@@ -16,4 +16,6 @@ namespace model.Service;
 /// <seealso cref="model.Service.IRequestHandler{TQuery, TResponse}" />
 public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
 	where TQuery : IQuery<TResponse>
-	where TResponse : notnull { }
+	where TResponse : notnull
+{
+}
