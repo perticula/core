@@ -71,7 +71,15 @@ public interface ILicenseBuilder : IFluentInterface
 	ILicenseBuilder WithAdditionalAttributes(Action<LicenseAttributes> configureAdditionalAttributes);
 
 	/// <summary>
-	///   Licenseds to.
+	///   Configures the customer to whom this license applies.
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <param name="email">The email.</param>
+	/// <returns>ILicenseBuilder.</returns>
+	ILicenseBuilder LicensedTo(string name, string email);
+
+	/// <summary>
+	///   Configures the customer to whom this license applies.
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <param name="email">The email.</param>
@@ -80,7 +88,7 @@ public interface ILicenseBuilder : IFluentInterface
 	ILicenseBuilder LicensedTo(string name, string email, Action<Customer> configureCustomer);
 
 	/// <summary>
-	///   Licenseds to.
+	///   Configures the customer to whom this license applies.
 	/// </summary>
 	/// <param name="configureCustomer">The configure customer.</param>
 	/// <returns>ILicenseBuilder.</returns>

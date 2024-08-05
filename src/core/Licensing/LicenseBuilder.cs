@@ -73,13 +73,26 @@ internal class LicenseBuilder : ILicenseBuilder
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <param name="email">The email.</param>
-	/// <param name="configureCustomer">The configure customer.</param>
 	/// <returns>ILicenseBuilder.</returns>
-	public ILicenseBuilder LicensedTo(string name, string email, Action<Customer>? configureCustomer = null)
+	public ILicenseBuilder LicensedTo(string name, string email)
 	{
 		_license.Customer!.Name  = name;
 		_license.Customer!.Email = email;
-		configureCustomer?.Invoke(_license.Customer);
+		return this;
+	}
+
+	/// <summary>
+	///   Configures this to license to a new customer
+	/// </summary>
+	/// <param name="name">The name.</param>
+	/// <param name="email">The email.</param>
+	/// <param name="configureCustomer">The configure customer.</param>
+	/// <returns>ILicenseBuilder.</returns>
+	public ILicenseBuilder LicensedTo(string name, string email, Action<Customer> configureCustomer)
+	{
+		_license.Customer!.Name  = name;
+		_license.Customer!.Email = email;
+		configureCustomer.Invoke(_license.Customer);
 		return this;
 	}
 

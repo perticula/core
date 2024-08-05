@@ -126,14 +126,14 @@ public class License
 		{
 			var xmlElement = _xmlData.Element("LicenseAttributes");
 
-			if (!IsSigned && xmlElement == null)
+			switch (IsSigned)
 			{
-				_xmlData.Add(new XElement("LicenseAttributes"));
-				xmlElement = _xmlData.Element("LicenseAttributes");
-			}
-			else if (IsSigned && xmlElement == null)
-			{
-				return null;
+				case false when xmlElement == null:
+					_xmlData.Add(new XElement("LicenseAttributes"));
+					xmlElement = _xmlData.Element("LicenseAttributes");
+					break;
+				case true when xmlElement == null:
+					return null;
 			}
 
 			return new LicenseAttributes(xmlElement!, "Attribute");
@@ -159,8 +159,7 @@ public class License
 	///   Gets the signature.
 	/// </summary>
 	/// <value>The signature.</value>
-	/// <exception cref="core.Licensing.InvalidLicenseException">Signature Validation Failure</exception>
-	public string Signature => GetTag("Signature") ?? throw new InvalidLicenseException("Signature Validation Failure");
+	public string? Signature => GetTag("Signature");
 
 	/// <summary>
 	///   Gets a value indicating whether this instance is signed.
@@ -234,11 +233,11 @@ public class License
 			if (signTag.Parent != null)
 				signTag.Remove();
 
-			var privKey = KeyFactory.FromEncryptedPrivateKeyString(privateKey, passPhrase);
+			var key = KeyFactory.FromEncryptedPrivateKeyString(privateKey, passPhrase);
 
 			var documentToSign = System.Text.Encoding.UTF8.GetBytes(_xmlData.ToString(SaveOptions.DisableFormatting));
 			var signer         = SignerUtilities.GetSigner(_signatureAlgorithm);
-			signer.Init(true, privKey);
+			signer.Init(true, key);
 			signer.BlockUpdate(documentToSign, 0, documentToSign.Length);
 			var signature = signer.GenerateSignature();
 			signTag.Value = Convert.ToBase64String(signature);
@@ -253,7 +252,7 @@ public class License
 	///   Verifies the signature.
 	/// </summary>
 	/// <param name="publicKey">The public key.</param>
-	/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+	/// <returns><c>true</c> if signature is valid, <c>false</c> otherwise.</returns>
 	public bool VerifySignature(string publicKey)
 	{
 		var signTag = _xmlData.Element("Signature");
