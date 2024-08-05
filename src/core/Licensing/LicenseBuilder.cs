@@ -69,22 +69,22 @@ internal class LicenseBuilder : ILicenseBuilder
 	}
 
 	/// <summary>
-	///   Licenseds to.
+	///   Configures this to license to a new customer
 	/// </summary>
 	/// <param name="name">The name.</param>
 	/// <param name="email">The email.</param>
 	/// <param name="configureCustomer">The configure customer.</param>
 	/// <returns>ILicenseBuilder.</returns>
-	public ILicenseBuilder LicensedTo(string name, string email, Action<Customer> configureCustomer)
+	public ILicenseBuilder LicensedTo(string name, string email, Action<Customer>? configureCustomer = null)
 	{
 		_license.Customer!.Name  = name;
 		_license.Customer!.Email = email;
-		configureCustomer(_license.Customer);
+		configureCustomer?.Invoke(_license.Customer);
 		return this;
 	}
 
 	/// <summary>
-	///   Licenseds to.
+	///   Configures this to license to a particular Customer
 	/// </summary>
 	/// <param name="configureCustomer">The configure customer.</param>
 	/// <returns>ILicenseBuilder.</returns>
@@ -148,18 +148,5 @@ internal class LicenseBuilder : ILicenseBuilder
 	{
 		_license.Sign(privateKey, passPhrase);
 		return _license;
-	}
-
-	/// <summary>
-	///   Licenseds to.
-	/// </summary>
-	/// <param name="name">The name.</param>
-	/// <param name="email">The email.</param>
-	/// <returns>ILicenseBuilder.</returns>
-	public ILicenseBuilder LicensedTo(string name, string email)
-	{
-		_license.Customer!.Name  = name;
-		_license.Customer!.Email = email;
-		return this;
 	}
 }

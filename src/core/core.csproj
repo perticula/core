@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -46,12 +46,6 @@
   <ItemGroup>
     <Compile Condition="!$(RuntimeIdentifier.StartsWith('win'))" Remove="Config/IRegistrySettings.cs" />
     <Compile Condition="!$(RuntimeIdentifier.StartsWith('win'))" Remove="Config/RegistrySettings.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Licensing\" />
-    <Folder Include="Encoding\" />
-    <Folder Include="Notification\Publishers\" />
   </ItemGroup>
 
   <ItemGroup>
