@@ -100,25 +100,25 @@ public class LicensingTests
 	[Fact]
 	public void Can_Detect_Hacked_License()
 	{
-		var licenseId = Guid.NewGuid();
-		var customerName = "Hackerman";
-		var customerEmail = "hackerman@example.com.tld";
+		var licenseId      = Guid.NewGuid();
+		var customerName   = "Hackerman";
+		var customerEmail  = "hackerman@example.com.tld";
 		var expirationDate = DateTime.Now.AddYears(1);
 		var productFeatures = new Dictionary<string, string>
-																			{
-																					{"Sales Module", "yes"},
-																					{"Purchase Module", "yes"},
-																					{"Maximum Transactions", "10000"}
-																			};
+		{
+			{ "Sales Module", "yes" },
+			{ "Purchase Module", "yes" },
+			{ "Maximum Transactions", "10000" }
+		};
 
 		var license = License.New()
-												 .WithUniqueIdentifier(licenseId)
-												 .WithLicenseType(LicenseType.Standard)
-												 .WithMaximumUtilization(10)
-												 .WithProductFeatures(productFeatures)
-												 .LicensedTo(customerName, customerEmail)
-												 .WithLicenseExpiration(expirationDate)
-												 .Build(privateKey, passPhrase);
+			.WithUniqueIdentifier(licenseId)
+			.WithLicenseType(LicenseType.Standard)
+			.WithMaximumUtilization(10)
+			.WithProductFeatures(productFeatures)
+			.LicensedTo(customerName, customerEmail)
+			.WithLicenseExpiration(expirationDate)
+			.Build(privateKey, passPhrase);
 
 		Assert.NotNull(license);
 		Assert.NotNull(license.Signature);
@@ -131,18 +131,18 @@ public class LicensingTests
 		Assert.True(xmlElement.HasElements);
 
 		// manipulate xml
-		Assert.NotNull( xmlElement.Element("Quantity"));
+		Assert.NotNull(xmlElement.Element("Quantity"));
 		xmlElement.Element("Quantity").Value = "11"; // now we want to have 11 licenses
 
 		// load license from manipulated xml
 		var hackedLicense = License.Load(xmlElement.ToString());
 
 		// validate default values when not set
-		Assert.Equal(licenseId,hackedLicense.Id);
-		Assert.Equal(LicenseType.Standard,hackedLicense.Type);
-		Assert.Equal(11,hackedLicense.Quantity); // now with 10+1 licenses
+		Assert.Equal(licenseId,            hackedLicense.Id);
+		Assert.Equal(LicenseType.Standard, hackedLicense.Type);
+		Assert.Equal(11,                   hackedLicense.Quantity); // now with 10+1 licenses
 		Assert.NotNull(hackedLicense.ProductFeatures);
-		Assert.Equal(productFeatures,hackedLicense.ProductFeatures.GetAll());
+		Assert.Equal(productFeatures, hackedLicense.ProductFeatures.GetAll());
 		Assert.NotNull(hackedLicense.Customer);
 		Assert.Equal(customerName,                     hackedLicense.Customer.Name);
 		Assert.Equal(customerEmail,                    license.Customer.Email);

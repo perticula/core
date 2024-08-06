@@ -1,5 +1,8 @@
 namespace core.Licensing;
 
+/// <summary>
+/// Interface IValidationFailure
+/// </summary>
 public interface IValidationFailure
 {
 	/// <summary>

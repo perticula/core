@@ -1,5 +1,10 @@
 namespace core.Licensing;
 
+/// <summary>
+/// Class InvalidSignatureValidationFailure.
+/// Implements the <see cref="core.Licensing.IValidationFailure" />
+/// </summary>
+/// <seealso cref="core.Licensing.IValidationFailure" />
 public class InvalidSignatureValidationFailure : IValidationFailure
 {
 	/// <summary>

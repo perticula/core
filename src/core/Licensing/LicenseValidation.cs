@@ -1,5 +1,23 @@
+// ***********************************************************************
+// Assembly         : 
+// Author           : Ris Adams
+// Created          : 08-05-2024
+//
+// Last Modified By : Ris Adams
+// Last Modified On : 08-05-2024
+// ***********************************************************************
+// <copyright file="LicenseValidation.cs" company="Ris Adams">
+//     Copyright (c) Ris Adams. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
+// ReSharper disable UnusedMember.Global
 namespace core.Licensing;
 
+/// <summary>
+///   Class LicenseValidation.
+/// </summary>
 public static class LicenseValidation
 {
 	/// <summary>
@@ -65,8 +83,7 @@ public static class LicenseValidation
 		validator.FailureResult = new InvalidSignatureValidationFailure
 		{
 			Message = "License signature validation error!",
-			HowToResolve =
-				@"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
+			HowToResolve = @"The license signature and data does not match. This usually happens when a license file is corrupted or has been altered."
 		};
 
 		return validationChainBuilder;

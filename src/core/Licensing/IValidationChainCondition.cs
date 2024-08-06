@@ -1,5 +1,8 @@
 namespace core.Licensing;
 
+/// <summary>
+/// Interface IValidationChainCondition
+/// </summary>
 public interface IValidationChainCondition
 {
 	/// <summary>

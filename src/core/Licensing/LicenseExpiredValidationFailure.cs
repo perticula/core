@@ -1,5 +1,10 @@
 namespace core.Licensing;
 
+/// <summary>
+/// Class LicenseExpiredValidationFailure.
+/// Implements the <see cref="core.Licensing.IValidationFailure" />
+/// </summary>
+/// <seealso cref="core.Licensing.IValidationFailure" />
 public class LicenseExpiredValidationFailure : IValidationFailure
 {
 	/// <summary>
